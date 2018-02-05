@@ -94,17 +94,17 @@
 
 
 
-<meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta name="description" content="下载下载编译好的linux版本  截至今天，Mariadb还未发布Fedora27的yum版本，Fedora26版本实测会产生系统崩溃。 Centos7的yum版本，修改配置文件改变数据存储位置后，不能正常启动，试了很多方法都没能成功。  配置文件需要手动建立配置文件  安装好的Mariadb会自动识别/etc/my.cnf 修改socket路径  12345# The MariaDB serve">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://thathub.com/2018/02/05/hello-world/index.html">
+<meta property="og:title" content="Fedora27安装Mariadb10.2">
+<meta property="og:url" content="http://thathub.com/2018/02/05/mysql-install/index.html">
 <meta property="og:site_name" content="Jokers&#39;s Blog">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta property="og:description" content="下载下载编译好的linux版本  截至今天，Mariadb还未发布Fedora27的yum版本，Fedora26版本实测会产生系统崩溃。 Centos7的yum版本，修改配置文件改变数据存储位置后，不能正常启动，试了很多方法都没能成功。  配置文件需要手动建立配置文件  安装好的Mariadb会自动识别/etc/my.cnf 修改socket路径  12345# The MariaDB serve">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-02-05T01:40:38.529Z">
+<meta property="og:updated_time" content="2018-02-05T03:08:26.943Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta name="twitter:title" content="Fedora27安装Mariadb10.2">
+<meta name="twitter:description" content="下载下载编译好的linux版本  截至今天，Mariadb还未发布Fedora27的yum版本，Fedora26版本实测会产生系统崩溃。 Centos7的yum版本，修改配置文件改变数据存储位置后，不能正常启动，试了很多方法都没能成功。  配置文件需要手动建立配置文件  安装好的Mariadb会自动识别/etc/my.cnf 修改socket路径  12345# The MariaDB serve">
 
 
 
@@ -133,13 +133,13 @@
 
 
 
-  <link rel="canonical" href="http://thathub.com/2018/02/05/hello-world/"/>
+  <link rel="canonical" href="http://thathub.com/2018/02/05/mysql-install/"/>
 
 
 
 
 
-  <title>Hello World | Jokers's Blog</title>
+  <title>Fedora27安装Mariadb10.2 | Jokers's Blog</title>
   
 
 
@@ -272,7 +272,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/02/05/hello-world/">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/02/05/mysql-install/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jokers">
@@ -289,7 +289,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Hello World</h1>
+          <h1 class="post-title" itemprop="name headline">Fedora27安装Mariadb10.2</h1>
         
 
         <div class="post-meta">
@@ -301,7 +301,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-05T09:40:38+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-05T11:06:35+08:00">
                 2018-02-05
               </time>
             
@@ -320,9 +320,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/02/05/hello-world/#comments" itemprop="discussionUrl">
+                <a href="/2018/02/05/mysql-install/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/02/05/hello-world/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2018/02/05/mysql-install/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -350,15 +350,34 @@
       
 
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+        <h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><p><a href="https://downloads.mariadb.org/mariadb/10.2.10/" target="_blank" rel="noopener">下载编译好的linux版本</a></p>
+<ul>
+<li>截至今天，Mariadb还未发布Fedora27的yum版本，Fedora26版本实测会产生系统崩溃。</li>
+<li>Centos7的yum版本，修改配置文件改变数据存储位置后，不能正常启动，试了很多方法都没能成功。</li>
+</ul>
+<h2 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h2><p><a href="https://mariadb.com/kb/en/library/mysqld-configuration-files-and-groups/" target="_blank" rel="noopener">需要手动建立配置文件</a></p>
+<ul>
+<li>安装好的Mariadb会自动识别/etc/my.cnf</li>
+<li>修改socket路径</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># The MariaDB server</span><br><span class="line">[mysqld]</span><br><span class="line">port            = 3306</span><br><span class="line">#socket         = /var/lib/mysql/mysql.sock</span><br><span class="line">socket          = /home/data/mysql/mysql.sock</span><br></pre></td></tr></table></figure>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">groupadd mysql</span><br><span class="line">useradd -g mysql mysql</span><br><span class="line">cd /usr/local</span><br><span class="line">tar -zxvpf /path-to/mariadb-VERSION-OS.tar.gz</span><br><span class="line">ln -s mariadb-VERSION-OS mysql</span><br><span class="line">cd mysql</span><br><span class="line">./scripts/mysql_install_db --user=mysql</span><br><span class="line">chown -R root .</span><br><span class="line">chown -R mysql data</span><br></pre></td></tr></table></figure>
+<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">./bin/mysqld_safe --user=mysql &amp;</span><br><span class="line">or</span><br><span class="line">./bin/mysqld_safe --defaults-file=~/.my.cnf --user=mysql &amp;</span><br></pre></td></tr></table></figure>
+<h2 id="自启动-推荐"><a href="#自启动-推荐" class="headerlink" title="自启动(推荐)"></a>自启动(推荐)</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp support-files/mysql.server /etc/init.d/mysql.server</span><br></pre></td></tr></table></figure>
+<ul>
+<li>修改mysql.server,改变数据存储位置</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">datadir=/home/data/mysql</span><br></pre></td></tr></table></figure>
+<ul>
+<li>复制data</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo cp -R /usr/local/mysql/data/* /home/data/mysql</span><br><span class="line">$ sudo chown -R mysql:mysql /home/data/mysql</span><br></pre></td></tr></table></figure>
+<ul>
+<li>启动方式</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/init.d/mysql.server start</span><br></pre></td></tr></table></figure>
+<h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ /usr/local/mysql/bin/mysqladmin -u root password &apos;password&apos;</span><br><span class="line">$ /usr/local/mysql/bin/mysql -uroot -p</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MariaDB [(none)]&gt; GRANT ALL PRIVILEGES ON *.* TO &apos;ai&apos;@&apos;%&apos; IDENTIFIED BY &apos;mypassword&apos;</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -383,15 +402,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2018/02/05/elastcsearch-install/" rel="next" title="Fedora使用dnf(yum)简易安装Elasticsearch6">
+                <i class="fa fa-chevron-left"></i> Fedora使用dnf(yum)简易安装Elasticsearch6
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/02/05/elastcsearch-install/" rel="prev" title="Fedora使用dnf(yum)简易安装Elasticsearch6">
-                Fedora使用dnf(yum)简易安装Elasticsearch6 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -514,7 +533,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Quick-Start"><span class="nav-number">1.</span> <span class="nav-text">Quick Start</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-a-new-post"><span class="nav-number">1.1.</span> <span class="nav-text">Create a new post</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Run-server"><span class="nav-number">1.2.</span> <span class="nav-text">Run server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generate-static-files"><span class="nav-number">1.3.</span> <span class="nav-text">Generate static files</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deploy-to-remote-sites"><span class="nav-number">1.4.</span> <span class="nav-text">Deploy to remote sites</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#下载"><span class="nav-number">1.</span> <span class="nav-text">下载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置文件"><span class="nav-number">2.</span> <span class="nav-text">配置文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">3.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启动"><span class="nav-number">4.</span> <span class="nav-text">启动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自启动-推荐"><span class="nav-number">5.</span> <span class="nav-text">自启动(推荐)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#初始化"><span class="nav-number">6.</span> <span class="nav-text">初始化</span></a></li></ol></div>
             
 
           </div>
@@ -657,9 +676,9 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://thathub.com/2018/02/05/hello-world/';
-          this.page.identifier = '2018/02/05/hello-world/';
-          this.page.title = 'Hello World';
+          this.page.url = 'http://thathub.com/2018/02/05/mysql-install/';
+          this.page.identifier = '2018/02/05/mysql-install/';
+          this.page.title = 'Fedora27安装Mariadb10.2';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://thathub-com.disqus.com.disqus.com/embed.js';
