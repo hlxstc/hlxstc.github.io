@@ -94,17 +94,17 @@
 
 
 
-<meta name="description" content="执行start-dfs.sh报错rcmd: socket: Permission denied  检查pdsh的默认rcmd是ssh还是rsh pdsh -q -w localhost  如果是rsh需要修改为ssh，添加到~/.bashrc export PDSH_RCMD_TYPE=ssh source ~/.bashrc  如故依然报错 No such rcmd module &amp;quot;s">
+<meta name="description" content="下载hadoop可选择创建新用户$ sudo useradd -m hadoop    # -m会在/home下建立用户文件夹 $ sudo passwd hadoop 解压缩$ sudo mv hadoop-2.9.1.tar.gz /usr/local/ $ cd /usr/local/ $ sudo tar -zxvf hadoop-2.9.1.tar.gz $ sudo mv hadoop">
 <meta property="og:type" content="article">
-<meta property="og:title" content="hadoop3安装">
+<meta property="og:title" content="hadoop2安装">
 <meta property="og:url" content="http://thathub.com/2018/05/18/install-hadoop/index.html">
 <meta property="og:site_name" content="Jokers&#39;s Blog">
-<meta property="og:description" content="执行start-dfs.sh报错rcmd: socket: Permission denied  检查pdsh的默认rcmd是ssh还是rsh pdsh -q -w localhost  如果是rsh需要修改为ssh，添加到~/.bashrc export PDSH_RCMD_TYPE=ssh source ~/.bashrc  如故依然报错 No such rcmd module &amp;quot;s">
+<meta property="og:description" content="下载hadoop可选择创建新用户$ sudo useradd -m hadoop    # -m会在/home下建立用户文件夹 $ sudo passwd hadoop 解压缩$ sudo mv hadoop-2.9.1.tar.gz /usr/local/ $ cd /usr/local/ $ sudo tar -zxvf hadoop-2.9.1.tar.gz $ sudo mv hadoop">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-05-18T09:31:44.003Z">
+<meta property="og:updated_time" content="2018-05-24T03:32:49.968Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="hadoop3安装">
-<meta name="twitter:description" content="执行start-dfs.sh报错rcmd: socket: Permission denied  检查pdsh的默认rcmd是ssh还是rsh pdsh -q -w localhost  如果是rsh需要修改为ssh，添加到~/.bashrc export PDSH_RCMD_TYPE=ssh source ~/.bashrc  如故依然报错 No such rcmd module &amp;quot;s">
+<meta name="twitter:title" content="hadoop2安装">
+<meta name="twitter:description" content="下载hadoop可选择创建新用户$ sudo useradd -m hadoop    # -m会在/home下建立用户文件夹 $ sudo passwd hadoop 解压缩$ sudo mv hadoop-2.9.1.tar.gz /usr/local/ $ cd /usr/local/ $ sudo tar -zxvf hadoop-2.9.1.tar.gz $ sudo mv hadoop">
 
 
 
@@ -139,7 +139,7 @@
 
 
 
-  <title>hadoop3安装 | Jokers's Blog</title>
+  <title>hadoop2安装 | Jokers's Blog</title>
   
 
 
@@ -289,7 +289,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">hadoop3安装</h1>
+          <h1 class="post-title" itemprop="name headline">hadoop2安装</h1>
         
 
         <div class="post-meta">
@@ -350,7 +350,84 @@
       
 
       
-        <h2 id="执行start-dfs-sh报错"><a href="#执行start-dfs-sh报错" class="headerlink" title="执行start-dfs.sh报错"></a>执行start-dfs.sh报错</h2><pre><code>rcmd: socket: Permission denied
+        <h2 id="下载hadoop"><a href="#下载hadoop" class="headerlink" title="下载hadoop"></a>下载hadoop</h2><h2 id="可选择创建新用户"><a href="#可选择创建新用户" class="headerlink" title="可选择创建新用户"></a>可选择创建新用户</h2><pre><code>$ sudo useradd -m hadoop    # -m会在/home下建立用户文件夹
+$ sudo passwd hadoop
+</code></pre><h2 id="解压缩"><a href="#解压缩" class="headerlink" title="解压缩"></a>解压缩</h2><pre><code>$ sudo mv hadoop-2.9.1.tar.gz /usr/local/
+$ cd /usr/local/
+$ sudo tar -zxvf hadoop-2.9.1.tar.gz
+$ sudo mv hadoop-2.9.1 hadoop
+$ sudo chown -R hadoop:hadoop hadoop
+</code></pre><h2 id="伪分布式配置"><a href="#伪分布式配置" class="headerlink" title="伪分布式配置"></a>伪分布式配置</h2><pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;!-- core-site.xml --&gt;
+&lt;configuration&gt;
+    &lt;property&gt;
+        &lt;name&gt;fs.defaultFS&lt;/name&gt;
+        &lt;value&gt;hdfs://localhost/&lt;/value&gt;
+    &lt;/property&gt;
+&lt;/configuration&gt;
+
+&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;!-- hdfs-site.xml --&gt;
+&lt;configuration&gt;
+    &lt;property&gt;
+        &lt;name&gt;dfs.replication&lt;/name&gt;
+        &lt;value&gt;1&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+       &lt;name&gt;dfs.name.dir&lt;/name&gt;
+       &lt;value&gt;file:///home/hadoop/hadoopinfra/hdfs/namenode &lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+       &lt;name&gt;dfs.data.dir&lt;/name&gt;
+       &lt;value&gt;file:///home/hadoop/hadoopinfra/hdfs/datanode &lt;/value&gt;
+    &lt;/property&gt;
+&lt;/configuration&gt;
+
+&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;!-- mapred-site.xml --&gt;
+&lt;configuration&gt;
+    &lt;property&gt;
+        &lt;name&gt;mapreduce.framework.name&lt;/name&gt;
+        &lt;value&gt;yarn&lt;/value&gt;
+    &lt;/property&gt;
+&lt;/configuration&gt;
+
+&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;!-- yarn-site.xml --&gt;
+&lt;configuration&gt;
+    &lt;property&gt;
+        &lt;name&gt;yarn.resourcemanager.hostname&lt;/name&gt;
+        &lt;value&gt;localhost&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;yarn.nodemanager.aux-services&lt;/name&gt;
+        &lt;value&gt;mapreduce_shuffle&lt;/value&gt;
+    &lt;/property&gt;
+&lt;/configuration&gt;
+</code></pre><h4 id="配置SSH无密码登陆"><a href="#配置SSH无密码登陆" class="headerlink" title="配置SSH无密码登陆"></a>配置SSH无密码登陆</h4><p>确保ssh已安装</p>
+<pre><code>ssh-keygen -t rsa -P &apos;&apos; -f ~/.ssh/id_rsa
+cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys
+</code></pre><p>测试</p>
+<pre><code>ssh localhost
+</code></pre><h4 id="格式化HDFS"><a href="#格式化HDFS" class="headerlink" title="格式化HDFS"></a>格式化HDFS</h4><pre><code>$ hdfs namenode -format
+</code></pre><h4 id="开始和结束daemons"><a href="#开始和结束daemons" class="headerlink" title="开始和结束daemons"></a>开始和结束daemons</h4><pre><code>$ vim ~/.bashrc
+export PDSH_RCMD_TYPE=ssh
+export HADOOP_HOME=/usr/local/hadoop
+export PATH=$PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sbin
+
+$ start-dfs.sh
+$ stop-dfs.sh
+$ start-yarn.sh
+$ stop-yarn.sh
+(deprecated)$ mr-jobhistory-daemon.sh start historyserver
+$ mapred --daemon start historyserver
+</code></pre><ul>
+<li>验证是否启动成功</li>
+</ul>
+<p>NameNode - <a href="http://localhost:50070/" target="_blank" rel="noopener">http://localhost:50070/</a><br>yarn - <a href="http://localhost:8088/" target="_blank" rel="noopener">http://localhost:8088/</a></p>
+<h4 id="创建HDFS目录"><a href="#创建HDFS目录" class="headerlink" title="创建HDFS目录"></a>创建HDFS目录</h4><pre><code>$ bin/hdfs dfs -mkdir /user
+$ bin/hdfs dfs -mkdir /user/&lt;username&gt;
+</code></pre><h4 id="执行start-dfs-sh报错"><a href="#执行start-dfs-sh报错" class="headerlink" title="执行start-dfs.sh报错"></a>执行start-dfs.sh报错</h4><pre><code>rcmd: socket: Permission denied
 </code></pre><ul>
 <li><p>检查pdsh的默认rcmd是ssh还是rsh</p>
 <pre><code>pdsh -q -w localhost
@@ -390,8 +467,8 @@ source ~/.bashrc
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/05/03/mysql-regular/" rel="next" title="">
-                <i class="fa fa-chevron-left"></i> 
+              <a href="/2018/04/23/elastcsearch-config/" rel="next" title="Elasticsearch6测试和开发环境配置">
+                <i class="fa fa-chevron-left"></i> Elasticsearch6测试和开发环境配置
               </a>
             
           </div>
@@ -486,7 +563,7 @@ source ~/.bashrc
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-count">11</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -525,7 +602,7 @@ source ~/.bashrc
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#执行start-dfs-sh报错"><span class="nav-number">1.</span> <span class="nav-text">执行start-dfs.sh报错</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#下载hadoop"><span class="nav-number">1.</span> <span class="nav-text">下载hadoop</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可选择创建新用户"><span class="nav-number">2.</span> <span class="nav-text">可选择创建新用户</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解压缩"><span class="nav-number">3.</span> <span class="nav-text">解压缩</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#伪分布式配置"><span class="nav-number">4.</span> <span class="nav-text">伪分布式配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#配置SSH无密码登陆"><span class="nav-number">4.0.1.</span> <span class="nav-text">配置SSH无密码登陆</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#格式化HDFS"><span class="nav-number">4.0.2.</span> <span class="nav-text">格式化HDFS</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#开始和结束daemons"><span class="nav-number">4.0.3.</span> <span class="nav-text">开始和结束daemons</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建HDFS目录"><span class="nav-number">4.0.4.</span> <span class="nav-text">创建HDFS目录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#执行start-dfs-sh报错"><span class="nav-number">4.0.5.</span> <span class="nav-text">执行start-dfs.sh报错</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
@@ -670,7 +747,7 @@ source ~/.bashrc
         var disqus_config = function () {
           this.page.url = 'http://thathub.com/2018/05/18/install-hadoop/';
           this.page.identifier = '2018/05/18/install-hadoop/';
-          this.page.title = 'hadoop3安装';
+          this.page.title = 'hadoop2安装';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://thathub-com.disqus.com.disqus.com/embed.js';

@@ -270,6 +270,385 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/05/24/install-hive/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/24/install-hive/" itemprop="url">Hive2安装</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-24T11:00:00+08:00">
+                2018-05-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/05/24/install-hive/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/05/24/install-hive/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h2><p>适应版本Hadoop已安装，hdfs和yarn可以成功运行</p>
+<h2 id="解压缩"><a href="#解压缩" class="headerlink" title="解压缩"></a>解压缩</h2><pre><code>$ sudo mv apache-hive-2.3.3-bin.tar.gz /usr/local/
+$ cd /usr/local/
+$ sudo tar -zxvf apache-hive-2.3.3-bin.tar.gz
+$ sudo mv apache-hive-2.3.3-bin hive
+$ sudo chown -R hadoop:hadoop hive
+</code></pre><h2 id="配置环境变量"><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a>配置环境变量</h2><pre><code>$ vim ~/.bashrc
+export HIVE_HOME=/usr/local/hive
+export PATH=$PATH:$HIVE_HOME/bin
+export CLASSPATH=$CLASSPATH:/usr/local/hadoop/lib/*:.
+export CLASSPATH=$CLASSPATH:/usr/local/hive/lib/*:.
+
+$ source ~/.bashrc
+</code></pre><h2 id="Hive配置"><a href="#Hive配置" class="headerlink" title="Hive配置"></a>Hive配置</h2><pre><code>$ cp conf/hive-env.sh.template conf/hive-env.sh
+$ vim conf/hive-env.sh
+HADOOP_HOME=/usr/local/hadoop
+export HIVE_CONF_DIR=/usr/local/hive/conf
+
+$ cd /usr/local/hive
+$ cp conf/hive-default.xml.template conf/hive-site.xml
+$ vim conf/hive-size.xml
+</code></pre><ul>
+<li><p>system:java.io.tmpir &amp; system:user.name</p>
+<pre><code>&lt;property&gt;
+    &lt;name&gt;system:java.io.tmpdir&lt;/name&gt;
+    &lt;value&gt;/usr/local/hive/tmp&lt;/value&gt;
+&lt;/property&gt;
+&lt;property&gt;
+    &lt;name&gt;system:user.name&lt;/name&gt;
+    &lt;value&gt;jokers&lt;/value&gt;
+&lt;/property&gt;
+</code></pre></li>
+<li><p>mysql连接配置</p>
+<pre><code>&lt;property&gt;
+    &lt;name&gt;javax.jdo.option.ConnectionDriverName&lt;/name&gt;
+    &lt;value&gt;com.mysql.jdbc.Driver&lt;/value&gt;
+    &lt;description&gt;Driver class name for a JDBC metastore&lt;/description&gt;
+&lt;/property&gt;
+
+&lt;property&gt;
+    &lt;name&gt;javax.jdo.option.ConnectionURL&lt;/name&gt;
+    &lt;value&gt;jdbc:mysql://xx.xxx.xx.xx:3306/hive?createDatabaseIfNotExist=true&lt;/value&gt;
+    &lt;description&gt;JDBC connect string for a JDBC metastore&lt;/description&gt;
+&lt;/property&gt;
+
+&lt;property&gt;
+    &lt;name&gt;javax.jdo.option.ConnectionUserName&lt;/name&gt;
+    &lt;value&gt;hive&lt;/value&gt;
+    &lt;description&gt;Username to use against metastore database&lt;/description&gt;
+&lt;/property&gt;
+
+&lt;property&gt;
+    &lt;name&gt;javax.jdo.option.ConnectionPassword&lt;/name&gt;
+    &lt;value&gt;hive&lt;/value&gt;
+    &lt;description&gt;password to use against metastore database&lt;/description&gt;
+&lt;/property&gt;
+</code></pre></li>
+</ul>
+<ul>
+<li><p>hive的存储仓库位置，观察配置默认值</p>
+<pre><code>&lt;property&gt;
+    &lt;name&gt;hive.metastore.warehouse.dir&lt;/name&gt;
+    &lt;value&gt;/user/hive/warehouse&lt;/value&gt;
+    &lt;description&gt;location of default database for the warehouse&lt;/description&gt;
+&lt;/property&gt;
+
+&lt;property&gt;
+    &lt;name&gt;hive.exec.scratchdir&lt;/name&gt;
+    &lt;value&gt;/tmp/hive&lt;/value&gt;
+    &lt;description&gt;HDFS root scratch dir for Hive jobs which gets created with write all (733) permission. For each connecting user, an HDFS scratch dir: ${hive.exec.scratchdir}/&lt;username&gt;is created, with ${hive.scratch.dir.permission}.&lt;/description&gt;
+&lt;/property&gt;
+
+&lt;property&gt;
+    &lt;name&gt;hive.querylog.location&lt;/name&gt;
+    &lt;value&gt;${system:java.io.tmpdir}/${system:user.name}&lt;/value&gt;
+    &lt;description&gt;Location of Hive run time structured log file&lt;/description&gt;
+&lt;/property&gt;
+</code></pre></li>
+<li><p>使用Hadoop建立Hive仓库</p>
+<pre><code>$ $HADOOP_HOME/bin/hadoop fs -mkdir /tmp/hive
+$ $HADOOP_HOME/bin/hadoop fs -mkdir /user/hive/warehouse
+$ $HADOOP_HOME/bin/hadoop fs -chmod g+w /tmp/hive
+$ $HADOOP_HOME/bin/hadoop fs -chmod g+w /user/hive/warehouse
+</code></pre></li>
+<li><p>下载mysql-connector-java.jar</p>
+<pre><code>$ sudo yum install mysql-connector-java.noarch
+$ cp /usr/share/java/mysql-connector-java.jar $HIVE_HOME/lib/mysql-connector-java.jar
+</code></pre></li>
+</ul>
+<ul>
+<li><p>Hive初始化mysql数据库</p>
+<pre><code>$ schematool --dbType mysql --initSchema
+</code></pre></li>
+<li><p>启动Hive</p>
+<pre><code>$ hive
+</code></pre></li>
+</ul>
+<h2 id="MySQL数据导入hive"><a href="#MySQL数据导入hive" class="headerlink" title="MySQL数据导入hive"></a>MySQL数据导入hive</h2><ul>
+<li><p>安装Sqoop</p>
+</li>
+<li><p>配置mysqldump(如果使用–direct)</p>
+<pre><code>ln -fs /user/local/mysql/bin/mysqldump /usr/bin
+</code></pre></li>
+<li><p>给Hadoop添加环境变量</p>
+<pre><code>$ vim /usr/local/hadoop/etc/hadoop/hadoop-env.sh
+export HADOOP_CLASSPATH=$HADOOP_CLASSPATH:/usr/local/hive/conf/
+export HADOOP_CLASSPATH=$HADOOP_CLASSPATH:/usr/local/hive/lib/
+# 不能这样写/usr/local/hive/conf/* /usr/local/hive/lib/*
+</code></pre></li>
+<li><p>导入示例</p>
+<pre><code>sqoop import --connect jdbc:mysql://xx.xx.x.x:3306/databases --table table --username hive --password hive --direct --fields-terminated-by &apos;|&apos;  --warehouse-dir /user/hive/warehouse  --hive-import
+</code></pre></li>
+</ul>
+<h2 id="error解决"><a href="#error解决" class="headerlink" title="error解决"></a>error解决</h2><pre><code>hive.HiveConfig: Could not load org.apache.hadoop.hive.conf.HiveConf. Make sure HIVE_CONF_DIR is set correctly
+
+$ vim ~/.bashrc
+export HADOOP_CLASSPATH=$HADOOP_CLASSPATH:/usr/local/hive/lib/*
+$ source ~/.bashrc
+</code></pre>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/05/21/university_ranking/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/21/university_ranking/" itemprop="url">未命名</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-21T00:24:53+08:00">
+                2018-05-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/05/21/university_ranking/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/05/21/university_ranking/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>剑桥大学University of Cambridge<br>牛津大学University of Oxford<br>伦敦大学学院University College London<br>帝国理工学院Imperial College London<br>伦敦大学国王学院King’s College London<br>爱丁堡大学The University of Edinburgh<br>曼彻斯特大学The University of Manchester<br>伦敦政治经济学院the London Shool of Economics and Political Scienc<br>布里斯托大学University of Bristol<br>华威大学The University of Warwick<br>格拉斯哥大学University of Glasgow<br>杜伦大学Durham University<br>谢菲尔德大学The University of Sheffield<br>诺丁汉大学The University of Nottingham<br>伯明翰大学University of Birmingham<br>圣安德鲁斯大学University of St Andrews<br>利兹大学University of Leeds<br>南安普顿大学University of Southampton<br>伦敦大学玛丽女王学院Queen Mary University of London<br>兰卡斯特大学University of Lancaster<br>约克大学University of York<br>卡迪夫大学Cardiff University<br>阿伯丁大学University of Aberdeen<br>埃克塞特大学University of Exeter<br>巴斯大学University of Bath<br>纽卡斯尔大学Newcastle University<br>利物浦大学The University of Liverpool<br>雷丁大学University of Reading<br>英国女王大学Queen’s University Belfast<br>萨塞克斯大学The University of Sussex<br>拉夫堡大学Loughborough University<br>莱斯特大学University of Leicester<br>伦敦大学皇家霍洛威学院Royal Holloway University of London<br>邓迪大学University of Dundee<br>萨里大学University of Surrey<br>东英吉利大学University of East Anglia<br>思克莱德大学University of Strathclyde<br>伦敦大学亚非学院SOAS University of London<br>伦敦大学伯克贝克学院Birkbeck, University Of London<br>赫瑞·瓦特大学Heriot-Watt University<br>伦敦城市大学City University London<br>布鲁内尔大学Brunel University<br>埃塞克斯大学University of Essex<br>牛津布鲁克斯大学Oxford Brookes University<br>阿斯顿大学Aston University<br>肯特大学University of Kent<br>伦敦大学金史密斯学院Goldsmiths, University of London</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/05/18/mysql-io/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -441,7 +820,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/05/18/install-hadoop/" itemprop="url">hadoop3安装</a></h1>
+                <a class="post-title-link" href="/2018/05/18/install-hadoop/" itemprop="url">hadoop2安装</a></h1>
         
 
         <div class="post-meta">
@@ -504,7 +883,84 @@
       
         
           
-            <h2 id="执行start-dfs-sh报错"><a href="#执行start-dfs-sh报错" class="headerlink" title="执行start-dfs.sh报错"></a>执行start-dfs.sh报错</h2><pre><code>rcmd: socket: Permission denied
+            <h2 id="下载hadoop"><a href="#下载hadoop" class="headerlink" title="下载hadoop"></a>下载hadoop</h2><h2 id="可选择创建新用户"><a href="#可选择创建新用户" class="headerlink" title="可选择创建新用户"></a>可选择创建新用户</h2><pre><code>$ sudo useradd -m hadoop    # -m会在/home下建立用户文件夹
+$ sudo passwd hadoop
+</code></pre><h2 id="解压缩"><a href="#解压缩" class="headerlink" title="解压缩"></a>解压缩</h2><pre><code>$ sudo mv hadoop-2.9.1.tar.gz /usr/local/
+$ cd /usr/local/
+$ sudo tar -zxvf hadoop-2.9.1.tar.gz
+$ sudo mv hadoop-2.9.1 hadoop
+$ sudo chown -R hadoop:hadoop hadoop
+</code></pre><h2 id="伪分布式配置"><a href="#伪分布式配置" class="headerlink" title="伪分布式配置"></a>伪分布式配置</h2><pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;!-- core-site.xml --&gt;
+&lt;configuration&gt;
+    &lt;property&gt;
+        &lt;name&gt;fs.defaultFS&lt;/name&gt;
+        &lt;value&gt;hdfs://localhost/&lt;/value&gt;
+    &lt;/property&gt;
+&lt;/configuration&gt;
+
+&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;!-- hdfs-site.xml --&gt;
+&lt;configuration&gt;
+    &lt;property&gt;
+        &lt;name&gt;dfs.replication&lt;/name&gt;
+        &lt;value&gt;1&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+       &lt;name&gt;dfs.name.dir&lt;/name&gt;
+       &lt;value&gt;file:///home/hadoop/hadoopinfra/hdfs/namenode &lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+       &lt;name&gt;dfs.data.dir&lt;/name&gt;
+       &lt;value&gt;file:///home/hadoop/hadoopinfra/hdfs/datanode &lt;/value&gt;
+    &lt;/property&gt;
+&lt;/configuration&gt;
+
+&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;!-- mapred-site.xml --&gt;
+&lt;configuration&gt;
+    &lt;property&gt;
+        &lt;name&gt;mapreduce.framework.name&lt;/name&gt;
+        &lt;value&gt;yarn&lt;/value&gt;
+    &lt;/property&gt;
+&lt;/configuration&gt;
+
+&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;!-- yarn-site.xml --&gt;
+&lt;configuration&gt;
+    &lt;property&gt;
+        &lt;name&gt;yarn.resourcemanager.hostname&lt;/name&gt;
+        &lt;value&gt;localhost&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;yarn.nodemanager.aux-services&lt;/name&gt;
+        &lt;value&gt;mapreduce_shuffle&lt;/value&gt;
+    &lt;/property&gt;
+&lt;/configuration&gt;
+</code></pre><h4 id="配置SSH无密码登陆"><a href="#配置SSH无密码登陆" class="headerlink" title="配置SSH无密码登陆"></a>配置SSH无密码登陆</h4><p>确保ssh已安装</p>
+<pre><code>ssh-keygen -t rsa -P &apos;&apos; -f ~/.ssh/id_rsa
+cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys
+</code></pre><p>测试</p>
+<pre><code>ssh localhost
+</code></pre><h4 id="格式化HDFS"><a href="#格式化HDFS" class="headerlink" title="格式化HDFS"></a>格式化HDFS</h4><pre><code>$ hdfs namenode -format
+</code></pre><h4 id="开始和结束daemons"><a href="#开始和结束daemons" class="headerlink" title="开始和结束daemons"></a>开始和结束daemons</h4><pre><code>$ vim ~/.bashrc
+export PDSH_RCMD_TYPE=ssh
+export HADOOP_HOME=/usr/local/hadoop
+export PATH=$PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sbin
+
+$ start-dfs.sh
+$ stop-dfs.sh
+$ start-yarn.sh
+$ stop-yarn.sh
+(deprecated)$ mr-jobhistory-daemon.sh start historyserver
+$ mapred --daemon start historyserver
+</code></pre><ul>
+<li>验证是否启动成功</li>
+</ul>
+<p>NameNode - <a href="http://localhost:50070/" target="_blank" rel="noopener">http://localhost:50070/</a><br>yarn - <a href="http://localhost:8088/" target="_blank" rel="noopener">http://localhost:8088/</a></p>
+<h4 id="创建HDFS目录"><a href="#创建HDFS目录" class="headerlink" title="创建HDFS目录"></a>创建HDFS目录</h4><pre><code>$ bin/hdfs dfs -mkdir /user
+$ bin/hdfs dfs -mkdir /user/&lt;username&gt;
+</code></pre><h4 id="执行start-dfs-sh报错"><a href="#执行start-dfs-sh报错" class="headerlink" title="执行start-dfs.sh报错"></a>执行start-dfs.sh报错</h4><pre><code>rcmd: socket: Permission denied
 </code></pre><ul>
 <li><p>检查pdsh的默认rcmd是ssh还是rsh</p>
 <pre><code>pdsh -q -w localhost
@@ -568,7 +1024,7 @@ source ~/.bashrc
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/05/03/mysql-regular/">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/04/23/elastcsearch-config/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jokers">
@@ -587,7 +1043,7 @@ source ~/.bashrc
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/05/03/mysql-regular/" itemprop="url">未命名</a></h1>
+                <a class="post-title-link" href="/2018/04/23/elastcsearch-config/" itemprop="url">Elasticsearch6测试和开发环境配置</a></h1>
         
 
         <div class="post-meta">
@@ -599,8 +1055,8 @@ source ~/.bashrc
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-03T17:09:31+08:00">
-                2018-05-03
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-23T16:35:00+08:00">
+                2018-04-23
               </time>
             
 
@@ -618,9 +1074,9 @@ source ~/.bashrc
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/05/03/mysql-regular/#comments" itemprop="discussionUrl">
+                <a href="/2018/04/23/elastcsearch-config/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/05/03/mysql-regular/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2018/04/23/elastcsearch-config/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -650,7 +1106,317 @@ source ~/.bashrc
       
         
           
-            <h2 id="MySQL开发规范"><a href="#MySQL开发规范" class="headerlink" title="MySQL开发规范"></a>MySQL开发规范</h2><h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>持续借鉴、收集并整理一些开发规范和技巧，期望能更充分利用MySQL的特性，得到更好的性能。<br>规范是死的，人是活的。<br>现在定义的规范，是为以后推翻准备的。</p>
+            <h2 id="开发模式和生产模式"><a href="#开发模式和生产模式" class="headerlink" title="开发模式和生产模式"></a>开发模式和生产模式</h2><p>es节点加入集群，必须绑定transport到non-loopback地址，es通过http.host，transport.host和single-node discovery的配置判断是否为生产模式。</p>
+<h2 id="引导启动检查"><a href="#引导启动检查" class="headerlink" title="引导启动检查"></a>引导启动检查</h2><p>使用引导启动检查检查es和系统设置。在开发模式下，不安全的配置会以warnings记录日志。在生产模式下，会拒绝启动。</p>
+<h2 id="强制引导启动检查"><a href="#强制引导启动检查" class="headerlink" title="强制引导启动检查"></a>强制引导启动检查</h2><p>单节点的生产模式可以绕过引导启动检查，通过设置es.enforce.bootstrap.checks(JVM options)为True，可以强制检查。</p>
+<h2 id="堆大小检查"><a href="#堆大小检查" class="headerlink" title="堆大小检查"></a>堆大小检查</h2><p>JVM配置初始堆大小和最大堆值相同，否则会导致系统运行停顿。es默认使用1GB的堆。规则如下：</p>
+<ul>
+<li>堆越大，缓存越大，但是太大的话会导致长时间的垃圾回收而造成系统停顿。</li>
+<li>不要超过物理内存的50%</li>
+<li>26GB对大多数系统比较安全，对一些系统可达到30G</li>
+</ul>
+<p>jvm.options配置文件</p>
+<pre><code>-Xms26g
+-Xmx26g
+</code></pre><h2 id="文件描述符检查"><a href="#文件描述符检查" class="headerlink" title="文件描述符检查"></a>文件描述符检查</h2><p>es需要大量的文件描述符。必须保证文件描述符的数量限制大与等于65535。通过RPM和Debian包默认设置为65536。可以通过以下命令检查max_file_descriptors的大小。</p>
+<pre><code>curl -X GET &quot;localhost:9200/_nodes/stats/process?filter_path=**.max_file_descriptors&quot;
+</code></pre><h2 id="内存锁定检查"><a href="#内存锁定检查" class="headerlink" title="内存锁定检查"></a>内存锁定检查</h2><p>JVM进行垃圾回收时，如果有page被换出到硬盘，再换入内存回收，影响效率。有多种办法可以禁止交换。</p>
+<ul>
+<li><p>系统级别的禁止交换</p>
+<p>  sudo swapoff -a</p>
+</li>
+<li><p>配置swappiness</p>
+</li>
+<li><p>阻止es内存换出，添加以下配置到config/elasticsearch.yml文件</p>
+<p>  bootstrap.memory_lock: true</p>
+</li>
+<li><p>检查mlockall的配置</p>
+<p>  GET _nodes?filter_path=**.mlockall</p>
+</li>
+<li><p>如果mlockall的值是false, 意味着mlockall请求失败，最有可能的原因是运行es的用户没有lock Memory的权限，授权方式</p>
+<p>  添加一个文件<br>  /etc/systemd/system/elasticsearch.service.d/override.conf<br>  or<br>  sudo systemctl edit elasticsearch<br>  编辑<br>  [Service]<br>  LimitMEMLOCK=infinity<br>  加载<br>  sudo systemctl daemon-reload</p>
+</li>
+<li><p>如果依然失败可能是临时路径/tmp使用noexec选项挂载，可以使用ES_JAVA_OPTS环境变量指定一个新的temp路径</p>
+<p>  export ES_JAVA_OPTS=”$ES_JAVA_OPTS -Djava.io.tmpdir=/path/to/temp/dir”<br>  ./bin/elasticsearch</p>
+</li>
+</ul>
+<h2 id="最大线程数检查"><a href="#最大线程数检查" class="headerlink" title="最大线程数检查"></a>最大线程数检查</h2><p>es需要有创建至少4096个线程的能力并且只会在Linux系统上检查。通过设置/etc/security/limits.conf的nproc值（同时要增大root用户的限制）</p>
+<h2 id="最大虚拟内存检查"><a href="#最大虚拟内存检查" class="headerlink" title="最大虚拟内存检查"></a>最大虚拟内存检查</h2><p>es需要有无限制的地址空间并且只会在Linux系统上检查。通过设置/etc/security/limits.conf的as值为unlimited（同时要改变root用户的限制）</p>
+<h2 id="最大文件大小检查"><a href="#最大文件大小检查" class="headerlink" title="最大文件大小检查"></a>最大文件大小检查</h2><p>es需要有无限制大小的写文件能力。通过设置/etc/security/limits.conf的fsize值为unlimited（同时要改变root用户的限制）</p>
+<h2 id="最大地图数量检查"><a href="#最大地图数量检查" class="headerlink" title="最大地图数量检查"></a>最大地图数量检查</h2><p>es需要至少262144内存映射空间并且只会在Linux系统上检查。通过设置vm.max_map_count(sysctl)</p>
+<pre><code>sysctl -w vm.max_map_count=262144
+sysctl -a|grep vm.max_map_count
+</code></pre><h2 id="客户端JVM检查"><a href="#客户端JVM检查" class="headerlink" title="客户端JVM检查"></a>客户端JVM检查</h2><p>确保es没有运行在客户端JVM而是服务端JVM，现代操作系统，服务端JVM是默认的。</p>
+<h2 id="serial-collector检查"><a href="#serial-collector检查" class="headerlink" title="serial collector检查"></a>serial collector检查</h2><p>确保es运行时使用的垃圾收器不是serial collector，除非指定-XX:+UseSerialGC使用，JVM默认使用es的默认配置也就是CMS collector。</p>
+<h2 id="系统调用过滤器检查"><a href="#系统调用过滤器检查" class="headerlink" title="系统调用过滤器检查"></a>系统调用过滤器检查</h2><p>修复所有可能阻止es安装系统调用过滤器（Linux上的seccomp）的配置（检查日志）</p>
+<h2 id="OnError和OnOutOfMemoryError检查"><a href="#OnError和OnOutOfMemoryError检查" class="headerlink" title="OnError和OnOutOfMemoryError检查"></a>OnError和OnOutOfMemoryError检查</h2><p> 防止es启动时JVM的这两个选项被启用并且系统调用也被启用，它们相互之间不兼容。可以禁止OnError和OnOutOfMemoryError或则升级到Java 8u92并且使用JVM flag ExitOnOutOfMemoryError</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/04/16/mysql-install_1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/04/16/mysql-install_1/" itemprop="url">centos7安装MySQL5.7</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-16T11:06:35+08:00">
+                2018-04-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/04/16/mysql-install_1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/04/16/mysql-install_1/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="添加YUM源"><a href="#添加YUM源" class="headerlink" title="添加YUM源"></a>添加YUM源</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo rpm -Uvh https://repo.mysql.com//mysql57-community-release-el7-11.noarch.rpm</span><br></pre></td></tr></table></figure>
+<h2 id="查看提供的MySQL版本"><a href="#查看提供的MySQL版本" class="headerlink" title="查看提供的MySQL版本"></a>查看提供的MySQL版本</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yum repolist all | grep mysql</span><br></pre></td></tr></table></figure>
+<h2 id="如果要安装5-6，需要禁用5-7并启用5-6，编辑mysql-community-repo"><a href="#如果要安装5-6，需要禁用5-7并启用5-6，编辑mysql-community-repo" class="headerlink" title="如果要安装5.6，需要禁用5.7并启用5.6，编辑mysql-community.repo"></a>如果要安装5.6，需要禁用5.7并启用5.6，编辑mysql-community.repo</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">$ sudo vim  /etc/yum.repos.d/mysql-community.repo</span><br><span class="line"></span><br><span class="line"># Enable to use MySQL 5.6</span><br><span class="line">[mysql56-community]</span><br><span class="line">name=MySQL 5.6 Community Server</span><br><span class="line">baseurl=http://repo.mysql.com/yum/mysql-5.6-community/el/7/$basearch/</span><br><span class="line">enabled=1 # 启用</span><br><span class="line">gpgcheck=1</span><br><span class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql</span><br><span class="line"></span><br><span class="line">[mysql57-community]</span><br><span class="line">name=MySQL 5.7 Community Server</span><br><span class="line">baseurl=http://repo.mysql.com/yum/mysql-5.7-community/el/7/$basearch/</span><br><span class="line">enabled=0 # 禁用</span><br><span class="line">gpgcheck=1</span><br><span class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql</span><br></pre></td></tr></table></figure>
+<h2 id="查看可安装的MySQL版本"><a href="#查看可安装的MySQL版本" class="headerlink" title="查看可安装的MySQL版本"></a>查看可安装的MySQL版本</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yum repolist enabled | grep mysql</span><br></pre></td></tr></table></figure>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo yum install mysql-community-server</span><br></pre></td></tr></table></figure>
+<h2 id="更改存储路径，需要修改目标文件夹及子目录的读写权限"><a href="#更改存储路径，需要修改目标文件夹及子目录的读写权限" class="headerlink" title="更改存储路径，需要修改目标文件夹及子目录的读写权限"></a>更改存储路径，需要修改目标文件夹及子目录的读写权限</h2><h3 id="【init-默认存储位置-target-修改后的目标文件夹"><a href="#【init-默认存储位置-target-修改后的目标文件夹" class="headerlink" title="【init]:默认存储位置 [target]:修改后的目标文件夹"></a>【init]:默认存储位置 [target]:修改后的目标文件夹</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo cp -R [init] [target]</span><br><span class="line">$ sudo chown -R mysql:mysql [target]</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/04/12/mysql-regular/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/04/12/mysql-regular/" itemprop="url">MySQL开发规范</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-12T11:06:35+08:00">
+                2018-04-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/04/12/mysql-regular/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/04/12/mysql-regular/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>持续借鉴、收集并整理一些开发规范和技巧，期望能更充分利用MySQL的特性，得到更好的性能。<br>规范是死的，人是活的。<br>现在定义的规范，是为以后推翻准备的。</p>
 <h4 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h4><p>提供给开发人员参考，方便写成更有效率的开发。</p>
 <h4 id="范围"><a href="#范围" class="headerlink" title="范围"></a>范围</h4><p>文档涉及的范围：需要基于MySQL做应用开发的人员。</p>
 <h4 id="定义、首字母缩写词和缩略语"><a href="#定义、首字母缩写词和缩略语" class="headerlink" title="定义、首字母缩写词和缩略语"></a>定义、首字母缩写词和缩略语</h4><p>暂无</p>
@@ -965,316 +1731,6 @@ source ~/.bashrc
 </li>
 </ul>
 <h4 id="配置需求"><a href="#配置需求" class="headerlink" title="配置需求"></a>配置需求</h4><p>如主从关系，用户权限等等(可以提供在运维部署说明文档中)</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/04/23/elastcsearch-config/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jokers">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jokers's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/04/23/elastcsearch-config/" itemprop="url">Elasticsearch6测试和开发环境配置</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-23T16:35:00+08:00">
-                2018-04-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/04/23/elastcsearch-config/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/04/23/elastcsearch-config/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="开发模式和生产模式"><a href="#开发模式和生产模式" class="headerlink" title="开发模式和生产模式"></a>开发模式和生产模式</h2><p>es节点加入集群，必须绑定transport到non-loopback地址，es通过http.host，transport.host和single-node discovery的配置判断是否为生产模式。</p>
-<h2 id="引导启动检查"><a href="#引导启动检查" class="headerlink" title="引导启动检查"></a>引导启动检查</h2><p>使用引导启动检查检查es和系统设置。在开发模式下，不安全的配置会以warnings记录日志。在生产模式下，会拒绝启动。</p>
-<h2 id="强制引导启动检查"><a href="#强制引导启动检查" class="headerlink" title="强制引导启动检查"></a>强制引导启动检查</h2><p>单节点的生产模式可以绕过引导启动检查，通过设置es.enforce.bootstrap.checks(JVM options)为True，可以强制检查。</p>
-<h2 id="堆大小检查"><a href="#堆大小检查" class="headerlink" title="堆大小检查"></a>堆大小检查</h2><p>JVM配置初始堆大小和最大堆值相同，否则会导致系统运行停顿。es默认使用1GB的堆。规则如下：</p>
-<ul>
-<li>堆越大，缓存越大，但是太大的话会导致长时间的垃圾回收而造成系统停顿。</li>
-<li>不要超过物理内存的50%</li>
-<li>26GB对大多数系统比较安全，对一些系统可达到30G</li>
-</ul>
-<p>jvm.options配置文件</p>
-<pre><code>-Xms26g
--Xmx26g
-</code></pre><h2 id="文件描述符检查"><a href="#文件描述符检查" class="headerlink" title="文件描述符检查"></a>文件描述符检查</h2><p>es需要大量的文件描述符。必须保证文件描述符的数量限制大与等于65535。通过RPM和Debian包默认设置为65536。可以通过以下命令检查max_file_descriptors的大小。</p>
-<pre><code>curl -X GET &quot;localhost:9200/_nodes/stats/process?filter_path=**.max_file_descriptors&quot;
-</code></pre><h2 id="内存锁定检查"><a href="#内存锁定检查" class="headerlink" title="内存锁定检查"></a>内存锁定检查</h2><p>JVM进行垃圾回收时，如果有page被换出到硬盘，再换入内存回收，影响效率。有多种办法可以禁止交换。</p>
-<ul>
-<li><p>系统级别的禁止交换</p>
-<p>  sudo swapoff -a</p>
-</li>
-<li><p>配置swappiness</p>
-</li>
-<li><p>阻止es内存换出，添加以下配置到config/elasticsearch.yml文件</p>
-<p>  bootstrap.memory_lock: true</p>
-</li>
-<li><p>检查mlockall的配置</p>
-<p>  GET _nodes?filter_path=**.mlockall</p>
-</li>
-<li><p>如果mlockall的值是false, 意味着mlockall请求失败，最有可能的原因是运行es的用户没有lock Memory的权限，授权方式</p>
-<p>  添加一个文件<br>  /etc/systemd/system/elasticsearch.service.d/override.conf<br>  or<br>  sudo systemctl edit elasticsearch<br>  编辑<br>  [Service]<br>  LimitMEMLOCK=infinity<br>  加载<br>  sudo systemctl daemon-reload</p>
-</li>
-<li><p>如果依然失败可能是临时路径/tmp使用noexec选项挂载，可以使用ES_JAVA_OPTS环境变量指定一个新的temp路径</p>
-<p>  export ES_JAVA_OPTS=”$ES_JAVA_OPTS -Djava.io.tmpdir=/path/to/temp/dir”<br>  ./bin/elasticsearch</p>
-</li>
-</ul>
-<h2 id="最大线程数检查"><a href="#最大线程数检查" class="headerlink" title="最大线程数检查"></a>最大线程数检查</h2><p>es需要有创建至少4096个线程的能力并且只会在Linux系统上检查。通过设置/etc/security/limits.conf的nproc值（同时要增大root用户的限制）</p>
-<h2 id="最大虚拟内存检查"><a href="#最大虚拟内存检查" class="headerlink" title="最大虚拟内存检查"></a>最大虚拟内存检查</h2><p>es需要有无限制的地址空间并且只会在Linux系统上检查。通过设置/etc/security/limits.conf的as值为unlimited（同时要改变root用户的限制）</p>
-<h2 id="最大文件大小检查"><a href="#最大文件大小检查" class="headerlink" title="最大文件大小检查"></a>最大文件大小检查</h2><p>es需要有无限制大小的写文件能力。通过设置/etc/security/limits.conf的fsize值为unlimited（同时要改变root用户的限制）</p>
-<h2 id="最大地图数量检查"><a href="#最大地图数量检查" class="headerlink" title="最大地图数量检查"></a>最大地图数量检查</h2><p>es需要至少262144内存映射空间并且只会在Linux系统上检查。通过设置vm.max_map_count(sysctl)</p>
-<pre><code>sysctl -w vm.max_map_count=262144
-sysctl -a|grep vm.max_map_count
-</code></pre><h2 id="客户端JVM检查"><a href="#客户端JVM检查" class="headerlink" title="客户端JVM检查"></a>客户端JVM检查</h2><p>确保es没有运行在客户端JVM而是服务端JVM，现代操作系统，服务端JVM是默认的。</p>
-<h2 id="serial-collector检查"><a href="#serial-collector检查" class="headerlink" title="serial collector检查"></a>serial collector检查</h2><p>确保es运行时使用的垃圾收器不是serial collector，除非指定-XX:+UseSerialGC使用，JVM默认使用es的默认配置也就是CMS collector。</p>
-<h2 id="系统调用过滤器检查"><a href="#系统调用过滤器检查" class="headerlink" title="系统调用过滤器检查"></a>系统调用过滤器检查</h2><p>修复所有可能阻止es安装系统调用过滤器（Linux上的seccomp）的配置（检查日志）</p>
-<h2 id="OnError和OnOutOfMemoryError检查"><a href="#OnError和OnOutOfMemoryError检查" class="headerlink" title="OnError和OnOutOfMemoryError检查"></a>OnError和OnOutOfMemoryError检查</h2><p> 防止es启动时JVM的这两个选项被启用并且系统调用也被启用，它们相互之间不兼容。可以禁止OnError和OnOutOfMemoryError或则升级到Java 8u92并且使用JVM flag ExitOnOutOfMemoryError</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/04/16/mysql-install_1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jokers">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jokers's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/04/16/mysql-install_1/" itemprop="url">centos7安装MySQL5.7</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-16T11:06:35+08:00">
-                2018-04-16
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/04/16/mysql-install_1/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/04/16/mysql-install_1/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="添加YUM源"><a href="#添加YUM源" class="headerlink" title="添加YUM源"></a>添加YUM源</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo rpm -Uvh https://repo.mysql.com//mysql57-community-release-el7-11.noarch.rpm</span><br></pre></td></tr></table></figure>
-<h2 id="查看提供的MySQL版本"><a href="#查看提供的MySQL版本" class="headerlink" title="查看提供的MySQL版本"></a>查看提供的MySQL版本</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yum repolist all | grep mysql</span><br></pre></td></tr></table></figure>
-<h2 id="如果要安装5-6，需要禁用5-7并启用5-6，编辑mysql-community-repo"><a href="#如果要安装5-6，需要禁用5-7并启用5-6，编辑mysql-community-repo" class="headerlink" title="如果要安装5.6，需要禁用5.7并启用5.6，编辑mysql-community.repo"></a>如果要安装5.6，需要禁用5.7并启用5.6，编辑mysql-community.repo</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">$ sudo vim  /etc/yum.repos.d/mysql-community.repo</span><br><span class="line"></span><br><span class="line"># Enable to use MySQL 5.6</span><br><span class="line">[mysql56-community]</span><br><span class="line">name=MySQL 5.6 Community Server</span><br><span class="line">baseurl=http://repo.mysql.com/yum/mysql-5.6-community/el/7/$basearch/</span><br><span class="line">enabled=1 # 启用</span><br><span class="line">gpgcheck=1</span><br><span class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql</span><br><span class="line"></span><br><span class="line">[mysql57-community]</span><br><span class="line">name=MySQL 5.7 Community Server</span><br><span class="line">baseurl=http://repo.mysql.com/yum/mysql-5.7-community/el/7/$basearch/</span><br><span class="line">enabled=0 # 禁用</span><br><span class="line">gpgcheck=1</span><br><span class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql</span><br></pre></td></tr></table></figure>
-<h2 id="查看可安装的MySQL版本"><a href="#查看可安装的MySQL版本" class="headerlink" title="查看可安装的MySQL版本"></a>查看可安装的MySQL版本</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yum repolist enabled | grep mysql</span><br></pre></td></tr></table></figure>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo yum install mysql-community-server</span><br></pre></td></tr></table></figure>
-<h2 id="更改存储路径，需要修改目标文件夹及子目录的读写权限"><a href="#更改存储路径，需要修改目标文件夹及子目录的读写权限" class="headerlink" title="更改存储路径，需要修改目标文件夹及子目录的读写权限"></a>更改存储路径，需要修改目标文件夹及子目录的读写权限</h2><h3 id="【init-默认存储位置-target-修改后的目标文件夹"><a href="#【init-默认存储位置-target-修改后的目标文件夹" class="headerlink" title="【init]:默认存储位置 [target]:修改后的目标文件夹"></a>【init]:默认存储位置 [target]:修改后的目标文件夹</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo cp -R [init] [target]</span><br><span class="line">$ sudo chown -R mysql:mysql [target]</span><br></pre></td></tr></table></figure>
 
           
         
@@ -1739,148 +2195,13 @@ sysctl -a|grep vm.max_map_count
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/02/05/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jokers">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jokers's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/05/hello-world/" itemprop="url">Hello World</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-05T09:40:38+08:00">
-                2018-02-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/02/05/hello-world/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/02/05/hello-world/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
 
 
           </div>
@@ -1924,7 +2245,7 @@ sysctl -a|grep vm.max_map_count
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-count">11</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
