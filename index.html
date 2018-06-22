@@ -270,6 +270,518 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/06/12/spark-HelloWorld/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/12/spark-HelloWorld/" itemprop="url">Spark</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-12T17:46:35+08:00">
+                2018-06-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/06/12/spark-HelloWorld/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/06/12/spark-HelloWorld/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><ul>
+<li><p>安装JAVA</p>
+<pre><code>$ java -version
+</code></pre></li>
+<li><p>安装Scala</p>
+<pre><code>$ wget https://downloads.lightbend.com/scala/2.12.6/scala-2.12.6.rpm
+$ sudo rpm -ivh scala-2.12.6.rpm
+$ scala -version
+</code></pre></li>
+<li><p>安装Spark</p>
+<pre><code>$ wget http://mirrors.hust.edu.cn/apache/spark/spark-2.3.1/spark-2.3.1-bin-hadoop2.7.tgz
+$ tar xvf spark-2.3.1-bin-hadoop2.7.tgz
+$ sudo mv spark-2.3.1-bin-hadoop2.7/* /usr/local/spark
+
+$ vim ~/.bashrc
+export PATH = $PATH:/usr/local/spark/bin
+$ source ~/.bashrc
+
+$ spark-shell
+</code></pre></li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/06/10/scala-HelloWorld/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/10/scala-HelloWorld/" itemprop="url">Scala 基本语法</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-10T17:46:35+08:00">
+                2018-06-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/06/10/scala-HelloWorld/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/06/10/scala-HelloWorld/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="函数和方法"><a href="#函数和方法" class="headerlink" title="函数和方法"></a>函数和方法</h4><pre><code>scala&gt; class C {
+     |   var acc = 0
+     |   def minc = { acc += 1 }
+     |   val finc = { () =&gt; acc += 1 }
+     | }
+defined class C
+
+scala&gt; val c = new C
+c: C = C@1af1bd6
+
+scala&gt; c.minc // calls c.minc()
+
+scala&gt; c.finc // returns the function as a value:
+res2: () =&gt; Unit = &lt;function0&gt;
+</code></pre><h4 id="abstract-class"><a href="#abstract-class" class="headerlink" title="abstract class"></a>abstract class</h4><ul>
+<li><p>不能实例化抽象类</p>
+<pre><code>scala&gt; abstract class Shape{
+|   def getArea():Int
+| }
+defined class Shape
+</code></pre></li>
+</ul>
+<h4 id="Traits"><a href="#Traits" class="headerlink" title="Traits"></a>Traits</h4><pre><code>trait Car {
+  val brand: String
+}
+
+trait Shiny {
+  val shineRefraction: Int
+}
+class BMW extends Car {
+  val brand = &quot;BMW&quot;
+}
+
+class BMW extends Car with Shiny {
+  val brand = &quot;BMW&quot;
+  val shineRefraction = 12
+}
+</code></pre><ul>
+<li><p>优先使用特质。一个类扩展多个特质是很方便的，但却只能扩展一个抽象类。</p>
+</li>
+<li><p>如果你需要构造函数参数，使用抽象类。因为抽象类可以定义带参数的构造函数，而特质不行。例如，你不能说trait t(i: Int) {}，参数i是非法的。</p>
+</li>
+</ul>
+<h4 id="Object"><a href="#Object" class="headerlink" title="Object"></a>Object</h4><p>Scala classes cannot have static variables or methods. Instead a Scala class can have what is called a singleton object, or sometime a companion object.</p>
+<pre><code>scala&gt; class Bar(foo: String)
+defined class Bar
+
+scala&gt; object Bar{
+     |   def apply(foo: String) = new Bar(foo)
+     | }
+</code></pre><h4 id="apply-方法，语法糖"><a href="#apply-方法，语法糖" class="headerlink" title="apply 方法，语法糖"></a>apply 方法，语法糖</h4><pre><code>scala&gt; class Foo{}
+defined class Foo
+
+scala&gt; object FooMaker{}
+defined object FooMaker
+
+scala&gt; object FooMaker{
+     |   def apply() = new Foo
+     | }
+defined object FooMaker
+
+scala&gt; val newFoo = FooMaker()
+newFoo: Foo = Foo@229cb4d8
+</code></pre><h4 id="函数即对象"><a href="#函数即对象" class="headerlink" title="函数即对象"></a>函数即对象</h4><p>函数是Function*特质的示例，并且定义了apply语法糖</p>
+<pre><code>scala&gt; object addOne extends Function1[Int, Int]{
+     |   def apply(m: Int): Int = m + 1
+     | }
+defined object addOne
+
+scala&gt; addOne(1)
+res0: Int = 2
+</code></pre><h4 id="case-class"><a href="#case-class" class="headerlink" title="case class"></a>case class</h4><p>It makes only sense to define case classes if pattern matching is used to decompose data structures.</p>
+<ul>
+<li><p>实例化可以不加关键词new</p>
+</li>
+<li><p>toString更漂亮</p>
+</li>
+<li><p>默认实现equals和hashCode</p>
+</li>
+<li><p>默认序列化</p>
+</li>
+</ul>
+<h4 id="模式匹配"><a href="#模式匹配" class="headerlink" title="模式匹配"></a>模式匹配</h4><ul>
+<li><p>基本用法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">scala&gt; val times = 1</span><br><span class="line">times: Int = 1</span><br><span class="line"></span><br><span class="line">scala&gt; times match&#123;</span><br><span class="line">     |   case 1 =&gt; &quot;one&quot;</span><br><span class="line">     |   case 2 =&gt; &quot;two&quot;</span><br><span class="line">     |   case _ =&gt; &quot;other&quot;</span><br><span class="line">     | &#125;</span><br><span class="line">res2: String = one</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>带if守卫</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">scala&gt; val score = 70</span><br><span class="line">score: Int = 70</span><br><span class="line"></span><br><span class="line">scala&gt; score match&#123;</span><br><span class="line">     |   case s if (score &gt;= 90) =&gt; &quot;优秀&quot;</span><br><span class="line">     |   case s if (score &gt;= 70) =&gt; &quot;良好&quot;</span><br><span class="line">     |   case s if (score &gt;= 60) =&gt; &quot;及格&quot;</span><br><span class="line">     |   case _ =&gt; &quot;不及格&quot;</span><br><span class="line">     | &#125;</span><br><span class="line">res5: String = 良好</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>类型的模式匹配</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">try&#123;</span><br><span class="line">    something</span><br><span class="line">&#125;catch&#123;</span><br><span class="line">    case e: IllegalArgumentException=&gt; do something</span><br><span class="line">    case e: FileNotFoundException=&gt; do something</span><br><span class="line">    case e: IOException =&gt; do something</span><br><span class="line">    case _: Exception =&gt; do something</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>case class的模式匹配</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">class Customer</span><br><span class="line">case class PersonalUser(name:String) extends Customer</span><br><span class="line">case class EnterpriseUser(name:String) extends Customer</span><br><span class="line">case class VipUser(name:String) extends Customer</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">def service(c:Customer):Unit=&#123;</span><br><span class="line">    c match&#123;</span><br><span class="line">      case EnterpriseUser(_)=&gt;print(&quot;Enterprise&quot;)</span><br><span class="line">      case PersonalUser(_)=&gt;print(&quot;Personal&quot;)</span><br><span class="line">      case VipUser(_)=&gt;print(&quot;Vip&quot;)</span><br><span class="line">      case _ =&gt;print(&quot;None&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Option的模式匹配</p>
+<p>  Some and None are both children of Option</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">def toInt(in: String): Option[Int] = &#123;</span><br><span class="line">    try &#123;</span><br><span class="line">        Some(Integer.parseInt(in.trim))</span><br><span class="line">    &#125; catch &#123;</span><br><span class="line">        case e: NumberFormatException =&gt; None</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">toInt(someString) match &#123;</span><br><span class="line">    case Some(i) =&gt; println(i)</span><br><span class="line">    case None =&gt; println(&quot;That didn&apos;t work.&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/05/31/chinese_to_number/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/31/chinese_to_number/" itemprop="url">未命名</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-31T16:52:35+08:00">
+                2018-05-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/05/31/chinese_to_number/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/05/31/chinese_to_number/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/local/python</span><br><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line">&apos;&apos;&apos;</span><br><span class="line">Created on 2018-04-14</span><br><span class="line">处理各种中英文金额，转化为阿拉伯数字</span><br><span class="line">author: wangweitao@ipforest.cn</span><br><span class="line">&apos;&apos;&apos;</span><br><span class="line">from lib import pub_mysql_product</span><br><span class="line">import re</span><br><span class="line"># 用于处理中文转数字的库</span><br><span class="line">import unicodedata</span><br><span class="line"># debug = True</span><br><span class="line">debug = False</span><br><span class="line"></span><br><span class="line"># ！！！注意，目前做了个美元的处理，正常逻辑应该是保存美元数字，做货币字段，而不应该转换成人民币</span><br><span class="line"></span><br><span class="line"># 中文 以及 混合数字，转为阿拉伯数字</span><br><span class="line"># 思路： 以万和亿进行分段, 字符串压栈，从后向前进行处理</span><br><span class="line"># 记录当前的分段值： 1, 10000, 10000000</span><br><span class="line"># max_mul: 记录当前分段值</span><br><span class="line"># total_num： 总值，当遇到比当前值更大的分段值或者字符串未空，则计算当前总值</span><br><span class="line"># cur_num: 分段数值</span><br><span class="line"># cur_n: 当前字符转成的数字</span><br><span class="line"># last_n: 上一个字符转成的数字</span><br><span class="line"># 示例: 100万， 则max_mul = 10000 , cur_num = 100</span><br><span class="line"># [&apos;1&apos;,&apos;0&apos;,&apos;0&apos;,&apos;万&apos;]</span><br><span class="line"># 默认值 max_mul = 1 , cur_num = 0 , total_num = 0</span><br><span class="line"># step 1 : 处理字符 &apos;万&apos;</span><br><span class="line">#	当前数组 [&apos;1&apos;,&apos;0&apos;,&apos;0&apos;]</span><br><span class="line">#	cur_n = 10000</span><br><span class="line"># 	last_n = 10000</span><br><span class="line">#	max_mul = 10000</span><br><span class="line">#   cur_num = 0</span><br><span class="line">#	total_num = 0</span><br><span class="line">#</span><br><span class="line"># step 2 : 处理字符 &apos;0&apos;</span><br><span class="line">#   当前数组 [&apos;1&apos;,&apos;0&apos;]</span><br><span class="line">#	cur_n = 0</span><br><span class="line"># 	last_n = 0</span><br><span class="line">#	max_mul = 10000</span><br><span class="line">#   cur_num = 0</span><br><span class="line">#	total_num = 0</span><br><span class="line"># step 3 : 处理字符 &apos;0&apos;</span><br><span class="line">#   当前数组 [&apos;1&apos;]</span><br><span class="line">#	cur_n = 0</span><br><span class="line"># 	last_n = 0</span><br><span class="line">#	max_mul = 10000</span><br><span class="line">#   cur_num = 0</span><br><span class="line">#	total_num = 0</span><br><span class="line"># step 4 : 处理字符 &apos;1&apos;</span><br><span class="line">#   当前数组 []</span><br><span class="line">#	cur_n = 1</span><br><span class="line"># 	last_n = 0</span><br><span class="line">#	max_mul = 10000</span><br><span class="line">#   cur_num = 100</span><br><span class="line">#	total_num =  total_num  + cur_num * max_mul =  0 + 100 * 10000</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 当前分段所在的值(total_num = total_num  + cur_num * max_mul)</span><br><span class="line">def chinese2digits(num_str):</span><br><span class="line">	if debug == True:</span><br><span class="line">		print &quot;开始处理字符串:&quot;,num_str</span><br><span class="line">	# print num_str</span><br><span class="line">	str_stack = []</span><br><span class="line">	for i in range(0,len(num_str)):</span><br><span class="line">		# print unicodedata.numeric(num_str[len(num_str) - 1 - i])</span><br><span class="line">		str_stack.append(num_str[i])</span><br><span class="line">		# print num_str[len(num_str) - 1 - i]</span><br><span class="line"></span><br><span class="line">	step = 0</span><br><span class="line">	total_num = 0</span><br><span class="line">	cur_num = 0</span><br><span class="line">	mul = 1</span><br><span class="line">	max_mul = 1</span><br><span class="line">	last_n = None</span><br><span class="line"></span><br><span class="line">	# 计算货币</span><br><span class="line">	foreign_mul = 1</span><br><span class="line"></span><br><span class="line">	while len(str_stack) &gt; 0:</span><br><span class="line">		cur_str = str_stack.pop()</span><br><span class="line">		step = step + 1</span><br><span class="line">		try:</span><br><span class="line"></span><br><span class="line">			if debug == True:</span><br><span class="line">				print &quot;----------------&quot;,cur_str,str_stack</span><br><span class="line">			cur_n = int(unicodedata.numeric(cur_str))</span><br><span class="line">			# 万 or 亿 分段</span><br><span class="line">			if (cur_n &gt;=10000 and cur_n &gt; max_mul) :</span><br><span class="line">				total_num = float(total_num)  + cur_num * max_mul</span><br><span class="line">				if debug == True:</span><br><span class="line">					print &quot;分段计算: &quot;,cur_n,max_mul,cur_num,total_num,str_stack</span><br><span class="line">				cur_num = 0</span><br><span class="line">				# 最大乘法因子</span><br><span class="line">				max_mul = cur_n</span><br><span class="line">				# 重置当前乘法因子</span><br><span class="line">				mul = 1</span><br><span class="line">			else:</span><br><span class="line">				if cur_n &gt;= 10:</span><br><span class="line">					# 处理万(当分段是已的时候，可能会出现万)千百十</span><br><span class="line">					if last_n &gt;= 10  :</span><br><span class="line">						# 处理 &quot;3千万亿&quot; 的情况</span><br><span class="line">						mul = mul * cur_n</span><br><span class="line">					else:</span><br><span class="line">						mul = cur_n</span><br><span class="line"></span><br><span class="line">					pass</span><br><span class="line">				elif cur_n &lt; 10 :</span><br><span class="line">					if last_n &lt; 10 and last_n is not None and cur_n == 0 :</span><br><span class="line">						# 处理数字0，增加乘积，比如 800 ， 每遇到</span><br><span class="line">						mul = 10 ** len(str(mul))</span><br><span class="line"></span><br><span class="line">					elif last_n &lt; 10 and last_n is not None and cur_n != 0 :</span><br><span class="line">						# 处理 812之类的数据</span><br><span class="line">						cur_num = cur_num + 10 ** len(str(mul)) * cur_n</span><br><span class="line">						mul = 10 ** len(str(mul))</span><br><span class="line"></span><br><span class="line">					else:</span><br><span class="line">						# 处理 3千</span><br><span class="line">						cur_num = cur_num + cur_n * mul</span><br><span class="line"></span><br><span class="line">			# 记录当前数字</span><br><span class="line">			last_n = cur_n</span><br><span class="line">		except:</span><br><span class="line">			# print &quot;无法识别的字符：&quot;, cur_str</span><br><span class="line">			if cur_str == u&quot;.&quot; or cur_str == u&quot;点&quot;:</span><br><span class="line">				# 处理小数点</span><br><span class="line">				cur_num = float(cur_num) / (10 ** len(str(int(cur_num))))</span><br><span class="line">				mul = 1</span><br><span class="line">				last_n = None</span><br><span class="line">			elif cur_str == u&quot;美&quot;:</span><br><span class="line">				# 处理美元，不建议转化成中文，需要增加不同语种， 而且需要计算当时的汇率</span><br><span class="line">				foreign_mul = 6.3</span><br><span class="line"></span><br><span class="line">		# 栈空，计算总数，遇到十，则压栈1，继续处理</span><br><span class="line">		if len(str_stack) == 0:</span><br><span class="line">			if cur_n is not None and cur_n == 10:</span><br><span class="line">				# 处理&apos;十&apos;开头的字符串</span><br><span class="line">				str_stack.append(u&quot;1&quot;)</span><br><span class="line">				continue</span><br><span class="line">			# 计算结果</span><br><span class="line">			total_num = float(total_num  + cur_num * max_mul) * foreign_mul</span><br><span class="line">			# if debug == True:</span><br><span class="line">				# print cur_n,&quot;\ttotal----&gt;&quot;,total_num,cur_num,max_mul</span><br><span class="line">		# 打印调试信息</span><br><span class="line">		if debug == True and cur_n is not None:</span><br><span class="line">			print u&quot;Step %d:\</span><br><span class="line">				\n\t当前字符 %s,\</span><br><span class="line">				\n\t当前数组 %s,\</span><br><span class="line">				\n\tcur_n = %s,\</span><br><span class="line">				\n\tlast_n = %s,\</span><br><span class="line">				\n\tmax_mul = %d,\</span><br><span class="line">				\n\tcur_num = %d,\</span><br><span class="line">				\n\tmul = %d,\</span><br><span class="line">				\n\ttotal_num =%s \n&quot; % (step,cur_str,str_stack,cur_n,last_n,max_mul,cur_num,mul,total_num)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	print &quot;=***&quot;,num_str,&quot;----&gt;&quot;,total_num</span><br><span class="line">	return total_num</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 测试函数</span><br><span class="line">def test():</span><br><span class="line">	test_str_arr = [u&quot;一&quot;,u&quot;一.一&quot;,u&quot;一十&quot;,u&quot;一十一&quot;,u&quot;一百一十&quot;,u&quot;1233&quot;,u&quot;1233.10&quot;,u&quot;3万零1&quot;,u&quot;1233&quot;,u&quot;3万零1千零1百&quot;,u&quot;3.31万&quot;,u&quot;3万5千零1&quot;,u&quot;3万零1百&quot;,u&quot;3亿零3千万&quot;,u&quot;1万零3千&quot;,u&quot;1万零3百&quot;,u&quot;5千万&quot;,u&quot;5千1百万&quot;,u&quot;5千零30万&quot;,u&quot;五千壹百万&quot;,u&quot;3.3亿&quot;,u&quot;3.3亿美&quot;,u&quot;3.3万美&quot;,u&quot;叁拾肆&quot;,u&quot;一亿三千万&quot;,u&quot;十万&quot;,u&quot;３&quot;,u&quot;⒈&quot;,u&quot;①&quot;,u&quot;十&quot;,u&quot;十三&quot;,u&quot;十万零一十&quot;,u&quot;1千兆&quot;,u&quot;３３３.333&quot;,u&quot;3千万&quot;,u&quot;3万零1十&quot;,u&quot;十点1万&quot;,u&quot;1点1&quot;,u&quot;1十点1万&quot;,u&quot;1亿零1百点1&quot;,u&quot;3千万亿&quot;]</span><br><span class="line"></span><br><span class="line">	# test_str_arr = [u&quot;3千万亿&quot;]</span><br><span class="line">	for str_num in test_str_arr:</span><br><span class="line">		chinese2digits(str_num)</span><br><span class="line"></span><br><span class="line"># 主程序</span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">	test()</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/05/24/install-hive/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -471,137 +983,6 @@ $ vim ~/.bashrc
 export HADOOP_CLASSPATH=$HADOOP_CLASSPATH:/usr/local/hive/lib/*
 $ source ~/.bashrc
 </code></pre>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/05/21/university_ranking/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jokers">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jokers's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/21/university_ranking/" itemprop="url">未命名</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-21T00:24:53+08:00">
-                2018-05-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/05/21/university_ranking/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/05/21/university_ranking/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>剑桥大学University of Cambridge<br>牛津大学University of Oxford<br>伦敦大学学院University College London<br>帝国理工学院Imperial College London<br>伦敦大学国王学院King’s College London<br>爱丁堡大学The University of Edinburgh<br>曼彻斯特大学The University of Manchester<br>伦敦政治经济学院the London Shool of Economics and Political Scienc<br>布里斯托大学University of Bristol<br>华威大学The University of Warwick<br>格拉斯哥大学University of Glasgow<br>杜伦大学Durham University<br>谢菲尔德大学The University of Sheffield<br>诺丁汉大学The University of Nottingham<br>伯明翰大学University of Birmingham<br>圣安德鲁斯大学University of St Andrews<br>利兹大学University of Leeds<br>南安普顿大学University of Southampton<br>伦敦大学玛丽女王学院Queen Mary University of London<br>兰卡斯特大学University of Lancaster<br>约克大学University of York<br>卡迪夫大学Cardiff University<br>阿伯丁大学University of Aberdeen<br>埃克塞特大学University of Exeter<br>巴斯大学University of Bath<br>纽卡斯尔大学Newcastle University<br>利物浦大学The University of Liverpool<br>雷丁大学University of Reading<br>英国女王大学Queen’s University Belfast<br>萨塞克斯大学The University of Sussex<br>拉夫堡大学Loughborough University<br>莱斯特大学University of Leicester<br>伦敦大学皇家霍洛威学院Royal Holloway University of London<br>邓迪大学University of Dundee<br>萨里大学University of Surrey<br>东英吉利大学University of East Anglia<br>思克莱德大学University of Strathclyde<br>伦敦大学亚非学院SOAS University of London<br>伦敦大学伯克贝克学院Birkbeck, University Of London<br>赫瑞·瓦特大学Heriot-Watt University<br>伦敦城市大学City University London<br>布鲁内尔大学Brunel University<br>埃塞克斯大学University of Essex<br>牛津布鲁克斯大学Oxford Brookes University<br>阿斯顿大学Aston University<br>肯特大学University of Kent<br>伦敦大学金史密斯学院Goldsmiths, University of London</p>
-
           
         
       
@@ -1024,6 +1405,137 @@ source ~/.bashrc
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/05/12/university_ranking/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/12/university_ranking/" itemprop="url">Ranking</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-12T17:46:35+08:00">
+                2018-05-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/05/12/university_ranking/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/05/12/university_ranking/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>剑桥大学University of Cambridge<br>牛津大学University of Oxford<br>伦敦大学学院University College London<br>帝国理工学院Imperial College London<br>伦敦大学国王学院King’s College London<br>爱丁堡大学The University of Edinburgh<br>曼彻斯特大学The University of Manchester<br>伦敦政治经济学院the London Shool of Economics and Political Scienc<br>布里斯托大学University of Bristol<br>华威大学The University of Warwick<br>格拉斯哥大学University of Glasgow<br>杜伦大学Durham University<br>谢菲尔德大学The University of Sheffield<br>诺丁汉大学The University of Nottingham<br>伯明翰大学University of Birmingham<br>圣安德鲁斯大学University of St Andrews<br>利兹大学University of Leeds<br>南安普顿大学University of Southampton<br>伦敦大学玛丽女王学院Queen Mary University of London<br>兰卡斯特大学University of Lancaster<br>约克大学University of York<br>卡迪夫大学Cardiff University<br>阿伯丁大学University of Aberdeen<br>埃克塞特大学University of Exeter<br>巴斯大学University of Bath<br>纽卡斯尔大学Newcastle University<br>利物浦大学The University of Liverpool<br>雷丁大学University of Reading<br>英国女王大学Queen’s University Belfast<br>萨塞克斯大学The University of Sussex<br>拉夫堡大学Loughborough University<br>莱斯特大学University of Leicester<br>伦敦大学皇家霍洛威学院Royal Holloway University of London<br>邓迪大学University of Dundee<br>萨里大学University of Surrey<br>东英吉利大学University of East Anglia<br>思克莱德大学University of Strathclyde<br>伦敦大学亚非学院SOAS University of London<br>伦敦大学伯克贝克学院Birkbeck, University Of London<br>赫瑞·瓦特大学Heriot-Watt University<br>伦敦城市大学City University London<br>布鲁内尔大学Brunel University<br>埃塞克斯大学University of Essex<br>牛津布鲁克斯大学Oxford Brookes University<br>阿斯顿大学Aston University<br>肯特大学University of Kent<br>伦敦大学金史密斯学院Goldsmiths, University of London</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/04/23/elastcsearch-config/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1334,451 +1846,6 @@ sysctl -a|grep vm.max_map_count
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/04/12/mysql-regular/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jokers">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jokers's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/04/12/mysql-regular/" itemprop="url">MySQL开发规范</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-12T11:06:35+08:00">
-                2018-04-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/04/12/mysql-regular/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/04/12/mysql-regular/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>持续借鉴、收集并整理一些开发规范和技巧，期望能更充分利用MySQL的特性，得到更好的性能。<br>规范是死的，人是活的。<br>现在定义的规范，是为以后推翻准备的。</p>
-<h4 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h4><p>提供给开发人员参考，方便写成更有效率的开发。</p>
-<h4 id="范围"><a href="#范围" class="headerlink" title="范围"></a>范围</h4><p>文档涉及的范围：需要基于MySQL做应用开发的人员。</p>
-<h4 id="定义、首字母缩写词和缩略语"><a href="#定义、首字母缩写词和缩略语" class="headerlink" title="定义、首字母缩写词和缩略语"></a>定义、首字母缩写词和缩略语</h4><p>暂无</p>
-<h4 id="数据库设计"><a href="#数据库设计" class="headerlink" title="数据库设计"></a>数据库设计</h4><ul>
-<li>目标三个：功能实现，可伸缩性，可用性。</li>
-<li>关键点：平衡业务技术各个方面，做好取舍。</li>
-<li>80%的性能优化来自架构设计的优化。</li>
-</ul>
-<h4 id="引擎及版本选择"><a href="#引擎及版本选择" class="headerlink" title="引擎及版本选择"></a>引擎及版本选择</h4><ul>
-<li>引擎建议使用InnoDB</li>
-<li>根据目前我们业务的特点，建议使用MySQL5.1社区版和InnoDB plugin或MySQL5.5，后续MySQL5.6比较稳定后再行考量和评估。</li>
-</ul>
-<h4 id="架构浅谈"><a href="#架构浅谈" class="headerlink" title="架构浅谈"></a>架构浅谈</h4><ul>
-<li>开发大牛都擅长，这里不多提，仅标注一下。</li>
-<li>非功能性需求</li>
-<li>读写分离</li>
-<li>分库分表</li>
-<li>热点数据</li>
-<li>多级缓存</li>
-<li>雪崩效应与过载保护</li>
-<li>读优化</li>
-<li>写优化</li>
-<li>schema设计</li>
-<li>尽量不在数据库做运算</li>
-<li>复杂运算移到程序端CPU</li>
-<li>尽可能简单应用MySQL<br>如：md5() 或Order by Rand()或计算字段等操作不在数据库表上进行。</li>
-</ul>
-<h4 id="适当的范式设计"><a href="#适当的范式设计" class="headerlink" title="适当的范式设计"></a>适当的范式设计</h4><ul>
-<li>库和表预估</li>
-<li>常见的有100库100表，1000库10表等。</li>
-<li>建议单库不超过300-400个表。</li>
-<li>总空间容量不超过100G。</li>
-</ul>
-<h4 id="单表控制"><a href="#单表控制" class="headerlink" title="单表控制"></a>单表控制</h4><ul>
-<li>IO高效；全表遍历；表修复快；提高并发；alter table快。</li>
-</ul>
-<h4 id="字段数量"><a href="#字段数量" class="headerlink" title="字段数量"></a>字段数量</h4><ul>
-<li>建议上限20~50个。</li>
-</ul>
-<h4 id="一年内的单表数据量预估"><a href="#一年内的单表数据量预估" class="headerlink" title="一年内的单表数据量预估"></a>一年内的单表数据量预估</h4><ul>
-<li>建议纯INT不超1000W，含CHAR不超500W。</li>
-</ul>
-<h4 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h4><ul>
-<li>单表1G体积 500W行评估：</li>
-<li>顺序读1G文件需N秒</li>
-<li>单行不超过200Byte</li>
-<li>单表不超50个纯INT字段</li>
-<li>单表不超20个CHAR(10)字段</li>
-</ul>
-<h4 id="拒绝3B"><a href="#拒绝3B" class="headerlink" title="拒绝3B"></a>拒绝3B</h4><ul>
-<li>大SQL (BIG SQL)</li>
-<li>大事务 (BIG Transaction)</li>
-<li>大批量 (BIG Batch)</li>
-</ul>
-<h4 id="反范式设计"><a href="#反范式设计" class="headerlink" title="反范式设计"></a>反范式设计</h4><ul>
-<li>无外键，少多表join查询。</li>
-<li>便于分布式设计，允许适度冗余，为了容量扩展允许适度开销。</li>
-<li>基于业务自由优化，基于i/o 或查询设计，无须遵循范式结构设计。</li>
-</ul>
-<h4 id="典型场景"><a href="#典型场景" class="headerlink" title="典型场景"></a>典型场景</h4><ul>
-<li>原有展现程序涉及多个表的查询，希望精简查询程序。</li>
-<li>数据表拆分往往基于主键，而原有数据表往往存在非基于主键的关键查询，无法在分表结构中完成。</li>
-<li>存在较多数据统计需求（count, sum等），效率低下。</li>
-<li><p>解决思路</p>
-<p>  基于展现的冗余设计<br>  如：<br>  消息表message，存在字段 from_uid,to_uid,msg,send_time 四个字段，而展示程序需要显示发送者姓名和性别。<br>  通常在message表中增加冗余字段from_username和from_user_sex即可。</p>
-</li>
-</ul>
-<h4 id="基于查询的冗余设计"><a href="#基于查询的冗余设计" class="headerlink" title="基于查询的冗余设计"></a>基于查询的冗余设计</h4><p>如：<br>用户分表，将用户库分成若干数据表。基于用户名的查询和基于uid的查询都是高并发请求。用户分表基于uid分成数据表，同时基于用户名做对应冗余表。<br>如果允许多方式登陆，可以有如下设计方法：<br>uid,passwd,用户信息等等，主数据表，基于uid分表<br>ukey,ukeytype,uid基于ukey分表，便于用户登陆的查询。分解成如下两个SQL：<br>select uid from ulist_key_13 where ukey=’$username’ and ukeytype=’$login’;<br>select * from ulist_uid_23 where uid=$uid and passwd=’$passwd’;<br>ukeytype定义用户的登陆依据，比如用户名，手机号，邮件地址，网站昵称等。 Ukey+ukeytype必须唯一。<br>此种方式需要登陆密码统一，对于第三方接入模式，可以通过引申额外字段完成。</p>
-<h4 id="基于统计的冗余设计"><a href="#基于统计的冗余设计" class="headerlink" title="基于统计的冗余设计"></a>基于统计的冗余设计</h4><p>如：<br>count(*)操作。<br>需要不精准结果，可以直接show table status like …获得。<br>需要精准结果，可以在缓存层增加key-value对，实时更新该key-value。同时异步更新到数据库中冗余字段，或冗余表中。</p>
-<h4 id="历史数据表"><a href="#历史数据表" class="headerlink" title="历史数据表"></a>历史数据表</h4><ul>
-<li>历史数据表对应于热点数据表。</li>
-<li>将需求较少又不能丢弃的数据，仅在少数情况下被访问存入历史数据表。</li>
-</ul>
-<h4 id="全文检索设计"><a href="#全文检索设计" class="headerlink" title="全文检索设计"></a>全文检索设计</h4><ul>
-<li>最差的设计，直接使用sql语句where条件中使用like %fulltext%</li>
-<li>直接全表扫描或全索引扫描，性能最差，无任何扩展，基本不可接受。</li>
-</ul>
-<h4 id="MySQL相关引擎支持"><a href="#MySQL相关引擎支持" class="headerlink" title="MySQL相关引擎支持"></a>MySQL相关引擎支持</h4><ul>
-<li>MyISAM全文索引，使用match()函数搜索。InnoDB从MySQL5.6.4开始支持全文索引，对中文支持不好，使用MATCH()…AGAINST。</li>
-<li>并发不高，数据量不大，业务逻辑简单，可以考虑。</li>
-</ul>
-<h4 id="使用外部开源全文检索引擎"><a href="#使用外部开源全文检索引擎" class="headerlink" title="使用外部开源全文检索引擎"></a>使用外部开源全文检索引擎</h4><ul>
-<li>目前常用的有sphinx和lucene等。</li>
-<li>适合并发高，数据量大，业务逻辑复杂的场景。</li>
-<li>主要关注预热、增量更新及分片功能的实现。</li>
-</ul>
-<h4 id="分页设计"><a href="#分页设计" class="headerlink" title="分页设计"></a>分页设计</h4><ul>
-<li><p>传统分页</p>
-<p>  Select * from table limit 10000,10;</p>
-</li>
-<li><p>LIMIT原理</p>
-<p>  Limit 10000,10<br>  偏移量越大则越慢</p>
-</li>
-<li><p>LIMIT方式推荐分页</p>
-<p>  Select <em> from table WHERE id&gt;=23423 limit 11; #10+1 (每页10条)<br>  select </em> from table WHERE id&gt;=23434 limit 11;</p>
-</li>
-<li><p>LIMIT的高效分页</p>
-<p>  可能需按场景分析并重组索引。</p>
-<p>  分页方式二<br>  Select * from table WHERE id &gt;= ( select id from table limit 10000,1 ) limit 10;</p>
-<p>  分页方式三<br>  ?SELECT * FROM table INNER JOIN (SELECT id FROM table LIMIT 10000,10) USING (id) ;</p>
-<p>  分页方式四<br>  程序取ID：select id from table limit 10000,10;<br>  Select * from table WHERE id in (123,456…) ;</p>
-<p>  LIMIT分页举例<br>  MySQL&gt; select sql_no_cache <em> from post limit 10,10;<br>  10 row in set (0.01 sec)<br>  MySQL&gt; select sql_no_cache </em> from post limit 20000,10;<br>  10 row in set (0.13 sec)<br>  MySQL&gt; select sql_no_cache <em> from post limit 80000,10;<br>  10 rows in set (0.58 sec)<br>  MySQL&gt; select sql_no_cache id from post limit 80000,10;<br>  10 rows in set (0.02 sec)<br>  MySQL&gt; select sql_no_cache </em> from post WHERE id&gt;=323423 limit 10;<br>  10 rows in set (0.01 sec)<br>  MySQL&gt; select * from post WHERE id &gt;= ( select sql_no_cache id from post limit 80000,1 ) limit 10 ;<br>  10 rows in set (0.02 sec)</p>
-</li>
-<li><p>LIMIT分页与缓存结合</p>
-<p>  类似sina微博的首页，总共保留最新的500条微博，分10页。</p>
-</li>
-</ul>
-<h4 id="表字段设计"><a href="#表字段设计" class="headerlink" title="表字段设计"></a>表字段设计</h4><ul>
-<li><p>主键</p>
-<p>  如果使用的是InnoDB并且不需要特殊的聚簇。定义一个代理键（surrogate key）是个好的主意。意思就是这个主键并不是来自于你的应用程序的数据（与业务逻辑无关，而应用程序的数据如果有唯一的候选列可以做成唯一键），最简单的方法就是使用AUTO_INCREMENT列。这能保证数据插入保持着连续的顺序并且对于使用主键连接会获得更好的性能。最好避免使用随机的聚簇键。 对每张表，最重要的就是一定要有主键。</p>
-</li>
-<li><p>主键设计之UUID</p>
-<p>  从性能的角度来说，使用UUID是个最不好的方法：它使聚簇索引的插入是随机的。这是最不好的场景了。并且对于数据的聚集也没有什么帮助。<br>  UUID_SHORT()<br>  UUID_SHORT()所占用的存储空间比UUID要小。（UUID_SHORT()可能要使用bigint占用8个字节，而UUID可能要使用字符串用char(32)）。另外uuid_short()是顺序的，这个也解决了随机导致的问题，但是uuid_short()也有一些限制和bug。</p>
-</li>
-<li><p>主键设计之自增列</p>
-<p>  没什么好说的，自增列简单实用。<br>  仅注意一下锁(gap lock)问题即可。</p>
-</li>
-<li><p>主键设计之程序控制</p>
-<p>  避免自增列引起的一些锁问题，统一管理，并发性更高。</p>
-</li>
-<li><p>主键设计之使用中间件</p>
-<p>  更高的并发性，可以考虑从数据库中剥离，使用自己开发或第三方中间件，如：<br>  <a href="https://github.com/twitter/snowflake" target="_blank" rel="noopener">https://github.com/twitter/snowflake</a></p>
-</li>
-<li><p>类型溢出</p>
-<p>  原因<br>  int占用4个字节，而int又分为无符号型和有符号性。对于无符号型的范围是0 到 4294967295；有符号型的范围是-2147483648 到 2147483647。</p>
-<p>  举一反三，其他类型都可能有类似问题，均需要考量。</p>
-<p>  控制方法<br>  可以通过sql_mode参数控制，但一般建议程序控制，比如：对表单项的值进行校验。</p>
-</li>
-<li><p>类型转换</p>
-<p>  溢出和隐含转换导致的运行缓慢。<br>  discuz论坛, uid是pk, mediumint类型, MyISAM表,总行数255万 #现象：更新比较慢，快7秒</p>
-<p>  MySQL&gt; UPDATE cdb_members SET email=’qin@zol.com.cn’ WHERE uid=’486851368’;Query OK, 0 rows affected (6.94 sec)Rows matched: 0 Changed: 0 Warnings: 0</p>
-<p>  #通过观察语句发现有类型转换，因为uid为mediumint，而传过来的值是字符串’2982891440’</p>
-<p>  这里的uid是mediumint， 这个条件的uid大小明显超过了范围。（参考 字段定义）</p>
-<p>  去掉uid=后面值的’’，速度就正常了。但是对于uid没有溢出的,加不加引号速度都一样。</p>
-<p>  原因：<br>  在non-strict mode下，MySQL会自动帮你把字符串转换成整形，但是如果数值超出了范围，转换就会失败，所以MySQL就按照字符串来处理，因此不能使用索引。而从explain的结果上，并没有表现出这样的差别。</p>
-<p>  控制方法：<br>  可以通过sql_mode参数控制，一般建议程序控制，比如：对表单项的值进行校验。</p>
-</li>
-</ul>
-<h4 id="字段选择"><a href="#字段选择" class="headerlink" title="字段选择"></a>字段选择</h4><ol>
-<li>字段定义为NOT NULL。</li>
-<li>表字符集选择UTF8，对恶魔字符集emoji用utf8mb4，如果MySQL版本不支持时，应用收到这种字符集的时候先转码成定义的串再传入数据库，例如传来\x0F，应用先替换成[i_smile]这样的特定字符串再存入数据库。</li>
-<li>存储年使用YEAR类型。存储日期使用DATE类型。 存储时间（精确到秒）使用TIMESTAMP类型或INT。使用时间字段作为查询条件，尤其是以时间段查询时，应使用INT保存。</li>
-<li>整形定义中不添加长度，比如使用INT，而不是INT[4]。</li>
-<li>使用VARBINARY存储变长字符串。</li>
-<li>自增序列类型的字段只能使用INT或者BIGINT，且明确标识出为无符号型(UNSIGNED)，除非确实会出现负数，仅当该字段数字取值会超过42亿，才使用BIGINT类型；</li>
-<li>int(10)和int(1)没有什么区别，10和1仅是宽度而已，在zerofill等扩展属性的时候有用或者特殊的命令行交互工具</li>
-<li>少量枚举或状态定义类需求不建议使用ENUM、SET、VARCHAR类型，使用TINYINT来代替。需在COMMENT信息中标明被枚举的含义。例如：<br><code>is_disable</code> tinyint(1) DEFAULT ‘0’ COMMENT ‘0:启用 1:禁用 2:异常’;</li>
-<li>存储精确浮点数使用DECIMAL替代FLOAT和DOUBLE。</li>
-<li>使用UNSIGNED存储非负数值。</li>
-<li>使用INT UNSIGNED存储IPV4。</li>
-<li>使用短数据类型，比如取值范围为0-80时，使用TINYINT UNSIGNED。</li>
-<li>尽可能不使用TEXT、BLOB类型，如果确实需要将过大字段拆分到其他表中。</li>
-<li>VARCHAR(N)，N表示的是字符数不是字节数，比如VARCHAR(255)，可以最大可存储255个汉字，需要根据实际的宽度来选择N，VARCHAR(N)，N&gt;5000时，使用BLOB类型。如果N<256时会使用一个字节来存储长度，如果n>=256则使用两个字节来存储长度。</256时会使用一个字节来存储长度，如果n></li>
-<li>不在数据库中使用VARBINARY、BLOB存储图片、文件等。</li>
-<li>禁止在数据库中存储明文密码</li>
-<li>数据库中存放IP时，按功能确定字段类型。仅作展示功能的使用CHAR，作为查询功能的应使用INT类型存放。参见”将字符转化为数字”</li>
-<li>严格禁止在库名、表名中使用大写字母。</li>
-</ol>
-<h4 id="技巧"><a href="#技巧" class="headerlink" title="技巧"></a>技巧</h4><ul>
-<li><p>将字符转化为数字更高效，查询更快，占用空间更小</p>
-<p>  举例：用无符号INT存储IP，而非CHAR(15)</p>
-<p>  INT UNSIGNED</p>
-<p>  INET_ATON()</p>
-<p>  INET_NTOA()</p>
-</li>
-<li><p>将日期转化为数字</p>
-<p>  更高效，查询更快，占用空间更小</p>
-<p>  举例：用无符号INT存储日期和时间</p>
-<p>  INT UNSIGNED</p>
-<p>  FROM_UNIXTIME()</p>
-<p>  UNIX_TIMESTAMP()</p>
-</li>
-<li><p>避免使用NULL字段</p>
-<p>  原因：<br>  很难进行查询优化；</p>
-<p>  NULL列加索引，需要额外空间；</p>
-<p>  含NULL复合索引无效。</p>
-<p>  举例：</p>
-<p>  不使用：`a` char(32) DEFAULT NULL</p>
-<p>  不使用：`b` int(10) NOT NULL</p>
-<p>  使用：`c` int(10) NOT NULL DEFAULT 0</p>
-</li>
-</ul>
-<h4 id="sql语句"><a href="#sql语句" class="headerlink" title="sql语句"></a>sql语句</h4><ul>
-<li><p>多使用等值操作，少使用非等值操作</p>
-<p>  WHERE条件中的非等值条件（IN、BETWEEN、&lt;、&lt;=、&gt;、&gt;=）会导致后面的条件使用不了索引，因为不能同时用到两个范围条件。</p>
-</li>
-<li><p>常数表优先，字典表或小表其次，大表最后</p>
-<p>  常数表指：空表或只有1行的表。与在一个PRIMARY KEY或UNIQUE索引的WHERE子句一起使用的表。如：<br>  SELECT <em> FROM t WHERE primary_key=1;<br>  SELECT </em> FROM t1,t2 WHERE t1.primary_key=1 AND t2.primary_key=t1.id;</p>
-<p>  字典表指：小数量的行。如：自定义的自增字段表，而不使用MySQL的AUTO_INCREMENT。</p>
-</li>
-<li><p>减少或避免临时表</p>
-<p>  如果有一个ORDER BY子句和不同的GROUP BY子句，或如果ORDER BY或GROUP BY包含联接队列中的第一个表之外的其它表的列，则创建一个临时表。</p>
-</li>
-<li><p>where子句中的数据扫描别跨越表的30%</p>
-</li>
-<li><p>where子句中同一个表的不同的字段组合建议小于等于5组，否则考虑业务逻辑或分表</p>
-</li>
-<li><p>不使用is null或is not null，字段设计时建议not null，若麻烦可折中考虑给一默认值，原因参见”避免使用NULL字段”。</p>
-</li>
-</ul>
-<ul>
-<li><p>使用like时，%不要放在首字符位置。</p>
-<p>  如果%必须放在首字符位置，参见”全文检索设计”</p>
-</li>
-<li><p>值域比较多的表字段放在前面</p>
-<p>  比如：id，date字段放在前面，而status这样的字段放在后面，具体的可以通过执行计划来把握。</p>
-</li>
-<li><p>表字段组合中出现比较多的表字段放在前面</p>
-<p>  方便综合评估索引，缓解因为索引过多导致的增删改的一些性能问题。</p>
-</li>
-<li><p>表字段不能有表达式或是函数</p>
-<p>  如：where abs(列)&gt;3或where 列*10&gt;100</p>
-</li>
-<li><p>注意表字段的类型，避免表字段的隐示转换</p>
-<p>  参见”表字段设计”</p>
-<p>  比如：列为int，如果where 列=’1’，则会出现转换。</p>
-</li>
-<li><p>考虑使用union all，少使用union，注意考虑去重</p>
-<p>  union all不去重，而少了排序操作，速度相对比union要快，如果没有去重的需求，优先使用union all。</p>
-</li>
-<li><p>不同字段的值or或in大于等于3次，考虑用union all替换；同一字段的值or用in替换</p>
-<p>  Select * from opp WHERE phone=’12347856’ or phone=’42242233’;</p>
-<p>  考虑用</p>
-<p>  Select * from opp WHERE phone in (‘12347856’ , ‘42242233’);</p>
-<p>  Select * from opp WHERE phone=’010-88886666’ or cellPhone=’13800138000’;</p>
-<p>  考虑用<br>  Select <em> from opp WHERE phone=’010-88886666’<br>  union all<br>  Select </em> from opp WHERE cellPhone=’13800138000’;</p>
-</li>
-<li><p>用Where子句替换HAVING子句</p>
-<p>  select id,count(star) from table group by id having age&gt;=30 order by null;</p>
-<p>  考虑用</p>
-<p>  select id,count(star) from table where age&gt;=30 group by id order by null;</p>
-</li>
-<li><p>对同一表的order by和group by操作分别小于3组，否则考虑业务逻辑或分表<br>尽量使用主键进行update和delete</p>
-<p>  小心text/blobs等大字段，如果确实不需要这样的大字段，则不用放入sql语句中</p>
-<p>  Text/blob大字段的用法参见”字段选择”</p>
-</li>
-<li><p>使用INSERT … ON DUPLICATE KEY update (INSERT IGNORE)来避免不必要的查询</p>
-</li>
-<li><p>考虑使用limit N，少用limit M,N，特别是大表，或M比较大的时候</p>
-<p>  参考”分页设计”</p>
-</li>
-<li><p>减少或避免排序，如：group by语句中如果不需要排序，可以增加order by null</p>
-</li>
-<li><p>增删改语句中不使用不确定值函数和随机函数，如：RAND()和NOW()等。<br>INSERT语句使用batch提交（INSERT INTO table VALUES(),(),()„„），values的个数不超过500。</p>
-</li>
-<li><p>避免使用存储过程、触发器、函数、UDF、events等，容易将业务逻辑和DB耦合在一起，并且MySQL的存储过程、触发器、函数、UDF、events中存在一定的bug。</p>
-</li>
-<li><p>避免使用JOIN。</p>
-</li>
-<li><p>使用合理的SQL语句减少与数据库的交互次数。</p>
-<p>  INSERT … ON DUPLICATE KEY UPDATE<br>  REPLACE INTO、INSERT IGNORE 、INSERT INTO VALUES(),(),()<br>  UPDATE … WHERE ID IN(10,20,50,…)</p>
-</li>
-<li><p>减少使用视图，避免复杂的语句。</p>
-</li>
-<li><p>SQL语句中IN包含的值不超过500。</p>
-</li>
-<li><p>UPDATE、DELETE语句不使用LIMIT。有主键id的表WHERE条件应结合主键。</p>
-</li>
-<li><p>使用prepared statement，可以提供性能并且避免SQL注入。</p>
-</li>
-<li><p>InnoDB表避免使用COUNT(*)操作，计数统计实时要求较强可以使用memcache或者redis，非实时统计可以使用单独统计表，定时更新。</p>
-</li>
-<li><p>禁止在Update语句，将”,”写成”and”，非常危险。</p>
-<p>  正确示例：update Table set uid=uid+1000,gid=gid+1000 where id &lt;=2 ;</p>
-<p>  错误示例：update Table set uid=uid+1000 and gid=gid+1000 where id &lt;=2 ;</p>
-<p>  此时”uid=uid+1000 and gid=gid+1000”将作为值赋给uid，并且无Warning！！！</p>
-</li>
-</ul>
-<h4 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h4><ul>
-<li><p>索引名称使用小写。</p>
-</li>
-<li><p>索引中的字段数不超过5个。</p>
-<p>  唯一键由3个以下字段组成，并且字段都是整形时，使用唯一键作为主键。</p>
-<p>  没有唯一键或者唯一键不符合5中的条件时，使用自增（或者通过发号器获取）id作为主键。</p>
-</li>
-<li><p>唯一键不和主键重复。</p>
-</li>
-<li><p>索引字段的顺序需要考虑字段值去重之后的个数，个数多的放在前面。</p>
-</li>
-<li><p>ORDER BY，GROUP BY，DISTINCT的字段需要添加在索引的后面。</p>
-</li>
-<li><p>单张表的索引数量控制在5个以内，若单张表多个字段在查询需求上都要单独用到索引，需要经过DBA评估。查询性能问题无法解决的，应从产品设计上进行重构。</p>
-</li>
-<li><p>使用EXPLAIN判断SQL语句是否合理使用索引，尽量避免extra列出现：Using File Sort，Using Temporary。</p>
-</li>
-<li><p>UPDATE、DELETE语句需要根据WHERE条件添加索引。</p>
-</li>
-<li><p>对长度大于50的VARCHAR字段建立索引时，按需求恰当的使用前缀索引，或使用其他方法。</p>
-</li>
-<li><p>合理创建联合索引（避免冗余），(a,b,c) 相当于 (a) 、(a,b) 、(a,b,c)。</p>
-</li>
-<li><p>合理利用覆盖索引。</p>
-</li>
-</ul>
-<h4 id="大表"><a href="#大表" class="headerlink" title="大表"></a>大表</h4><ul>
-<li><p>表预计行数（比如：100万条以上），表预计大小（比如：100M以上），历史数据维护策略（分表策略，迁移策略，清理策略等）；</p>
-</li>
-<li><p>频繁增删改的表</p>
-<p>  方便考虑定期optimize优化减少碎片，减少相关索引提供更好的写性能。</p>
-</li>
-<li><p>频繁查的表</p>
-<p>  方便适当优化语句，合理评估索引。</p>
-</li>
-<li><p>特殊字段的表</p>
-<p>  大字段（text,blob），值域小的字段（比如字段status字段0表示失败，值分布少，并且用该字段查询时以该值居多，1表示成功）。</p>
-</li>
-<li><p>按表或按功能页面来分类的常用sql语句</p>
-<p>  方便dba整体评估索引，为SQL审核用(生成SQL审核报告)。</p>
-</li>
-<li><p>缓存机制与规划及预热、降级限流方案</p>
-<p>  防雪崩、防刷</p>
-</li>
-</ul>
-<h4 id="配置需求"><a href="#配置需求" class="headerlink" title="配置需求"></a>配置需求</h4><p>如主从关系，用户权限等等(可以提供在运维部署说明文档中)</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/03/13/linux-command/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1900,301 +1967,6 @@ sysctl -a|grep vm.max_map_count
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/02/05/mysql-install/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jokers">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jokers's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/05/mysql-install/" itemprop="url">Fedora27安装Mariadb10.2</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-05T11:06:35+08:00">
-                2018-02-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/02/05/mysql-install/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/02/05/mysql-install/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><p><a href="https://downloads.mariadb.org/mariadb/10.2.10/" target="_blank" rel="noopener">下载编译好的linux版本</a></p>
-<ul>
-<li>截至今天，Mariadb还未发布Fedora27的yum版本，Fedora26版本实测会产生系统崩溃。</li>
-<li>Centos7的yum版本，修改配置文件改变数据存储位置后，不能正常启动，试了很多方法都没能成功。</li>
-</ul>
-<h2 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h2><p><a href="https://mariadb.com/kb/en/library/mysqld-configuration-files-and-groups/" target="_blank" rel="noopener">需要手动建立配置文件</a></p>
-<ul>
-<li>安装好的Mariadb会自动识别/etc/my.cnf</li>
-<li>修改socket路径</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># The MariaDB server</span><br><span class="line">[mysqld]</span><br><span class="line">port            = 3306</span><br><span class="line">#socket         = /var/lib/mysql/mysql.sock</span><br><span class="line">socket          = /home/data/mysql/mysql.sock</span><br></pre></td></tr></table></figure>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">groupadd mysql</span><br><span class="line">useradd -g mysql mysql</span><br><span class="line">cd /usr/local</span><br><span class="line">tar -zxvpf /path-to/mariadb-VERSION-OS.tar.gz</span><br><span class="line">ln -s mariadb-VERSION-OS mysql</span><br><span class="line">cd mysql</span><br><span class="line">./scripts/mysql_install_db --user=mysql</span><br><span class="line">chown -R root .</span><br><span class="line">chown -R mysql data</span><br></pre></td></tr></table></figure>
-<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">./bin/mysqld_safe --user=mysql &amp;</span><br><span class="line">or</span><br><span class="line">./bin/mysqld_safe --defaults-file=~/.my.cnf --user=mysql &amp;</span><br></pre></td></tr></table></figure>
-<h2 id="自启动-推荐"><a href="#自启动-推荐" class="headerlink" title="自启动(推荐)"></a>自启动(推荐)</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp support-files/mysql.server /etc/init.d/mysql.server</span><br></pre></td></tr></table></figure>
-<ul>
-<li>修改mysql.server,改变数据存储位置</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">datadir=/home/data/mysql</span><br></pre></td></tr></table></figure>
-<ul>
-<li>复制data</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo cp -R /usr/local/mysql/data/* /home/data/mysql</span><br><span class="line">$ sudo chown -R mysql:mysql /home/data/mysql</span><br></pre></td></tr></table></figure>
-<ul>
-<li>启动方式</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/init.d/mysql.server start</span><br></pre></td></tr></table></figure>
-<h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ /usr/local/mysql/bin/mysqladmin -u root password &apos;password&apos;</span><br><span class="line">$ /usr/local/mysql/bin/mysql -uroot -p</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MariaDB [(none)]&gt; GRANT ALL PRIVILEGES ON *.* TO &apos;ai&apos;@&apos;%&apos; IDENTIFIED BY &apos;mypassword&apos;</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/02/05/elastcsearch-install/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jokers">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jokers's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/05/elastcsearch-install/" itemprop="url">Fedora使用dnf(yum)简易安装Elasticsearch6</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-05T11:04:58+08:00">
-                2018-02-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/02/05/elastcsearch-install/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/02/05/elastcsearch-install/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="安装JDK8"><a href="#安装JDK8" class="headerlink" title="安装JDK8"></a>安装JDK8</h2><pre><code>http://www.oracle.com/technetwork/java/javase/downloads/index.html
-</code></pre><h2 id="下载安装-public-signing-key"><a href="#下载安装-public-signing-key" class="headerlink" title="下载安装 public signing key"></a>下载安装 public signing key</h2><pre><code>rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch
-</code></pre><h2 id="添加仓库"><a href="#添加仓库" class="headerlink" title="添加仓库"></a>添加仓库</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ sudo vi /etc/yum.repos.d/elasticsearch.repo</span><br><span class="line"></span><br><span class="line"># 添加如下</span><br><span class="line">[elasticsearch-6.x]</span><br><span class="line">name=Elasticsearch repository for 6.x packages</span><br><span class="line">baseurl=https://artifacts.elastic.co/packages/6.x/yum</span><br><span class="line">gpgcheck=1</span><br><span class="line">gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch</span><br><span class="line">enabled=1</span><br><span class="line">autorefresh=1</span><br><span class="line">type=rpm-md</span><br></pre></td></tr></table></figure>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo dnf install Elasticsearch</span><br></pre></td></tr></table></figure>
-<h2 id="配置-需要更改存数据储位置或日志存储位置"><a href="#配置-需要更改存数据储位置或日志存储位置" class="headerlink" title="配置(需要更改存数据储位置或日志存储位置)"></a>配置(需要更改存数据储位置或日志存储位置)</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ sudo vi /etc/elasticsearch/elasticsearch.yml</span><br><span class="line"></span><br><span class="line"># 更改如下</span><br><span class="line">#path.data: /var/lib/elasticsearch</span><br><span class="line">path.data: /home/lib/elasticsearch</span><br><span class="line">#path.logs: /var/log/elasticsearch</span><br><span class="line">path.logs: /home/log/elasticsearch</span><br></pre></td></tr></table></figure>
-<h3 id="手动建立-home-lib-elasticsearch和-home-log-elasticsearch路径"><a href="#手动建立-home-lib-elasticsearch和-home-log-elasticsearch路径" class="headerlink" title="手动建立/home/lib/elasticsearch和/home/log/elasticsearch路径"></a>手动建立/home/lib/elasticsearch和/home/log/elasticsearch路径</h3><h3 id="更改权限"><a href="#更改权限" class="headerlink" title="更改权限"></a>更改权限</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo chown -R elasticsearch:elasticsearch /home/lib/elasticsearch</span><br><span class="line">$ sudo chown -R elasticsearch:elasticsearch /home/log/elasticsearch</span><br></pre></td></tr></table></figure>
-<h2 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo systemctl start elasticsearch</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2245,7 +2017,7 @@ sysctl -a|grep vm.max_map_count
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">14</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
