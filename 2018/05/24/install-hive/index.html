@@ -101,7 +101,7 @@
 <meta property="og:site_name" content="Jokers&#39;s Blog">
 <meta property="og:description" content="前提适应版本Hadoop已安装，hdfs和yarn可以成功运行 解压缩$ sudo mv apache-hive-2.3.3-bin.tar.gz /usr/local/ $ cd /usr/local/ $ sudo tar -zxvf apache-hive-2.3.3-bin.tar.gz $ sudo mv apache-hive-2.3.3-bin hive $ sudo chown -">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-05-25T09:43:40.627Z">
+<meta property="og:updated_time" content="2018-06-28T06:04:22.430Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hive2安装">
 <meta name="twitter:description" content="前提适应版本Hadoop已安装，hdfs和yarn可以成功运行 解压缩$ sudo mv apache-hive-2.3.3-bin.tar.gz /usr/local/ $ cd /usr/local/ $ sudo tar -zxvf apache-hive-2.3.3-bin.tar.gz $ sudo mv apache-hive-2.3.3-bin hive $ sudo chown -">
@@ -463,6 +463,54 @@ export HADOOP_CLASSPATH=$HADOOP_CLASSPATH:/usr/local/hive/lib/
 <pre><code>sqoop import --connect jdbc:mysql://xx.xx.x.x:3306/databases --table table --username hive --password hive --direct --fields-terminated-by &apos;|&apos;  --warehouse-dir /user/hive/warehouse  --hive-import
 </code></pre></li>
 </ul>
+<h2 id="远程链接hiveserver2"><a href="#远程链接hiveserver2" class="headerlink" title="远程链接hiveserver2"></a>远程链接hiveserver2</h2><ul>
+<li><p>配置hive-site.xml</p>
+<pre><code>&lt;property&gt;
+    &lt;name&gt;hive.server2.thrift.client.user&lt;/name&gt;
+    &lt;value&gt;hadoop&lt;/value&gt;
+    &lt;description&gt;Username to use against thrift client&lt;/description&gt;
+&lt;/property&gt;
+&lt;property&gt;
+    &lt;name&gt;hive.server2.thrift.client.password&lt;/name&gt;
+    &lt;value&gt;zcb1511&lt;/value&gt;
+    &lt;description&gt;Password to use against thrift client&lt;/description&gt;
+&lt;/property&gt;
+&lt;property&gt;
+    &lt;name&gt;hive.server2.transport.mode&lt;/name&gt;
+    &lt;value&gt;binary&lt;/value&gt;
+    &lt;description&gt;
+        Expects one of [binary, http].
+        Transport mode of HiveServer2.
+    &lt;/description&gt;
+&lt;/property&gt;
+&lt;property&gt;
+    &lt;name&gt;hive.server2.thrift.port&lt;/name&gt;
+    &lt;value&gt;10000&lt;/value&gt;
+    &lt;description&gt;Port number of HiveServer2 Thrift interface when hive.server2.transport.mode is &apos;binary&apos;.&lt;/description&gt;
+&lt;/property&gt;
+&lt;property&gt;
+    &lt;name&gt;hive.server2.thrift.bind.host&lt;/name&gt;
+    &lt;value&gt;0.0.0.0&lt;/value&gt;
+    &lt;description&gt;Bind host on which to run the HiveServer2 Thrift service.&lt;/description&gt;
+&lt;/property&gt;
+</code></pre></li>
+<li><p>配置hadoop下的core-site.xml</p>
+<pre><code>&lt;property&gt;
+    &lt;name&gt;hadoop.proxyuser.hadoop.hosts&lt;/name&gt;
+    &lt;!--value&gt;master&lt;/value--&gt;
+    &lt;value&gt;*&lt;/value&gt;
+&lt;/property&gt;
+
+&lt;property&gt;
+    &lt;name&gt;hadoop.proxyuser.hadoop.groups&lt;/name&gt;
+    &lt;!--value&gt;hadoop&lt;/value--&gt;
+    &lt;value&gt;*&lt;/value&gt;
+&lt;/property&gt;
+</code></pre></li>
+<li><p>启动hive服务,客户端可以使用beeline命令行，也可使用sql developer客户端工具，需要下载hive jdbc驱动</p>
+<pre><code>nohup hiveserver2 &gt;hive.log 2&gt;&amp;1 &amp;
+</code></pre></li>
+</ul>
 <h2 id="error解决"><a href="#error解决" class="headerlink" title="error解决"></a>error解决</h2><pre><code>hive.HiveConfig: Could not load org.apache.hadoop.hive.conf.HiveConf. Make sure HIVE_CONF_DIR is set correctly
 
 $ vim ~/.bashrc
@@ -588,7 +636,7 @@ $ source ~/.bashrc
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-count">15</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -596,6 +644,15 @@ $ source ~/.bashrc
 
           
 
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
           
 
         </nav>
@@ -627,7 +684,7 @@ $ source ~/.bashrc
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前提"><span class="nav-number">1.</span> <span class="nav-text">前提</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解压缩"><span class="nav-number">2.</span> <span class="nav-text">解压缩</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置环境变量"><span class="nav-number">3.</span> <span class="nav-text">配置环境变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hive配置"><span class="nav-number">4.</span> <span class="nav-text">Hive配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL数据导入hive"><span class="nav-number">5.</span> <span class="nav-text">MySQL数据导入hive</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#error解决"><span class="nav-number">6.</span> <span class="nav-text">error解决</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前提"><span class="nav-number">1.</span> <span class="nav-text">前提</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解压缩"><span class="nav-number">2.</span> <span class="nav-text">解压缩</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置环境变量"><span class="nav-number">3.</span> <span class="nav-text">配置环境变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hive配置"><span class="nav-number">4.</span> <span class="nav-text">Hive配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL数据导入hive"><span class="nav-number">5.</span> <span class="nav-text">MySQL数据导入hive</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#远程链接hiveserver2"><span class="nav-number">6.</span> <span class="nav-text">远程链接hiveserver2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#error解决"><span class="nav-number">7.</span> <span class="nav-text">error解决</span></a></li></ol></div>
             
 
           </div>

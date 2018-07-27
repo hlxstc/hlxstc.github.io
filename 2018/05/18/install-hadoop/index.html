@@ -101,7 +101,7 @@
 <meta property="og:site_name" content="Jokers&#39;s Blog">
 <meta property="og:description" content="下载hadoop可选择创建新用户$ sudo useradd -m hadoop    # -m会在/home下建立用户文件夹 $ sudo passwd hadoop 解压缩$ sudo mv hadoop-2.9.1.tar.gz /usr/local/ $ cd /usr/local/ $ sudo tar -zxvf hadoop-2.9.1.tar.gz $ sudo mv hadoop">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-05-24T03:32:49.968Z">
+<meta property="og:updated_time" content="2018-06-22T07:21:11.675Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="hadoop2安装">
 <meta name="twitter:description" content="下载hadoop可选择创建新用户$ sudo useradd -m hadoop    # -m会在/home下建立用户文件夹 $ sudo passwd hadoop 解压缩$ sudo mv hadoop-2.9.1.tar.gz /usr/local/ $ cd /usr/local/ $ sudo tar -zxvf hadoop-2.9.1.tar.gz $ sudo mv hadoop">
@@ -407,6 +407,7 @@ $ sudo chown -R hadoop:hadoop hadoop
 </code></pre><h4 id="配置SSH无密码登陆"><a href="#配置SSH无密码登陆" class="headerlink" title="配置SSH无密码登陆"></a>配置SSH无密码登陆</h4><p>确保ssh已安装</p>
 <pre><code>ssh-keygen -t rsa -P &apos;&apos; -f ~/.ssh/id_rsa
 cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys
+Change the permissions of .ssh/authorized_keys to 640
 </code></pre><p>测试</p>
 <pre><code>ssh localhost
 </code></pre><h4 id="格式化HDFS"><a href="#格式化HDFS" class="headerlink" title="格式化HDFS"></a>格式化HDFS</h4><pre><code>$ hdfs namenode -format
@@ -427,7 +428,18 @@ $ mapred --daemon start historyserver
 <p>NameNode - <a href="http://localhost:50070/" target="_blank" rel="noopener">http://localhost:50070/</a><br>yarn - <a href="http://localhost:8088/" target="_blank" rel="noopener">http://localhost:8088/</a></p>
 <h4 id="创建HDFS目录"><a href="#创建HDFS目录" class="headerlink" title="创建HDFS目录"></a>创建HDFS目录</h4><pre><code>$ bin/hdfs dfs -mkdir /user
 $ bin/hdfs dfs -mkdir /user/&lt;username&gt;
-</code></pre><h4 id="执行start-dfs-sh报错"><a href="#执行start-dfs-sh报错" class="headerlink" title="执行start-dfs.sh报错"></a>执行start-dfs.sh报错</h4><pre><code>rcmd: socket: Permission denied
+</code></pre><h4 id="改变ssh端口号"><a href="#改变ssh端口号" class="headerlink" title="改变ssh端口号"></a>改变ssh端口号</h4><ul>
+<li><p>编辑/etc/ssh/sshd_config</p>
+<pre><code>Port 22
+</code></pre></li>
+<li><p>重启sshd</p>
+<pre><code>$ sudo service sshd restart
+</code></pre></li>
+<li><p>编辑hadoop-env.sh</p>
+<pre><code>$ export HADOOP_SSH_OPTS=&quot;-p &lt;num&gt;&quot;
+</code></pre></li>
+</ul>
+<h4 id="执行start-dfs-sh报错"><a href="#执行start-dfs-sh报错" class="headerlink" title="执行start-dfs.sh报错"></a>执行start-dfs.sh报错</h4><pre><code>rcmd: socket: Permission denied
 </code></pre><ul>
 <li><p>检查pdsh的默认rcmd是ssh还是rsh</p>
 <pre><code>pdsh -q -w localhost
@@ -563,7 +575,7 @@ source ~/.bashrc
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-count">15</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -571,6 +583,15 @@ source ~/.bashrc
 
           
 
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
           
 
         </nav>
@@ -602,7 +623,7 @@ source ~/.bashrc
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#下载hadoop"><span class="nav-number">1.</span> <span class="nav-text">下载hadoop</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可选择创建新用户"><span class="nav-number">2.</span> <span class="nav-text">可选择创建新用户</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解压缩"><span class="nav-number">3.</span> <span class="nav-text">解压缩</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#伪分布式配置"><span class="nav-number">4.</span> <span class="nav-text">伪分布式配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#配置SSH无密码登陆"><span class="nav-number">4.0.1.</span> <span class="nav-text">配置SSH无密码登陆</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#格式化HDFS"><span class="nav-number">4.0.2.</span> <span class="nav-text">格式化HDFS</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#开始和结束daemons"><span class="nav-number">4.0.3.</span> <span class="nav-text">开始和结束daemons</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建HDFS目录"><span class="nav-number">4.0.4.</span> <span class="nav-text">创建HDFS目录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#执行start-dfs-sh报错"><span class="nav-number">4.0.5.</span> <span class="nav-text">执行start-dfs.sh报错</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#下载hadoop"><span class="nav-number">1.</span> <span class="nav-text">下载hadoop</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可选择创建新用户"><span class="nav-number">2.</span> <span class="nav-text">可选择创建新用户</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解压缩"><span class="nav-number">3.</span> <span class="nav-text">解压缩</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#伪分布式配置"><span class="nav-number">4.</span> <span class="nav-text">伪分布式配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#配置SSH无密码登陆"><span class="nav-number">4.0.1.</span> <span class="nav-text">配置SSH无密码登陆</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#格式化HDFS"><span class="nav-number">4.0.2.</span> <span class="nav-text">格式化HDFS</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#开始和结束daemons"><span class="nav-number">4.0.3.</span> <span class="nav-text">开始和结束daemons</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建HDFS目录"><span class="nav-number">4.0.4.</span> <span class="nav-text">创建HDFS目录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#改变ssh端口号"><span class="nav-number">4.0.5.</span> <span class="nav-text">改变ssh端口号</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#执行start-dfs-sh报错"><span class="nav-number">4.0.6.</span> <span class="nav-text">执行start-dfs.sh报错</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
