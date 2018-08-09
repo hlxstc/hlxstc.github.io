@@ -102,7 +102,7 @@
 <meta property="og:site_name" content="Jokers&#39;s Blog">
 <meta property="og:description" content="Scrapy安装pip install scrapy  某些系统会找不到 Twisted ，需要手动下载source，解压后再安装 bzip2 -d Twisted-18.7.0.tar.bz2 pip3 install Twisted-18.7.0.tar   使用 scrapy 命令生成一个新的 projectscrapy startproject myproject  myproject/">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-07-27T09:58:47.604Z">
+<meta property="og:updated_time" content="2018-07-30T06:49:08.467Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Scrapy+Scrapyd+Redis">
 <meta name="twitter:description" content="Scrapy安装pip install scrapy  某些系统会找不到 Twisted ，需要手动下载source，解压后再安装 bzip2 -d Twisted-18.7.0.tar.bz2 pip3 install Twisted-18.7.0.tar   使用 scrapy 命令生成一个新的 projectscrapy startproject myproject  myproject/">
@@ -398,6 +398,7 @@ class QuotesSpider(scrapy.Spider):
         self.log(&apos;Saved file %s&apos; % filename)
 </code></pre><h3 id="运行-spider-，在-project-的根目录运行"><a href="#运行-spider-，在-project-的根目录运行" class="headerlink" title="运行 spider ，在 project 的根目录运行"></a>运行 spider ，在 project 的根目录运行</h3><pre><code>scrapy crawl quotes
 </code></pre><h2 id="Scrapyd-，远程管理-Scrapy"><a href="#Scrapyd-，远程管理-Scrapy" class="headerlink" title="Scrapyd ，远程管理 Scrapy"></a>Scrapyd ，远程管理 Scrapy</h2><h3 id="安装-1"><a href="#安装-1" class="headerlink" title="安装"></a>安装</h3><pre><code>pip install scrapyd
+</code></pre><h3 id="远程访问，修改配置文件-site-packages-scrapyd-default-scrapyd-conf"><a href="#远程访问，修改配置文件-site-packages-scrapyd-default-scrapyd-conf" class="headerlink" title="远程访问，修改配置文件 site-packages/scrapyd/default_scrapyd.conf"></a>远程访问，修改配置文件 site-packages/scrapyd/default_scrapyd.conf</h3><pre><code>bind_address = 0.0.0.0
 </code></pre><h3 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h3><pre><code>scrapyd
 </code></pre><h3 id="Scrapy-project-部署到-Scrapyd"><a href="#Scrapy-project-部署到-Scrapyd" class="headerlink" title="Scrapy project 部署到 Scrapyd"></a>Scrapy project 部署到 Scrapyd</h3><ul>
 <li>eggifying the project</li>
@@ -421,6 +422,7 @@ project = myproject
 <h3 id="schedule-a-spider-run"><a href="#schedule-a-spider-run" class="headerlink" title="schedule a spider run"></a>schedule a spider run</h3><pre><code>$ curl http://localhost:6800/schedule.json -d project=myproject -d spider=spider2
 {&quot;status&quot;: &quot;ok&quot;, &quot;jobid&quot;: &quot;26d1b1a6d6f111e0be5c001e648c57f8&quot;}
 </code></pre><h2 id="scrapy-redis-分布式"><a href="#scrapy-redis-分布式" class="headerlink" title="scrapy-redis 分布式"></a>scrapy-redis 分布式</h2><h3 id="安装Redis"><a href="#安装Redis" class="headerlink" title="安装Redis"></a>安装Redis</h3><pre><code>yum install redis
+pip install scrapy-redis
 </code></pre><h3 id="配置Redis-，编辑-etc-redis-conf"><a href="#配置Redis-，编辑-etc-redis-conf" class="headerlink" title="配置Redis ，编辑 /etc/redis.conf"></a>配置Redis ，编辑 /etc/redis.conf</h3><ul>
 <li><p>设置访问密码</p>
 <pre><code>requirepass password
@@ -484,6 +486,10 @@ REDIS_URL = &apos;redis://user:password@host:6379&apos;
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/08/06/spider_court/" rel="prev" title="中国裁判文书网反爬机制更新">
+                中国裁判文书网反爬机制更新 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -567,7 +573,7 @@ REDIS_URL = &apos;redis://user:password@host:6379&apos;
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-count">16</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -580,7 +586,7 @@ REDIS_URL = &apos;redis://user:password@host:6379&apos;
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-count">2</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -615,7 +621,7 @@ REDIS_URL = &apos;redis://user:password@host:6379&apos;
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Scrapy"><span class="nav-number">1.</span> <span class="nav-text">Scrapy</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装"><span class="nav-number">1.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用-scrapy-命令生成一个新的-project"><span class="nav-number">1.2.</span> <span class="nav-text">使用 scrapy 命令生成一个新的 project</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在-tutorial-spiders-目录下创建第一个-spider"><span class="nav-number">1.3.</span> <span class="nav-text">在 tutorial/spiders 目录下创建第一个 spider</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运行-spider-，在-project-的根目录运行"><span class="nav-number">1.4.</span> <span class="nav-text">运行 spider ，在 project 的根目录运行</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Scrapyd-，远程管理-Scrapy"><span class="nav-number">2.</span> <span class="nav-text">Scrapyd ，远程管理 Scrapy</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-1"><span class="nav-number">2.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运行"><span class="nav-number">2.2.</span> <span class="nav-text">运行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Scrapy-project-部署到-Scrapyd"><span class="nav-number">2.3.</span> <span class="nav-text">Scrapy project 部署到 Scrapyd</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-scrapyd-client"><span class="nav-number">2.4.</span> <span class="nav-text">安装 scrapyd-client</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#部署"><span class="nav-number">2.5.</span> <span class="nav-text">部署</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#schedule-a-spider-run"><span class="nav-number">2.6.</span> <span class="nav-text">schedule a spider run</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#scrapy-redis-分布式"><span class="nav-number">3.</span> <span class="nav-text">scrapy-redis 分布式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装Redis"><span class="nav-number">3.1.</span> <span class="nav-text">安装Redis</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置Redis-，编辑-etc-redis-conf"><span class="nav-number">3.2.</span> <span class="nav-text">配置Redis ，编辑 /etc/redis.conf</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编辑-project-的-settings-py"><span class="nav-number">3.3.</span> <span class="nav-text">编辑 project 的 settings.py</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运行-spider-，在-project-的根目录运行-1"><span class="nav-number">3.4.</span> <span class="nav-text">运行 spider ，在 project 的根目录运行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#处理-Item"><span class="nav-number">3.5.</span> <span class="nav-text">处理 Item</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Scrapy"><span class="nav-number">1.</span> <span class="nav-text">Scrapy</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装"><span class="nav-number">1.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用-scrapy-命令生成一个新的-project"><span class="nav-number">1.2.</span> <span class="nav-text">使用 scrapy 命令生成一个新的 project</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在-tutorial-spiders-目录下创建第一个-spider"><span class="nav-number">1.3.</span> <span class="nav-text">在 tutorial/spiders 目录下创建第一个 spider</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运行-spider-，在-project-的根目录运行"><span class="nav-number">1.4.</span> <span class="nav-text">运行 spider ，在 project 的根目录运行</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Scrapyd-，远程管理-Scrapy"><span class="nav-number">2.</span> <span class="nav-text">Scrapyd ，远程管理 Scrapy</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-1"><span class="nav-number">2.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#远程访问，修改配置文件-site-packages-scrapyd-default-scrapyd-conf"><span class="nav-number">2.2.</span> <span class="nav-text">远程访问，修改配置文件 site-packages/scrapyd/default_scrapyd.conf</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运行"><span class="nav-number">2.3.</span> <span class="nav-text">运行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Scrapy-project-部署到-Scrapyd"><span class="nav-number">2.4.</span> <span class="nav-text">Scrapy project 部署到 Scrapyd</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-scrapyd-client"><span class="nav-number">2.5.</span> <span class="nav-text">安装 scrapyd-client</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#部署"><span class="nav-number">2.6.</span> <span class="nav-text">部署</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#schedule-a-spider-run"><span class="nav-number">2.7.</span> <span class="nav-text">schedule a spider run</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#scrapy-redis-分布式"><span class="nav-number">3.</span> <span class="nav-text">scrapy-redis 分布式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装Redis"><span class="nav-number">3.1.</span> <span class="nav-text">安装Redis</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置Redis-，编辑-etc-redis-conf"><span class="nav-number">3.2.</span> <span class="nav-text">配置Redis ，编辑 /etc/redis.conf</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编辑-project-的-settings-py"><span class="nav-number">3.3.</span> <span class="nav-text">编辑 project 的 settings.py</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运行-spider-，在-project-的根目录运行-1"><span class="nav-number">3.4.</span> <span class="nav-text">运行 spider ，在 project 的根目录运行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#处理-Item"><span class="nav-number">3.5.</span> <span class="nav-text">处理 Item</span></a></li></ol></li></ol></div>
             
 
           </div>
