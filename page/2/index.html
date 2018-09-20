@@ -273,6 +273,393 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/05/18/mysql-io/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/18/mysql-io/" itemprop="url">MySQL5.7数据导入导出</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-18T11:06:35+08:00">
+                2018-05-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/05/18/mysql-io/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/05/18/mysql-io/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="导出"><a href="#导出" class="headerlink" title="导出"></a>导出</h2><pre><code>SELECT * INTO OUTFILE &apos;data.txt&apos; FIELDS TERMINATED BY &apos;|&apos; FROM source_table;  
+</code></pre><h2 id="导入"><a href="#导入" class="headerlink" title="导入"></a>导入</h2><pre><code>LOAD DATA INFILE &apos;data.txt&apos; INTO TABLE target_table FIELDS TERMINATED BY &apos;|&apos;;
+</code></pre><h2 id="注"><a href="#注" class="headerlink" title="注"></a>注</h2><ul>
+<li><p>5.7以后，mysql添加全局变量secure_file_priv，限制导入导出，查看变量的值</p>
+<pre><code>show variables like &apos;%secure%&apos;;
+</code></pre></li>
+<li><p>如果值为NULL，则不允许导入导出。如果指定路径，则只能在将文件导出到指定路路径并且在指定路径导入。值为空则无限制。错误提示如下：</p>
+<pre><code>ERROR 1290 (HY000): The MySQL server is running with the --secure-file-priv option so it cannot execute this statement
+</code></pre></li>
+<li><p>修改变量方法,在etc/my.cnf添加一行：</p>
+<pre><code>secure-file-priv=\home\mysql_dump
+</code></pre></li>
+<li><p>最后改变指定路径的权属</p>
+<pre><code>chown mysql:mysql \home\mysql_dump
+</code></pre></li>
+</ul>
+<blockquote>
+<p><a href="https://blog.csdn.net/xiaobaismiley/article/details/41015783" target="_blank" rel="noopener">参考</a></p>
+<blockquote>
+<p>该方法在18分钟内导出1.6亿条记录，46min内导入6472W条记录，平均速度：8442W条/h</p>
+</blockquote>
+</blockquote>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/05/18/install-hadoop/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/18/install-hadoop/" itemprop="url">hadoop2安装</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-18T11:00:00+08:00">
+                2018-05-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/05/18/install-hadoop/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/05/18/install-hadoop/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="下载hadoop"><a href="#下载hadoop" class="headerlink" title="下载hadoop"></a>下载hadoop</h2><h2 id="可选择创建新用户"><a href="#可选择创建新用户" class="headerlink" title="可选择创建新用户"></a>可选择创建新用户</h2><pre><code>$ sudo useradd -m hadoop    # -m会在/home下建立用户文件夹
+$ sudo passwd hadoop
+</code></pre><h2 id="解压缩"><a href="#解压缩" class="headerlink" title="解压缩"></a>解压缩</h2><pre><code>$ sudo mv hadoop-2.9.1.tar.gz /usr/local/
+$ cd /usr/local/
+$ sudo tar -zxvf hadoop-2.9.1.tar.gz
+$ sudo mv hadoop-2.9.1 hadoop
+$ sudo chown -R hadoop:hadoop hadoop
+</code></pre><h2 id="伪分布式配置"><a href="#伪分布式配置" class="headerlink" title="伪分布式配置"></a>伪分布式配置</h2><pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;!-- core-site.xml --&gt;
+&lt;configuration&gt;
+    &lt;property&gt;
+        &lt;name&gt;fs.defaultFS&lt;/name&gt;
+        &lt;value&gt;hdfs://localhost/&lt;/value&gt;
+    &lt;/property&gt;
+&lt;/configuration&gt;
+
+&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;!-- hdfs-site.xml --&gt;
+&lt;configuration&gt;
+    &lt;property&gt;
+        &lt;name&gt;dfs.replication&lt;/name&gt;
+        &lt;value&gt;1&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+       &lt;name&gt;dfs.name.dir&lt;/name&gt;
+       &lt;value&gt;file:///home/hadoop/hadoopinfra/hdfs/namenode &lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+       &lt;name&gt;dfs.data.dir&lt;/name&gt;
+       &lt;value&gt;file:///home/hadoop/hadoopinfra/hdfs/datanode &lt;/value&gt;
+    &lt;/property&gt;
+&lt;/configuration&gt;
+
+&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;!-- mapred-site.xml --&gt;
+&lt;configuration&gt;
+    &lt;property&gt;
+        &lt;name&gt;mapreduce.framework.name&lt;/name&gt;
+        &lt;value&gt;yarn&lt;/value&gt;
+    &lt;/property&gt;
+&lt;/configuration&gt;
+
+&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;!-- yarn-site.xml --&gt;
+&lt;configuration&gt;
+    &lt;property&gt;
+        &lt;name&gt;yarn.resourcemanager.hostname&lt;/name&gt;
+        &lt;value&gt;localhost&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;yarn.nodemanager.aux-services&lt;/name&gt;
+        &lt;value&gt;mapreduce_shuffle&lt;/value&gt;
+    &lt;/property&gt;
+&lt;/configuration&gt;
+</code></pre><h4 id="配置SSH无密码登陆"><a href="#配置SSH无密码登陆" class="headerlink" title="配置SSH无密码登陆"></a>配置SSH无密码登陆</h4><p>确保ssh已安装</p>
+<pre><code>ssh-keygen -t rsa -P &apos;&apos; -f ~/.ssh/id_rsa
+cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys
+Change the permissions of .ssh/authorized_keys to 640
+</code></pre><p>测试</p>
+<pre><code>ssh localhost
+</code></pre><h4 id="格式化HDFS"><a href="#格式化HDFS" class="headerlink" title="格式化HDFS"></a>格式化HDFS</h4><pre><code>$ hdfs namenode -format
+</code></pre><h4 id="开始和结束daemons"><a href="#开始和结束daemons" class="headerlink" title="开始和结束daemons"></a>开始和结束daemons</h4><pre><code>$ vim ~/.bashrc
+export PDSH_RCMD_TYPE=ssh
+export HADOOP_HOME=/usr/local/hadoop
+export PATH=$PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sbin
+
+$ start-dfs.sh
+$ stop-dfs.sh
+$ start-yarn.sh
+$ stop-yarn.sh
+(deprecated)$ mr-jobhistory-daemon.sh start historyserver
+$ mapred --daemon start historyserver
+</code></pre><ul>
+<li>验证是否启动成功</li>
+</ul>
+<p>NameNode - <a href="http://localhost:50070/" target="_blank" rel="noopener">http://localhost:50070/</a><br>yarn - <a href="http://localhost:8088/" target="_blank" rel="noopener">http://localhost:8088/</a></p>
+<h4 id="创建HDFS目录"><a href="#创建HDFS目录" class="headerlink" title="创建HDFS目录"></a>创建HDFS目录</h4><pre><code>$ bin/hdfs dfs -mkdir /user
+$ bin/hdfs dfs -mkdir /user/&lt;username&gt;
+</code></pre><h4 id="改变ssh端口号"><a href="#改变ssh端口号" class="headerlink" title="改变ssh端口号"></a>改变ssh端口号</h4><ul>
+<li><p>编辑/etc/ssh/sshd_config</p>
+<pre><code>Port 22
+</code></pre></li>
+<li><p>重启sshd</p>
+<pre><code>$ sudo service sshd restart
+</code></pre></li>
+<li><p>编辑hadoop-env.sh</p>
+<pre><code>$ export HADOOP_SSH_OPTS=&quot;-p &lt;num&gt;&quot;
+</code></pre></li>
+</ul>
+<h4 id="执行start-dfs-sh报错"><a href="#执行start-dfs-sh报错" class="headerlink" title="执行start-dfs.sh报错"></a>执行start-dfs.sh报错</h4><pre><code>rcmd: socket: Permission denied
+</code></pre><ul>
+<li><p>检查pdsh的默认rcmd是ssh还是rsh</p>
+<pre><code>pdsh -q -w localhost
+</code></pre></li>
+<li><p>如果是rsh需要修改为ssh，添加到~/.bashrc</p>
+<pre><code>export PDSH_RCMD_TYPE=ssh
+source ~/.bashrc
+</code></pre></li>
+<li><p>如故依然报错</p>
+<pre><code>No such rcmd module &quot;ssh&quot;
+</code></pre></li>
+<li><p>安装pdsh-rcmd-ssh，使得SSH为可用的rcmd模块</p>
+<pre><code>dnf install pdsh-rcmd-ssh
+</code></pre></li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/05/12/university_ranking/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -808,6 +1195,7 @@ sysctl -a|grep vm.max_map_count
 </code></pre><h2 id="RPM"><a href="#RPM" class="headerlink" title="RPM"></a>RPM</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><pre><code>rpm -ivh xxx.rpm
 </code></pre><h3 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h3><pre><code>rpm -q xxx
 </code></pre><h3 id="卸载"><a href="#卸载" class="headerlink" title="卸载"></a>卸载</h3><pre><code>rpm -e xxx.rpm
+</code></pre><h3 id="Linux-版本号"><a href="#Linux-版本号" class="headerlink" title="Linux 版本号"></a>Linux 版本号</h3><pre><code>cat /etc/redhat-release
 </code></pre>
           
         
@@ -1408,456 +1796,11 @@ sysctl -a|grep vm.max_map_count
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2017/04/12/mysql-regular/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jokers">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jokers's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/04/12/mysql-regular/" itemprop="url">MySQL开发规范</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-12T11:06:35+08:00">
-                2017-04-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/04/12/mysql-regular/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2017/04/12/mysql-regular/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>持续借鉴、收集并整理一些开发规范和技巧，期望能更充分利用MySQL的特性，得到更好的性能。<br>规范是死的，人是活的。<br>现在定义的规范，是为以后推翻准备的。</p>
-<h4 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h4><p>提供给开发人员参考，方便写成更有效率的开发。</p>
-<h4 id="范围"><a href="#范围" class="headerlink" title="范围"></a>范围</h4><p>文档涉及的范围：需要基于MySQL做应用开发的人员。</p>
-<h4 id="定义、首字母缩写词和缩略语"><a href="#定义、首字母缩写词和缩略语" class="headerlink" title="定义、首字母缩写词和缩略语"></a>定义、首字母缩写词和缩略语</h4><p>暂无</p>
-<h4 id="数据库设计"><a href="#数据库设计" class="headerlink" title="数据库设计"></a>数据库设计</h4><ul>
-<li>目标三个：功能实现，可伸缩性，可用性。</li>
-<li>关键点：平衡业务技术各个方面，做好取舍。</li>
-<li>80%的性能优化来自架构设计的优化。</li>
-</ul>
-<h4 id="引擎及版本选择"><a href="#引擎及版本选择" class="headerlink" title="引擎及版本选择"></a>引擎及版本选择</h4><ul>
-<li>引擎建议使用InnoDB</li>
-<li>根据目前我们业务的特点，建议使用MySQL5.1社区版和InnoDB plugin或MySQL5.5，后续MySQL5.6比较稳定后再行考量和评估。</li>
-</ul>
-<h4 id="架构浅谈"><a href="#架构浅谈" class="headerlink" title="架构浅谈"></a>架构浅谈</h4><ul>
-<li>开发大牛都擅长，这里不多提，仅标注一下。</li>
-<li>非功能性需求</li>
-<li>读写分离</li>
-<li>分库分表</li>
-<li>热点数据</li>
-<li>多级缓存</li>
-<li>雪崩效应与过载保护</li>
-<li>读优化</li>
-<li>写优化</li>
-<li>schema设计</li>
-<li>尽量不在数据库做运算</li>
-<li>复杂运算移到程序端CPU</li>
-<li>尽可能简单应用MySQL<br>如：md5() 或Order by Rand()或计算字段等操作不在数据库表上进行。</li>
-</ul>
-<h4 id="适当的范式设计"><a href="#适当的范式设计" class="headerlink" title="适当的范式设计"></a>适当的范式设计</h4><ul>
-<li>库和表预估</li>
-<li>常见的有100库100表，1000库10表等。</li>
-<li>建议单库不超过300-400个表。</li>
-<li>总空间容量不超过100G。</li>
-</ul>
-<h4 id="单表控制"><a href="#单表控制" class="headerlink" title="单表控制"></a>单表控制</h4><ul>
-<li>IO高效；全表遍历；表修复快；提高并发；alter table快。</li>
-</ul>
-<h4 id="字段数量"><a href="#字段数量" class="headerlink" title="字段数量"></a>字段数量</h4><ul>
-<li>建议上限20~50个。</li>
-</ul>
-<h4 id="一年内的单表数据量预估"><a href="#一年内的单表数据量预估" class="headerlink" title="一年内的单表数据量预估"></a>一年内的单表数据量预估</h4><ul>
-<li>建议纯INT不超1000W，含CHAR不超500W。</li>
-</ul>
-<h4 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h4><ul>
-<li>单表1G体积 500W行评估：</li>
-<li>顺序读1G文件需N秒</li>
-<li>单行不超过200Byte</li>
-<li>单表不超50个纯INT字段</li>
-<li>单表不超20个CHAR(10)字段</li>
-</ul>
-<h4 id="拒绝3B"><a href="#拒绝3B" class="headerlink" title="拒绝3B"></a>拒绝3B</h4><ul>
-<li>大SQL (BIG SQL)</li>
-<li>大事务 (BIG Transaction)</li>
-<li>大批量 (BIG Batch)</li>
-</ul>
-<h4 id="反范式设计"><a href="#反范式设计" class="headerlink" title="反范式设计"></a>反范式设计</h4><ul>
-<li>无外键，少多表join查询。</li>
-<li>便于分布式设计，允许适度冗余，为了容量扩展允许适度开销。</li>
-<li>基于业务自由优化，基于i/o 或查询设计，无须遵循范式结构设计。</li>
-</ul>
-<h4 id="典型场景"><a href="#典型场景" class="headerlink" title="典型场景"></a>典型场景</h4><ul>
-<li>原有展现程序涉及多个表的查询，希望精简查询程序。</li>
-<li>数据表拆分往往基于主键，而原有数据表往往存在非基于主键的关键查询，无法在分表结构中完成。</li>
-<li>存在较多数据统计需求（count, sum等），效率低下。</li>
-<li><p>解决思路</p>
-<p>  基于展现的冗余设计<br>  如：<br>  消息表message，存在字段 from_uid,to_uid,msg,send_time 四个字段，而展示程序需要显示发送者姓名和性别。<br>  通常在message表中增加冗余字段from_username和from_user_sex即可。</p>
-</li>
-</ul>
-<h4 id="基于查询的冗余设计"><a href="#基于查询的冗余设计" class="headerlink" title="基于查询的冗余设计"></a>基于查询的冗余设计</h4><p>如：<br>用户分表，将用户库分成若干数据表。基于用户名的查询和基于uid的查询都是高并发请求。用户分表基于uid分成数据表，同时基于用户名做对应冗余表。<br>如果允许多方式登陆，可以有如下设计方法：<br>uid,passwd,用户信息等等，主数据表，基于uid分表<br>ukey,ukeytype,uid基于ukey分表，便于用户登陆的查询。分解成如下两个SQL：<br>select uid from ulist_key_13 where ukey=’$username’ and ukeytype=’$login’;<br>select * from ulist_uid_23 where uid=$uid and passwd=’$passwd’;<br>ukeytype定义用户的登陆依据，比如用户名，手机号，邮件地址，网站昵称等。 Ukey+ukeytype必须唯一。<br>此种方式需要登陆密码统一，对于第三方接入模式，可以通过引申额外字段完成。</p>
-<h4 id="基于统计的冗余设计"><a href="#基于统计的冗余设计" class="headerlink" title="基于统计的冗余设计"></a>基于统计的冗余设计</h4><p>如：<br>count(*)操作。<br>需要不精准结果，可以直接show table status like …获得。<br>需要精准结果，可以在缓存层增加key-value对，实时更新该key-value。同时异步更新到数据库中冗余字段，或冗余表中。</p>
-<h4 id="历史数据表"><a href="#历史数据表" class="headerlink" title="历史数据表"></a>历史数据表</h4><ul>
-<li>历史数据表对应于热点数据表。</li>
-<li>将需求较少又不能丢弃的数据，仅在少数情况下被访问存入历史数据表。</li>
-</ul>
-<h4 id="全文检索设计"><a href="#全文检索设计" class="headerlink" title="全文检索设计"></a>全文检索设计</h4><ul>
-<li>最差的设计，直接使用sql语句where条件中使用like %fulltext%</li>
-<li>直接全表扫描或全索引扫描，性能最差，无任何扩展，基本不可接受。</li>
-</ul>
-<h4 id="MySQL相关引擎支持"><a href="#MySQL相关引擎支持" class="headerlink" title="MySQL相关引擎支持"></a>MySQL相关引擎支持</h4><ul>
-<li>MyISAM全文索引，使用match()函数搜索。InnoDB从MySQL5.6.4开始支持全文索引，对中文支持不好，使用MATCH()…AGAINST。</li>
-<li>并发不高，数据量不大，业务逻辑简单，可以考虑。</li>
-</ul>
-<h4 id="使用外部开源全文检索引擎"><a href="#使用外部开源全文检索引擎" class="headerlink" title="使用外部开源全文检索引擎"></a>使用外部开源全文检索引擎</h4><ul>
-<li>目前常用的有sphinx和lucene等。</li>
-<li>适合并发高，数据量大，业务逻辑复杂的场景。</li>
-<li>主要关注预热、增量更新及分片功能的实现。</li>
-</ul>
-<h4 id="分页设计"><a href="#分页设计" class="headerlink" title="分页设计"></a>分页设计</h4><ul>
-<li><p>传统分页</p>
-<p>  Select * from table limit 10000,10;</p>
-</li>
-<li><p>LIMIT原理</p>
-<p>  Limit 10000,10<br>  偏移量越大则越慢</p>
-</li>
-<li><p>LIMIT方式推荐分页</p>
-<p>  Select <em> from table WHERE id&gt;=23423 limit 11; #10+1 (每页10条)<br>  select </em> from table WHERE id&gt;=23434 limit 11;</p>
-</li>
-<li><p>LIMIT的高效分页</p>
-<p>  可能需按场景分析并重组索引。</p>
-<p>  分页方式二<br>  Select * from table WHERE id &gt;= ( select id from table limit 10000,1 ) limit 10;</p>
-<p>  分页方式三<br>  ?SELECT * FROM table INNER JOIN (SELECT id FROM table LIMIT 10000,10) USING (id) ;</p>
-<p>  分页方式四<br>  程序取ID：select id from table limit 10000,10;<br>  Select * from table WHERE id in (123,456…) ;</p>
-<p>  LIMIT分页举例<br>  MySQL&gt; select sql_no_cache <em> from post limit 10,10;<br>  10 row in set (0.01 sec)<br>  MySQL&gt; select sql_no_cache </em> from post limit 20000,10;<br>  10 row in set (0.13 sec)<br>  MySQL&gt; select sql_no_cache <em> from post limit 80000,10;<br>  10 rows in set (0.58 sec)<br>  MySQL&gt; select sql_no_cache id from post limit 80000,10;<br>  10 rows in set (0.02 sec)<br>  MySQL&gt; select sql_no_cache </em> from post WHERE id&gt;=323423 limit 10;<br>  10 rows in set (0.01 sec)<br>  MySQL&gt; select * from post WHERE id &gt;= ( select sql_no_cache id from post limit 80000,1 ) limit 10 ;<br>  10 rows in set (0.02 sec)</p>
-</li>
-<li><p>LIMIT分页与缓存结合</p>
-<p>  类似sina微博的首页，总共保留最新的500条微博，分10页。</p>
-</li>
-</ul>
-<h4 id="表字段设计"><a href="#表字段设计" class="headerlink" title="表字段设计"></a>表字段设计</h4><ul>
-<li><p>主键</p>
-<p>  如果使用的是InnoDB并且不需要特殊的聚簇。定义一个代理键（surrogate key）是个好的主意。意思就是这个主键并不是来自于你的应用程序的数据（与业务逻辑无关，而应用程序的数据如果有唯一的候选列可以做成唯一键），最简单的方法就是使用AUTO_INCREMENT列。这能保证数据插入保持着连续的顺序并且对于使用主键连接会获得更好的性能。最好避免使用随机的聚簇键。 对每张表，最重要的就是一定要有主键。</p>
-</li>
-<li><p>主键设计之UUID</p>
-<p>  从性能的角度来说，使用UUID是个最不好的方法：它使聚簇索引的插入是随机的。这是最不好的场景了。并且对于数据的聚集也没有什么帮助。<br>  UUID_SHORT()<br>  UUID_SHORT()所占用的存储空间比UUID要小。（UUID_SHORT()可能要使用bigint占用8个字节，而UUID可能要使用字符串用char(32)）。另外uuid_short()是顺序的，这个也解决了随机导致的问题，但是uuid_short()也有一些限制和bug。</p>
-</li>
-<li><p>主键设计之自增列</p>
-<p>  没什么好说的，自增列简单实用。<br>  仅注意一下锁(gap lock)问题即可。</p>
-</li>
-<li><p>主键设计之程序控制</p>
-<p>  避免自增列引起的一些锁问题，统一管理，并发性更高。</p>
-</li>
-<li><p>主键设计之使用中间件</p>
-<p>  更高的并发性，可以考虑从数据库中剥离，使用自己开发或第三方中间件，如：<br>  <a href="https://github.com/twitter/snowflake" target="_blank" rel="noopener">https://github.com/twitter/snowflake</a></p>
-</li>
-<li><p>类型溢出</p>
-<p>  原因<br>  int占用4个字节，而int又分为无符号型和有符号性。对于无符号型的范围是0 到 4294967295；有符号型的范围是-2147483648 到 2147483647。</p>
-<p>  举一反三，其他类型都可能有类似问题，均需要考量。</p>
-<p>  控制方法<br>  可以通过sql_mode参数控制，但一般建议程序控制，比如：对表单项的值进行校验。</p>
-</li>
-<li><p>类型转换</p>
-<p>  溢出和隐含转换导致的运行缓慢。<br>  discuz论坛, uid是pk, mediumint类型, MyISAM表,总行数255万 #现象：更新比较慢，快7秒</p>
-<p>  MySQL&gt; UPDATE cdb_members SET email=’qin@zol.com.cn’ WHERE uid=’486851368’;Query OK, 0 rows affected (6.94 sec)Rows matched: 0 Changed: 0 Warnings: 0</p>
-<p>  #通过观察语句发现有类型转换，因为uid为mediumint，而传过来的值是字符串’2982891440’</p>
-<p>  这里的uid是mediumint， 这个条件的uid大小明显超过了范围。（参考 字段定义）</p>
-<p>  去掉uid=后面值的’’，速度就正常了。但是对于uid没有溢出的,加不加引号速度都一样。</p>
-<p>  原因：<br>  在non-strict mode下，MySQL会自动帮你把字符串转换成整形，但是如果数值超出了范围，转换就会失败，所以MySQL就按照字符串来处理，因此不能使用索引。而从explain的结果上，并没有表现出这样的差别。</p>
-<p>  控制方法：<br>  可以通过sql_mode参数控制，一般建议程序控制，比如：对表单项的值进行校验。</p>
-</li>
-</ul>
-<h4 id="字段选择"><a href="#字段选择" class="headerlink" title="字段选择"></a>字段选择</h4><ol>
-<li>字段定义为NOT NULL。</li>
-<li>表字符集选择UTF8，对恶魔字符集emoji用utf8mb4，如果MySQL版本不支持时，应用收到这种字符集的时候先转码成定义的串再传入数据库，例如传来\x0F，应用先替换成[i_smile]这样的特定字符串再存入数据库。</li>
-<li>存储年使用YEAR类型。存储日期使用DATE类型。 存储时间（精确到秒）使用TIMESTAMP类型或INT。使用时间字段作为查询条件，尤其是以时间段查询时，应使用INT保存。</li>
-<li>整形定义中不添加长度，比如使用INT，而不是INT[4]。</li>
-<li>使用VARBINARY存储变长字符串。</li>
-<li>自增序列类型的字段只能使用INT或者BIGINT，且明确标识出为无符号型(UNSIGNED)，除非确实会出现负数，仅当该字段数字取值会超过42亿，才使用BIGINT类型；</li>
-<li>int(10)和int(1)没有什么区别，10和1仅是宽度而已，在zerofill等扩展属性的时候有用或者特殊的命令行交互工具</li>
-<li>少量枚举或状态定义类需求不建议使用ENUM、SET、VARCHAR类型，使用TINYINT来代替。需在COMMENT信息中标明被枚举的含义。例如：<br><code>is_disable</code> tinyint(1) DEFAULT ‘0’ COMMENT ‘0:启用 1:禁用 2:异常’;</li>
-<li>存储精确浮点数使用DECIMAL替代FLOAT和DOUBLE。</li>
-<li>使用UNSIGNED存储非负数值。</li>
-<li>使用INT UNSIGNED存储IPV4。</li>
-<li>使用短数据类型，比如取值范围为0-80时，使用TINYINT UNSIGNED。</li>
-<li>尽可能不使用TEXT、BLOB类型，如果确实需要将过大字段拆分到其他表中。</li>
-<li>VARCHAR(N)，N表示的是字符数不是字节数，比如VARCHAR(255)，可以最大可存储255个汉字，需要根据实际的宽度来选择N，VARCHAR(N)，N&gt;5000时，使用BLOB类型。如果N<256时会使用一个字节来存储长度，如果n>=256则使用两个字节来存储长度。</256时会使用一个字节来存储长度，如果n></li>
-<li>不在数据库中使用VARBINARY、BLOB存储图片、文件等。</li>
-<li>禁止在数据库中存储明文密码</li>
-<li>数据库中存放IP时，按功能确定字段类型。仅作展示功能的使用CHAR，作为查询功能的应使用INT类型存放。参见”将字符转化为数字”</li>
-<li>严格禁止在库名、表名中使用大写字母。</li>
-</ol>
-<h4 id="技巧"><a href="#技巧" class="headerlink" title="技巧"></a>技巧</h4><ul>
-<li><p>将字符转化为数字更高效，查询更快，占用空间更小</p>
-<p>  举例：用无符号INT存储IP，而非CHAR(15)</p>
-<p>  INT UNSIGNED</p>
-<p>  INET_ATON()</p>
-<p>  INET_NTOA()</p>
-</li>
-<li><p>将日期转化为数字</p>
-<p>  更高效，查询更快，占用空间更小</p>
-<p>  举例：用无符号INT存储日期和时间</p>
-<p>  INT UNSIGNED</p>
-<p>  FROM_UNIXTIME()</p>
-<p>  UNIX_TIMESTAMP()</p>
-</li>
-<li><p>避免使用NULL字段</p>
-<p>  原因：<br>  很难进行查询优化；</p>
-<p>  NULL列加索引，需要额外空间；</p>
-<p>  含NULL复合索引无效。</p>
-<p>  举例：</p>
-<p>  不使用：`a` char(32) DEFAULT NULL</p>
-<p>  不使用：`b` int(10) NOT NULL</p>
-<p>  使用：`c` int(10) NOT NULL DEFAULT 0</p>
-</li>
-</ul>
-<h4 id="sql语句"><a href="#sql语句" class="headerlink" title="sql语句"></a>sql语句</h4><ul>
-<li><p>多使用等值操作，少使用非等值操作</p>
-<p>  WHERE条件中的非等值条件（IN、BETWEEN、&lt;、&lt;=、&gt;、&gt;=）会导致后面的条件使用不了索引，因为不能同时用到两个范围条件。</p>
-</li>
-<li><p>常数表优先，字典表或小表其次，大表最后</p>
-<p>  常数表指：空表或只有1行的表。与在一个PRIMARY KEY或UNIQUE索引的WHERE子句一起使用的表。如：<br>  SELECT <em> FROM t WHERE primary_key=1;<br>  SELECT </em> FROM t1,t2 WHERE t1.primary_key=1 AND t2.primary_key=t1.id;</p>
-<p>  字典表指：小数量的行。如：自定义的自增字段表，而不使用MySQL的AUTO_INCREMENT。</p>
-</li>
-<li><p>减少或避免临时表</p>
-<p>  如果有一个ORDER BY子句和不同的GROUP BY子句，或如果ORDER BY或GROUP BY包含联接队列中的第一个表之外的其它表的列，则创建一个临时表。</p>
-</li>
-<li><p>where子句中的数据扫描别跨越表的30%</p>
-</li>
-<li><p>where子句中同一个表的不同的字段组合建议小于等于5组，否则考虑业务逻辑或分表</p>
-</li>
-<li><p>不使用is null或is not null，字段设计时建议not null，若麻烦可折中考虑给一默认值，原因参见”避免使用NULL字段”。</p>
-</li>
-</ul>
-<ul>
-<li><p>使用like时，%不要放在首字符位置。</p>
-<p>  如果%必须放在首字符位置，参见”全文检索设计”</p>
-</li>
-<li><p>值域比较多的表字段放在前面</p>
-<p>  比如：id，date字段放在前面，而status这样的字段放在后面，具体的可以通过执行计划来把握。</p>
-</li>
-<li><p>表字段组合中出现比较多的表字段放在前面</p>
-<p>  方便综合评估索引，缓解因为索引过多导致的增删改的一些性能问题。</p>
-</li>
-<li><p>表字段不能有表达式或是函数</p>
-<p>  如：where abs(列)&gt;3或where 列*10&gt;100</p>
-</li>
-<li><p>注意表字段的类型，避免表字段的隐示转换</p>
-<p>  参见”表字段设计”</p>
-<p>  比如：列为int，如果where 列=’1’，则会出现转换。</p>
-</li>
-<li><p>考虑使用union all，少使用union，注意考虑去重</p>
-<p>  union all不去重，而少了排序操作，速度相对比union要快，如果没有去重的需求，优先使用union all。</p>
-</li>
-<li><p>不同字段的值or或in大于等于3次，考虑用union all替换；同一字段的值or用in替换</p>
-<p>  Select * from opp WHERE phone=’12347856’ or phone=’42242233’;</p>
-<p>  考虑用</p>
-<p>  Select * from opp WHERE phone in (‘12347856’ , ‘42242233’);</p>
-<p>  Select * from opp WHERE phone=’010-88886666’ or cellPhone=’13800138000’;</p>
-<p>  考虑用<br>  Select <em> from opp WHERE phone=’010-88886666’<br>  union all<br>  Select </em> from opp WHERE cellPhone=’13800138000’;</p>
-</li>
-<li><p>用Where子句替换HAVING子句</p>
-<p>  select id,count(star) from table group by id having age&gt;=30 order by null;</p>
-<p>  考虑用</p>
-<p>  select id,count(star) from table where age&gt;=30 group by id order by null;</p>
-</li>
-<li><p>对同一表的order by和group by操作分别小于3组，否则考虑业务逻辑或分表<br>尽量使用主键进行update和delete</p>
-<p>  小心text/blobs等大字段，如果确实不需要这样的大字段，则不用放入sql语句中</p>
-<p>  Text/blob大字段的用法参见”字段选择”</p>
-</li>
-<li><p>使用INSERT … ON DUPLICATE KEY update (INSERT IGNORE)来避免不必要的查询</p>
-</li>
-<li><p>考虑使用limit N，少用limit M,N，特别是大表，或M比较大的时候</p>
-<p>  参考”分页设计”</p>
-</li>
-<li><p>减少或避免排序，如：group by语句中如果不需要排序，可以增加order by null</p>
-</li>
-<li><p>增删改语句中不使用不确定值函数和随机函数，如：RAND()和NOW()等。<br>INSERT语句使用batch提交（INSERT INTO table VALUES(),(),()„„），values的个数不超过500。</p>
-</li>
-<li><p>避免使用存储过程、触发器、函数、UDF、events等，容易将业务逻辑和DB耦合在一起，并且MySQL的存储过程、触发器、函数、UDF、events中存在一定的bug。</p>
-</li>
-<li><p>避免使用JOIN。</p>
-</li>
-<li><p>使用合理的SQL语句减少与数据库的交互次数。</p>
-<p>  INSERT … ON DUPLICATE KEY UPDATE<br>  REPLACE INTO、INSERT IGNORE 、INSERT INTO VALUES(),(),()<br>  UPDATE … WHERE ID IN(10,20,50,…)</p>
-</li>
-<li><p>减少使用视图，避免复杂的语句。</p>
-</li>
-<li><p>SQL语句中IN包含的值不超过500。</p>
-</li>
-<li><p>UPDATE、DELETE语句不使用LIMIT。有主键id的表WHERE条件应结合主键。</p>
-</li>
-<li><p>使用prepared statement，可以提供性能并且避免SQL注入。</p>
-</li>
-<li><p>InnoDB表避免使用COUNT(*)操作，计数统计实时要求较强可以使用memcache或者redis，非实时统计可以使用单独统计表，定时更新。</p>
-</li>
-<li><p>禁止在Update语句，将”,”写成”and”，非常危险。</p>
-<p>  正确示例：update Table set uid=uid+1000,gid=gid+1000 where id &lt;=2 ;</p>
-<p>  错误示例：update Table set uid=uid+1000 and gid=gid+1000 where id &lt;=2 ;</p>
-<p>  此时”uid=uid+1000 and gid=gid+1000”将作为值赋给uid，并且无Warning！！！</p>
-</li>
-</ul>
-<h4 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h4><ul>
-<li><p>索引名称使用小写。</p>
-</li>
-<li><p>索引中的字段数不超过5个。</p>
-<p>  唯一键由3个以下字段组成，并且字段都是整形时，使用唯一键作为主键。</p>
-<p>  没有唯一键或者唯一键不符合5中的条件时，使用自增（或者通过发号器获取）id作为主键。</p>
-</li>
-<li><p>唯一键不和主键重复。</p>
-</li>
-<li><p>索引字段的顺序需要考虑字段值去重之后的个数，个数多的放在前面。</p>
-</li>
-<li><p>ORDER BY，GROUP BY，DISTINCT的字段需要添加在索引的后面。</p>
-</li>
-<li><p>单张表的索引数量控制在5个以内，若单张表多个字段在查询需求上都要单独用到索引，需要经过DBA评估。查询性能问题无法解决的，应从产品设计上进行重构。</p>
-</li>
-<li><p>使用EXPLAIN判断SQL语句是否合理使用索引，尽量避免extra列出现：Using File Sort，Using Temporary。</p>
-</li>
-<li><p>UPDATE、DELETE语句需要根据WHERE条件添加索引。</p>
-</li>
-<li><p>对长度大于50的VARCHAR字段建立索引时，按需求恰当的使用前缀索引，或使用其他方法。</p>
-</li>
-<li><p>合理创建联合索引（避免冗余），(a,b,c) 相当于 (a) 、(a,b) 、(a,b,c)。</p>
-</li>
-<li><p>合理利用覆盖索引。</p>
-</li>
-</ul>
-<h4 id="大表"><a href="#大表" class="headerlink" title="大表"></a>大表</h4><ul>
-<li><p>表预计行数（比如：100万条以上），表预计大小（比如：100M以上），历史数据维护策略（分表策略，迁移策略，清理策略等）；</p>
-</li>
-<li><p>频繁增删改的表</p>
-<p>  方便考虑定期optimize优化减少碎片，减少相关索引提供更好的写性能。</p>
-</li>
-<li><p>频繁查的表</p>
-<p>  方便适当优化语句，合理评估索引。</p>
-</li>
-<li><p>特殊字段的表</p>
-<p>  大字段（text,blob），值域小的字段（比如字段status字段0表示失败，值分布少，并且用该字段查询时以该值居多，1表示成功）。</p>
-</li>
-<li><p>按表或按功能页面来分类的常用sql语句</p>
-<p>  方便dba整体评估索引，为SQL审核用(生成SQL审核报告)。</p>
-</li>
-<li><p>缓存机制与规划及预热、降级限流方案</p>
-<p>  防雪崩、防刷</p>
-</li>
-</ul>
-<h4 id="配置需求"><a href="#配置需求" class="headerlink" title="配置需求"></a>配置需求</h4><p>如主从关系，用户权限等等(可以提供在运维部署说明文档中)</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1903,7 +1846,7 @@ sysctl -a|grep vm.max_map_count
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">21</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1916,7 +1859,7 @@ sysctl -a|grep vm.max_map_count
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">4</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

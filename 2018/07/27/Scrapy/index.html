@@ -102,7 +102,7 @@
 <meta property="og:site_name" content="Jokers&#39;s Blog">
 <meta property="og:description" content="Scrapy安装pip install scrapy  某些系统会找不到 Twisted ，需要手动下载source，解压后再安装 bzip2 -d Twisted-18.7.0.tar.bz2 pip3 install Twisted-18.7.0.tar   使用 scrapy 命令生成一个新的 projectscrapy startproject myproject  myproject/">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-07-30T06:49:08.467Z">
+<meta property="og:updated_time" content="2018-09-10T02:12:32.052Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Scrapy+Scrapyd+Redis">
 <meta name="twitter:description" content="Scrapy安装pip install scrapy  某些系统会找不到 Twisted ，需要手动下载source，解压后再安装 bzip2 -d Twisted-18.7.0.tar.bz2 pip3 install Twisted-18.7.0.tar   使用 scrapy 命令生成一个新的 projectscrapy startproject myproject  myproject/">
@@ -416,7 +416,7 @@ password = secret
 project = myproject
 </code></pre></li>
 <li><p>执行</p>
-<pre><code>scrapyd-deploy
+<pre><code>scrapyd-deploy target
 </code></pre></li>
 </ul>
 <h3 id="schedule-a-spider-run"><a href="#schedule-a-spider-run" class="headerlink" title="schedule a spider run"></a>schedule a spider run</h3><pre><code>$ curl http://localhost:6800/schedule.json -d project=myproject -d spider=spider2
@@ -573,7 +573,7 @@ REDIS_URL = &apos;redis://user:password@host:6379&apos;
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">21</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -586,7 +586,7 @@ REDIS_URL = &apos;redis://user:password@host:6379&apos;
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">4</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

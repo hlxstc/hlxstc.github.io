@@ -273,6 +273,330 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/09/20/ngrok/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/09/20/ngrok/" itemprop="url">ngrok</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-20T14:28:00+08:00">
+                2018-09-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/09/20/ngrok/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/09/20/ngrok/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h3><p>The plan is to create a pair of executables (ngrok and ngrokd) that are connected with a self-signed SSL cert. Since the client and server executables are paired, you won’t be able to use any other ngrok to connect to this ngrokd, and vice versa.</p>
+<h3 id="DNS"><a href="#DNS" class="headerlink" title="DNS"></a>DNS</h3><p>Add two DNS records: one for the base domain and one for the wildcard domain. For example, if your base domain is domain.com, you’ll need a record for that and for *.domain.com.</p>
+<h3 id="Different-Operating-Systems"><a href="#Different-Operating-Systems" class="headerlink" title="Different Operating Systems"></a>Different Operating Systems</h3><p>If the OS on which you’ll be compiling ngrok (that’s the server section below) is different than the OS on which you’ll be running the client, then you will need to set the GOOS and GOARCH env variables. I run Linux everywhere, so I don’t know how to do that. Please Google it or see the discussion here. If you know how to do this and want to add GOOS/GOARCH instructions here, please let me know.</p>
+<h3 id="On-Server"><a href="#On-Server" class="headerlink" title="On Server"></a>On Server</h3><p>MAKE SURE YOU SET NGROK_DOMAIN BELOW. Set it to the base domain, not the wildcard domain.</p>
+<pre><code>NGROK_DOMAIN=&quot;my.domain.com&quot;
+git clone https://github.com/inconshreveable/ngrok.git
+cd ngrok
+
+openssl genrsa -out rootCA.key 2048
+openssl req -x509 -new -nodes -key rootCA.key -subj &quot;/CN=$NGROK_DOMAIN&quot; -days 5000 -out rootCA.pem
+openssl genrsa -out device.key 2048
+openssl req -new -key device.key -subj &quot;/CN=$NGROK_DOMAIN&quot; -out device.csr
+openssl x509 -req -in device.csr -CA rootCA.pem -CAkey rootCA.key -CAcreateserial -out device.crt -days 5000
+
+cp rootCA.pem assets/client/tls/ngrokroot.crt
+# make clean
+make release-server release-client
+</code></pre><p>Copy bin/ngrok to whatever computer you want to connect from. Then start the server:</p>
+<pre><code>bin/ngrokd -tlsKey=device.key -tlsCrt=device.crt -domain=&quot;$NGROK_DOMAIN&quot; -httpAddr=&quot;:8000&quot; -httpsAddr=&quot;:8001&quot;
+</code></pre><h3 id="On-Client"><a href="#On-Client" class="headerlink" title="On Client"></a>On Client</h3><p>MAKE SURE YOU SET NGROK_DOMAIN BELOW. Set it to the base domain, not the wildcard domain.</p>
+<pre><code>NGROK_DOMAIN=&quot;my.domain.com&quot;
+echo -e &quot;server_addr: $NGROK_DOMAIN:4443\ntrust_host_root_certs: false&quot; &gt; ngrok-config
+./ngrok -config=ngrok-config 80
+</code></pre><p>Or for SSH forwarding: ./ngrok -config=ngrok-config –proto=tcp 22</p>
+<h3 id="Define-a-fixed-TCP-listen-port"><a href="#Define-a-fixed-TCP-listen-port" class="headerlink" title="Define a fixed TCP listen port"></a>Define a fixed TCP listen port</h3><p>Set port number to the remote_port args. Be sure to pay attention to the format</p>
+<pre><code>tunnels:
+  mysql:
+    proto:
+      tcp:3306
+    remote_port: 36799
+</code></pre><h3 id="Run-ngrok-client-with-config"><a href="#Run-ngrok-client-with-config" class="headerlink" title="Run ngrok client with -config"></a>Run ngrok client with -config</h3><p>Create an ngrok configuration file, “debug.yml” with the following contents:</p>
+<pre><code>server_addr: ngrok.domain.com:4443
+trust_host_root_certs: false
+tunnels:
+  ssh:
+    proto:
+      http: 22
+    subdomain: 22
+  mysql:
+    proto:
+      tcp: 3306
+    remote_port: 36799
+</code></pre><p>Then run ngrok</p>
+<pre><code>./bin/ngrok -config=debug.yml -log=stdout start-all
+</code></pre>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/09/10/chrome_install/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/09/10/chrome_install/" itemprop="url">Linux 安装 Chrome</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-10T11:55:00+08:00">
+                2018-09-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/09/10/chrome_install/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/09/10/chrome_install/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="添加仓库来源"><a href="#添加仓库来源" class="headerlink" title="添加仓库来源"></a>添加仓库来源</h2><ul>
+<li><p>在  /etc/yum.repos.d/ 目录新建 repo file</p>
+<pre><code>vi /etc/yum.repos.d/google-chrome.repo
+</code></pre></li>
+<li><p>复制以下仓库信息</p>
+<pre><code>[google-chrome]
+name=google-chrome
+baseurl=http://dl.google.com/linux/chrome/rpm/stable/x86_64
+enabled=1
+gpgcheck=1
+gpgkey=https://dl-ssl.google.com/linux/linux_signing_key.pub
+</code></pre></li>
+<li><p>没有翻墙代理无法访问gpgkey怎么办</p>
+<pre><code># 找一台能翻墙的电脑下载 linux_signing_key.pub
+gpgkey=file:///dir/linux_signing_key.pub
+</code></pre></li>
+</ul>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><pre><code>yum install -y google-chrome-stable
+or
+yum install -y google-chrome-beta
+</code></pre>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/08/28/flask/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1411,7 +1735,7 @@ password = secret
 project = myproject
 </code></pre></li>
 <li><p>执行</p>
-<pre><code>scrapyd-deploy
+<pre><code>scrapyd-deploy target
 </code></pre></li>
 </ul>
 <h3 id="schedule-a-spider-run"><a href="#schedule-a-spider-run" class="headerlink" title="schedule a spider run"></a>schedule a spider run</h3><pre><code>$ curl http://localhost:6800/schedule.json -d project=myproject -d spider=spider2
@@ -2154,398 +2478,11 @@ $ source ~/.bashrc
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/05/18/mysql-io/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jokers">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jokers's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/18/mysql-io/" itemprop="url">MySQL5.7数据导入导出</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-18T11:06:35+08:00">
-                2018-05-18
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/05/18/mysql-io/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/05/18/mysql-io/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="导出"><a href="#导出" class="headerlink" title="导出"></a>导出</h2><pre><code>SELECT * INTO OUTFILE &apos;data.txt&apos; FIELDS TERMINATED BY &apos;|&apos; FROM source_table;  
-</code></pre><h2 id="导入"><a href="#导入" class="headerlink" title="导入"></a>导入</h2><pre><code>LOAD DATA INFILE &apos;data.txt&apos; INTO TABLE target_table FIELDS TERMINATED BY &apos;|&apos;;
-</code></pre><h2 id="注"><a href="#注" class="headerlink" title="注"></a>注</h2><ul>
-<li><p>5.7以后，mysql添加全局变量secure_file_priv，限制导入导出，查看变量的值</p>
-<pre><code>show variables like &apos;%secure%&apos;;
-</code></pre></li>
-<li><p>如果值为NULL，则不允许导入导出。如果指定路径，则只能在将文件导出到指定路路径并且在指定路径导入。值为空则无限制。错误提示如下：</p>
-<pre><code>ERROR 1290 (HY000): The MySQL server is running with the --secure-file-priv option so it cannot execute this statement
-</code></pre></li>
-<li><p>修改变量方法,在etc/my.cnf添加一行：</p>
-<pre><code>secure-file-priv=\home\mysql_dump
-</code></pre></li>
-<li><p>最后改变指定路径的权属</p>
-<pre><code>chown mysql:mysql \home\mysql_dump
-</code></pre></li>
-</ul>
-<blockquote>
-<p><a href="https://blog.csdn.net/xiaobaismiley/article/details/41015783" target="_blank" rel="noopener">参考</a></p>
-<blockquote>
-<p>该方法在18分钟内导出1.6亿条记录，46min内导入6472W条记录，平均速度：8442W条/h</p>
-</blockquote>
-</blockquote>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/05/18/install-hadoop/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jokers">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jokers's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/18/install-hadoop/" itemprop="url">hadoop2安装</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-18T11:00:00+08:00">
-                2018-05-18
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/05/18/install-hadoop/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/05/18/install-hadoop/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="下载hadoop"><a href="#下载hadoop" class="headerlink" title="下载hadoop"></a>下载hadoop</h2><h2 id="可选择创建新用户"><a href="#可选择创建新用户" class="headerlink" title="可选择创建新用户"></a>可选择创建新用户</h2><pre><code>$ sudo useradd -m hadoop    # -m会在/home下建立用户文件夹
-$ sudo passwd hadoop
-</code></pre><h2 id="解压缩"><a href="#解压缩" class="headerlink" title="解压缩"></a>解压缩</h2><pre><code>$ sudo mv hadoop-2.9.1.tar.gz /usr/local/
-$ cd /usr/local/
-$ sudo tar -zxvf hadoop-2.9.1.tar.gz
-$ sudo mv hadoop-2.9.1 hadoop
-$ sudo chown -R hadoop:hadoop hadoop
-</code></pre><h2 id="伪分布式配置"><a href="#伪分布式配置" class="headerlink" title="伪分布式配置"></a>伪分布式配置</h2><pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
-&lt;!-- core-site.xml --&gt;
-&lt;configuration&gt;
-    &lt;property&gt;
-        &lt;name&gt;fs.defaultFS&lt;/name&gt;
-        &lt;value&gt;hdfs://localhost/&lt;/value&gt;
-    &lt;/property&gt;
-&lt;/configuration&gt;
-
-&lt;?xml version=&quot;1.0&quot;?&gt;
-&lt;!-- hdfs-site.xml --&gt;
-&lt;configuration&gt;
-    &lt;property&gt;
-        &lt;name&gt;dfs.replication&lt;/name&gt;
-        &lt;value&gt;1&lt;/value&gt;
-    &lt;/property&gt;
-    &lt;property&gt;
-       &lt;name&gt;dfs.name.dir&lt;/name&gt;
-       &lt;value&gt;file:///home/hadoop/hadoopinfra/hdfs/namenode &lt;/value&gt;
-    &lt;/property&gt;
-    &lt;property&gt;
-       &lt;name&gt;dfs.data.dir&lt;/name&gt;
-       &lt;value&gt;file:///home/hadoop/hadoopinfra/hdfs/datanode &lt;/value&gt;
-    &lt;/property&gt;
-&lt;/configuration&gt;
-
-&lt;?xml version=&quot;1.0&quot;?&gt;
-&lt;!-- mapred-site.xml --&gt;
-&lt;configuration&gt;
-    &lt;property&gt;
-        &lt;name&gt;mapreduce.framework.name&lt;/name&gt;
-        &lt;value&gt;yarn&lt;/value&gt;
-    &lt;/property&gt;
-&lt;/configuration&gt;
-
-&lt;?xml version=&quot;1.0&quot;?&gt;
-&lt;!-- yarn-site.xml --&gt;
-&lt;configuration&gt;
-    &lt;property&gt;
-        &lt;name&gt;yarn.resourcemanager.hostname&lt;/name&gt;
-        &lt;value&gt;localhost&lt;/value&gt;
-    &lt;/property&gt;
-    &lt;property&gt;
-        &lt;name&gt;yarn.nodemanager.aux-services&lt;/name&gt;
-        &lt;value&gt;mapreduce_shuffle&lt;/value&gt;
-    &lt;/property&gt;
-&lt;/configuration&gt;
-</code></pre><h4 id="配置SSH无密码登陆"><a href="#配置SSH无密码登陆" class="headerlink" title="配置SSH无密码登陆"></a>配置SSH无密码登陆</h4><p>确保ssh已安装</p>
-<pre><code>ssh-keygen -t rsa -P &apos;&apos; -f ~/.ssh/id_rsa
-cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys
-Change the permissions of .ssh/authorized_keys to 640
-</code></pre><p>测试</p>
-<pre><code>ssh localhost
-</code></pre><h4 id="格式化HDFS"><a href="#格式化HDFS" class="headerlink" title="格式化HDFS"></a>格式化HDFS</h4><pre><code>$ hdfs namenode -format
-</code></pre><h4 id="开始和结束daemons"><a href="#开始和结束daemons" class="headerlink" title="开始和结束daemons"></a>开始和结束daemons</h4><pre><code>$ vim ~/.bashrc
-export PDSH_RCMD_TYPE=ssh
-export HADOOP_HOME=/usr/local/hadoop
-export PATH=$PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sbin
-
-$ start-dfs.sh
-$ stop-dfs.sh
-$ start-yarn.sh
-$ stop-yarn.sh
-(deprecated)$ mr-jobhistory-daemon.sh start historyserver
-$ mapred --daemon start historyserver
-</code></pre><ul>
-<li>验证是否启动成功</li>
-</ul>
-<p>NameNode - <a href="http://localhost:50070/" target="_blank" rel="noopener">http://localhost:50070/</a><br>yarn - <a href="http://localhost:8088/" target="_blank" rel="noopener">http://localhost:8088/</a></p>
-<h4 id="创建HDFS目录"><a href="#创建HDFS目录" class="headerlink" title="创建HDFS目录"></a>创建HDFS目录</h4><pre><code>$ bin/hdfs dfs -mkdir /user
-$ bin/hdfs dfs -mkdir /user/&lt;username&gt;
-</code></pre><h4 id="改变ssh端口号"><a href="#改变ssh端口号" class="headerlink" title="改变ssh端口号"></a>改变ssh端口号</h4><ul>
-<li><p>编辑/etc/ssh/sshd_config</p>
-<pre><code>Port 22
-</code></pre></li>
-<li><p>重启sshd</p>
-<pre><code>$ sudo service sshd restart
-</code></pre></li>
-<li><p>编辑hadoop-env.sh</p>
-<pre><code>$ export HADOOP_SSH_OPTS=&quot;-p &lt;num&gt;&quot;
-</code></pre></li>
-</ul>
-<h4 id="执行start-dfs-sh报错"><a href="#执行start-dfs-sh报错" class="headerlink" title="执行start-dfs.sh报错"></a>执行start-dfs.sh报错</h4><pre><code>rcmd: socket: Permission denied
-</code></pre><ul>
-<li><p>检查pdsh的默认rcmd是ssh还是rsh</p>
-<pre><code>pdsh -q -w localhost
-</code></pre></li>
-<li><p>如果是rsh需要修改为ssh，添加到~/.bashrc</p>
-<pre><code>export PDSH_RCMD_TYPE=ssh
-source ~/.bashrc
-</code></pre></li>
-<li><p>如故依然报错</p>
-<pre><code>No such rcmd module &quot;ssh&quot;
-</code></pre></li>
-<li><p>安装pdsh-rcmd-ssh，使得SSH为可用的rcmd模块</p>
-<pre><code>dnf install pdsh-rcmd-ssh
-</code></pre></li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -2591,7 +2528,7 @@ source ~/.bashrc
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">21</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2604,7 +2541,7 @@ source ~/.bashrc
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">4</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

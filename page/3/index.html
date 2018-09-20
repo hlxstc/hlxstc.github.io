@@ -94,17 +94,16 @@
 
 
 
-<meta name="description" content="简介持续借鉴、收集并整理一些开发规范和技巧，期望能更充分利用MySQL的特性，得到更好的性能。规范是死的，人是活的。现在定义的规范，是为以后推翻准备的。 目的提供给开发人员参考，方便写成更有效率的开发。 范围文档涉及的范围：需要基于MySQL做应用开发的人员。 定义、首字母缩写词和缩略语暂无 数据库设计 目标三个：功能实现，可伸缩性，可用性。 关键点：平衡业务技术各个方面，做好取舍。 80%的性能">
-<meta property="og:type" content="article">
-<meta property="og:title" content="MySQL开发规范">
-<meta property="og:url" content="http://thathub.com/2017/04/12/mysql-regular/index.html">
+<meta name="description" content="hlxstc680@gmail.com">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Jokers&#39;s Blog">
+<meta property="og:url" content="http://thathub.com/page/3/index.html">
 <meta property="og:site_name" content="Jokers&#39;s Blog">
-<meta property="og:description" content="简介持续借鉴、收集并整理一些开发规范和技巧，期望能更充分利用MySQL的特性，得到更好的性能。规范是死的，人是活的。现在定义的规范，是为以后推翻准备的。 目的提供给开发人员参考，方便写成更有效率的开发。 范围文档涉及的范围：需要基于MySQL做应用开发的人员。 定义、首字母缩写词和缩略语暂无 数据库设计 目标三个：功能实现，可伸缩性，可用性。 关键点：平衡业务技术各个方面，做好取舍。 80%的性能">
+<meta property="og:description" content="hlxstc680@gmail.com">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-06-22T05:42:43.535Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="MySQL开发规范">
-<meta name="twitter:description" content="简介持续借鉴、收集并整理一些开发规范和技巧，期望能更充分利用MySQL的特性，得到更好的性能。规范是死的，人是活的。现在定义的规范，是为以后推翻准备的。 目的提供给开发人员参考，方便写成更有效率的开发。 范围文档涉及的范围：需要基于MySQL做应用开发的人员。 定义、首字母缩写词和缩略语暂无 数据库设计 目标三个：功能实现，可伸缩性，可用性。 关键点：平衡业务技术各个方面，做好取舍。 80%的性能">
+<meta name="twitter:title" content="Jokers&#39;s Blog">
+<meta name="twitter:description" content="hlxstc680@gmail.com">
 
 
 
@@ -133,13 +132,13 @@
 
 
 
-  <link rel="canonical" href="http://thathub.com/2017/04/12/mysql-regular/"/>
+  <link rel="canonical" href="http://thathub.com/page/3/"/>
 
 
 
 
 
-  <title>MySQL开发规范 | Jokers's Blog</title>
+  <title>Jokers's Blog</title>
   
 
 
@@ -164,7 +163,9 @@
     
   
 
-  <div class="container sidebar-position-left page-post-detail ">
+  <div class="container sidebar-position-left 
+   page-home 
+ ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -257,9 +258,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-
-  <div id="posts" class="posts-expand">
+  <section id="posts" class="posts-expand">
     
+      
 
   
 
@@ -289,7 +290,9 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">MySQL开发规范</h1>
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/04/12/mysql-regular/" itemprop="url">MySQL开发规范</a></h1>
         
 
         <div class="post-meta">
@@ -350,7 +353,9 @@
       
 
       
-        <h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>持续借鉴、收集并整理一些开发规范和技巧，期望能更充分利用MySQL的特性，得到更好的性能。<br>规范是死的，人是活的。<br>现在定义的规范，是为以后推翻准备的。</p>
+        
+          
+            <h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>持续借鉴、收集并整理一些开发规范和技巧，期望能更充分利用MySQL的特性，得到更好的性能。<br>规范是死的，人是活的。<br>现在定义的规范，是为以后推翻准备的。</p>
 <h4 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h4><p>提供给开发人员参考，方便写成更有效率的开发。</p>
 <h4 id="范围"><a href="#范围" class="headerlink" title="范围"></a>范围</h4><p>文档涉及的范围：需要基于MySQL做应用开发的人员。</p>
 <h4 id="定义、首字母缩写词和缩略语"><a href="#定义、首字母缩写词和缩略语" class="headerlink" title="定义、首字母缩写词和缩略语"></a>定义、首字母缩写词和缩略语</h4><p>暂无</p>
@@ -666,6 +671,8 @@
 </ul>
 <h4 id="配置需求"><a href="#配置需求" class="headerlink" title="配置需求"></a>配置需求</h4><p>如主从关系，用户权限等等(可以提供在运维部署说明文档中)</p>
 
+          
+        
       
     </div>
     
@@ -682,28 +689,12 @@
       
 
       
-      
+
       
 
       
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/08/14/chinese_to_number/" rel="prev" title="中英文金额转阿拉伯数字">
-                中英文金额转阿拉伯数字 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
       
-
-      
+        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -713,11 +704,14 @@
   </article>
 
 
+    
+  </section>
 
-    <div class="post-spread">
-      
-    </div>
-  </div>
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+  </nav>
+
 
 
           </div>
@@ -725,17 +719,6 @@
 
 
           
-  <div class="comments" id="comments">
-    
-      <div id="disqus_thread">
-        <noscript>
-          Please enable JavaScript to view the
-          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
-        </noscript>
-      </div>
-    
-  </div>
-
 
         </div>
         
@@ -756,17 +739,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.jpg"
@@ -819,22 +793,6 @@
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#目的"><span class="nav-number">2.</span> <span class="nav-text">目的</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#范围"><span class="nav-number">3.</span> <span class="nav-text">范围</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#定义、首字母缩写词和缩略语"><span class="nav-number">4.</span> <span class="nav-text">定义、首字母缩写词和缩略语</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据库设计"><span class="nav-number">5.</span> <span class="nav-text">数据库设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#引擎及版本选择"><span class="nav-number">6.</span> <span class="nav-text">引擎及版本选择</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#架构浅谈"><span class="nav-number">7.</span> <span class="nav-text">架构浅谈</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#适当的范式设计"><span class="nav-number">8.</span> <span class="nav-text">适当的范式设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#单表控制"><span class="nav-number">9.</span> <span class="nav-text">单表控制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#字段数量"><span class="nav-number">10.</span> <span class="nav-text">字段数量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#一年内的单表数据量预估"><span class="nav-number">11.</span> <span class="nav-text">一年内的单表数据量预估</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#举例"><span class="nav-number">12.</span> <span class="nav-text">举例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#拒绝3B"><span class="nav-number">13.</span> <span class="nav-text">拒绝3B</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#反范式设计"><span class="nav-number">14.</span> <span class="nav-text">反范式设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#典型场景"><span class="nav-number">15.</span> <span class="nav-text">典型场景</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#基于查询的冗余设计"><span class="nav-number">16.</span> <span class="nav-text">基于查询的冗余设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#基于统计的冗余设计"><span class="nav-number">17.</span> <span class="nav-text">基于统计的冗余设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#历史数据表"><span class="nav-number">18.</span> <span class="nav-text">历史数据表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#全文检索设计"><span class="nav-number">19.</span> <span class="nav-text">全文检索设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MySQL相关引擎支持"><span class="nav-number">20.</span> <span class="nav-text">MySQL相关引擎支持</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用外部开源全文检索引擎"><span class="nav-number">21.</span> <span class="nav-text">使用外部开源全文检索引擎</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分页设计"><span class="nav-number">22.</span> <span class="nav-text">分页设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#表字段设计"><span class="nav-number">23.</span> <span class="nav-text">表字段设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#字段选择"><span class="nav-number">24.</span> <span class="nav-text">字段选择</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#技巧"><span class="nav-number">25.</span> <span class="nav-text">技巧</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#sql语句"><span class="nav-number">26.</span> <span class="nav-text">sql语句</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#索引"><span class="nav-number">27.</span> <span class="nav-text">索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#大表"><span class="nav-number">28.</span> <span class="nav-text">大表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置需求"><span class="nav-number">29.</span> <span class="nav-text">配置需求</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
@@ -948,10 +906,10 @@
   
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+    <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
 <script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
 
-
+  
 
   
 
@@ -969,18 +927,6 @@
       <script id="dsq-count-scr" src="https://thathub-com.disqus.com.disqus.com/count.js" async></script>
     
 
-    
-      <script type="text/javascript">
-        var disqus_config = function () {
-          this.page.url = 'http://thathub.com/2017/04/12/mysql-regular/';
-          this.page.identifier = '2017/04/12/mysql-regular/';
-          this.page.title = 'MySQL开发规范';
-        };
-        var d = document, s = d.createElement('script');
-        s.src = 'https://thathub-com.disqus.com.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', '' + +new Date());
-        (d.head || d.body).appendChild(s);
-      </script>
     
 
   
