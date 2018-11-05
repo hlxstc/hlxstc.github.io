@@ -273,6 +273,886 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/11/05/dataStructure_select/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/11/05/dataStructure_select/" itemprop="url">数据结构--查找</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-05T09:00:00+08:00">
+                2018-11-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/11/05/dataStructure_select/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/11/05/dataStructure_select/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="二分查找-amp-amp-利用二分查找插入"><a href="#二分查找-amp-amp-利用二分查找插入" class="headerlink" title="二分查找 &amp;&amp; 利用二分查找插入"></a>二分查找 &amp;&amp; 利用二分查找插入</h3><pre><code>#include &lt;stdio.h&gt;
+
+#define MAX 100
+
+typedef struct{
+    int key;
+}Node;
+
+typedef Node SeqList[MAX+1];
+
+//递归二分查找
+int binSearch1(SeqList R, int k, int low, int high){
+    int mid;
+    if(low &lt;= high){
+        mid = (low+high)/2;
+        if(R[mid].key == k)
+            return mid;
+        if(R[mid].key &gt; k)
+            return binSearch1(R, k, low, mid-1);
+        else
+            return binSearch1(R, k, mid+1, high);
+    }
+    return 0;
+}
+
+//非递归查找
+int binSearch2(SeqList R, int k, int low, int high){
+    int mid;
+    while(low &lt;= high){
+        mid = (low+high)/2;
+        if(R[mid].key == k)
+            return mid;
+        if(R[mid].key &gt; k)
+            high = mid-1;
+        else
+            low = mid+1;
+    }
+    return 0;
+}
+
+//插入
+void binInsert(SeqList R, int n, int k){
+    int low=1, high=n,find=0, mid;
+    while(low&lt;=high &amp;&amp; !find){
+        mid = (low+high)/2;
+        if(R[mid].key == k){
+            find = mid;
+            break;
+        }
+        if(R[mid].key &gt; k)
+            high = mid - 1;
+        else
+            low = mid + 1;
+    }
+    if(!find)
+        find = low;
+    for(int i=n; i&gt;=find; i--){
+        R[i+1] = R[i];
+    }
+    R[find].key = k;
+}
+
+int main(){
+    SeqList R;
+    int t;
+    int n = 0;
+    int i;
+    while (1==1) {
+        scanf(&quot;%d&quot;, &amp;t);
+        if(t == -9999)
+            break;
+        n++;
+        R[n].key = t;
+    }
+    i = binSearch1(R, 5, 1, n);
+    printf(&quot;%d\n&quot;, i);
+    binInsert(R, n, 5);
+    for(int j=1; j&lt;=n+1; j++){
+        printf(&quot;%d-&gt;&quot;, R[j].key);
+    }
+    return 0;
+}
+</code></pre><h3 id="二叉排序树"><a href="#二叉排序树" class="headerlink" title="二叉排序树"></a>二叉排序树</h3><pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+typedef struct Node{
+    int data;
+    struct Node \*lchild;
+    struct Node \*rchild;
+}BSNode;
+
+typedef BSNode \*BSTree;
+
+
+BSTree insertBSTree(BSTree bst, int k){
+    if(bst == NULL){
+        bst = (BSNode \*)malloc(sizeof(BSNode));
+        bst-&gt;data = k;
+        bst-&gt;lchild = NULL;
+        bst-&gt;rchild = NULL;
+    }
+    BSTree lc;
+    BSTree rc;
+    if(k &lt; bst-&gt;data){
+        lc = insertBSTree(bst-&gt;lchild, k);
+        bst-&gt;lchild = lc;
+    }
+    else if(k &gt; bst-&gt;data){
+        rc = insertBSTree(bst-&gt;rchild, k);
+        bst-&gt;rchild = rc;
+    }
+    return bst;
+}
+
+void interOder(BSTree bst){
+    if(bst){
+        interOder(bst-&gt;lchild);
+        printf(&quot;%d-&gt;&quot;, bst-&gt;data);
+        interOder(bst-&gt;rchild);
+    }
+}
+
+int main(){
+    BSTree bst = NULL;
+    int t;
+    scanf(&quot;%d&quot;, &amp;t);
+    while (t != -9999) {
+        bst = insertBSTree(bst, t);
+        scanf(&quot;%d&quot;, &amp;t);
+    }
+    interOder(bst);
+    printf(&quot;\n&quot;);
+    return 0;
+}
+</code></pre>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/11/05/dataStructure_order/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/11/05/dataStructure_order/" itemprop="url">数据结构--排序</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-05T08:00:00+08:00">
+                2018-11-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/11/05/dataStructure_order/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/11/05/dataStructure_order/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="直接插入排序"><a href="#直接插入排序" class="headerlink" title="直接插入排序"></a>直接插入排序</h3><pre><code>#include &lt;stdio.h&gt;
+
+#define MAX 1000
+
+typedef struct{
+    int key;
+}Node;
+
+typedef Node SeqList[MAX+1];
+
+void insertSort(SeqList R, int n){
+    for(int i=2; i&lt;=n ; i++){
+        R[0].key = R[i].key;
+        int j;
+        for(j=i-1; j&gt;=0; j--){
+            if(R[j].key &lt;= R[i].key)
+                break;
+        }
+        if(j &lt; i-1){
+            for(int k=i-1; k&gt;j; k--){
+                R[k+1].key = R[k].key;
+            }
+            R[j+1].key = R[0].key;
+        }
+    }
+}
+
+int main(){
+    SeqList R;
+    int t;
+    int n = 0;
+    while (1==1) {
+        scanf(&quot;%d&quot;, &amp;t);
+        if(t == -9999)
+            break;
+        n++;
+        R[n].key = t;
+    }
+    insertSort(R, n);
+    for(int i=1; i&lt;=n; i++){
+        printf(&quot;%d-&gt;&quot;, R[i].key);
+    }
+    printf(&quot;\n&quot;);
+    return 0;
+}
+</code></pre>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/11/05/dataStructure_multiArr/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/11/05/dataStructure_multiArr/" itemprop="url">数据结构--多维数组</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-05T07:00:00+08:00">
+                2018-11-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/11/05/dataStructure_multiArr/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/11/05/dataStructure_multiArr/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="三角矩阵-amp-amp-矩阵乘积"><a href="#三角矩阵-amp-amp-矩阵乘积" class="headerlink" title="三角矩阵 &amp;&amp; 矩阵乘积"></a>三角矩阵 &amp;&amp; 矩阵乘积</h3><pre><code>#include &lt;stdio.h&gt;
+
+#define MAX 1000
+
+void matMulti(int \*A, int \*B, int n){
+    int C[n][n];
+    int i, j, s;
+    int index_A = 0, index_B = 0;
+    for(i=0; i&lt;n; i++){
+        for(j=0; j&lt;n; j++){
+            C[i][j] = 0;
+        }
+    }
+    for(i=0; i&lt;n; i++){
+        for(j=0; j&lt;n; j++){
+            s=0;
+            for(int k=0; k&lt;n; k++){
+                if(i&lt;k || j&lt;k)
+                    continue;
+                index_A = i*(i+1)/2 + k;
+                index_B = k*(2*n-k+1)/2 + j -k;
+                printf(&quot;A:%d B:%d\n&quot;, A[index_A], B[index_B]);
+                s += A[index_A]\*B[index_B];
+            }
+            C[i][j] = s;
+        }
+    }
+    for(i=0; i&lt;n; i++){
+        for(j=0; j&lt;n; j++){
+            printf(&quot;%d &quot;, C[i][j]);
+        }
+        printf(&quot;\n&quot;);
+    }
+}
+
+int main(){
+    // 上三角矩阵A, 下三角矩阵
+    int A[MAX], B[MAX];
+    // 矩阵数据长度
+    int i=0, j=0;
+    // 矩阵阶数
+    int n1=0, n2=0;
+    int flag1=1, flag2=1;
+    int tmp;
+    while (1 == 1) {
+        scanf(&quot;%d&quot;, &amp;tmp);
+        if(tmp == -9999)
+            break;
+        A[i] = tmp;
+        i++;
+        flag1--;
+        if(flag1 == 0){
+            n1++;
+            flag1=n1+1;
+        }
+    }
+    while (1 == 1) {
+        scanf(&quot;%d&quot;, &amp;tmp);
+        if(tmp == -9999)
+            break;
+        B[j] = tmp;
+        j++;
+        flag2--;
+        if(flag2 == 0){
+            n2++;
+            flag2=n2+1;
+        }
+    }
+    printf(&quot;%d %d\n&quot;, i, n1);
+    printf(&quot;%d %d\n&quot;, j, n2);
+    matMulti(A, B, n1);
+}
+</code></pre>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/10/21/computer_network/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/21/computer_network/" itemprop="url">未命名</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-21T11:21:13+08:00">
+                2018-10-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/10/21/computer_network/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/10/21/computer_network/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="第三章-传输层"><a href="#第三章-传输层" class="headerlink" title="第三章 传输层"></a>第三章 传输层</h2><h3 id="TCP拥塞控制"><a href="#TCP拥塞控制" class="headerlink" title="TCP拥塞控制"></a>TCP拥塞控制</h3><p>TCP拥塞控制不基于拥塞状态反馈（丢弃分组，警告位），是与网络层拥塞控制的区别。TCP拥塞控制通过超时和三次重复确认推断拥塞。拥塞控制算法有慢启动、拥塞避免、快速恢复和快速重传。涉及到发送端的一个变量拥塞窗口CongWin。在慢启动阶段，每接收到一个ACK，CongWin加一个MSS数值，在一个RTT后翻倍。CongWin超过初始阈值Threshold进入在拥塞避免阶段，每个RTT，ConWin加1。一旦推断拥塞，Threshold=CongWin/2，CongWin=1，进入慢启动。反映了加性增加和乘性减小。后期引入快送重传和快速恢复算法，快速重传就是发生三次重复确认，重传报文段。快速恢复区别对待超时和三次重复确认，对发生三次重复确认，只是从新的阈值开始进入拥塞避免阶段。</p>
+<h2 id="第四章-网络层"><a href="#第四章-网络层" class="headerlink" title="第四章 网络层"></a>第四章 网络层</h2><h3 id="网络层服务"><a href="#网络层服务" class="headerlink" title="网络层服务"></a>网络层服务</h3><ul>
+<li>转发</li>
+<li>路由选择<br>路由选择算法计算路由，将路由信息存储到路由转发表，转发分组时查询转发表并转发分组。</li>
+<li>连接建立</li>
+</ul>
+<h3 id="数据报网络和虚电路网络"><a href="#数据报网络和虚电路网络" class="headerlink" title="数据报网络和虚电路网络"></a>数据报网络和虚电路网络</h3><ul>
+<li>是否面向连接</li>
+<li>虚电路网络又分为永久型和交换型（更具需要临时建立）</li>
+<li>数据报网络和虚电路网络的主要区别是顺序控制、流量控制和差错控制是由网络完成还是端系统完成。</li>
+</ul>
+<h3 id="网络互联与网络互联设备"><a href="#网络互联与网络互联设备" class="headerlink" title="网络互联与网络互联设备"></a>网络互联与网络互联设备</h3><h4 id="异构网络互联的方式"><a href="#异构网络互联的方式" class="headerlink" title="异构网络互联的方式"></a>异构网络互联的方式</h4><ul>
+<li>协议转换</li>
+<li>构建虚拟互联网络，使用虚拟互联网络设备转发分组。<br>IP网络就是虚拟互联网络，Internet是最大的IP网络，网络层协议–IP，网络询址–IP地址，网络互联设备–路由器<h4 id="路由器"><a href="#路由器" class="headerlink" title="路由器"></a>路由器</h4></li>
+<li>每个输入端口都有路由转发表的副本和缓存功能</li>
+<li>输入端口到输出端口分组的转发，由交换结构完成<h4 id="交换结构的实现方式："><a href="#交换结构的实现方式：" class="headerlink" title="交换结构的实现方式："></a>交换结构的实现方式：</h4></li>
+<li>基于内存交换，性能低，便宜</li>
+<li>基于总线交换，无需处理器介入，总线具有独占特性</li>
+<li>基于网络交换，可以并行交换，但是对同一输出端口的交换是串行的<h4 id="路由转发转发原则"><a href="#路由转发转发原则" class="headerlink" title="路由转发转发原则"></a>路由转发转发原则</h4>路由转发时，有多条路由项匹配成功，选择网络前缀匹配成功最长的路由项，最长前缀匹配优先原则</li>
+</ul>
+<h3 id="网络层拥塞控制"><a href="#网络层拥塞控制" class="headerlink" title="网络层拥塞控制"></a>网络层拥塞控制</h3><h4 id="拥塞控制和流量控制的区别"><a href="#拥塞控制和流量控制的区别" class="headerlink" title="拥塞控制和流量控制的区别"></a>拥塞控制和流量控制的区别</h4><p>流量控制是发送方根据接受方的缓存和数据处理的能力调整数据发送速率和发送量。拥塞控制是根据网络通过能力或拥挤程度调节速率和发送量。</p>
+<h4 id="几种常用的网络层的拥塞控制措施"><a href="#几种常用的网络层的拥塞控制措施" class="headerlink" title="几种常用的网络层的拥塞控制措施"></a>几种常用的网络层的拥塞控制措施</h4><ul>
+<li>流量感知路由，拥塞预防措施</li>
+<li>准入控制，是否允许构建虚电路</li>
+<li>流量调节，通过抑制分组，直接告知发送方。背压，在发往发送方的路径中，每一跳都抑制输出，优点是快速缓解拥塞，缺点是每一跳都需要更大的缓存。</li>
+<li>负载脱落，选择丢弃数据包，丢弃哪些数据包取决于上层应用</li>
+</ul>
+<h3 id="Internet网络层"><a href="#Internet网络层" class="headerlink" title="Internet网络层"></a>Internet网络层</h3><h4 id="IP数据报分片与重组"><a href="#IP数据报分片与重组" class="headerlink" title="IP数据报分片与重组"></a>IP数据报分片与重组</h4><ul>
+<li>不同链路层协议MTU不同，因此需要对数据报进行分片。</li>
+<li>重组是，根据标识字段判断是否属于同一数据报，标志字段的MF判断是否最后一个分片，偏移字段表示顺序，长度字段判断是否有分片丢失。</li>
+</ul>
+<h4 id="IPv4编址，32位"><a href="#IPv4编址，32位" class="headerlink" title="IPv4编址，32位"></a>IPv4编址，32位</h4><p>基于IP子网的概念将IP地址划分为两部分，前缀即网络部分，后缀即主机部分。</p>
+<ul>
+<li>分类地址<br>  前缀长度    前缀<br>A   8         0XXXXXXXX<br>B   16        10XXXXXXXXXXXXXXXX<br>C   24        110XXXXXXXXXXXXXXXXXXXXXXXX<br>D             1110XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX<br>E             11110XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</li>
+<li>无类地址<br>只有给出子网地址、子往前缀或子网掩码才能准确描述子网规模<br>给定子网内某地址，与子网掩码做按位与运算获得子网地址，与子网掩码的反码按位或运算可得直接广播地址<br>子网的可用IP地址总数要减去子网地址和广播地址<h4 id="路由聚合"><a href="#路由聚合" class="headerlink" title="路由聚合"></a>路由聚合</h4>路由聚合技术缩减路由表项，有效提高查询效率<h4 id="动态主机配置协议DHCP"><a href="#动态主机配置协议DHCP" class="headerlink" title="动态主机配置协议DHCP"></a>动态主机配置协议DHCP</h4>动态分配IP地址，应用层实现，传输层使用UDP<h5 id="分配过程"><a href="#分配过程" class="headerlink" title="分配过程"></a>分配过程</h5></li>
+<li>DHCP发现，目的IP，255.255.255.255，源IP，0.0.0.0</li>
+<li>DHCP服务器提供，广播发送</li>
+<li>DHCP请求，广播发送，因为可能存在多个DHCP服务器</li>
+<li>DHCP确认<h4 id="网络地址转换NAT"><a href="#网络地址转换NAT" class="headerlink" title="网络地址转换NAT"></a>网络地址转换NAT</h4></li>
+<li>NAT通过替换进出内部似有网络的IP数据包的IP地址和端口号，实现使用私有地址的主机与互联网通信。NAT运行在边缘路由器，维护NAT转换表。</li>
+<li>私有地址主机如果希望被动接受外网主机访问，需要NAT穿透<h4 id="ICMP，网络控制报文协议"><a href="#ICMP，网络控制报文协议" class="headerlink" title="ICMP，网络控制报文协议"></a>ICMP，网络控制报文协议</h4>封装在IP数据报中，实现主机和路由器之间的差错报告和网络探测。分为差错报告报文和询问报文两大类。Ping，Traceroute<h4 id="IPv4到IPv6的迁移"><a href="#IPv4到IPv6的迁移" class="headerlink" title="IPv4到IPv6的迁移"></a>IPv4到IPv6的迁移</h4></li>
+<li>双协议栈，同时支持两种协议，使用DNS查询返回地址区分服务端支持的协议</li>
+<li>隧道，客户服务器都使用IPv6但中间路由器不支持怎么办，在进入隧道前的最后一个IPv6路由器上封装称IPv4数据报，目的地址是隧道出口第一个IPv6路由器。<h4 id="路由选择算法"><a href="#路由选择算法" class="headerlink" title="路由选择算法"></a>路由选择算法</h4></li>
+<li>全局式路由选择算法，LS（链路状态）</li>
+<li>分布式路由选择算法，DV（距离向量）</li>
+<li>层次化路由选择<h4 id="Internet路由选择协议"><a href="#Internet路由选择协议" class="headerlink" title="Internet路由选择协议"></a>Internet路由选择协议</h4></li>
+<li>RIP(路由信息协议)<br>内部外观协议，DV</li>
+<li>OSPF(开放式最短路径优先协议)<br>内部外观协议，LS</li>
+<li>BGP(边界网关协议)<br>外部网关协议，DV</li>
+</ul>
+<h2 id="第五章-数据链路层与局域网"><a href="#第五章-数据链路层与局域网" class="headerlink" title="第五章 数据链路层与局域网"></a>第五章 数据链路层与局域网</h2><h3 id="差错控制"><a href="#差错控制" class="headerlink" title="差错控制"></a>差错控制</h3><h4 id="噪声分类"><a href="#噪声分类" class="headerlink" title="噪声分类"></a>噪声分类</h4><ul>
+<li>随机噪声引起差错</li>
+<li>冲击噪声引起突发差错</li>
+</ul>
+<h4 id="差错控制基本方式"><a href="#差错控制基本方式" class="headerlink" title="差错控制基本方式"></a>差错控制基本方式</h4><ul>
+<li>检错重发，停等协议和滑动窗口协议</li>
+<li>前向纠错FEC</li>
+<li>反馈校验，将发送端的数据再发回去</li>
+<li>检错丢弃，允许一定差错存在</li>
+</ul>
+<h4 id="差错编码"><a href="#差错编码" class="headerlink" title="差错编码"></a>差错编码</h4><p>信息位后附加冗余位，信息位与冗余码符合一定关系式</p>
+<h4 id="检错和纠错能力"><a href="#检错和纠错能力" class="headerlink" title="检错和纠错能力"></a>检错和纠错能力</h4><h4 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h4><ul>
+<li>奇偶校验码</li>
+<li>汉明码<br>信息位k 校验位r<br>2^r &gt;= k+r+1</li>
+<li>CRC</li>
+</ul>
+<h3 id="多路访问控制协议"><a href="#多路访问控制协议" class="headerlink" title="多路访问控制协议"></a>多路访问控制协议</h3><p>链路信道分为单播和广播信道，广播信道被所有结点共享，必须采用MAC控制结点信息发送</p>
+<h4 id="信道划分MAC协议"><a href="#信道划分MAC协议" class="headerlink" title="信道划分MAC协议"></a>信道划分MAC协议</h4><h5 id="多路复用技术"><a href="#多路复用技术" class="headerlink" title="多路复用技术"></a>多路复用技术</h5><ul>
+<li>频分多路复用</li>
+<li>时分多路复用<br>同步时分多路复用。异步时分多路复用又称统计时分多路复用，大多用于现代计算机广域传输。</li>
+<li>波分多路复用<br>在光纤通信上的频分多路复用</li>
+<li>码分多路复用<h4 id="随机访问MAC协议"><a href="#随机访问MAC协议" class="headerlink" title="随机访问MAC协议"></a>随机访问MAC协议</h4></li>
+<li>纯ALOHA协议<br>无线信道共享接入，任一站点有发送信息的需要立即发送，监听一段时间，没有接收站的回应则表示发送成功，否则等待随机时间后重发。</li>
+<li>时隙ALOHA协议<br>信道时间划分离散的时隙，每个时隙等于发送一帧所需要的时间，在每个时隙开始阶段发送，出现冲突后下一个时隙以概率P重发该帧</li>
+<li>CSMA，载波监听多路访问协议<br>利用载波监听装置在数据发送之前监听其它站点是否在发送数据。又分为非坚持CSMA（信道忙等待随机时间再监听），1-坚持CSMA（信道忙继续监听直到空闲立即发送数据），P-坚持CSMA（分割时隙，信道空闲以概率P在时隙开始时间发送）</li>
+<li>CSMA/CD，带冲突检测的载波监听多路访问协议<br>发送数据的同时，监听信道，一旦发生冲突立即停止发送，并发出冲突强化信号，使得所有站点都知道冲突发生。L是数据帧最小长度，R是传输速率，D是两站最远距离，V是传播速度，则L/R&gt;=2D/V。<h4 id="受控接入MAC"><a href="#受控接入MAC" class="headerlink" title="受控接入MAC"></a>受控接入MAC</h4></li>
+<li>集中式控制<br>轮叫轮询，传递轮询。主机一旦故障，网络瘫痪</li>
+<li>分散式控制<br>令牌环网<h4 id="受控接入MAC协议"><a href="#受控接入MAC协议" class="headerlink" title="受控接入MAC协议"></a>受控接入MAC协议</h4></li>
+</ul>
+<h3 id="局域网"><a href="#局域网" class="headerlink" title="局域网"></a>局域网</h3><h4 id="数据链路层寻址"><a href="#数据链路层寻址" class="headerlink" title="数据链路层寻址"></a>数据链路层寻址</h4><h5 id="MAC地址"><a href="#MAC地址" class="headerlink" title="MAC地址"></a>MAC地址</h5><ul>
+<li>交换机接口没有MAC地址</li>
+<li>帧的转发由交换机查找交换表转发相应端口，如果目的MAC地址是接收端口则丢弃。</li>
+<li>MAC地址是6个字节，第一个字节的倒数第二位是G/L位，为1时表示本地管理，位0时表示全球管理。</li>
+<li>广播MAC地址全为1<h5 id="ARP，地址解析协议"><a href="#ARP，地址解析协议" class="headerlink" title="ARP，地址解析协议"></a>ARP，地址解析协议</h5></li>
+<li>每台主机有ARP高速缓存，存储MAC地址和IP地址的映射关系。</li>
+<li>每个主机和路由器都有ARP模块，通过广播ARP查询报文可以得到IP地址对应MAC地址</li>
+<li>如果主机和目的主机不在同一个子网，ARP解析默认网关MAC地址，作为目的MAC地址</li>
+<li>ARP查询分组是广播帧发送，响应分组是单播帧<h5 id="ARP与DNS的区别"><a href="#ARP与DNS的区别" class="headerlink" title="ARP与DNS的区别"></a>ARP与DNS的区别</h5></li>
+<li>ARP是IP地址与MAC地址的映射关系，DNS是域名和IP地址的映射关系</li>
+<li>ARP是为子网内主机解析IP地址，DNS是为整个互联网解析主机域名</li>
+<li>DNS是在域名服务器间查询，ARP是在局域网内广播ARP查询<h4 id="以太网"><a href="#以太网" class="headerlink" title="以太网"></a>以太网</h4>802.3协议，第一个广泛部署的告诉局域网,CSMA/CD，曼策斯特编码，提供无连接不可靠服务</li>
+<li>10Base-5 经典的同轴电缆总线型以太网</li>
+<li>10Base-T 非屏蔽双绞线UTP</li>
+<li>100Base-T 快速以太网</li>
+<li>100Base-TX 5类UTP</li>
+<li>100Base-T4 3、4、5类UTP</li>
+<li>100Base-TF 光缆</li>
+<li>1000Base-SX/LX 千兆以太网，光纤传输介质</li>
+<li>1000Base-T 5类UTP</li>
+<li>万兆以太网 扩展了传输速率和距离，开始应用于城域网和广域网<h4 id="交换机"><a href="#交换机" class="headerlink" title="交换机"></a>交换机</h4></li>
+<li>交换机就是多端口的网桥。依据目的MAC地址，选择性的转发端口，这就是转发与过滤功能</li>
+<li>交换机的选择性转发，实现了冲突域的分割。10M以太网，10个用户使用，若使用交换机连接，交换机的总容量相当于100M</li>
+<li>交换机的交换表是通过逆向学习逐步构建的</li>
+<li>交换机是一种即插即用的设备，采用专用的交换结构芯片，其转发速率比软件转发的网桥快得多</li>
+<li>交换机的优点，消除冲突、支持异质链路和网络管理（可以检测到异常适配器并切断<h4 id="虚拟局域网-VLAN"><a href="#虚拟局域网-VLAN" class="headerlink" title="虚拟局域网 VLAN"></a>虚拟局域网 VLAN</h4>为限制广播域的规模，抑制广播风暴，可以使用路由器分割子网，或则构建虚拟局域网，基于交换机的逻辑分割，通过软件方式实现<h5 id="主要方法"><a href="#主要方法" class="headerlink" title="主要方法"></a>主要方法</h5></li>
+<li>基于交换机的端口</li>
+<li>基于MAC地址划分</li>
+<li>基于上层协议类型或地址划分，有利于组成基于应用的VLAN</li>
+</ul>
+<h2 id="物理层"><a href="#物理层" class="headerlink" title="物理层"></a>物理层</h2><h2 id="无线网"><a href="#无线网" class="headerlink" title="无线网"></a>无线网</h2><h2 id="网络安全"><a href="#网络安全" class="headerlink" title="网络安全"></a>网络安全</h2>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/09/20/ngrok/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1066,10 +1946,11 @@ $ systemctl enable nginx
 </code></pre><ul>
 <li><p>Find the “server” directive and change it  like below:</p>
 <pre><code>server {
-    listen *:80;
-    server_name _;
-    location / {
-        proxy_pass http://localhost:5601;
+    listen 80;
+    server_name \_;
+    location ~ ^/kibana/(.\*)$ {
+        rewrite /kibana/(.\*) /$1 break;
+        proxy_pass http://127.0.0.1:9396;
         auth_basic &quot;Restricted&quot;;
         auth_basic_user_file /etc/nginx/.htpasswd;
     }
@@ -1080,6 +1961,17 @@ $ systemctl enable nginx
 </code></pre></li>
 <li><p>重启 Nginx</p>
 <pre><code>$ systemctl restart nginx
+</code></pre></li>
+</ul>
+<h3 id="Configuring-Kibnana"><a href="#Configuring-Kibnana" class="headerlink" title="Configuring Kibnana"></a>Configuring Kibnana</h3><ul>
+<li><p>打开配置文件</p>
+<pre><code>$ vim /etc/kibana/kibana.yml
+</code></pre></li>
+<li><p>添加</p>
+<pre><code>server.basePath: &quot;/kibana&quot;
+</code></pre></li>
+<li><p>重启 Kibana</p>
+<pre><code>$ systemctl restart Kibana
 </code></pre></li>
 </ul>
 
@@ -1575,909 +2467,6 @@ POST _reindex
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/07/27/Scrapy/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jokers">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jokers's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/27/Scrapy/" itemprop="url">Scrapy+Scrapyd+Redis</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-27T14:05:00+08:00">
-                2018-07-27
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/07/27/Scrapy/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/07/27/Scrapy/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Scrapy"><a href="#Scrapy" class="headerlink" title="Scrapy"></a>Scrapy</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><pre><code>pip install scrapy
-</code></pre><ul>
-<li><p>某些系统会找不到 Twisted ，需要手动下载<a href="https://files.pythonhosted.org/packages/90/50/4c315ce5d119f67189d1819629cae7908ca0b0a6c572980df5cc6942bc22/Twisted-18.7.0.tar.bz2" target="_blank" rel="noopener">source</a>，解压后再安装</p>
-<pre><code>bzip2 -d Twisted-18.7.0.tar.bz2
-pip3 install Twisted-18.7.0.tar
-</code></pre></li>
-</ul>
-<h3 id="使用-scrapy-命令生成一个新的-project"><a href="#使用-scrapy-命令生成一个新的-project" class="headerlink" title="使用 scrapy 命令生成一个新的 project"></a>使用 scrapy 命令生成一个新的 project</h3><pre><code>scrapy startproject myproject
-
-myproject/
-    scrapy.cfg            # deploy configuration file
-
-    myproject/             # project&apos;s Python module, you&apos;ll import your code from here
-        __init__.py
-
-        items.py          # project items definition file
-
-        middlewares.py    # project middlewares file
-
-        pipelines.py      # project pipelines file
-
-        settings.py       # project settings file
-
-        spiders/          # a directory where you&apos;ll later put your spiders
-            __init__.py
-</code></pre><h3 id="在-tutorial-spiders-目录下创建第一个-spider"><a href="#在-tutorial-spiders-目录下创建第一个-spider" class="headerlink" title="在 tutorial/spiders 目录下创建第一个 spider"></a>在 tutorial/spiders 目录下创建第一个 spider</h3><pre><code>import scrapy
-
-
-class QuotesSpider(scrapy.Spider):
-    name = &quot;quotes&quot;
-
-    def start_requests(self):
-        urls = [
-            &apos;http://quotes.toscrape.com/page/1/&apos;,
-            &apos;http://quotes.toscrape.com/page/2/&apos;,
-        ]
-        for url in urls:
-            yield scrapy.Request(url=url, callback=self.parse)
-
-    def parse(self, response):
-        page = response.url.split(&quot;/&quot;)[-2]
-        filename = &apos;quotes-%s.html&apos; % page
-        with open(filename, &apos;wb&apos;) as f:
-            f.write(response.body)
-        self.log(&apos;Saved file %s&apos; % filename)
-</code></pre><h3 id="运行-spider-，在-project-的根目录运行"><a href="#运行-spider-，在-project-的根目录运行" class="headerlink" title="运行 spider ，在 project 的根目录运行"></a>运行 spider ，在 project 的根目录运行</h3><pre><code>scrapy crawl quotes
-</code></pre><h2 id="Scrapyd-，远程管理-Scrapy"><a href="#Scrapyd-，远程管理-Scrapy" class="headerlink" title="Scrapyd ，远程管理 Scrapy"></a>Scrapyd ，远程管理 Scrapy</h2><h3 id="安装-1"><a href="#安装-1" class="headerlink" title="安装"></a>安装</h3><pre><code>pip install scrapyd
-</code></pre><h3 id="远程访问，修改配置文件-site-packages-scrapyd-default-scrapyd-conf"><a href="#远程访问，修改配置文件-site-packages-scrapyd-default-scrapyd-conf" class="headerlink" title="远程访问，修改配置文件 site-packages/scrapyd/default_scrapyd.conf"></a>远程访问，修改配置文件 site-packages/scrapyd/default_scrapyd.conf</h3><pre><code>bind_address = 0.0.0.0
-</code></pre><h3 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h3><pre><code>scrapyd
-</code></pre><h3 id="Scrapy-project-部署到-Scrapyd"><a href="#Scrapy-project-部署到-Scrapyd" class="headerlink" title="Scrapy project 部署到 Scrapyd"></a>Scrapy project 部署到 Scrapyd</h3><ul>
-<li>eggifying the project</li>
-<li>uploading the egg to Scrapyd via the addversion.json</li>
-<li>以上手动步骤可以通过 scrapyd-client 提供的 scrapyd-deploy 工具实现</li>
-</ul>
-<h3 id="安装-scrapyd-client"><a href="#安装-scrapyd-client" class="headerlink" title="安装 scrapyd-client"></a>安装 scrapyd-client</h3><pre><code>pip install scrapyd-client
-</code></pre><h3 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h3><pre><code>scrapyd-deploy &lt;target&gt; -p &lt;project&gt;
-</code></pre><ul>
-<li><p>可以编辑 scrapy.cfg 设置默认值，免于指定 target 和 project</p>
-<pre><code>[deploy:target]
-url = http://localhost:6800/
-username = scrapy
-password = secret
-project = myproject
-</code></pre></li>
-<li><p>执行</p>
-<pre><code>scrapyd-deploy target
-</code></pre></li>
-</ul>
-<h3 id="schedule-a-spider-run"><a href="#schedule-a-spider-run" class="headerlink" title="schedule a spider run"></a>schedule a spider run</h3><pre><code>$ curl http://localhost:6800/schedule.json -d project=myproject -d spider=spider2
-{&quot;status&quot;: &quot;ok&quot;, &quot;jobid&quot;: &quot;26d1b1a6d6f111e0be5c001e648c57f8&quot;}
-</code></pre><h2 id="scrapy-redis-分布式"><a href="#scrapy-redis-分布式" class="headerlink" title="scrapy-redis 分布式"></a>scrapy-redis 分布式</h2><h3 id="安装Redis"><a href="#安装Redis" class="headerlink" title="安装Redis"></a>安装Redis</h3><pre><code>yum install redis
-pip install scrapy-redis
-</code></pre><h3 id="配置Redis-，编辑-etc-redis-conf"><a href="#配置Redis-，编辑-etc-redis-conf" class="headerlink" title="配置Redis ，编辑 /etc/redis.conf"></a>配置Redis ，编辑 /etc/redis.conf</h3><ul>
-<li><p>设置访问密码</p>
-<pre><code>requirepass password
-</code></pre></li>
-<li><p>注释 bind ，可远程访问</p>
-<pre><code># bind 127.0.0.1 ::1
-</code></pre></li>
-</ul>
-<h3 id="编辑-project-的-settings-py"><a href="#编辑-project-的-settings-py" class="headerlink" title="编辑 project 的 settings.py"></a>编辑 project 的 settings.py</h3><pre><code># Enables scheduling storing requests queue in redis.
-SCHEDULER = &quot;scrapy_redis.scheduler.Scheduler&quot;
-
-# Ensure all spiders share same duplicates filter through redis.
-DUPEFILTER_CLASS = &quot;scrapy_redis.dupefilter.RFPDupeFilter&quot;
-
-# Store scraped item in redis for post-processing.
-ITEM_PIPELINES = {
-    &apos;scrapy_redis.pipelines.RedisPipeline&apos;: 300
-}
-
-# Specify the full Redis URL for connecting (optional).
-# If set, this takes precedence over the REDIS_HOST and REDIS_PORT settings.
-REDIS_URL = &apos;redis://user:password@host:6379&apos;
-</code></pre><h3 id="运行-spider-，在-project-的根目录运行-1"><a href="#运行-spider-，在-project-的根目录运行-1" class="headerlink" title="运行 spider ，在 project 的根目录运行"></a>运行 spider ，在 project 的根目录运行</h3><pre><code>scrapy crawl quotes
-</code></pre><h3 id="处理-Item"><a href="#处理-Item" class="headerlink" title="处理 Item"></a>处理 Item</h3><p>所有 Item 保存在 Redis ，key 为 quotes:items ，可以写脚本保存到数据库。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/06/12/spark-HelloWorld/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jokers">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jokers's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/06/12/spark-HelloWorld/" itemprop="url">Spark</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-12T17:46:35+08:00">
-                2018-06-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/06/12/spark-HelloWorld/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/06/12/spark-HelloWorld/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><ul>
-<li><p>安装JAVA</p>
-<pre><code>$ java -version
-</code></pre></li>
-<li><p>安装Scala</p>
-<pre><code>$ wget https://downloads.lightbend.com/scala/2.12.6/scala-2.12.6.rpm
-$ sudo rpm -ivh scala-2.12.6.rpm
-$ scala -version
-</code></pre></li>
-<li><p>安装Spark</p>
-<pre><code>$ wget http://mirrors.hust.edu.cn/apache/spark/spark-2.3.1/spark-2.3.1-bin-hadoop2.7.tgz
-$ tar xvf spark-2.3.1-bin-hadoop2.7.tgz
-$ sudo mv spark-2.3.1-bin-hadoop2.7/* /usr/local/spark
-
-$ vim ~/.bashrc
-export PATH = $PATH:/usr/local/spark/bin
-$ source ~/.bashrc
-
-$ spark-shell
-</code></pre></li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/06/10/scala-HelloWorld/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jokers">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jokers's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/06/10/scala-HelloWorld/" itemprop="url">Scala 基本语法</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-10T17:46:35+08:00">
-                2018-06-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/06/10/scala-HelloWorld/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/06/10/scala-HelloWorld/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="函数和方法"><a href="#函数和方法" class="headerlink" title="函数和方法"></a>函数和方法</h4><pre><code>scala&gt; class C {
-     |   var acc = 0
-     |   def minc = { acc += 1 }
-     |   val finc = { () =&gt; acc += 1 }
-     | }
-defined class C
-
-scala&gt; val c = new C
-c: C = C@1af1bd6
-
-scala&gt; c.minc // calls c.minc()
-
-scala&gt; c.finc // returns the function as a value:
-res2: () =&gt; Unit = &lt;function0&gt;
-</code></pre><h4 id="abstract-class"><a href="#abstract-class" class="headerlink" title="abstract class"></a>abstract class</h4><ul>
-<li><p>不能实例化抽象类</p>
-<pre><code>scala&gt; abstract class Shape{
-|   def getArea():Int
-| }
-defined class Shape
-</code></pre></li>
-</ul>
-<h4 id="Traits"><a href="#Traits" class="headerlink" title="Traits"></a>Traits</h4><pre><code>trait Car {
-  val brand: String
-}
-
-trait Shiny {
-  val shineRefraction: Int
-}
-class BMW extends Car {
-  val brand = &quot;BMW&quot;
-}
-
-class BMW extends Car with Shiny {
-  val brand = &quot;BMW&quot;
-  val shineRefraction = 12
-}
-</code></pre><ul>
-<li><p>优先使用特质。一个类扩展多个特质是很方便的，但却只能扩展一个抽象类。</p>
-</li>
-<li><p>如果你需要构造函数参数，使用抽象类。因为抽象类可以定义带参数的构造函数，而特质不行。例如，你不能说trait t(i: Int) {}，参数i是非法的。</p>
-</li>
-</ul>
-<h4 id="Object"><a href="#Object" class="headerlink" title="Object"></a>Object</h4><p>Scala classes cannot have static variables or methods. Instead a Scala class can have what is called a singleton object, or sometime a companion object.</p>
-<pre><code>scala&gt; class Bar(foo: String)
-defined class Bar
-
-scala&gt; object Bar{
-     |   def apply(foo: String) = new Bar(foo)
-     | }
-</code></pre><h4 id="apply-方法，语法糖"><a href="#apply-方法，语法糖" class="headerlink" title="apply 方法，语法糖"></a>apply 方法，语法糖</h4><pre><code>scala&gt; class Foo{}
-defined class Foo
-
-scala&gt; object FooMaker{}
-defined object FooMaker
-
-scala&gt; object FooMaker{
-     |   def apply() = new Foo
-     | }
-defined object FooMaker
-
-scala&gt; val newFoo = FooMaker()
-newFoo: Foo = Foo@229cb4d8
-</code></pre><h4 id="函数即对象"><a href="#函数即对象" class="headerlink" title="函数即对象"></a>函数即对象</h4><p>函数是Function*特质的示例，并且定义了apply语法糖</p>
-<pre><code>scala&gt; object addOne extends Function1[Int, Int]{
-     |   def apply(m: Int): Int = m + 1
-     | }
-defined object addOne
-
-scala&gt; addOne(1)
-res0: Int = 2
-</code></pre><h4 id="case-class"><a href="#case-class" class="headerlink" title="case class"></a>case class</h4><p>It makes only sense to define case classes if pattern matching is used to decompose data structures.</p>
-<ul>
-<li><p>实例化可以不加关键词new</p>
-</li>
-<li><p>toString更漂亮</p>
-</li>
-<li><p>默认实现equals和hashCode</p>
-</li>
-<li><p>默认序列化</p>
-</li>
-</ul>
-<h4 id="模式匹配"><a href="#模式匹配" class="headerlink" title="模式匹配"></a>模式匹配</h4><ul>
-<li><p>基本用法</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">scala&gt; val times = 1</span><br><span class="line">times: Int = 1</span><br><span class="line"></span><br><span class="line">scala&gt; times match&#123;</span><br><span class="line">     |   case 1 =&gt; &quot;one&quot;</span><br><span class="line">     |   case 2 =&gt; &quot;two&quot;</span><br><span class="line">     |   case _ =&gt; &quot;other&quot;</span><br><span class="line">     | &#125;</span><br><span class="line">res2: String = one</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>带if守卫</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">scala&gt; val score = 70</span><br><span class="line">score: Int = 70</span><br><span class="line"></span><br><span class="line">scala&gt; score match&#123;</span><br><span class="line">     |   case s if (score &gt;= 90) =&gt; &quot;优秀&quot;</span><br><span class="line">     |   case s if (score &gt;= 70) =&gt; &quot;良好&quot;</span><br><span class="line">     |   case s if (score &gt;= 60) =&gt; &quot;及格&quot;</span><br><span class="line">     |   case _ =&gt; &quot;不及格&quot;</span><br><span class="line">     | &#125;</span><br><span class="line">res5: String = 良好</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>类型的模式匹配</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">try&#123;</span><br><span class="line">    something</span><br><span class="line">&#125;catch&#123;</span><br><span class="line">    case e: IllegalArgumentException=&gt; do something</span><br><span class="line">    case e: FileNotFoundException=&gt; do something</span><br><span class="line">    case e: IOException =&gt; do something</span><br><span class="line">    case _: Exception =&gt; do something</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>case class的模式匹配</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">class Customer</span><br><span class="line">case class PersonalUser(name:String) extends Customer</span><br><span class="line">case class EnterpriseUser(name:String) extends Customer</span><br><span class="line">case class VipUser(name:String) extends Customer</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">def service(c:Customer):Unit=&#123;</span><br><span class="line">    c match&#123;</span><br><span class="line">      case EnterpriseUser(_)=&gt;print(&quot;Enterprise&quot;)</span><br><span class="line">      case PersonalUser(_)=&gt;print(&quot;Personal&quot;)</span><br><span class="line">      case VipUser(_)=&gt;print(&quot;Vip&quot;)</span><br><span class="line">      case _ =&gt;print(&quot;None&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Option的模式匹配</p>
-<p>  Some and None are both children of Option</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">def toInt(in: String): Option[Int] = &#123;</span><br><span class="line">    try &#123;</span><br><span class="line">        Some(Integer.parseInt(in.trim))</span><br><span class="line">    &#125; catch &#123;</span><br><span class="line">        case e: NumberFormatException =&gt; None</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">toInt(someString) match &#123;</span><br><span class="line">    case Some(i) =&gt; println(i)</span><br><span class="line">    case None =&gt; println(&quot;That didn&apos;t work.&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/05/24/install-hive/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jokers">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jokers's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/24/install-hive/" itemprop="url">Hive2安装</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-24T11:00:00+08:00">
-                2018-05-24
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/05/24/install-hive/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/05/24/install-hive/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h2><p>适应版本Hadoop已安装，hdfs和yarn可以成功运行</p>
-<h2 id="解压缩"><a href="#解压缩" class="headerlink" title="解压缩"></a>解压缩</h2><pre><code>$ sudo mv apache-hive-2.3.3-bin.tar.gz /usr/local/
-$ cd /usr/local/
-$ sudo tar -zxvf apache-hive-2.3.3-bin.tar.gz
-$ sudo mv apache-hive-2.3.3-bin hive
-$ sudo chown -R hadoop:hadoop hive
-</code></pre><h2 id="配置环境变量"><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a>配置环境变量</h2><pre><code>$ vim ~/.bashrc
-export HIVE_HOME=/usr/local/hive
-export PATH=$PATH:$HIVE_HOME/bin
-export CLASSPATH=$CLASSPATH:/usr/local/hadoop/lib/*:.
-export CLASSPATH=$CLASSPATH:/usr/local/hive/lib/*:.
-
-$ source ~/.bashrc
-</code></pre><h2 id="Hive配置"><a href="#Hive配置" class="headerlink" title="Hive配置"></a>Hive配置</h2><pre><code>$ cp conf/hive-env.sh.template conf/hive-env.sh
-$ vim conf/hive-env.sh
-HADOOP_HOME=/usr/local/hadoop
-export HIVE_CONF_DIR=/usr/local/hive/conf
-
-$ cd /usr/local/hive
-$ cp conf/hive-default.xml.template conf/hive-site.xml
-$ vim conf/hive-size.xml
-</code></pre><ul>
-<li><p>system:java.io.tmpir &amp; system:user.name</p>
-<pre><code>&lt;property&gt;
-    &lt;name&gt;system:java.io.tmpdir&lt;/name&gt;
-    &lt;value&gt;/usr/local/hive/tmp&lt;/value&gt;
-&lt;/property&gt;
-&lt;property&gt;
-    &lt;name&gt;system:user.name&lt;/name&gt;
-    &lt;value&gt;jokers&lt;/value&gt;
-&lt;/property&gt;
-</code></pre></li>
-<li><p>mysql连接配置</p>
-<pre><code>&lt;property&gt;
-    &lt;name&gt;javax.jdo.option.ConnectionDriverName&lt;/name&gt;
-    &lt;value&gt;com.mysql.jdbc.Driver&lt;/value&gt;
-    &lt;description&gt;Driver class name for a JDBC metastore&lt;/description&gt;
-&lt;/property&gt;
-
-&lt;property&gt;
-    &lt;name&gt;javax.jdo.option.ConnectionURL&lt;/name&gt;
-    &lt;value&gt;jdbc:mysql://xx.xxx.xx.xx:3306/hive?createDatabaseIfNotExist=true&lt;/value&gt;
-    &lt;description&gt;JDBC connect string for a JDBC metastore&lt;/description&gt;
-&lt;/property&gt;
-
-&lt;property&gt;
-    &lt;name&gt;javax.jdo.option.ConnectionUserName&lt;/name&gt;
-    &lt;value&gt;hive&lt;/value&gt;
-    &lt;description&gt;Username to use against metastore database&lt;/description&gt;
-&lt;/property&gt;
-
-&lt;property&gt;
-    &lt;name&gt;javax.jdo.option.ConnectionPassword&lt;/name&gt;
-    &lt;value&gt;hive&lt;/value&gt;
-    &lt;description&gt;password to use against metastore database&lt;/description&gt;
-&lt;/property&gt;
-</code></pre></li>
-</ul>
-<ul>
-<li><p>hive的存储仓库位置，观察配置默认值</p>
-<pre><code>&lt;property&gt;
-    &lt;name&gt;hive.metastore.warehouse.dir&lt;/name&gt;
-    &lt;value&gt;/user/hive/warehouse&lt;/value&gt;
-    &lt;description&gt;location of default database for the warehouse&lt;/description&gt;
-&lt;/property&gt;
-
-&lt;property&gt;
-    &lt;name&gt;hive.exec.scratchdir&lt;/name&gt;
-    &lt;value&gt;/tmp/hive&lt;/value&gt;
-    &lt;description&gt;HDFS root scratch dir for Hive jobs which gets created with write all (733) permission. For each connecting user, an HDFS scratch dir: ${hive.exec.scratchdir}/&lt;username&gt;is created, with ${hive.scratch.dir.permission}.&lt;/description&gt;
-&lt;/property&gt;
-
-&lt;property&gt;
-    &lt;name&gt;hive.querylog.location&lt;/name&gt;
-    &lt;value&gt;${system:java.io.tmpdir}/${system:user.name}&lt;/value&gt;
-    &lt;description&gt;Location of Hive run time structured log file&lt;/description&gt;
-&lt;/property&gt;
-</code></pre></li>
-<li><p>使用Hadoop建立Hive仓库</p>
-<pre><code>$ $HADOOP_HOME/bin/hadoop fs -mkdir /tmp/hive
-$ $HADOOP_HOME/bin/hadoop fs -mkdir /user/hive/warehouse
-$ $HADOOP_HOME/bin/hadoop fs -chmod g+w /tmp/hive
-$ $HADOOP_HOME/bin/hadoop fs -chmod g+w /user/hive/warehouse
-</code></pre></li>
-<li><p>下载mysql-connector-java.jar</p>
-<pre><code>$ sudo yum install mysql-connector-java.noarch
-$ cp /usr/share/java/mysql-connector-java.jar $HIVE_HOME/lib/mysql-connector-java.jar
-</code></pre></li>
-</ul>
-<ul>
-<li><p>Hive初始化mysql数据库</p>
-<pre><code>$ schematool --dbType mysql --initSchema
-</code></pre></li>
-<li><p>启动Hive</p>
-<pre><code>$ hive
-</code></pre></li>
-</ul>
-<h2 id="MySQL数据导入hive"><a href="#MySQL数据导入hive" class="headerlink" title="MySQL数据导入hive"></a>MySQL数据导入hive</h2><ul>
-<li><p>安装Sqoop</p>
-</li>
-<li><p>配置mysqldump(如果使用–direct)</p>
-<pre><code>ln -fs /user/local/mysql/bin/mysqldump /usr/bin
-</code></pre></li>
-<li><p>给Hadoop添加环境变量</p>
-<pre><code>$ vim /usr/local/hadoop/etc/hadoop/hadoop-env.sh
-export HADOOP_CLASSPATH=$HADOOP_CLASSPATH:/usr/local/hive/conf/
-export HADOOP_CLASSPATH=$HADOOP_CLASSPATH:/usr/local/hive/lib/
-# 不能这样写/usr/local/hive/conf/* /usr/local/hive/lib/*
-</code></pre></li>
-<li><p>导入示例</p>
-<pre><code>sqoop import --connect jdbc:mysql://xx.xx.x.x:3306/databases --table table --username hive --password hive --direct --fields-terminated-by &apos;|&apos;  --warehouse-dir /user/hive/warehouse  --hive-import
-</code></pre></li>
-</ul>
-<h2 id="远程链接hiveserver2"><a href="#远程链接hiveserver2" class="headerlink" title="远程链接hiveserver2"></a>远程链接hiveserver2</h2><ul>
-<li><p>配置hive-site.xml</p>
-<pre><code>&lt;property&gt;
-    &lt;name&gt;hive.server2.thrift.client.user&lt;/name&gt;
-    &lt;value&gt;hadoop&lt;/value&gt;
-    &lt;description&gt;Username to use against thrift client&lt;/description&gt;
-&lt;/property&gt;
-&lt;property&gt;
-    &lt;name&gt;hive.server2.thrift.client.password&lt;/name&gt;
-    &lt;value&gt;zcb1511&lt;/value&gt;
-    &lt;description&gt;Password to use against thrift client&lt;/description&gt;
-&lt;/property&gt;
-&lt;property&gt;
-    &lt;name&gt;hive.server2.transport.mode&lt;/name&gt;
-    &lt;value&gt;binary&lt;/value&gt;
-    &lt;description&gt;
-        Expects one of [binary, http].
-        Transport mode of HiveServer2.
-    &lt;/description&gt;
-&lt;/property&gt;
-&lt;property&gt;
-    &lt;name&gt;hive.server2.thrift.port&lt;/name&gt;
-    &lt;value&gt;10000&lt;/value&gt;
-    &lt;description&gt;Port number of HiveServer2 Thrift interface when hive.server2.transport.mode is &apos;binary&apos;.&lt;/description&gt;
-&lt;/property&gt;
-&lt;property&gt;
-    &lt;name&gt;hive.server2.thrift.bind.host&lt;/name&gt;
-    &lt;value&gt;0.0.0.0&lt;/value&gt;
-    &lt;description&gt;Bind host on which to run the HiveServer2 Thrift service.&lt;/description&gt;
-&lt;/property&gt;
-</code></pre></li>
-<li><p>配置hadoop下的core-site.xml</p>
-<pre><code>&lt;property&gt;
-    &lt;name&gt;hadoop.proxyuser.hadoop.hosts&lt;/name&gt;
-    &lt;!--value&gt;master&lt;/value--&gt;
-    &lt;value&gt;*&lt;/value&gt;
-&lt;/property&gt;
-
-&lt;property&gt;
-    &lt;name&gt;hadoop.proxyuser.hadoop.groups&lt;/name&gt;
-    &lt;!--value&gt;hadoop&lt;/value--&gt;
-    &lt;value&gt;*&lt;/value&gt;
-&lt;/property&gt;
-</code></pre></li>
-<li><p>启动hive服务,客户端可以使用beeline命令行，也可使用sql developer客户端工具，需要下载hive jdbc驱动</p>
-<pre><code>nohup hiveserver2 &gt;hive.log 2&gt;&amp;1 &amp;
-</code></pre></li>
-</ul>
-<h2 id="error解决"><a href="#error解决" class="headerlink" title="error解决"></a>error解决</h2><pre><code>hive.HiveConfig: Could not load org.apache.hadoop.hive.conf.HiveConf. Make sure HIVE_CONF_DIR is set correctly
-
-$ vim ~/.bashrc
-export HADOOP_CLASSPATH=$HADOOP_CLASSPATH:/usr/local/hive/lib/*
-$ source ~/.bashrc
-</code></pre>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2528,7 +2517,7 @@ $ source ~/.bashrc
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">21</span>
+                <span class="site-state-item-count">25</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

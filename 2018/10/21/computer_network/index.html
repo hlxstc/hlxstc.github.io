@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="第三章 传输层TCP拥塞控制TCP拥塞控制不基于拥塞状态反馈（丢弃分组，警告位），是与网络层拥塞控制的区别。TCP拥塞控制通过超时和三次重复确认推断拥塞。拥塞控制算法有慢启动、拥塞避免、快速恢复和快速重传。涉及到发送端的一个变量拥塞窗口CongWin。在慢启动阶段，每接收到一个ACK，CongWin加一个MSS数值，在一个RTT后翻倍。CongWin超过初始阈值Threshold进入在拥塞避免阶段">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Jokers&#39;s Blog">
+<meta property="og:url" content="http://thathub.com/2018/10/21/computer_network/index.html">
+<meta property="og:site_name" content="Jokers&#39;s Blog">
+<meta property="og:description" content="第三章 传输层TCP拥塞控制TCP拥塞控制不基于拥塞状态反馈（丢弃分组，警告位），是与网络层拥塞控制的区别。TCP拥塞控制通过超时和三次重复确认推断拥塞。拥塞控制算法有慢启动、拥塞避免、快速恢复和快速重传。涉及到发送端的一个变量拥塞窗口CongWin。在慢启动阶段，每接收到一个ACK，CongWin加一个MSS数值，在一个RTT后翻倍。CongWin超过初始阈值Threshold进入在拥塞避免阶段">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-10-21T03:21:13.464Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Jokers&#39;s Blog">
+<meta name="twitter:description" content="第三章 传输层TCP拥塞控制TCP拥塞控制不基于拥塞状态反馈（丢弃分组，警告位），是与网络层拥塞控制的区别。TCP拥塞控制通过超时和三次重复确认推断拥塞。拥塞控制算法有慢启动、拥塞避免、快速恢复和快速重传。涉及到发送端的一个变量拥塞窗口CongWin。在慢启动阶段，每接收到一个ACK，CongWin加一个MSS数值，在一个RTT后翻倍。CongWin超过初始阈值Threshold进入在拥塞避免阶段">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://thathub.com/2018/10/21/computer_network/"/>
+
+
+
+
+
+  <title> | Jokers's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jokers's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">高尚是高尚者的墓志铭 卑鄙是卑鄙者的通行证</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/10/21/computer_network/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline"></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-21T11:21:13+08:00">
+                2018-10-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/10/21/computer_network/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/10/21/computer_network/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="第三章-传输层"><a href="#第三章-传输层" class="headerlink" title="第三章 传输层"></a>第三章 传输层</h2><h3 id="TCP拥塞控制"><a href="#TCP拥塞控制" class="headerlink" title="TCP拥塞控制"></a>TCP拥塞控制</h3><p>TCP拥塞控制不基于拥塞状态反馈（丢弃分组，警告位），是与网络层拥塞控制的区别。TCP拥塞控制通过超时和三次重复确认推断拥塞。拥塞控制算法有慢启动、拥塞避免、快速恢复和快速重传。涉及到发送端的一个变量拥塞窗口CongWin。在慢启动阶段，每接收到一个ACK，CongWin加一个MSS数值，在一个RTT后翻倍。CongWin超过初始阈值Threshold进入在拥塞避免阶段，每个RTT，ConWin加1。一旦推断拥塞，Threshold=CongWin/2，CongWin=1，进入慢启动。反映了加性增加和乘性减小。后期引入快送重传和快速恢复算法，快速重传就是发生三次重复确认，重传报文段。快速恢复区别对待超时和三次重复确认，对发生三次重复确认，只是从新的阈值开始进入拥塞避免阶段。</p>
+<h2 id="第四章-网络层"><a href="#第四章-网络层" class="headerlink" title="第四章 网络层"></a>第四章 网络层</h2><h3 id="网络层服务"><a href="#网络层服务" class="headerlink" title="网络层服务"></a>网络层服务</h3><ul>
+<li>转发</li>
+<li>路由选择<br>路由选择算法计算路由，将路由信息存储到路由转发表，转发分组时查询转发表并转发分组。</li>
+<li>连接建立</li>
+</ul>
+<h3 id="数据报网络和虚电路网络"><a href="#数据报网络和虚电路网络" class="headerlink" title="数据报网络和虚电路网络"></a>数据报网络和虚电路网络</h3><ul>
+<li>是否面向连接</li>
+<li>虚电路网络又分为永久型和交换型（更具需要临时建立）</li>
+<li>数据报网络和虚电路网络的主要区别是顺序控制、流量控制和差错控制是由网络完成还是端系统完成。</li>
+</ul>
+<h3 id="网络互联与网络互联设备"><a href="#网络互联与网络互联设备" class="headerlink" title="网络互联与网络互联设备"></a>网络互联与网络互联设备</h3><h4 id="异构网络互联的方式"><a href="#异构网络互联的方式" class="headerlink" title="异构网络互联的方式"></a>异构网络互联的方式</h4><ul>
+<li>协议转换</li>
+<li>构建虚拟互联网络，使用虚拟互联网络设备转发分组。<br>IP网络就是虚拟互联网络，Internet是最大的IP网络，网络层协议–IP，网络询址–IP地址，网络互联设备–路由器<h4 id="路由器"><a href="#路由器" class="headerlink" title="路由器"></a>路由器</h4></li>
+<li>每个输入端口都有路由转发表的副本和缓存功能</li>
+<li>输入端口到输出端口分组的转发，由交换结构完成<h4 id="交换结构的实现方式："><a href="#交换结构的实现方式：" class="headerlink" title="交换结构的实现方式："></a>交换结构的实现方式：</h4></li>
+<li>基于内存交换，性能低，便宜</li>
+<li>基于总线交换，无需处理器介入，总线具有独占特性</li>
+<li>基于网络交换，可以并行交换，但是对同一输出端口的交换是串行的<h4 id="路由转发转发原则"><a href="#路由转发转发原则" class="headerlink" title="路由转发转发原则"></a>路由转发转发原则</h4>路由转发时，有多条路由项匹配成功，选择网络前缀匹配成功最长的路由项，最长前缀匹配优先原则</li>
+</ul>
+<h3 id="网络层拥塞控制"><a href="#网络层拥塞控制" class="headerlink" title="网络层拥塞控制"></a>网络层拥塞控制</h3><h4 id="拥塞控制和流量控制的区别"><a href="#拥塞控制和流量控制的区别" class="headerlink" title="拥塞控制和流量控制的区别"></a>拥塞控制和流量控制的区别</h4><p>流量控制是发送方根据接受方的缓存和数据处理的能力调整数据发送速率和发送量。拥塞控制是根据网络通过能力或拥挤程度调节速率和发送量。</p>
+<h4 id="几种常用的网络层的拥塞控制措施"><a href="#几种常用的网络层的拥塞控制措施" class="headerlink" title="几种常用的网络层的拥塞控制措施"></a>几种常用的网络层的拥塞控制措施</h4><ul>
+<li>流量感知路由，拥塞预防措施</li>
+<li>准入控制，是否允许构建虚电路</li>
+<li>流量调节，通过抑制分组，直接告知发送方。背压，在发往发送方的路径中，每一跳都抑制输出，优点是快速缓解拥塞，缺点是每一跳都需要更大的缓存。</li>
+<li>负载脱落，选择丢弃数据包，丢弃哪些数据包取决于上层应用</li>
+</ul>
+<h3 id="Internet网络层"><a href="#Internet网络层" class="headerlink" title="Internet网络层"></a>Internet网络层</h3><h4 id="IP数据报分片与重组"><a href="#IP数据报分片与重组" class="headerlink" title="IP数据报分片与重组"></a>IP数据报分片与重组</h4><ul>
+<li>不同链路层协议MTU不同，因此需要对数据报进行分片。</li>
+<li>重组是，根据标识字段判断是否属于同一数据报，标志字段的MF判断是否最后一个分片，偏移字段表示顺序，长度字段判断是否有分片丢失。</li>
+</ul>
+<h4 id="IPv4编址，32位"><a href="#IPv4编址，32位" class="headerlink" title="IPv4编址，32位"></a>IPv4编址，32位</h4><p>基于IP子网的概念将IP地址划分为两部分，前缀即网络部分，后缀即主机部分。</p>
+<ul>
+<li>分类地址<br>  前缀长度    前缀<br>A   8         0XXXXXXXX<br>B   16        10XXXXXXXXXXXXXXXX<br>C   24        110XXXXXXXXXXXXXXXXXXXXXXXX<br>D             1110XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX<br>E             11110XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</li>
+<li>无类地址<br>只有给出子网地址、子往前缀或子网掩码才能准确描述子网规模<br>给定子网内某地址，与子网掩码做按位与运算获得子网地址，与子网掩码的反码按位或运算可得直接广播地址<br>子网的可用IP地址总数要减去子网地址和广播地址<h4 id="路由聚合"><a href="#路由聚合" class="headerlink" title="路由聚合"></a>路由聚合</h4>路由聚合技术缩减路由表项，有效提高查询效率<h4 id="动态主机配置协议DHCP"><a href="#动态主机配置协议DHCP" class="headerlink" title="动态主机配置协议DHCP"></a>动态主机配置协议DHCP</h4>动态分配IP地址，应用层实现，传输层使用UDP<h5 id="分配过程"><a href="#分配过程" class="headerlink" title="分配过程"></a>分配过程</h5></li>
+<li>DHCP发现，目的IP，255.255.255.255，源IP，0.0.0.0</li>
+<li>DHCP服务器提供，广播发送</li>
+<li>DHCP请求，广播发送，因为可能存在多个DHCP服务器</li>
+<li>DHCP确认<h4 id="网络地址转换NAT"><a href="#网络地址转换NAT" class="headerlink" title="网络地址转换NAT"></a>网络地址转换NAT</h4></li>
+<li>NAT通过替换进出内部似有网络的IP数据包的IP地址和端口号，实现使用私有地址的主机与互联网通信。NAT运行在边缘路由器，维护NAT转换表。</li>
+<li>私有地址主机如果希望被动接受外网主机访问，需要NAT穿透<h4 id="ICMP，网络控制报文协议"><a href="#ICMP，网络控制报文协议" class="headerlink" title="ICMP，网络控制报文协议"></a>ICMP，网络控制报文协议</h4>封装在IP数据报中，实现主机和路由器之间的差错报告和网络探测。分为差错报告报文和询问报文两大类。Ping，Traceroute<h4 id="IPv4到IPv6的迁移"><a href="#IPv4到IPv6的迁移" class="headerlink" title="IPv4到IPv6的迁移"></a>IPv4到IPv6的迁移</h4></li>
+<li>双协议栈，同时支持两种协议，使用DNS查询返回地址区分服务端支持的协议</li>
+<li>隧道，客户服务器都使用IPv6但中间路由器不支持怎么办，在进入隧道前的最后一个IPv6路由器上封装称IPv4数据报，目的地址是隧道出口第一个IPv6路由器。<h4 id="路由选择算法"><a href="#路由选择算法" class="headerlink" title="路由选择算法"></a>路由选择算法</h4></li>
+<li>全局式路由选择算法，LS（链路状态）</li>
+<li>分布式路由选择算法，DV（距离向量）</li>
+<li>层次化路由选择<h4 id="Internet路由选择协议"><a href="#Internet路由选择协议" class="headerlink" title="Internet路由选择协议"></a>Internet路由选择协议</h4></li>
+<li>RIP(路由信息协议)<br>内部外观协议，DV</li>
+<li>OSPF(开放式最短路径优先协议)<br>内部外观协议，LS</li>
+<li>BGP(边界网关协议)<br>外部网关协议，DV</li>
+</ul>
+<h2 id="第五章-数据链路层与局域网"><a href="#第五章-数据链路层与局域网" class="headerlink" title="第五章 数据链路层与局域网"></a>第五章 数据链路层与局域网</h2><h3 id="差错控制"><a href="#差错控制" class="headerlink" title="差错控制"></a>差错控制</h3><h4 id="噪声分类"><a href="#噪声分类" class="headerlink" title="噪声分类"></a>噪声分类</h4><ul>
+<li>随机噪声引起差错</li>
+<li>冲击噪声引起突发差错</li>
+</ul>
+<h4 id="差错控制基本方式"><a href="#差错控制基本方式" class="headerlink" title="差错控制基本方式"></a>差错控制基本方式</h4><ul>
+<li>检错重发，停等协议和滑动窗口协议</li>
+<li>前向纠错FEC</li>
+<li>反馈校验，将发送端的数据再发回去</li>
+<li>检错丢弃，允许一定差错存在</li>
+</ul>
+<h4 id="差错编码"><a href="#差错编码" class="headerlink" title="差错编码"></a>差错编码</h4><p>信息位后附加冗余位，信息位与冗余码符合一定关系式</p>
+<h4 id="检错和纠错能力"><a href="#检错和纠错能力" class="headerlink" title="检错和纠错能力"></a>检错和纠错能力</h4><h4 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h4><ul>
+<li>奇偶校验码</li>
+<li>汉明码<br>信息位k 校验位r<br>2^r &gt;= k+r+1</li>
+<li>CRC</li>
+</ul>
+<h3 id="多路访问控制协议"><a href="#多路访问控制协议" class="headerlink" title="多路访问控制协议"></a>多路访问控制协议</h3><p>链路信道分为单播和广播信道，广播信道被所有结点共享，必须采用MAC控制结点信息发送</p>
+<h4 id="信道划分MAC协议"><a href="#信道划分MAC协议" class="headerlink" title="信道划分MAC协议"></a>信道划分MAC协议</h4><h5 id="多路复用技术"><a href="#多路复用技术" class="headerlink" title="多路复用技术"></a>多路复用技术</h5><ul>
+<li>频分多路复用</li>
+<li>时分多路复用<br>同步时分多路复用。异步时分多路复用又称统计时分多路复用，大多用于现代计算机广域传输。</li>
+<li>波分多路复用<br>在光纤通信上的频分多路复用</li>
+<li>码分多路复用<h4 id="随机访问MAC协议"><a href="#随机访问MAC协议" class="headerlink" title="随机访问MAC协议"></a>随机访问MAC协议</h4></li>
+<li>纯ALOHA协议<br>无线信道共享接入，任一站点有发送信息的需要立即发送，监听一段时间，没有接收站的回应则表示发送成功，否则等待随机时间后重发。</li>
+<li>时隙ALOHA协议<br>信道时间划分离散的时隙，每个时隙等于发送一帧所需要的时间，在每个时隙开始阶段发送，出现冲突后下一个时隙以概率P重发该帧</li>
+<li>CSMA，载波监听多路访问协议<br>利用载波监听装置在数据发送之前监听其它站点是否在发送数据。又分为非坚持CSMA（信道忙等待随机时间再监听），1-坚持CSMA（信道忙继续监听直到空闲立即发送数据），P-坚持CSMA（分割时隙，信道空闲以概率P在时隙开始时间发送）</li>
+<li>CSMA/CD，带冲突检测的载波监听多路访问协议<br>发送数据的同时，监听信道，一旦发生冲突立即停止发送，并发出冲突强化信号，使得所有站点都知道冲突发生。L是数据帧最小长度，R是传输速率，D是两站最远距离，V是传播速度，则L/R&gt;=2D/V。<h4 id="受控接入MAC"><a href="#受控接入MAC" class="headerlink" title="受控接入MAC"></a>受控接入MAC</h4></li>
+<li>集中式控制<br>轮叫轮询，传递轮询。主机一旦故障，网络瘫痪</li>
+<li>分散式控制<br>令牌环网<h4 id="受控接入MAC协议"><a href="#受控接入MAC协议" class="headerlink" title="受控接入MAC协议"></a>受控接入MAC协议</h4></li>
+</ul>
+<h3 id="局域网"><a href="#局域网" class="headerlink" title="局域网"></a>局域网</h3><h4 id="数据链路层寻址"><a href="#数据链路层寻址" class="headerlink" title="数据链路层寻址"></a>数据链路层寻址</h4><h5 id="MAC地址"><a href="#MAC地址" class="headerlink" title="MAC地址"></a>MAC地址</h5><ul>
+<li>交换机接口没有MAC地址</li>
+<li>帧的转发由交换机查找交换表转发相应端口，如果目的MAC地址是接收端口则丢弃。</li>
+<li>MAC地址是6个字节，第一个字节的倒数第二位是G/L位，为1时表示本地管理，位0时表示全球管理。</li>
+<li>广播MAC地址全为1<h5 id="ARP，地址解析协议"><a href="#ARP，地址解析协议" class="headerlink" title="ARP，地址解析协议"></a>ARP，地址解析协议</h5></li>
+<li>每台主机有ARP高速缓存，存储MAC地址和IP地址的映射关系。</li>
+<li>每个主机和路由器都有ARP模块，通过广播ARP查询报文可以得到IP地址对应MAC地址</li>
+<li>如果主机和目的主机不在同一个子网，ARP解析默认网关MAC地址，作为目的MAC地址</li>
+<li>ARP查询分组是广播帧发送，响应分组是单播帧<h5 id="ARP与DNS的区别"><a href="#ARP与DNS的区别" class="headerlink" title="ARP与DNS的区别"></a>ARP与DNS的区别</h5></li>
+<li>ARP是IP地址与MAC地址的映射关系，DNS是域名和IP地址的映射关系</li>
+<li>ARP是为子网内主机解析IP地址，DNS是为整个互联网解析主机域名</li>
+<li>DNS是在域名服务器间查询，ARP是在局域网内广播ARP查询<h4 id="以太网"><a href="#以太网" class="headerlink" title="以太网"></a>以太网</h4>802.3协议，第一个广泛部署的告诉局域网,CSMA/CD，曼策斯特编码，提供无连接不可靠服务</li>
+<li>10Base-5 经典的同轴电缆总线型以太网</li>
+<li>10Base-T 非屏蔽双绞线UTP</li>
+<li>100Base-T 快速以太网</li>
+<li>100Base-TX 5类UTP</li>
+<li>100Base-T4 3、4、5类UTP</li>
+<li>100Base-TF 光缆</li>
+<li>1000Base-SX/LX 千兆以太网，光纤传输介质</li>
+<li>1000Base-T 5类UTP</li>
+<li>万兆以太网 扩展了传输速率和距离，开始应用于城域网和广域网<h4 id="交换机"><a href="#交换机" class="headerlink" title="交换机"></a>交换机</h4></li>
+<li>交换机就是多端口的网桥。依据目的MAC地址，选择性的转发端口，这就是转发与过滤功能</li>
+<li>交换机的选择性转发，实现了冲突域的分割。10M以太网，10个用户使用，若使用交换机连接，交换机的总容量相当于100M</li>
+<li>交换机的交换表是通过逆向学习逐步构建的</li>
+<li>交换机是一种即插即用的设备，采用专用的交换结构芯片，其转发速率比软件转发的网桥快得多</li>
+<li>交换机的优点，消除冲突、支持异质链路和网络管理（可以检测到异常适配器并切断<h4 id="虚拟局域网-VLAN"><a href="#虚拟局域网-VLAN" class="headerlink" title="虚拟局域网 VLAN"></a>虚拟局域网 VLAN</h4>为限制广播域的规模，抑制广播风暴，可以使用路由器分割子网，或则构建虚拟局域网，基于交换机的逻辑分割，通过软件方式实现<h5 id="主要方法"><a href="#主要方法" class="headerlink" title="主要方法"></a>主要方法</h5></li>
+<li>基于交换机的端口</li>
+<li>基于MAC地址划分</li>
+<li>基于上层协议类型或地址划分，有利于组成基于应用的VLAN</li>
+</ul>
+<h2 id="物理层"><a href="#物理层" class="headerlink" title="物理层"></a>物理层</h2><h2 id="无线网"><a href="#无线网" class="headerlink" title="无线网"></a>无线网</h2><h2 id="网络安全"><a href="#网络安全" class="headerlink" title="网络安全"></a>网络安全</h2>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/20/ngrok/" rel="next" title="ngrok">
+                <i class="fa fa-chevron-left"></i> ngrok
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/11/05/dataStructure_multiArr/" rel="prev" title="数据结构--多维数组">
+                数据结构--多维数组 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="Jokers" />
+          <p class="site-author-name" itemprop="name">Jokers</p>
+           
+              <p class="site-description motion-element" itemprop="description">hlxstc680@gmail.com</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第三章-传输层"><span class="nav-number">1.</span> <span class="nav-text">第三章 传输层</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP拥塞控制"><span class="nav-number">1.1.</span> <span class="nav-text">TCP拥塞控制</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第四章-网络层"><span class="nav-number">2.</span> <span class="nav-text">第四章 网络层</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#网络层服务"><span class="nav-number">2.1.</span> <span class="nav-text">网络层服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据报网络和虚电路网络"><span class="nav-number">2.2.</span> <span class="nav-text">数据报网络和虚电路网络</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#网络互联与网络互联设备"><span class="nav-number">2.3.</span> <span class="nav-text">网络互联与网络互联设备</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#异构网络互联的方式"><span class="nav-number">2.3.1.</span> <span class="nav-text">异构网络互联的方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#路由器"><span class="nav-number">2.3.2.</span> <span class="nav-text">路由器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#交换结构的实现方式："><span class="nav-number">2.3.3.</span> <span class="nav-text">交换结构的实现方式：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#路由转发转发原则"><span class="nav-number">2.3.4.</span> <span class="nav-text">路由转发转发原则</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#网络层拥塞控制"><span class="nav-number">2.4.</span> <span class="nav-text">网络层拥塞控制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#拥塞控制和流量控制的区别"><span class="nav-number">2.4.1.</span> <span class="nav-text">拥塞控制和流量控制的区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#几种常用的网络层的拥塞控制措施"><span class="nav-number">2.4.2.</span> <span class="nav-text">几种常用的网络层的拥塞控制措施</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Internet网络层"><span class="nav-number">2.5.</span> <span class="nav-text">Internet网络层</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#IP数据报分片与重组"><span class="nav-number">2.5.1.</span> <span class="nav-text">IP数据报分片与重组</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#IPv4编址，32位"><span class="nav-number">2.5.2.</span> <span class="nav-text">IPv4编址，32位</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#路由聚合"><span class="nav-number">2.5.3.</span> <span class="nav-text">路由聚合</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#动态主机配置协议DHCP"><span class="nav-number">2.5.4.</span> <span class="nav-text">动态主机配置协议DHCP</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#分配过程"><span class="nav-number">2.5.4.1.</span> <span class="nav-text">分配过程</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#网络地址转换NAT"><span class="nav-number">2.5.5.</span> <span class="nav-text">网络地址转换NAT</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ICMP，网络控制报文协议"><span class="nav-number">2.5.6.</span> <span class="nav-text">ICMP，网络控制报文协议</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#IPv4到IPv6的迁移"><span class="nav-number">2.5.7.</span> <span class="nav-text">IPv4到IPv6的迁移</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#路由选择算法"><span class="nav-number">2.5.8.</span> <span class="nav-text">路由选择算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Internet路由选择协议"><span class="nav-number">2.5.9.</span> <span class="nav-text">Internet路由选择协议</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第五章-数据链路层与局域网"><span class="nav-number">3.</span> <span class="nav-text">第五章 数据链路层与局域网</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#差错控制"><span class="nav-number">3.1.</span> <span class="nav-text">差错控制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#噪声分类"><span class="nav-number">3.1.1.</span> <span class="nav-text">噪声分类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#差错控制基本方式"><span class="nav-number">3.1.2.</span> <span class="nav-text">差错控制基本方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#差错编码"><span class="nav-number">3.1.3.</span> <span class="nav-text">差错编码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#检错和纠错能力"><span class="nav-number">3.1.4.</span> <span class="nav-text">检错和纠错能力</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分类"><span class="nav-number">3.1.5.</span> <span class="nav-text">分类</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多路访问控制协议"><span class="nav-number">3.2.</span> <span class="nav-text">多路访问控制协议</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#信道划分MAC协议"><span class="nav-number">3.2.1.</span> <span class="nav-text">信道划分MAC协议</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#多路复用技术"><span class="nav-number">3.2.1.1.</span> <span class="nav-text">多路复用技术</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#随机访问MAC协议"><span class="nav-number">3.2.2.</span> <span class="nav-text">随机访问MAC协议</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#受控接入MAC"><span class="nav-number">3.2.3.</span> <span class="nav-text">受控接入MAC</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#受控接入MAC协议"><span class="nav-number">3.2.4.</span> <span class="nav-text">受控接入MAC协议</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#局域网"><span class="nav-number">3.3.</span> <span class="nav-text">局域网</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#数据链路层寻址"><span class="nav-number">3.3.1.</span> <span class="nav-text">数据链路层寻址</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#MAC地址"><span class="nav-number">3.3.1.1.</span> <span class="nav-text">MAC地址</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ARP，地址解析协议"><span class="nav-number">3.3.1.2.</span> <span class="nav-text">ARP，地址解析协议</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ARP与DNS的区别"><span class="nav-number">3.3.1.3.</span> <span class="nav-text">ARP与DNS的区别</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#以太网"><span class="nav-number">3.3.2.</span> <span class="nav-text">以太网</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#交换机"><span class="nav-number">3.3.3.</span> <span class="nav-text">交换机</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#虚拟局域网-VLAN"><span class="nav-number">3.3.4.</span> <span class="nav-text">虚拟局域网 VLAN</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#主要方法"><span class="nav-number">3.3.4.1.</span> <span class="nav-text">主要方法</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#物理层"><span class="nav-number">4.</span> <span class="nav-text">物理层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#无线网"><span class="nav-number">5.</span> <span class="nav-text">无线网</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网络安全"><span class="nav-number">6.</span> <span class="nav-text">网络安全</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jokers</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://thathub-com.disqus.com.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://thathub.com/2018/10/21/computer_network/';
+          this.page.identifier = '2018/10/21/computer_network/';
+          this.page.title = '';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://thathub-com.disqus.com.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

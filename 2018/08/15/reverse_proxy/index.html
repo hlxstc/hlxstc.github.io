@@ -101,7 +101,7 @@
 <meta property="og:site_name" content="Jokers&#39;s Blog">
 <meta property="og:description" content="安装 Nginx ，先安装 EPEL repository$ yum install epel-release $ yum install nginx $ systemctl start nginx $ systemctl enable nginx httpd-tools, setting up an HTTP authentication$ yum install httpd-tools  cr">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-08-15T09:36:54.282Z">
+<meta property="og:updated_time" content="2018-10-09T09:38:59.213Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Nginx作反向代理保护Kibana">
 <meta name="twitter:description" content="安装 Nginx ，先安装 EPEL repository$ yum install epel-release $ yum install nginx $ systemctl start nginx $ systemctl enable nginx httpd-tools, setting up an HTTP authentication$ yum install httpd-tools  cr">
@@ -364,10 +364,11 @@ $ systemctl enable nginx
 </code></pre><ul>
 <li><p>Find the “server” directive and change it  like below:</p>
 <pre><code>server {
-    listen *:80;
-    server_name _;
-    location / {
-        proxy_pass http://localhost:5601;
+    listen 80;
+    server_name \_;
+    location ~ ^/kibana/(.\*)$ {
+        rewrite /kibana/(.\*) /$1 break;
+        proxy_pass http://127.0.0.1:9396;
         auth_basic &quot;Restricted&quot;;
         auth_basic_user_file /etc/nginx/.htpasswd;
     }
@@ -378,6 +379,17 @@ $ systemctl enable nginx
 </code></pre></li>
 <li><p>重启 Nginx</p>
 <pre><code>$ systemctl restart nginx
+</code></pre></li>
+</ul>
+<h3 id="Configuring-Kibnana"><a href="#Configuring-Kibnana" class="headerlink" title="Configuring Kibnana"></a>Configuring Kibnana</h3><ul>
+<li><p>打开配置文件</p>
+<pre><code>$ vim /etc/kibana/kibana.yml
+</code></pre></li>
+<li><p>添加</p>
+<pre><code>server.basePath: &quot;/kibana&quot;
+</code></pre></li>
+<li><p>重启 Kibana</p>
+<pre><code>$ systemctl restart Kibana
 </code></pre></li>
 </ul>
 
@@ -500,7 +512,7 @@ $ systemctl enable nginx
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">21</span>
+                <span class="site-state-item-count">25</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -548,7 +560,7 @@ $ systemctl enable nginx
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-Nginx-，先安装-EPEL-repository"><span class="nav-number">1.</span> <span class="nav-text">安装 Nginx ，先安装 EPEL repository</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#httpd-tools-setting-up-an-HTTP-authentication"><span class="nav-number">2.</span> <span class="nav-text">httpd-tools, setting up an HTTP authentication</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Configuring-Nginx"><span class="nav-number">3.</span> <span class="nav-text">Configuring Nginx</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-Nginx-，先安装-EPEL-repository"><span class="nav-number">1.</span> <span class="nav-text">安装 Nginx ，先安装 EPEL repository</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#httpd-tools-setting-up-an-HTTP-authentication"><span class="nav-number">2.</span> <span class="nav-text">httpd-tools, setting up an HTTP authentication</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Configuring-Nginx"><span class="nav-number">3.</span> <span class="nav-text">Configuring Nginx</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Configuring-Kibnana"><span class="nav-number">4.</span> <span class="nav-text">Configuring Kibnana</span></a></li></ol></div>
             
 
           </div>

@@ -94,17 +94,17 @@
 
 
 
-<meta name="description" content="Reindex 新建一个 index ，复制原 index 的 mappings 和 settings 设置新 index 的 refresh_interval 为-1， number_of_replicas 为 0， reindex 效率更高 PUT /twitter/_settings {     &amp;quot;index&amp;quot; : {         &amp;quot;number_of_re">
+<meta name="description" content="二分查找 &amp;amp;&amp;amp; 利用二分查找插入#include &amp;lt;stdio.h&amp;gt;  #define MAX 100  typedef struct{     int key; }Node;  typedef Node SeqList[MAX+1];  //递归二分查找 int binSearch1(SeqList R, int k, int low, int high){">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Elasticsearch常用操作">
-<meta property="og:url" content="http://thathub.com/2018/08/14/elastcsearch-command/index.html">
+<meta property="og:title" content="数据结构--查找">
+<meta property="og:url" content="http://thathub.com/2018/11/05/dataStructure_select/index.html">
 <meta property="og:site_name" content="Jokers&#39;s Blog">
-<meta property="og:description" content="Reindex 新建一个 index ，复制原 index 的 mappings 和 settings 设置新 index 的 refresh_interval 为-1， number_of_replicas 为 0， reindex 效率更高 PUT /twitter/_settings {     &amp;quot;index&amp;quot; : {         &amp;quot;number_of_re">
+<meta property="og:description" content="二分查找 &amp;amp;&amp;amp; 利用二分查找插入#include &amp;lt;stdio.h&amp;gt;  #define MAX 100  typedef struct{     int key; }Node;  typedef Node SeqList[MAX+1];  //递归二分查找 int binSearch1(SeqList R, int k, int low, int high){">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-08-14T14:54:55.667Z">
+<meta property="og:updated_time" content="2018-11-05T01:50:37.789Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Elasticsearch常用操作">
-<meta name="twitter:description" content="Reindex 新建一个 index ，复制原 index 的 mappings 和 settings 设置新 index 的 refresh_interval 为-1， number_of_replicas 为 0， reindex 效率更高 PUT /twitter/_settings {     &amp;quot;index&amp;quot; : {         &amp;quot;number_of_re">
+<meta name="twitter:title" content="数据结构--查找">
+<meta name="twitter:description" content="二分查找 &amp;amp;&amp;amp; 利用二分查找插入#include &amp;lt;stdio.h&amp;gt;  #define MAX 100  typedef struct{     int key; }Node;  typedef Node SeqList[MAX+1];  //递归二分查找 int binSearch1(SeqList R, int k, int low, int high){">
 
 
 
@@ -133,13 +133,13 @@
 
 
 
-  <link rel="canonical" href="http://thathub.com/2018/08/14/elastcsearch-command/"/>
+  <link rel="canonical" href="http://thathub.com/2018/11/05/dataStructure_select/"/>
 
 
 
 
 
-  <title>Elasticsearch常用操作 | Jokers's Blog</title>
+  <title>数据结构--查找 | Jokers's Blog</title>
   
 
 
@@ -272,7 +272,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/08/14/elastcsearch-command/">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/11/05/dataStructure_select/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jokers">
@@ -289,7 +289,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Elasticsearch常用操作</h1>
+          <h1 class="post-title" itemprop="name headline">数据结构--查找</h1>
         
 
         <div class="post-meta">
@@ -301,8 +301,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-14T15:36:00+08:00">
-                2018-08-14
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-05T09:00:00+08:00">
+                2018-11-05
               </time>
             
 
@@ -320,9 +320,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/08/14/elastcsearch-command/#comments" itemprop="discussionUrl">
+                <a href="/2018/11/05/dataStructure_select/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/08/14/elastcsearch-command/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2018/11/05/dataStructure_select/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -350,189 +350,141 @@
       
 
       
-        <h2 id="Reindex"><a href="#Reindex" class="headerlink" title="Reindex"></a>Reindex</h2><ol>
-<li>新建一个 index ，复制原 index 的 mappings 和 settings</li>
-<li><p>设置新 index 的 refresh_interval 为-1， number_of_replicas 为 0， reindex 效率更高</p>
-<pre><code>PUT /twitter/_settings
-{
-    &quot;index&quot; : {
-        &quot;number_of_replicas&quot; : 0
+        <h3 id="二分查找-amp-amp-利用二分查找插入"><a href="#二分查找-amp-amp-利用二分查找插入" class="headerlink" title="二分查找 &amp;&amp; 利用二分查找插入"></a>二分查找 &amp;&amp; 利用二分查找插入</h3><pre><code>#include &lt;stdio.h&gt;
+
+#define MAX 100
+
+typedef struct{
+    int key;
+}Node;
+
+typedef Node SeqList[MAX+1];
+
+//递归二分查找
+int binSearch1(SeqList R, int k, int low, int high){
+    int mid;
+    if(low &lt;= high){
+        mid = (low+high)/2;
+        if(R[mid].key == k)
+            return mid;
+        if(R[mid].key &gt; k)
+            return binSearch1(R, k, low, mid-1);
+        else
+            return binSearch1(R, k, mid+1, high);
+    }
+    return 0;
+}
+
+//非递归查找
+int binSearch2(SeqList R, int k, int low, int high){
+    int mid;
+    while(low &lt;= high){
+        mid = (low+high)/2;
+        if(R[mid].key == k)
+            return mid;
+        if(R[mid].key &gt; k)
+            high = mid-1;
+        else
+            low = mid+1;
+    }
+    return 0;
+}
+
+//插入
+void binInsert(SeqList R, int n, int k){
+    int low=1, high=n,find=0, mid;
+    while(low&lt;=high &amp;&amp; !find){
+        mid = (low+high)/2;
+        if(R[mid].key == k){
+            find = mid;
+            break;
+        }
+        if(R[mid].key &gt; k)
+            high = mid - 1;
+        else
+            low = mid + 1;
+    }
+    if(!find)
+        find = low;
+    for(int i=n; i&gt;=find; i--){
+        R[i+1] = R[i];
+    }
+    R[find].key = k;
+}
+
+int main(){
+    SeqList R;
+    int t;
+    int n = 0;
+    int i;
+    while (1==1) {
+        scanf(&quot;%d&quot;, &amp;t);
+        if(t == -9999)
+            break;
+        n++;
+        R[n].key = t;
+    }
+    i = binSearch1(R, 5, 1, n);
+    printf(&quot;%d\n&quot;, i);
+    binInsert(R, n, 5);
+    for(int j=1; j&lt;=n+1; j++){
+        printf(&quot;%d-&gt;&quot;, R[j].key);
+    }
+    return 0;
+}
+</code></pre><h3 id="二叉排序树"><a href="#二叉排序树" class="headerlink" title="二叉排序树"></a>二叉排序树</h3><pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+typedef struct Node{
+    int data;
+    struct Node \*lchild;
+    struct Node \*rchild;
+}BSNode;
+
+typedef BSNode \*BSTree;
+
+
+BSTree insertBSTree(BSTree bst, int k){
+    if(bst == NULL){
+        bst = (BSNode \*)malloc(sizeof(BSNode));
+        bst-&gt;data = k;
+        bst-&gt;lchild = NULL;
+        bst-&gt;rchild = NULL;
+    }
+    BSTree lc;
+    BSTree rc;
+    if(k &lt; bst-&gt;data){
+        lc = insertBSTree(bst-&gt;lchild, k);
+        bst-&gt;lchild = lc;
+    }
+    else if(k &gt; bst-&gt;data){
+        rc = insertBSTree(bst-&gt;rchild, k);
+        bst-&gt;rchild = rc;
+    }
+    return bst;
+}
+
+void interOder(BSTree bst){
+    if(bst){
+        interOder(bst-&gt;lchild);
+        printf(&quot;%d-&gt;&quot;, bst-&gt;data);
+        interOder(bst-&gt;rchild);
     }
 }
 
-PUT /twitter/_settings
-{
-    &quot;index&quot; : {
-        &quot;refresh_interval&quot; : &quot;-1&quot;
+int main(){
+    BSTree bst = NULL;
+    int t;
+    scanf(&quot;%d&quot;, &amp;t);
+    while (t != -9999) {
+        bst = insertBSTree(bst, t);
+        scanf(&quot;%d&quot;, &amp;t);
     }
+    interOder(bst);
+    printf(&quot;\n&quot;);
+    return 0;
 }
-</code></pre></li>
-<li><p>reindex api</p>
-<ul>
-<li><p>Just leaving out version_type (as above) or setting it to internal will cause Elasticsearch to blindly dump documents into the target, overwriting any that happen to have the same type and id:</p>
-<pre><code>POST _reindex
-{
-    &quot;source&quot;: {
-        &quot;index&quot;: &quot;twitter&quot;
-    },
-    &quot;dest&quot;: {
-        &quot;index&quot;: &quot;new_twitter&quot;,
-        &quot;version_type&quot;: &quot;internal&quot;
-    }
-}
-</code></pre></li>
-<li><p>Setting version_type to external will cause Elasticsearch to preserve the version from the source, create any documents that are missing, and update any documents that have an older version in the destination index than they do in the source index</p>
-<pre><code>POST _reindex
-{
-    &quot;source&quot;: {
-        &quot;index&quot;: &quot;twitter&quot;
-    },
-    &quot;dest&quot;: {
-        &quot;index&quot;: &quot;new_twitter&quot;,
-        &quot;version_type&quot;: &quot;external&quot;
-    }
-}
-</code></pre></li>
-<li><p>Settings op_type to create will cause _reindex to only create missing documents in the target index. All existing documents will cause a version conflic</p>
-<pre><code>POST _reindex
-{
-    &quot;source&quot;: {
-        &quot;index&quot;: &quot;twitter&quot;
-    },
-    &quot;dest&quot;: {
-        &quot;index&quot;: &quot;new_twitter&quot;,
-        &quot;op_type&quot;: &quot;create&quot;
-    }
-}
-</code></pre></li>
-<li><p>By default version conflicts abort the _reindex process but you can just count them by settings “conflicts”: “proceed” in the request body</p>
-<pre><code>POST _reindex
-{
-    &quot;conflicts&quot;: &quot;proceed&quot;,
-    &quot;source&quot;: {
-        &quot;index&quot;: &quot;twitter&quot;
-    },
-    &quot;dest&quot;: {
-        &quot;index&quot;: &quot;new_twitter&quot;,
-        &quot;op_type&quot;: &quot;create&quot;
-    }
-}
-</code></pre></li>
-<li><p>如果某个字段设置了 completion suggest ,重建索引时或则索引数据时因相应字段为空会报错</p>
-<pre><code># value must have a length &gt; 0
-# elasticsearch completion field does not support null values
-
-POST _reindex
-{
-    &quot;source&quot;: {
-        &quot;index&quot;: &quot;twitter&quot;
-    },
-    &quot;dest&quot;: {
-        &quot;index&quot;: &quot;new_twitter&quot;
-    }
-}
-&quot;script&quot;: {
-    &quot;source&quot;: &quot;if (ctx._source.name == null || ctx._source.name == &apos;&apos;) {ctx._source.tmname=&apos; &apos;}&quot;,
-    &quot;lang&quot;: &quot;painless&quot;
-}
-</code></pre></li>
-<li><p>kibana 30s 后返回 timeout ，在请求后跟参数 ?wait_for_completion=true</p>
-</li>
-</ul>
-</li>
-<li><p>重新设置 refresh_interval 和 number_of_replicas</p>
-</li>
-<li>等待 index 状态 变为 green</li>
-<li>添加 aliases</li>
-</ol>
-<h2 id="Reindex-task"><a href="#Reindex-task" class="headerlink" title="Reindex task"></a>Reindex task</h2><ul>
-<li><p>获取正在运行的 reindex</p>
-<pre><code>GET _tasks?detailed=true&amp;actions=*reindex
-</code></pre></li>
-<li><p>查看单个 task</p>
-<pre><code>GET /_tasks/taskId:1
-</code></pre></li>
-<li><p>删除某个 task</p>
-<pre><code>POST _tasks/task_id:1/_cancel
-</code></pre></li>
-</ul>
-<h2 id="null-value"><a href="#null-value" class="headerlink" title="null_value"></a>null_value</h2><p>null 值不能被索引和查询， null_value 可以明确的替换 null 值</p>
-<pre><code>PUT my_index
-{
-    &quot;mappings&quot;: {
-        &quot;_doc&quot;: {
-          &quot;properties&quot;: {
-            &quot;status_code&quot;: {
-              &quot;type&quot;:       &quot;keyword&quot;,
-              &quot;null_value&quot;: &quot;NULL&quot;
-            }
-          }
-        }
-    }
-}
-</code></pre><ul>
-<li>The null_value needs to be the same datatype as the field. For instance, a long field cannot have a string null_value.</li>
-<li>The null_value only influences how data is indexed, it doesn’t modify the _source document.</li>
-</ul>
-<h2 id="Completion-Suggester"><a href="#Completion-Suggester" class="headerlink" title="Completion Suggester"></a>Completion Suggester</h2><ul>
-<li><p>mapping</p>
-<pre><code>PUT music
-{
-    &quot;mappings&quot;: {
-        &quot;_doc&quot; : {
-            &quot;properties&quot; : {
-                &quot;suggest&quot; : {
-                    &quot;type&quot; : &quot;completion&quot;,
-                    &quot;analyzer&quot; : &quot;simple&quot;,
-                    &quot;search_analyzer&quot; : &quot;simple&quot;
-                },
-                &quot;title&quot; : {
-                    &quot;type&quot;: &quot;keyword&quot;
-                }
-            }
-        }
-    }   
-}
-</code></pre></li>
-<li><p>query ，_source 会影响查询效率</p>
-<pre><code>POST music/_search?pretty
-{
-    &quot;_source&quot;: &quot;suggest&quot;,
-    &quot;suggest&quot;: {
-        &quot;song-suggest&quot; : {
-            &quot;prefix&quot; : &quot;nir&quot;,
-            &quot;completion&quot; : {
-                &quot;field&quot; : &quot;suggest&quot;
-            },
-            &quot;size&quot;:10
-        }
-    }
-}
-</code></pre></li>
-<li><p>Whether duplicate suggestions should be filtered out (defaults to false).</p>
-<p>  The autocomplete suggester is document-oriented in Elasticsearch 5 and will thus return suggestions for all documents that match. In Elasticsearch 1 and 2, the autocomplete suggester automatically de-duplicated suggestions.</p>
-<pre><code>POST music/_search?pretty
-{
-    &quot;_source&quot;: &quot;suggest&quot;,
-    &quot;suggest&quot;: {
-        &quot;song-suggest&quot; : {
-            &quot;prefix&quot; : &quot;nir&quot;,
-            &quot;completion&quot; : {
-                &quot;field&quot; : &quot;suggest&quot;
-            },
-            &quot;size&quot;:10,
-            &quot;skip_duplicates&quot;:true
-        }
-    }
-}
-</code></pre></li>
-</ul>
-<h2 id="DSL"><a href="#DSL" class="headerlink" title="DSL"></a>DSL</h2><ul>
-<li><p>completion suggest sample</p>
-<pre><code>s = s.suggest(&apos;my_sugestion&apos;, keyword, completion={ &apos;field&apos; : &apos;name&apos;, &apos;size&apos;:100})
-</code></pre></li>
-</ul>
-
+</code></pre>
       
     </div>
     
@@ -556,8 +508,8 @@ POST _reindex
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/08/06/spider_court/" rel="next" title="中国裁判文书网反爬机制更新">
-                <i class="fa fa-chevron-left"></i> 中国裁判文书网反爬机制更新
+              <a href="/2018/11/05/dataStructure_order/" rel="next" title="数据结构--排序">
+                <i class="fa fa-chevron-left"></i> 数据结构--排序
               </a>
             
           </div>
@@ -565,10 +517,6 @@ POST _reindex
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/08/15/reverse_proxy/" rel="prev" title="Nginx作反向代理保护Kibana">
-                Nginx作反向代理保护Kibana <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -700,7 +648,7 @@ POST _reindex
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Reindex"><span class="nav-number">1.</span> <span class="nav-text">Reindex</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reindex-task"><span class="nav-number">2.</span> <span class="nav-text">Reindex task</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#null-value"><span class="nav-number">3.</span> <span class="nav-text">null_value</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Completion-Suggester"><span class="nav-number">4.</span> <span class="nav-text">Completion Suggester</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DSL"><span class="nav-number">5.</span> <span class="nav-text">DSL</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#二分查找-amp-amp-利用二分查找插入"><span class="nav-number">1.</span> <span class="nav-text">二分查找 &amp;&amp; 利用二分查找插入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二叉排序树"><span class="nav-number">2.</span> <span class="nav-text">二叉排序树</span></a></li></ol></div>
             
 
           </div>
@@ -843,9 +791,9 @@ POST _reindex
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://thathub.com/2018/08/14/elastcsearch-command/';
-          this.page.identifier = '2018/08/14/elastcsearch-command/';
-          this.page.title = 'Elasticsearch常用操作';
+          this.page.url = 'http://thathub.com/2018/11/05/dataStructure_select/';
+          this.page.identifier = '2018/11/05/dataStructure_select/';
+          this.page.title = '数据结构--查找';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://thathub-com.disqus.com.disqus.com/embed.js';
