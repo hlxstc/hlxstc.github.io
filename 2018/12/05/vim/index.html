@@ -94,17 +94,17 @@
 
 
 
-<meta name="description" content="导出SELECT * INTO OUTFILE &amp;apos;data.txt&amp;apos; FIELDS TERMINATED BY &amp;apos;|&amp;apos; FROM source_table;   导入LOAD DATA INFILE &amp;apos;data.txt&amp;apos; INTO TABLE target_table FIELDS TERMINATED BY &amp;apos;|&amp;apos;;">
+<meta name="description" content="配色 在~目录新建文件 $ vi ~/.vimrc  添加 # 显示行号 set nu # 设置配色 colorscheme desert   行号显示开启和关闭:set nonumber :set number 选择 复制 粘贴 剪切 按键v进入 visual 模式  j/k/h/l —— 文本选择 d —— 剪切 y —— 复制 p —— 粘贴 ^ —— 选中当前行，光标位置到行首（或者使用键">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MySQL5.7数据导入导出">
-<meta property="og:url" content="http://thathub.com/2018/05/18/mysql-io/index.html">
+<meta property="og:title" content="VIM">
+<meta property="og:url" content="http://thathub.com/2018/12/05/vim/index.html">
 <meta property="og:site_name" content="Jokers&#39;s Blog">
-<meta property="og:description" content="导出SELECT * INTO OUTFILE &amp;apos;data.txt&amp;apos; FIELDS TERMINATED BY &amp;apos;|&amp;apos; FROM source_table;   导入LOAD DATA INFILE &amp;apos;data.txt&amp;apos; INTO TABLE target_table FIELDS TERMINATED BY &amp;apos;|&amp;apos;;">
+<meta property="og:description" content="配色 在~目录新建文件 $ vi ~/.vimrc  添加 # 显示行号 set nu # 设置配色 colorscheme desert   行号显示开启和关闭:set nonumber :set number 选择 复制 粘贴 剪切 按键v进入 visual 模式  j/k/h/l —— 文本选择 d —— 剪切 y —— 复制 p —— 粘贴 ^ —— 选中当前行，光标位置到行首（或者使用键">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-11-05T02:09:34.758Z">
+<meta property="og:updated_time" content="2018-12-05T08:25:15.873Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="MySQL5.7数据导入导出">
-<meta name="twitter:description" content="导出SELECT * INTO OUTFILE &amp;apos;data.txt&amp;apos; FIELDS TERMINATED BY &amp;apos;|&amp;apos; FROM source_table;   导入LOAD DATA INFILE &amp;apos;data.txt&amp;apos; INTO TABLE target_table FIELDS TERMINATED BY &amp;apos;|&amp;apos;;">
+<meta name="twitter:title" content="VIM">
+<meta name="twitter:description" content="配色 在~目录新建文件 $ vi ~/.vimrc  添加 # 显示行号 set nu # 设置配色 colorscheme desert   行号显示开启和关闭:set nonumber :set number 选择 复制 粘贴 剪切 按键v进入 visual 模式  j/k/h/l —— 文本选择 d —— 剪切 y —— 复制 p —— 粘贴 ^ —— 选中当前行，光标位置到行首（或者使用键">
 
 
 
@@ -133,13 +133,13 @@
 
 
 
-  <link rel="canonical" href="http://thathub.com/2018/05/18/mysql-io/"/>
+  <link rel="canonical" href="http://thathub.com/2018/12/05/vim/"/>
 
 
 
 
 
-  <title>MySQL5.7数据导入导出 | Jokers's Blog</title>
+  <title>VIM | Jokers's Blog</title>
   
 
 
@@ -272,7 +272,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/05/18/mysql-io/">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/12/05/vim/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jokers">
@@ -289,7 +289,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">MySQL5.7数据导入导出</h1>
+          <h1 class="post-title" itemprop="name headline">VIM</h1>
         
 
         <div class="post-meta">
@@ -301,8 +301,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-18T11:06:35+08:00">
-                2018-05-18
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-05T16:00:00+08:00">
+                2018-12-05
               </time>
             
 
@@ -324,8 +324,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/DataBase/" itemprop="url" rel="index">
-                    <span itemprop="name">DataBase</span>
+                  <a href="/categories/Tools/" itemprop="url" rel="index">
+                    <span itemprop="name">Tools</span>
                   </a>
                 </span>
 
@@ -342,9 +342,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/05/18/mysql-io/#comments" itemprop="discussionUrl">
+                <a href="/2018/12/05/vim/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/05/18/mysql-io/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2018/12/05/vim/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -372,28 +372,55 @@
       
 
       
-        <h2 id="导出"><a href="#导出" class="headerlink" title="导出"></a>导出</h2><pre><code>SELECT * INTO OUTFILE &apos;data.txt&apos; FIELDS TERMINATED BY &apos;|&apos; FROM source_table;  
-</code></pre><h2 id="导入"><a href="#导入" class="headerlink" title="导入"></a>导入</h2><pre><code>LOAD DATA INFILE &apos;data.txt&apos; INTO TABLE target_table FIELDS TERMINATED BY &apos;|&apos;;
-</code></pre><h2 id="注"><a href="#注" class="headerlink" title="注"></a>注</h2><ul>
-<li><p>5.7以后，mysql添加全局变量secure_file_priv，限制导入导出，查看变量的值</p>
-<pre><code>show variables like &apos;%secure%&apos;;
+        <h3 id="配色"><a href="#配色" class="headerlink" title="配色"></a>配色</h3><ul>
+<li><p>在~目录新建文件</p>
+<pre><code>$ vi ~/.vimrc
 </code></pre></li>
-<li><p>如果值为NULL，则不允许导入导出。如果指定路径，则只能在将文件导出到指定路路径并且在指定路径导入。值为空则无限制。错误提示如下：</p>
-<pre><code>ERROR 1290 (HY000): The MySQL server is running with the --secure-file-priv option so it cannot execute this statement
-</code></pre></li>
-<li><p>修改变量方法,在etc/my.cnf添加一行：</p>
-<pre><code>secure-file-priv=\home\mysql_dump
-</code></pre></li>
-<li><p>最后改变指定路径的权属</p>
-<pre><code>chown mysql:mysql \home\mysql_dump
+<li><p>添加</p>
+<pre><code># 显示行号
+set nu
+# 设置配色
+colorscheme desert
 </code></pre></li>
 </ul>
-<blockquote>
-<p><a href="https://blog.csdn.net/xiaobaismiley/article/details/41015783" target="_blank" rel="noopener">参考</a></p>
-<blockquote>
-<p>该方法在18分钟内导出1.6亿条记录，46min内导入6472W条记录，平均速度：8442W条/h</p>
-</blockquote>
-</blockquote>
+<h3 id="行号显示开启和关闭"><a href="#行号显示开启和关闭" class="headerlink" title="行号显示开启和关闭"></a>行号显示开启和关闭</h3><pre><code>:set nonumber
+:set number
+</code></pre><h3 id="选择-复制-粘贴-剪切"><a href="#选择-复制-粘贴-剪切" class="headerlink" title="选择 复制 粘贴 剪切"></a>选择 复制 粘贴 剪切</h3><ul>
+<li><p>按键v进入 visual 模式</p>
+<ul>
+<li>j/k/h/l —— 文本选择</li>
+<li>d —— 剪切</li>
+<li>y —— 复制</li>
+<li>p —— 粘贴</li>
+<li>^ —— 选中当前行，光标位置到行首（或者使用键盘的HOME键）</li>
+<li>$ —— 选中当前行，光标位置到行尾（或者使用键盘的END键）</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>V 进入 Visual Line 模式</p>
+<ul>
+<li>j/k —— 文本选择</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>Ctrl + V 进入 Visual Block 模式</p>
+<ul>
+<li>j/k/h/l —— 选中文本块</li>
+<li>Shift + i —— 块模式下的插入</li>
+<li>ESC —— 完成多行的插入</li>
+</ul>
+</li>
+</ul>
+<h3 id="回退-撤销"><a href="#回退-撤销" class="headerlink" title="回退 撤销"></a>回退 撤销</h3><ul>
+<li>u —— 撤销上一步的操作</li>
+<li>Ctrl+r —— 恢复上一步被撤销的操作</li>
+</ul>
+<h3 id="浏览位置移动"><a href="#浏览位置移动" class="headerlink" title="浏览位置移动"></a>浏览位置移动</h3><ul>
+<li>Ctrl-O —— 后退</li>
+<li>Ctrl-I —— 前进</li>
+</ul>
 
       
     </div>
@@ -418,8 +445,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/05/18/install-hadoop/" rel="next" title="hadoop2安装">
-                <i class="fa fa-chevron-left"></i> hadoop2安装
+              <a href="/2018/12/05/svn/" rel="next" title="SVN">
+                <i class="fa fa-chevron-left"></i> SVN
               </a>
             
           </div>
@@ -427,10 +454,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/05/24/install-hive/" rel="prev" title="Hive2安装">
-                Hive2安装 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -571,7 +594,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#导出"><span class="nav-number">1.</span> <span class="nav-text">导出</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#导入"><span class="nav-number">2.</span> <span class="nav-text">导入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注"><span class="nav-number">3.</span> <span class="nav-text">注</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#配色"><span class="nav-number">1.</span> <span class="nav-text">配色</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#行号显示开启和关闭"><span class="nav-number">2.</span> <span class="nav-text">行号显示开启和关闭</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#选择-复制-粘贴-剪切"><span class="nav-number">3.</span> <span class="nav-text">选择 复制 粘贴 剪切</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#回退-撤销"><span class="nav-number">4.</span> <span class="nav-text">回退 撤销</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#浏览位置移动"><span class="nav-number">5.</span> <span class="nav-text">浏览位置移动</span></a></li></ol></div>
             
 
           </div>
@@ -714,9 +737,9 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://thathub.com/2018/05/18/mysql-io/';
-          this.page.identifier = '2018/05/18/mysql-io/';
-          this.page.title = 'MySQL5.7数据导入导出';
+          this.page.url = 'http://thathub.com/2018/12/05/vim/';
+          this.page.identifier = '2018/12/05/vim/';
+          this.page.title = 'VIM';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://thathub-com.disqus.com.disqus.com/embed.js';

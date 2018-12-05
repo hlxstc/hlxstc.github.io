@@ -273,6 +273,207 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/12/05/vim/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/12/05/vim/" itemprop="url">VIM</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-05T16:00:00+08:00">
+                2018-12-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Tools/" itemprop="url" rel="index">
+                    <span itemprop="name">Tools</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/12/05/vim/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/12/05/vim/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="配色"><a href="#配色" class="headerlink" title="配色"></a>配色</h3><ul>
+<li><p>在~目录新建文件</p>
+<pre><code>$ vi ~/.vimrc
+</code></pre></li>
+<li><p>添加</p>
+<pre><code># 显示行号
+set nu
+# 设置配色
+colorscheme desert
+</code></pre></li>
+</ul>
+<h3 id="行号显示开启和关闭"><a href="#行号显示开启和关闭" class="headerlink" title="行号显示开启和关闭"></a>行号显示开启和关闭</h3><pre><code>:set nonumber
+:set number
+</code></pre><h3 id="选择-复制-粘贴-剪切"><a href="#选择-复制-粘贴-剪切" class="headerlink" title="选择 复制 粘贴 剪切"></a>选择 复制 粘贴 剪切</h3><ul>
+<li><p>按键v进入 visual 模式</p>
+<ul>
+<li>j/k/h/l —— 文本选择</li>
+<li>d —— 剪切</li>
+<li>y —— 复制</li>
+<li>p —— 粘贴</li>
+<li>^ —— 选中当前行，光标位置到行首（或者使用键盘的HOME键）</li>
+<li>$ —— 选中当前行，光标位置到行尾（或者使用键盘的END键）</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>V 进入 Visual Line 模式</p>
+<ul>
+<li>j/k —— 文本选择</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>Ctrl + V 进入 Visual Block 模式</p>
+<ul>
+<li>j/k/h/l —— 选中文本块</li>
+<li>Shift + i —— 块模式下的插入</li>
+<li>ESC —— 完成多行的插入</li>
+</ul>
+</li>
+</ul>
+<h3 id="回退-撤销"><a href="#回退-撤销" class="headerlink" title="回退 撤销"></a>回退 撤销</h3><ul>
+<li>u —— 撤销上一步的操作</li>
+<li>Ctrl+r —— 恢复上一步被撤销的操作</li>
+</ul>
+<h3 id="浏览位置移动"><a href="#浏览位置移动" class="headerlink" title="浏览位置移动"></a>浏览位置移动</h3><ul>
+<li>Ctrl-O —— 后退</li>
+<li>Ctrl-I —— 前进</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/12/05/svn/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -292,7 +493,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/12/05/svn/" itemprop="url">svn</a></h1>
+                <a class="post-title-link" href="/2018/12/05/svn/" itemprop="url">SVN</a></h1>
         
 
         <div class="post-meta">
@@ -2316,200 +2517,6 @@ $ pip install gunicorn[gevent]    # Or, using extra
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/08/15/reverse_proxy/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jokers">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jokers's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/08/15/reverse_proxy/" itemprop="url">Nginx作反向代理保护Kibana</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-15T17:36:00+08:00">
-                2018-08-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/ES/" itemprop="url" rel="index">
-                    <span itemprop="name">ES</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/08/15/reverse_proxy/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/08/15/reverse_proxy/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="安装-Nginx-，先安装-EPEL-repository"><a href="#安装-Nginx-，先安装-EPEL-repository" class="headerlink" title="安装 Nginx ，先安装 EPEL repository"></a>安装 Nginx ，先安装 EPEL repository</h3><pre><code>$ yum install epel-release
-$ yum install nginx
-$ systemctl start nginx
-$ systemctl enable nginx
-</code></pre><h3 id="httpd-tools-setting-up-an-HTTP-authentication"><a href="#httpd-tools-setting-up-an-HTTP-authentication" class="headerlink" title="httpd-tools, setting up an HTTP authentication"></a>httpd-tools, setting up an HTTP authentication</h3><pre><code>$ yum install httpd-tools
-</code></pre><ul>
-<li><p>create a “.htpasswd” file to store our credential data such as Usernames and Passwords in an encrypted format</p>
-<pre><code>$ htpasswd -c [filename] /etc/nginx/ username
-</code></pre></li>
-</ul>
-<h3 id="Configuring-Nginx"><a href="#Configuring-Nginx" class="headerlink" title="Configuring Nginx"></a>Configuring Nginx</h3><pre><code>$ /etc/nginx/nginx.conf
-</code></pre><ul>
-<li><p>Find the “server” directive and change it  like below:</p>
-<pre><code>server {
-    listen 80;
-    server_name \_;
-    location ~ ^/kibana/(.\*)$ {
-        rewrite /kibana/(.\*) /$1 break;
-        proxy_pass http://127.0.0.1:9396;
-        auth_basic &quot;Restricted&quot;;
-        auth_basic_user_file /etc/nginx/.htpasswd;
-    }
-}
-</code></pre></li>
-<li><p>检查 Nginx 配置</p>
-<pre><code>$ nginx -t
-</code></pre></li>
-<li><p>重启 Nginx</p>
-<pre><code>$ systemctl restart nginx
-</code></pre></li>
-</ul>
-<h3 id="Configuring-Kibnana"><a href="#Configuring-Kibnana" class="headerlink" title="Configuring Kibnana"></a>Configuring Kibnana</h3><ul>
-<li><p>打开配置文件</p>
-<pre><code>$ vim /etc/kibana/kibana.yml
-</code></pre></li>
-<li><p>添加</p>
-<pre><code>server.basePath: &quot;/kibana&quot;
-</code></pre></li>
-<li><p>重启 Kibana</p>
-<pre><code>$ systemctl restart Kibana
-</code></pre></li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2560,7 +2567,7 @@ $ systemctl enable nginx
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">27</span>
+                <span class="site-state-item-count">28</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
