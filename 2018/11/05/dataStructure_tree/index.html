@@ -94,17 +94,17 @@
 
 
 
-<meta name="description" content="开发模式和生产模式es节点加入集群，必须绑定transport到non-loopback地址，es通过http.host，transport.host和single-node discovery的配置判断是否为生产模式。 引导启动检查使用引导启动检查检查es和系统设置。在开发模式下，不安全的配置会以warnings记录日志。在生产模式下，会拒绝启动。 强制引导启动检查单节点的生产模式可以绕过引导启">
+<meta name="description" content="前序序列构建二叉树#include &amp;lt;stdio.h&amp;gt;  #define MAX 100  typedef struct Node{     char data;     struct Node \*lChild;     struct Node \*rChild; }BinTNode;  typedef BintNode \*BinTree;  int mkTree(BinTree">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Elasticsearch6测试和开发环境配置">
-<meta property="og:url" content="http://thathub.com/2018/04/23/elastcsearch-config/index.html">
+<meta property="og:title" content="数据结构--二叉树">
+<meta property="og:url" content="http://thathub.com/2018/11/05/dataStructure_tree/index.html">
 <meta property="og:site_name" content="Jokers&#39;s Blog">
-<meta property="og:description" content="开发模式和生产模式es节点加入集群，必须绑定transport到non-loopback地址，es通过http.host，transport.host和single-node discovery的配置判断是否为生产模式。 引导启动检查使用引导启动检查检查es和系统设置。在开发模式下，不安全的配置会以warnings记录日志。在生产模式下，会拒绝启动。 强制引导启动检查单节点的生产模式可以绕过引导启">
+<meta property="og:description" content="前序序列构建二叉树#include &amp;lt;stdio.h&amp;gt;  #define MAX 100  typedef struct Node{     char data;     struct Node \*lChild;     struct Node \*rChild; }BinTNode;  typedef BintNode \*BinTree;  int mkTree(BinTree">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-11-05T02:07:16.816Z">
+<meta property="og:updated_time" content="2018-12-10T09:55:42.631Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Elasticsearch6测试和开发环境配置">
-<meta name="twitter:description" content="开发模式和生产模式es节点加入集群，必须绑定transport到non-loopback地址，es通过http.host，transport.host和single-node discovery的配置判断是否为生产模式。 引导启动检查使用引导启动检查检查es和系统设置。在开发模式下，不安全的配置会以warnings记录日志。在生产模式下，会拒绝启动。 强制引导启动检查单节点的生产模式可以绕过引导启">
+<meta name="twitter:title" content="数据结构--二叉树">
+<meta name="twitter:description" content="前序序列构建二叉树#include &amp;lt;stdio.h&amp;gt;  #define MAX 100  typedef struct Node{     char data;     struct Node \*lChild;     struct Node \*rChild; }BinTNode;  typedef BintNode \*BinTree;  int mkTree(BinTree">
 
 
 
@@ -133,13 +133,13 @@
 
 
 
-  <link rel="canonical" href="http://thathub.com/2018/04/23/elastcsearch-config/"/>
+  <link rel="canonical" href="http://thathub.com/2018/11/05/dataStructure_tree/"/>
 
 
 
 
 
-  <title>Elasticsearch6测试和开发环境配置 | Jokers's Blog</title>
+  <title>数据结构--二叉树 | Jokers's Blog</title>
   
 
 
@@ -272,7 +272,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/04/23/elastcsearch-config/">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/11/05/dataStructure_tree/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jokers">
@@ -289,7 +289,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Elasticsearch6测试和开发环境配置</h1>
+          <h1 class="post-title" itemprop="name headline">数据结构--二叉树</h1>
         
 
         <div class="post-meta">
@@ -301,8 +301,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-23T16:35:00+08:00">
-                2018-04-23
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-05T08:00:00+08:00">
+                2018-11-05
               </time>
             
 
@@ -324,8 +324,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/ES/" itemprop="url" rel="index">
-                    <span itemprop="name">ES</span>
+                  <a href="/categories/数据结构/" itemprop="url" rel="index">
+                    <span itemprop="name">数据结构</span>
                   </a>
                 </span>
 
@@ -342,9 +342,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/04/23/elastcsearch-config/#comments" itemprop="discussionUrl">
+                <a href="/2018/11/05/dataStructure_tree/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/04/23/elastcsearch-config/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2018/11/05/dataStructure_tree/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -372,51 +372,122 @@
       
 
       
-        <h2 id="开发模式和生产模式"><a href="#开发模式和生产模式" class="headerlink" title="开发模式和生产模式"></a>开发模式和生产模式</h2><p>es节点加入集群，必须绑定transport到non-loopback地址，es通过http.host，transport.host和single-node discovery的配置判断是否为生产模式。</p>
-<h2 id="引导启动检查"><a href="#引导启动检查" class="headerlink" title="引导启动检查"></a>引导启动检查</h2><p>使用引导启动检查检查es和系统设置。在开发模式下，不安全的配置会以warnings记录日志。在生产模式下，会拒绝启动。</p>
-<h2 id="强制引导启动检查"><a href="#强制引导启动检查" class="headerlink" title="强制引导启动检查"></a>强制引导启动检查</h2><p>单节点的生产模式可以绕过引导启动检查，通过设置es.enforce.bootstrap.checks(JVM options)为True，可以强制检查。</p>
-<h2 id="堆大小检查"><a href="#堆大小检查" class="headerlink" title="堆大小检查"></a>堆大小检查</h2><p>JVM配置初始堆大小和最大堆值相同，否则会导致系统运行停顿。es默认使用1GB的堆。规则如下：</p>
-<ul>
-<li>堆越大，缓存越大，但是太大的话会导致长时间的垃圾回收而造成系统停顿。</li>
-<li>不要超过物理内存的50%</li>
-<li>26GB对大多数系统比较安全，对一些系统可达到30G</li>
-</ul>
-<p>jvm.options配置文件</p>
-<pre><code>-Xms26g
--Xmx26g
-</code></pre><h2 id="文件描述符检查"><a href="#文件描述符检查" class="headerlink" title="文件描述符检查"></a>文件描述符检查</h2><p>es需要大量的文件描述符。必须保证文件描述符的数量限制大与等于65535。通过RPM和Debian包默认设置为65536。可以通过以下命令检查max_file_descriptors的大小。</p>
-<pre><code>curl -X GET &quot;localhost:9200/_nodes/stats/process?filter_path=**.max_file_descriptors&quot;
-</code></pre><h2 id="内存锁定检查"><a href="#内存锁定检查" class="headerlink" title="内存锁定检查"></a>内存锁定检查</h2><p>JVM进行垃圾回收时，如果有page被换出到硬盘，再换入内存回收，影响效率。有多种办法可以禁止交换。</p>
-<ul>
-<li><p>系统级别的禁止交换</p>
-<p>  sudo swapoff -a</p>
-</li>
-<li><p>配置swappiness</p>
-</li>
-<li><p>阻止es内存换出，添加以下配置到config/elasticsearch.yml文件</p>
-<p>  bootstrap.memory_lock: true</p>
-</li>
-<li><p>检查mlockall的配置</p>
-<p>  GET _nodes?filter_path=**.mlockall</p>
-</li>
-<li><p>如果mlockall的值是false, 意味着mlockall请求失败，最有可能的原因是运行es的用户没有lock Memory的权限，授权方式</p>
-<p>  添加一个文件<br>  /etc/systemd/system/elasticsearch.service.d/override.conf<br>  or<br>  sudo systemctl edit elasticsearch<br>  编辑<br>  [Service]<br>  LimitMEMLOCK=infinity<br>  加载<br>  sudo systemctl daemon-reload</p>
-</li>
-<li><p>如果依然失败可能是临时路径/tmp使用noexec选项挂载，可以使用ES_JAVA_OPTS环境变量指定一个新的temp路径</p>
-<p>  export ES_JAVA_OPTS=”$ES_JAVA_OPTS -Djava.io.tmpdir=/path/to/temp/dir”<br>  ./bin/elasticsearch</p>
-</li>
-</ul>
-<h2 id="最大线程数检查"><a href="#最大线程数检查" class="headerlink" title="最大线程数检查"></a>最大线程数检查</h2><p>es需要有创建至少4096个线程的能力并且只会在Linux系统上检查。通过设置/etc/security/limits.conf的nproc值（同时要增大root用户的限制）</p>
-<h2 id="最大虚拟内存检查"><a href="#最大虚拟内存检查" class="headerlink" title="最大虚拟内存检查"></a>最大虚拟内存检查</h2><p>es需要有无限制的地址空间并且只会在Linux系统上检查。通过设置/etc/security/limits.conf的as值为unlimited（同时要改变root用户的限制）</p>
-<h2 id="最大文件大小检查"><a href="#最大文件大小检查" class="headerlink" title="最大文件大小检查"></a>最大文件大小检查</h2><p>es需要有无限制大小的写文件能力。通过设置/etc/security/limits.conf的fsize值为unlimited（同时要改变root用户的限制）</p>
-<h2 id="最大地图数量检查"><a href="#最大地图数量检查" class="headerlink" title="最大地图数量检查"></a>最大地图数量检查</h2><p>es需要至少262144内存映射空间并且只会在Linux系统上检查。通过设置vm.max_map_count(sysctl)</p>
-<pre><code>sysctl -w vm.max_map_count=262144
-sysctl -a|grep vm.max_map_count
-</code></pre><h2 id="客户端JVM检查"><a href="#客户端JVM检查" class="headerlink" title="客户端JVM检查"></a>客户端JVM检查</h2><p>确保es没有运行在客户端JVM而是服务端JVM，现代操作系统，服务端JVM是默认的。</p>
-<h2 id="serial-collector检查"><a href="#serial-collector检查" class="headerlink" title="serial collector检查"></a>serial collector检查</h2><p>确保es运行时使用的垃圾收器不是serial collector，除非指定-XX:+UseSerialGC使用，JVM默认使用es的默认配置也就是CMS collector。</p>
-<h2 id="系统调用过滤器检查"><a href="#系统调用过滤器检查" class="headerlink" title="系统调用过滤器检查"></a>系统调用过滤器检查</h2><p>修复所有可能阻止es安装系统调用过滤器（Linux上的seccomp）的配置（检查日志）</p>
-<h2 id="OnError和OnOutOfMemoryError检查"><a href="#OnError和OnOutOfMemoryError检查" class="headerlink" title="OnError和OnOutOfMemoryError检查"></a>OnError和OnOutOfMemoryError检查</h2><p> 防止es启动时JVM的这两个选项被启用并且系统调用也被启用，它们相互之间不兼容。可以禁止OnError和OnOutOfMemoryError或则升级到Java 8u92并且使用JVM flag ExitOnOutOfMemoryError</p>
+        <h3 id="前序序列构建二叉树"><a href="#前序序列构建二叉树" class="headerlink" title="前序序列构建二叉树"></a>前序序列构建二叉树</h3><pre><code>#include &lt;stdio.h&gt;
 
+#define MAX 100
+
+typedef struct Node{
+    char data;
+    struct Node \*lChild;
+    struct Node \*rChild;
+}BinTNode;
+
+typedef BintNode \*BinTree;
+
+int mkTree(BinTree bt, char \*str, int i){
+    bt-&gt;lChild = NULL;
+    bt-&gt;rChild = NULL;
+    bt-&gt;data = str[i];
+    printf(&quot;%c\n&quot;, bt-&gt;data);
+    if(i&lt;strlen(str)-1 &amp;&amp; str[i+1]!=&apos;.&apos;){
+        bt-&gt;lchild = (BinTNode \*)malloc(sizeof(BinTNode));
+        i = mkTree(bt-&gt;lchild, str, i+1);
+    }
+    i++;
+    if(i&lt;strlen(str)-1 &amp;&amp; str[i+1]!=&apos;.&apos;){
+        bt-&gt;rchild = (BinTNode \*)malloc(sizeof(BinTNode));
+        i = mkTree(bt-&gt;rchild, str, i+1);
+    }
+    return i;
+}
+
+void preSort(BintTree bt){
+    if(bt){
+        printf(&quot;%c-&gt;&quot;, bt-&gt;data);
+        preSort(bt-&gt;lchild);
+        preSort(bt-&gt;rchild);
+    }
+}
+
+int main(){
+    BintTree bt = (BinTNode \*)malloc(sizeof(BinTNode));
+    char str[MAX];
+    scanf(&quot;%s&quot;, str);
+    printf(&quot;%s&quot;, str);
+    mkTree(bt, str, 0);
+    preSort(bt);
+    return 0;
+}
+</code></pre><h3 id="中后序列构建二叉树"><a href="#中后序列构建二叉树" class="headerlink" title="中后序列构建二叉树"></a>中后序列构建二叉树</h3><pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+
+typedef struct Node{
+    char data;
+    struct Node \*lchild;
+    struct Node \*rchild;
+}BinTNode;
+
+typedef BinTNode \*BinTree;
+
+#define MAX 100
+
+void mkBinTree(BinTree bt, char \*inter, int ii, int ij, char \*post, int pi, int pj){
+    bt-&gt;lchild = NULL;
+    bt-&gt;rchild = NULL;
+    bt-&gt;data = post[pj];
+    int n = 0;
+    for(int i=ii; i&lt;=ij; i++){
+        if(post[pj] == inter[i]){
+            n = i-ii;
+            if(i&gt;ii){
+                bt-&gt;lchild = (BinTNode \*)malloc(sizeof(BinTNode));
+                mkBinTree(bt-&gt;lchild, inter, ii, i-1, post, pi, pi+n-1);
+            }
+            if(i&lt;ij){
+                bt-&gt;rchild = (BinTNode \*)malloc(sizeof(BinTNode));
+                mkBinTree(bt-&gt;rchild, inter, i+1, ij, post, pi+n, pj-1);
+            }
+        }
+    }
+}
+
+void preOrder(BinTree bt){
+    if(bt){
+        printf(&quot;%c&quot;, bt-&gt;data);
+        preOrder(bt-&gt;lchild);
+        preOrder(bt-&gt;rchild);
+    }
+}
+
+int btDepth(BinTree bt){
+    if(bt == NULL)
+        return 0;
+    int ldepth = 0;
+    int rdepth = 0;
+    ldepth = btDepth(bt-&gt;lchild);
+    rdepth = btDepth(bt-&gt;rchild);
+    if(ldepth&gt;rdepth)
+        return ldepth+1;
+    else
+        return rdepth+1;
+}
+
+int main(){
+    BinTree bt = (BinTNode \*)malloc(sizeof(BinTNode));
+    char inter[MAX];//前序序列
+    char post[MAX];//后序序列
+    scanf(&quot;%s&quot;, inter);
+    scanf(&quot;%s&quot;, post);
+    mkBinTree(bt, inter, 0, strlen(inter)-1, post, 0, strlen(post)-1);
+    preOrder(bt);
+    printf(&quot;\n&quot;);
+    int depth;
+    depth = btDepth(bt);
+    printf(&quot;%d\n&quot;, depth);
+    return 0;
+}
+</code></pre>
       
     </div>
     
@@ -440,8 +511,8 @@ sysctl -a|grep vm.max_map_count
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/04/16/mysql-install_1/" rel="next" title="centos7安装MySQL5.7">
-                <i class="fa fa-chevron-left"></i> centos7安装MySQL5.7
+              <a href="/2018/11/05/dataStructure_graph/" rel="next" title="数据结构--图">
+                <i class="fa fa-chevron-left"></i> 数据结构--图
               </a>
             
           </div>
@@ -450,8 +521,8 @@ sysctl -a|grep vm.max_map_count
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/05/12/university_ranking/" rel="prev" title="Ranking">
-                Ranking <i class="fa fa-chevron-right"></i>
+              <a href="/2018/11/05/dataStructure_select/" rel="prev" title="数据结构--查找">
+                数据结构--查找 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -593,7 +664,7 @@ sysctl -a|grep vm.max_map_count
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#开发模式和生产模式"><span class="nav-number">1.</span> <span class="nav-text">开发模式和生产模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引导启动检查"><span class="nav-number">2.</span> <span class="nav-text">引导启动检查</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#强制引导启动检查"><span class="nav-number">3.</span> <span class="nav-text">强制引导启动检查</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#堆大小检查"><span class="nav-number">4.</span> <span class="nav-text">堆大小检查</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文件描述符检查"><span class="nav-number">5.</span> <span class="nav-text">文件描述符检查</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内存锁定检查"><span class="nav-number">6.</span> <span class="nav-text">内存锁定检查</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最大线程数检查"><span class="nav-number">7.</span> <span class="nav-text">最大线程数检查</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最大虚拟内存检查"><span class="nav-number">8.</span> <span class="nav-text">最大虚拟内存检查</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最大文件大小检查"><span class="nav-number">9.</span> <span class="nav-text">最大文件大小检查</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最大地图数量检查"><span class="nav-number">10.</span> <span class="nav-text">最大地图数量检查</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#客户端JVM检查"><span class="nav-number">11.</span> <span class="nav-text">客户端JVM检查</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#serial-collector检查"><span class="nav-number">12.</span> <span class="nav-text">serial collector检查</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#系统调用过滤器检查"><span class="nav-number">13.</span> <span class="nav-text">系统调用过滤器检查</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OnError和OnOutOfMemoryError检查"><span class="nav-number">14.</span> <span class="nav-text">OnError和OnOutOfMemoryError检查</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前序序列构建二叉树"><span class="nav-number">1.</span> <span class="nav-text">前序序列构建二叉树</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#中后序列构建二叉树"><span class="nav-number">2.</span> <span class="nav-text">中后序列构建二叉树</span></a></li></ol></div>
             
 
           </div>
@@ -736,9 +807,9 @@ sysctl -a|grep vm.max_map_count
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://thathub.com/2018/04/23/elastcsearch-config/';
-          this.page.identifier = '2018/04/23/elastcsearch-config/';
-          this.page.title = 'Elasticsearch6测试和开发环境配置';
+          this.page.url = 'http://thathub.com/2018/11/05/dataStructure_tree/';
+          this.page.identifier = '2018/11/05/dataStructure_tree/';
+          this.page.title = '数据结构--二叉树';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://thathub-com.disqus.com.disqus.com/embed.js';

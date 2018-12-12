@@ -78,7 +78,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Tinyproxy," />
 
 
 
@@ -94,17 +94,18 @@
 
 
 
-<meta name="description" content="安装 Nginx ，先安装 EPEL repository$ yum install epel-release $ yum install nginx $ systemctl start nginx $ systemctl enable nginx httpd-tools, setting up an HTTP authentication$ yum install httpd-tools  cr">
+<meta name="description" content="hlxstc680@gmail.com">
+<meta name="keywords" content="Tinyproxy">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Nginx作反向代理保护Kibana">
-<meta property="og:url" content="http://thathub.com/2018/08/15/reverse_proxy/index.html">
+<meta property="og:title" content="Tinyproxy">
+<meta property="og:url" content="http://thathub.com/2018/12/12/tinyproxy/index.html">
 <meta property="og:site_name" content="Jokers&#39;s Blog">
-<meta property="og:description" content="安装 Nginx ，先安装 EPEL repository$ yum install epel-release $ yum install nginx $ systemctl start nginx $ systemctl enable nginx httpd-tools, setting up an HTTP authentication$ yum install httpd-tools  cr">
+<meta property="og:description" content="hlxstc680@gmail.com">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-11-05T02:10:25.329Z">
+<meta property="og:updated_time" content="2018-12-12T09:54:24.397Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Nginx作反向代理保护Kibana">
-<meta name="twitter:description" content="安装 Nginx ，先安装 EPEL repository$ yum install epel-release $ yum install nginx $ systemctl start nginx $ systemctl enable nginx httpd-tools, setting up an HTTP authentication$ yum install httpd-tools  cr">
+<meta name="twitter:title" content="Tinyproxy">
+<meta name="twitter:description" content="hlxstc680@gmail.com">
 
 
 
@@ -133,13 +134,13 @@
 
 
 
-  <link rel="canonical" href="http://thathub.com/2018/08/15/reverse_proxy/"/>
+  <link rel="canonical" href="http://thathub.com/2018/12/12/tinyproxy/"/>
 
 
 
 
 
-  <title>Nginx作反向代理保护Kibana | Jokers's Blog</title>
+  <title>Tinyproxy | Jokers's Blog</title>
   
 
 
@@ -272,7 +273,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/08/15/reverse_proxy/">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/12/12/tinyproxy/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jokers">
@@ -289,7 +290,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Nginx作反向代理保护Kibana</h1>
+          <h1 class="post-title" itemprop="name headline">Tinyproxy</h1>
         
 
         <div class="post-meta">
@@ -301,8 +302,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-15T17:36:00+08:00">
-                2018-08-15
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-12T18:00:00+08:00">
+                2018-12-12
               </time>
             
 
@@ -324,8 +325,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/ES/" itemprop="url" rel="index">
-                    <span itemprop="name">ES</span>
+                  <a href="/categories/常用软件/" itemprop="url" rel="index">
+                    <span itemprop="name">常用软件</span>
                   </a>
                 </span>
 
@@ -342,9 +343,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/08/15/reverse_proxy/#comments" itemprop="discussionUrl">
+                <a href="/2018/12/12/tinyproxy/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/08/15/reverse_proxy/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2018/12/12/tinyproxy/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -372,49 +373,7 @@
       
 
       
-        <h3 id="安装-Nginx-，先安装-EPEL-repository"><a href="#安装-Nginx-，先安装-EPEL-repository" class="headerlink" title="安装 Nginx ，先安装 EPEL repository"></a>安装 Nginx ，先安装 EPEL repository</h3><pre><code>$ yum install epel-release
-$ yum install nginx
-$ systemctl start nginx
-$ systemctl enable nginx
-</code></pre><h3 id="httpd-tools-setting-up-an-HTTP-authentication"><a href="#httpd-tools-setting-up-an-HTTP-authentication" class="headerlink" title="httpd-tools, setting up an HTTP authentication"></a>httpd-tools, setting up an HTTP authentication</h3><pre><code>$ yum install httpd-tools
-</code></pre><ul>
-<li><p>create a “.htpasswd” file to store our credential data such as Usernames and Passwords in an encrypted format</p>
-<pre><code>$ htpasswd -c [filename] /etc/nginx/ username
-</code></pre></li>
-</ul>
-<h3 id="Configuring-Nginx"><a href="#Configuring-Nginx" class="headerlink" title="Configuring Nginx"></a>Configuring Nginx</h3><pre><code>$ /etc/nginx/nginx.conf
-</code></pre><ul>
-<li><p>Find the “server” directive and change it  like below:</p>
-<pre><code>server {
-    listen 80;
-    server_name \_;
-    location ~ ^/kibana/(.\*)$ {
-        rewrite /kibana/(.\*) /$1 break;
-        proxy_pass http://127.0.0.1:9396;
-        auth_basic &quot;Restricted&quot;;
-        auth_basic_user_file /etc/nginx/.htpasswd;
-    }
-}
-</code></pre></li>
-<li><p>检查 Nginx 配置</p>
-<pre><code>$ nginx -t
-</code></pre></li>
-<li><p>重启 Nginx</p>
-<pre><code>$ systemctl restart nginx
-</code></pre></li>
-</ul>
-<h3 id="Configuring-Kibnana"><a href="#Configuring-Kibnana" class="headerlink" title="Configuring Kibnana"></a>Configuring Kibnana</h3><ul>
-<li><p>打开配置文件</p>
-<pre><code>$ vim /etc/kibana/kibana.yml
-</code></pre></li>
-<li><p>添加</p>
-<pre><code>server.basePath: &quot;/kibana&quot;
-</code></pre></li>
-<li><p>重启 Kibana</p>
-<pre><code>$ systemctl restart Kibana
-</code></pre></li>
-</ul>
-
+        
       
     </div>
     
@@ -429,6 +388,12 @@ $ systemctl enable nginx
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/Tinyproxy/" rel="tag"># Tinyproxy</a>
+          
+        </div>
+      
 
       
       
@@ -438,8 +403,8 @@ $ systemctl enable nginx
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/08/14/elastcsearch-command/" rel="next" title="Elasticsearch常用操作">
-                <i class="fa fa-chevron-left"></i> Elasticsearch常用操作
+              <a href="/2018/12/05/vim/" rel="next" title="VIM">
+                <i class="fa fa-chevron-left"></i> VIM
               </a>
             
           </div>
@@ -447,10 +412,6 @@ $ systemctl enable nginx
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/08/28/flask/" rel="prev" title="Flask使用">
-                Flask使用 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -509,17 +470,8 @@ $ systemctl enable nginx
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.jpg"
@@ -581,22 +533,6 @@ $ systemctl enable nginx
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-Nginx-，先安装-EPEL-repository"><span class="nav-number">1.</span> <span class="nav-text">安装 Nginx ，先安装 EPEL repository</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#httpd-tools-setting-up-an-HTTP-authentication"><span class="nav-number">2.</span> <span class="nav-text">httpd-tools, setting up an HTTP authentication</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Configuring-Nginx"><span class="nav-number">3.</span> <span class="nav-text">Configuring Nginx</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Configuring-Kibnana"><span class="nav-number">4.</span> <span class="nav-text">Configuring Kibnana</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
@@ -734,9 +670,9 @@ $ systemctl enable nginx
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://thathub.com/2018/08/15/reverse_proxy/';
-          this.page.identifier = '2018/08/15/reverse_proxy/';
-          this.page.title = 'Nginx作反向代理保护Kibana';
+          this.page.url = 'http://thathub.com/2018/12/12/tinyproxy/';
+          this.page.identifier = '2018/12/12/tinyproxy/';
+          this.page.title = 'Tinyproxy';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://thathub-com.disqus.com.disqus.com/embed.js';
