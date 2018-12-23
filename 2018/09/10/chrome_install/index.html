@@ -102,7 +102,7 @@
 <meta property="og:site_name" content="Jokers&#39;s Blog">
 <meta property="og:description" content="添加仓库来源 在  /etc/yum.repos.d/ 目录新建 repo file vi /etc/yum.repos.d/google-chrome.repo  复制以下仓库信息 [google-chrome] name=google-chrome baseurl=http://dl.google.com/linux/chrome/rpm/stable/x86_64 enabled=1 gpg">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-11-05T02:06:22.798Z">
+<meta property="og:updated_time" content="2018-12-13T09:02:42.876Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux 安装 Chrome">
 <meta name="twitter:description" content="添加仓库来源 在  /etc/yum.repos.d/ 目录新建 repo file vi /etc/yum.repos.d/google-chrome.repo  复制以下仓库信息 [google-chrome] name=google-chrome baseurl=http://dl.google.com/linux/chrome/rpm/stable/x86_64 enabled=1 gpg">
@@ -393,6 +393,12 @@ gpgkey=file:///dir/linux_signing_key.pub
 <h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><pre><code>yum install -y google-chrome-stable
 or
 yum install -y google-chrome-beta
+</code></pre><h2 id="踩到的坑"><a href="#踩到的坑" class="headerlink" title="踩到的坑"></a>踩到的坑</h2><p>测试运行 google-chrome -version 报错</p>
+<blockquote>
+<p>/usr/bin/google-chrome-stable: symbol lookup error: /lib64/libpango-1.0.so.0: undefined symbol: g_log_structured_standard</p>
+</blockquote>
+<p>解决</p>
+<pre><code>yum install pango-devel
 </code></pre>
       
     </div>
@@ -541,7 +547,7 @@ yum install -y google-chrome-beta
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -576,7 +582,7 @@ yum install -y google-chrome-beta
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#添加仓库来源"><span class="nav-number">1.</span> <span class="nav-text">添加仓库来源</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">2.</span> <span class="nav-text">安装</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#添加仓库来源"><span class="nav-number">1.</span> <span class="nav-text">添加仓库来源</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">2.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#踩到的坑"><span class="nav-number">3.</span> <span class="nav-text">踩到的坑</span></a></li></ol></div>
             
 
           </div>

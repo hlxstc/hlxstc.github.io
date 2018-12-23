@@ -78,7 +78,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Tinyproxy," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -94,18 +94,17 @@
 
 
 
-<meta name="description" content="hlxstc680@gmail.com">
-<meta name="keywords" content="Tinyproxy">
+<meta name="description" content="Squid安装yum install squid 配置 /etc/squid/squid.conf# 允许所有主机访问，添加如下 acl all src all http_access allow all  # 隐藏真实IP，添加如下 forwarded_for delete or forwarded_for off 启动，退出service squid start service squid s">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Tinyproxy">
+<meta property="og:title" content="Proxy server">
 <meta property="og:url" content="http://thathub.com/2018/12/12/tinyproxy/index.html">
 <meta property="og:site_name" content="Jokers&#39;s Blog">
-<meta property="og:description" content="hlxstc680@gmail.com">
+<meta property="og:description" content="Squid安装yum install squid 配置 /etc/squid/squid.conf# 允许所有主机访问，添加如下 acl all src all http_access allow all  # 隐藏真实IP，添加如下 forwarded_for delete or forwarded_for off 启动，退出service squid start service squid s">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-12-12T09:54:24.397Z">
+<meta property="og:updated_time" content="2018-12-18T09:59:27.759Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Tinyproxy">
-<meta name="twitter:description" content="hlxstc680@gmail.com">
+<meta name="twitter:title" content="Proxy server">
+<meta name="twitter:description" content="Squid安装yum install squid 配置 /etc/squid/squid.conf# 允许所有主机访问，添加如下 acl all src all http_access allow all  # 隐藏真实IP，添加如下 forwarded_for delete or forwarded_for off 启动，退出service squid start service squid s">
 
 
 
@@ -140,7 +139,7 @@
 
 
 
-  <title>Tinyproxy | Jokers's Blog</title>
+  <title>Proxy server | Jokers's Blog</title>
   
 
 
@@ -290,7 +289,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Tinyproxy</h1>
+          <h1 class="post-title" itemprop="name headline">Proxy server</h1>
         
 
         <div class="post-meta">
@@ -373,7 +372,73 @@
       
 
       
-        
+        <h2 id="Squid"><a href="#Squid" class="headerlink" title="Squid"></a>Squid</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><pre><code>yum install squid
+</code></pre><h3 id="配置-etc-squid-squid-conf"><a href="#配置-etc-squid-squid-conf" class="headerlink" title="配置 /etc/squid/squid.conf"></a>配置 /etc/squid/squid.conf</h3><pre><code># 允许所有主机访问，添加如下
+acl all src all
+http_access allow all
+
+# 隐藏真实IP，添加如下
+forwarded_for delete
+or
+forwarded_for off
+</code></pre><h3 id="启动，退出"><a href="#启动，退出" class="headerlink" title="启动，退出"></a>启动，退出</h3><pre><code>service squid start
+service squid stop
+service squid restart
+</code></pre><h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><pre><code>curl -x http://host:port -L http://www.baidu.com
+</code></pre><h3 id="Authentication"><a href="#Authentication" class="headerlink" title="Authentication"></a>Authentication</h3><ul>
+<li><p>INSTALL httpd-tools</p>
+<pre><code>yum -y install httpd-tools
+</code></pre></li>
+<li><p>CREATE A USERNAME/PASSWORD</p>
+<pre><code>touch /etc/squid/passwd &amp;&amp; chown squid /etc/squid/passwd
+htpasswd /etc/squid/passwd pxuser
+</code></pre></li>
+<li><p>CONFIG</p>
+<pre><code>注意配置添加的位置和顺序
+#
+# INSERT YOUR OWN RULE(S) HERE TO ALLOW ACCESS FROM YOUR CLIENTS
+#
+auth_param basic program /usr/lib64/squid/ncsa_auth /etc/squid/passwd
+auth_param basic children 5
+auth_param basic realm Squid proxy-caching web server
+auth_param basic credentialsttl 2 hours
+auth_param basic casesensitive off
+
+acl zcb proxy_auth REQUIRED
+http_access allow zcb
+</code></pre></li>
+<li><p>TEST</p>
+<pre><code>curl -x http://host:port --proxy-user username:pass -L http://www.baidu.com
+</code></pre></li>
+</ul>
+<h2 id="Tinyproxy"><a href="#Tinyproxy" class="headerlink" title="Tinyproxy"></a>Tinyproxy</h2><h2 id="Privoxy"><a href="#Privoxy" class="headerlink" title="Privoxy"></a>Privoxy</h2><h2 id="Shadowsocks"><a href="#Shadowsocks" class="headerlink" title="Shadowsocks"></a>Shadowsocks</h2><h3 id="server-安装"><a href="#server-安装" class="headerlink" title="server 安装"></a>server 安装</h3><pre><code>pip install shadowsocks
+</code></pre><h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><pre><code># 新建文件 /etc/shadowsocks.json
+
+{
+    &quot;server&quot;:&quot;0.0.0.0&quot;,
+    &quot;server_port&quot;:8888,
+    &quot;local_address&quot;: &quot;127.0.0.1&quot;,
+    &quot;local_port&quot;:1080,
+    &quot;password&quot;:&quot;mypassword&quot;,
+    &quot;timeout&quot;:300,
+    &quot;method&quot;:&quot;aes-256-cfb&quot;,
+    &quot;fast_open&quot;: false
+}
+</code></pre><h3 id="多用户配置，配置多个端口"><a href="#多用户配置，配置多个端口" class="headerlink" title="多用户配置，配置多个端口"></a>多用户配置，配置多个端口</h3><pre><code>&quot;port_password&quot;:
+{
+    &quot;20000&quot;: &quot;password0&quot;,
+    &quot;20001&quot;: &quot;password1&quot;,
+    &quot;20002&quot;: &quot;password2&quot;,
+}
+&quot;_comment&quot;:
+{
+    &quot;20000&quot;: &quot;userA&quot;,
+    &quot;20001&quot;: &quot;userB&quot;,
+    &quot;20002&quot;: &quot;userC&quot;,
+}
+</code></pre><h3 id="运行，退出"><a href="#运行，退出" class="headerlink" title="运行，退出"></a>运行，退出</h3><pre><code>ssserver -c /etc/shadowsocks.json -d start
+ssserver -c /etc/shadowsocks.json -d stop
+</code></pre>
       
     </div>
     
@@ -387,12 +452,6 @@
     
 
     <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/Tinyproxy/" rel="tag"># Tinyproxy</a>
-          
-        </div>
       
 
       
@@ -470,8 +529,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.jpg"
@@ -508,7 +576,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -533,6 +601,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Squid"><span class="nav-number">1.</span> <span class="nav-text">Squid</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装"><span class="nav-number">1.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置-etc-squid-squid-conf"><span class="nav-number">1.2.</span> <span class="nav-text">配置 /etc/squid/squid.conf</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动，退出"><span class="nav-number">1.3.</span> <span class="nav-text">启动，退出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试"><span class="nav-number">1.4.</span> <span class="nav-text">测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Authentication"><span class="nav-number">1.5.</span> <span class="nav-text">Authentication</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tinyproxy"><span class="nav-number">2.</span> <span class="nav-text">Tinyproxy</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Privoxy"><span class="nav-number">3.</span> <span class="nav-text">Privoxy</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Shadowsocks"><span class="nav-number">4.</span> <span class="nav-text">Shadowsocks</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#server-安装"><span class="nav-number">4.1.</span> <span class="nav-text">server 安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置"><span class="nav-number">4.2.</span> <span class="nav-text">配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多用户配置，配置多个端口"><span class="nav-number">4.3.</span> <span class="nav-text">多用户配置，配置多个端口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运行，退出"><span class="nav-number">4.4.</span> <span class="nav-text">运行，退出</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -672,7 +756,7 @@
         var disqus_config = function () {
           this.page.url = 'http://thathub.com/2018/12/12/tinyproxy/';
           this.page.identifier = '2018/12/12/tinyproxy/';
-          this.page.title = 'Tinyproxy';
+          this.page.title = 'Proxy server';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://thathub-com.disqus.com.disqus.com/embed.js';

@@ -292,7 +292,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/12/12/tinyproxy/" itemprop="url">Tinyproxy</a></h1>
+                <a class="post-title-link" href="/2018/12/12/tinyproxy/" itemprop="url">Proxy server</a></h1>
         
 
         <div class="post-meta">
@@ -377,7 +377,73 @@
       
         
           
-            
+            <h2 id="Squid"><a href="#Squid" class="headerlink" title="Squid"></a>Squid</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><pre><code>yum install squid
+</code></pre><h3 id="配置-etc-squid-squid-conf"><a href="#配置-etc-squid-squid-conf" class="headerlink" title="配置 /etc/squid/squid.conf"></a>配置 /etc/squid/squid.conf</h3><pre><code># 允许所有主机访问，添加如下
+acl all src all
+http_access allow all
+
+# 隐藏真实IP，添加如下
+forwarded_for delete
+or
+forwarded_for off
+</code></pre><h3 id="启动，退出"><a href="#启动，退出" class="headerlink" title="启动，退出"></a>启动，退出</h3><pre><code>service squid start
+service squid stop
+service squid restart
+</code></pre><h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><pre><code>curl -x http://host:port -L http://www.baidu.com
+</code></pre><h3 id="Authentication"><a href="#Authentication" class="headerlink" title="Authentication"></a>Authentication</h3><ul>
+<li><p>INSTALL httpd-tools</p>
+<pre><code>yum -y install httpd-tools
+</code></pre></li>
+<li><p>CREATE A USERNAME/PASSWORD</p>
+<pre><code>touch /etc/squid/passwd &amp;&amp; chown squid /etc/squid/passwd
+htpasswd /etc/squid/passwd pxuser
+</code></pre></li>
+<li><p>CONFIG</p>
+<pre><code>注意配置添加的位置和顺序
+#
+# INSERT YOUR OWN RULE(S) HERE TO ALLOW ACCESS FROM YOUR CLIENTS
+#
+auth_param basic program /usr/lib64/squid/ncsa_auth /etc/squid/passwd
+auth_param basic children 5
+auth_param basic realm Squid proxy-caching web server
+auth_param basic credentialsttl 2 hours
+auth_param basic casesensitive off
+
+acl zcb proxy_auth REQUIRED
+http_access allow zcb
+</code></pre></li>
+<li><p>TEST</p>
+<pre><code>curl -x http://host:port --proxy-user username:pass -L http://www.baidu.com
+</code></pre></li>
+</ul>
+<h2 id="Tinyproxy"><a href="#Tinyproxy" class="headerlink" title="Tinyproxy"></a>Tinyproxy</h2><h2 id="Privoxy"><a href="#Privoxy" class="headerlink" title="Privoxy"></a>Privoxy</h2><h2 id="Shadowsocks"><a href="#Shadowsocks" class="headerlink" title="Shadowsocks"></a>Shadowsocks</h2><h3 id="server-安装"><a href="#server-安装" class="headerlink" title="server 安装"></a>server 安装</h3><pre><code>pip install shadowsocks
+</code></pre><h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><pre><code># 新建文件 /etc/shadowsocks.json
+
+{
+    &quot;server&quot;:&quot;0.0.0.0&quot;,
+    &quot;server_port&quot;:8888,
+    &quot;local_address&quot;: &quot;127.0.0.1&quot;,
+    &quot;local_port&quot;:1080,
+    &quot;password&quot;:&quot;mypassword&quot;,
+    &quot;timeout&quot;:300,
+    &quot;method&quot;:&quot;aes-256-cfb&quot;,
+    &quot;fast_open&quot;: false
+}
+</code></pre><h3 id="多用户配置，配置多个端口"><a href="#多用户配置，配置多个端口" class="headerlink" title="多用户配置，配置多个端口"></a>多用户配置，配置多个端口</h3><pre><code>&quot;port_password&quot;:
+{
+    &quot;20000&quot;: &quot;password0&quot;,
+    &quot;20001&quot;: &quot;password1&quot;,
+    &quot;20002&quot;: &quot;password2&quot;,
+}
+&quot;_comment&quot;:
+{
+    &quot;20000&quot;: &quot;userA&quot;,
+    &quot;20001&quot;: &quot;userB&quot;,
+    &quot;20002&quot;: &quot;userC&quot;,
+}
+</code></pre><h3 id="运行，退出"><a href="#运行，退出" class="headerlink" title="运行，退出"></a>运行，退出</h3><pre><code>ssserver -c /etc/shadowsocks.json -d start
+ssserver -c /etc/shadowsocks.json -d stop
+</code></pre>
           
         
       
@@ -578,6 +644,11 @@ colorscheme desert
 <li>Ctrl-O —— 后退</li>
 <li>Ctrl-I —— 前进</li>
 </ul>
+<h3 id="差找"><a href="#差找" class="headerlink" title="差找"></a>差找</h3><blockquote>
+<blockquote>
+<p>在normal模式下按下/即可进入查找模式，输入要查找的字符串并按下回车。 Vim会跳转到第一个匹配。按下n查找下一个，按下N查找上一个。</p>
+</blockquote>
+</blockquote>
 
           
         
@@ -1258,6 +1329,285 @@ int main(){
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/11/05/dataStructure_order/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/11/05/dataStructure_order/" itemprop="url">数据结构--排序</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-05T08:00:00+08:00">
+                2018-11-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据结构/" itemprop="url" rel="index">
+                    <span itemprop="name">数据结构</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/11/05/dataStructure_order/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/11/05/dataStructure_order/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="直接插入排序"><a href="#直接插入排序" class="headerlink" title="直接插入排序"></a>直接插入排序</h3><pre><code>#include &lt;stdio.h&gt;
+
+#define MAX 1000
+
+typedef struct{
+    int key;
+}Node;
+
+typedef Node SeqList[MAX+1];
+
+void insertSort(SeqList R, int n){
+    for(int i=2; i&lt;=n ; i++){
+        R[0].key = R[i].key;
+        int j;
+        for(j=i-1; j&gt;=0; j--){
+            if(R[j].key &lt;= R[i].key)
+                break;
+        }
+        if(j &lt; i-1){
+            for(int k=i-1; k&gt;j; k--){
+                R[k+1].key = R[k].key;
+            }
+            R[j+1].key = R[0].key;
+        }
+    }
+}
+
+int main(){
+    SeqList R;
+    int t;
+    int n = 0;
+    while (1==1) {
+        scanf(&quot;%d&quot;, &amp;t);
+        if(t == -9999)
+            break;
+        n++;
+        R[n].key = t;
+    }
+    insertSort(R, n);
+    for(int i=1; i&lt;=n; i++){
+        printf(&quot;%d-&gt;&quot;, R[i].key);
+    }
+    printf(&quot;\n&quot;);
+    return 0;
+}
+</code></pre><h3 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h3><pre><code>#include &lt;stdio.h&gt;
+
+#define MAX 1000
+
+typedef struct{
+    int v;
+}Seq;
+
+typedef Seq seqList[MAX+1]
+
+int bubbleSort(seqList R, int n){
+    for(int i=2; i&lt;=n; i++){
+        int flag = 0;
+        for(int j=n; i&gt;=i; j--){
+            if(R[j].v &lt; R[j-1].v){
+                R[0].v = R[j-1].v;
+                R[j-1].v = R[j].v;
+                R[j].v = R[0].v;
+                flag = 1;
+            }
+        }
+        if(flag == 0){
+            break;
+        }
+    }
+    return 0;
+}
+
+int main(){
+    seqList R;
+    int t;
+    int n = 0;
+    while(true){
+        scanf(&apos;%d&apos;, &amp;t);
+        if(t == -9999)
+            break;
+        n++;
+        R[n].v = t;
+    }
+    bubbleSort(R, n);
+}
+</code></pre><h3 id="直接选择排序"><a href="#直接选择排序" class="headerlink" title="直接选择排序"></a>直接选择排序</h3><pre><code>#include &lt;stdio&gt;
+
+#define MAX 1000
+
+typedef struct{
+    int v;
+}seq;
+
+typedef seq seqList[MAX+1];
+
+void selectSort(seqList R, n){
+    for(int i=1, i&lt;n; i++){
+        int t = i;
+        for(int j=i+1; j&lt;=n; j++){
+            if(R[j].v &lt; t){
+                t = j;
+            }
+            if(t != i){
+                R[0].v = R[i].v;
+                R[i].v = R[t].v;
+                R[t].v = R[0].v;
+            }
+        }
+    }
+}
+
+int main(){
+    seqList R;
+    int n = 0;
+    int t = 0;
+    while(true){
+        scanf(&apos;%d&apos;, &amp;t);
+        if(t == -9999){
+            break;
+        }
+        n++；
+        R[n].v = t;
+    }
+    selectSort(R, n);
+    return 0;
+}
+</code></pre>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/11/05/dataStructure_tree/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1676,285 +2026,6 @@ int main(){
         if(!visited[i])
             DFS(g, i, n);
     }
-    return 0;
-}
-</code></pre>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/11/05/dataStructure_order/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jokers">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jokers's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/11/05/dataStructure_order/" itemprop="url">数据结构--排序</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-05T08:00:00+08:00">
-                2018-11-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/数据结构/" itemprop="url" rel="index">
-                    <span itemprop="name">数据结构</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/11/05/dataStructure_order/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/11/05/dataStructure_order/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="直接插入排序"><a href="#直接插入排序" class="headerlink" title="直接插入排序"></a>直接插入排序</h3><pre><code>#include &lt;stdio.h&gt;
-
-#define MAX 1000
-
-typedef struct{
-    int key;
-}Node;
-
-typedef Node SeqList[MAX+1];
-
-void insertSort(SeqList R, int n){
-    for(int i=2; i&lt;=n ; i++){
-        R[0].key = R[i].key;
-        int j;
-        for(j=i-1; j&gt;=0; j--){
-            if(R[j].key &lt;= R[i].key)
-                break;
-        }
-        if(j &lt; i-1){
-            for(int k=i-1; k&gt;j; k--){
-                R[k+1].key = R[k].key;
-            }
-            R[j+1].key = R[0].key;
-        }
-    }
-}
-
-int main(){
-    SeqList R;
-    int t;
-    int n = 0;
-    while (1==1) {
-        scanf(&quot;%d&quot;, &amp;t);
-        if(t == -9999)
-            break;
-        n++;
-        R[n].key = t;
-    }
-    insertSort(R, n);
-    for(int i=1; i&lt;=n; i++){
-        printf(&quot;%d-&gt;&quot;, R[i].key);
-    }
-    printf(&quot;\n&quot;);
-    return 0;
-}
-</code></pre><h3 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h3><pre><code>#include &lt;stdio.h&gt;
-
-#define MAX 1000
-
-typedef struct{
-    int v;
-}Seq;
-
-typedef Seq seqList[MAX+1]
-
-int bubbleSort(seqList R, int n){
-    for(int i=2; i&lt;=n; i++){
-        int flag = 0;
-        for(int j=n; i&gt;=i; j--){
-            if(R[j].v &lt; R[j-1].v){
-                R[0].v = R[j-1].v;
-                R[j-1].v = R[j].v;
-                R[j].v = R[0].v;
-                flag = 1;
-            }
-        }
-        if(flag == 0){
-            break;
-        }
-    }
-    return 0;
-}
-
-int main(){
-    seqList R;
-    int t;
-    int n = 0;
-    while(true){
-        scanf(&apos;%d&apos;, &amp;t);
-        if(t == -9999)
-            break;
-        n++;
-        R[n].v = t;
-    }
-    bubbleSort(R, n);
-}
-</code></pre><h3 id="直接选择排序"><a href="#直接选择排序" class="headerlink" title="直接选择排序"></a>直接选择排序</h3><pre><code>#include &lt;stdio&gt;
-
-#define MAX 1000
-
-typedef struct{
-    int v;
-}seq;
-
-typedef seq seqList[MAX+1];
-
-void selectSort(seqList R, n){
-    for(int i=1, i&lt;n; i++){
-        int t = i;
-        for(int j=i+1; j&lt;=n; j++){
-            if(R[j].v &lt; t){
-                t = j;
-            }
-            if(t != i){
-                R[0].v = R[i].v;
-                R[i].v = R[t].v;
-                R[t].v = R[0].v;
-            }
-        }
-    }
-}
-
-int main(){
-    seqList R;
-    int n = 0;
-    int t = 0;
-    while(true){
-        scanf(&apos;%d&apos;, &amp;t);
-        if(t == -9999){
-            break;
-        }
-        n++；
-        R[n].v = t;
-    }
-    selectSort(R, n);
     return 0;
 }
 </code></pre>
@@ -2549,7 +2620,7 @@ int main(){
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
