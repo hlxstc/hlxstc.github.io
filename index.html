@@ -273,6 +273,180 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2019/01/31/hadoop_guide/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/31/hadoop_guide/" itemprop="url">hadoop2指南</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-31T11:30:00+08:00">
+                2019-01-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Hadoop/" itemprop="url" rel="index">
+                    <span itemprop="name">Hadoop</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/01/31/hadoop_guide/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2019/01/31/hadoop_guide/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Hadoop-Fundamentals"><a href="#Hadoop-Fundamentals" class="headerlink" title="Hadoop Fundamentals"></a>Hadoop Fundamentals</h2><h3 id="Chapter-1-Meet-Hadoop"><a href="#Chapter-1-Meet-Hadoop" class="headerlink" title="Chapter 1. Meet Hadoop"></a>Chapter 1. Meet Hadoop</h3><p>Hadoop通常指大型的生态系统，不仅仅是HDFS和MapReduce，属于分布式计算和大规模数据处理<br>例如，HBase，key-value存储方式，使用HDFS作为底层存储<br>yarn，Hadoop中新处理模型的推动者，它是一个集群资源管理系统，它允许分布式程序（不仅仅是MapReduce）在Hadoop集群处理数据<br>Hive，大数据集合低延迟的SQL交互查询<br>Spark，许多算法，例如机器学习算法，本质上是在数据集上的迭代计算，而MapReduce并不支持迭代数据持久化到内存，需要每次在磁盘载入，而Spark不需要<br>Solr，可在Hadoop集群上运行，索引文档存储在HDFS并提供查询服务<br>MapReduce有助于理解一些通用概念，例如输入格式概念和数据集的分片等<br>MapReduce等Hadoop处理模型都是随着数据量线性扩展的，而功能函数（例如Map和Reduce）可以在分区并行工作，因此假设据数量翻倍，而集群节点数量也翻倍，那么计算时间是不变的</p>
+<h3 id="Chapter-2-MapReduce"><a href="#Chapter-2-MapReduce" class="headerlink" title="Chapter 2. MapReduce"></a>Chapter 2. MapReduce</h3><h4 id="A-Weather-Dataset"><a href="#A-Weather-Dataset" class="headerlink" title="A Weather Dataset"></a>A Weather Dataset</h4><p>我们以计算历年记录的最高温度为例，传统方法会逐行读取并比较获得最高温度。为了提高运行速度，可以使用并行处理。<br>1.我们可以使用不同的进程运行不同年份的记录，但是不同年份的数据量不同，计算时间取决于最大的文件。因此最好的办法是把输入的数据分割成大小相等的块再分别处理。<br>2.因为数据被分割成大小相等的块，每个数据块都会计算出不同年份的最大温度，最终我们还要找到每年的最大温度。<br>3.仍然会受限于单台计算机的处理能力，可以使用多台计算机，那么主要问题在与协调性和可靠性，哪台计算机执行全局的任务，如何处理失败的进程。<br>以上方法虽然可行但是繁杂，所以我们可以借助类似Hadoop的框架。</p>
+<h4 id="Analyzing-the-Data-with-Hadoop"><a href="#Analyzing-the-Data-with-Hadoop" class="headerlink" title="Analyzing the Data with Hadoop"></a>Analyzing the Data with Hadoop</h4><p>MapReduce将操作分为两个阶段，map阶段和reduce阶段，每个阶段都是key-value对作为输入和输出，同时需要编写map和reduce方法。<br>map阶段的输入是NCDC原始的行数据，key是每行相对应文本开始位置的偏移值，不过可以忽略。map方法只是数据准备，只需要在每行数据中提取出年份和温度。<br>可视化map的工作<br>输入数据：<br>0067011990999991950051507004…9999999N9+00001+99999999999…<br>0043011990999991950051512004…9999999N9+00221+99999999999…<br>0043011990999991950051518004…9999999N9-00111+99999999999…<br>0043012650999991949032412004…0500001N9+01111+99999999999…<br>0043012650999991949032418004…0500001N9+00781+99999999999…<br>呈现给map方法的key-value对：<br>(0, 0067011990999991950051507004…9999999N9+00001+99999999999…)<br>(106, 0043011990999991950051512004…9999999N9+00221+99999999999…)<br>(212, 0043011990999991950051518004…9999999N9-00111+99999999999…)<br>(318, 0043012650999991949032412004…0500001N9+01111+99999999999…)<br>(424, 0043012650999991949032418004…0500001N9+00781+99999999999…)<br>map提取年份和温度，并输出：<br>(1950, 0)<br>(1950, 22)<br>(1950, -11)<br>(1949, 111)<br>(1949, 78)<br>MapReduce框架通过key聚合排序map的输出，再传输给reduce，所以reduce的输入为：<br>(1949, [111, 78])<br>(1950, [0, 22, −11])<br>reduce遍历list并找出最大温度：<br>(1949, 111)<br>(1950, 22)</p>
+<h4 id="Scaling-Out"><a href="#Scaling-Out" class="headerlink" title="Scaling Out"></a>Scaling Out</h4><p>将数据储存在分布式文件系统，使用Hadoop的资源管理系统（YARN），可使得每台机器持有一部分数据进行MapReduce计算。</p>
+<h5 id="Data-Flow"><a href="#Data-Flow" class="headerlink" title="Data Flow"></a>Data Flow</h5><p>YARN分配任务到集群节点，如果一个任务失败，会被自动分配到其它节点。Hadoop将输入数据分片并创建map任务将分片作为输入数据。<br>分片越小，负载均衡越好，因为一个运行速度快的机器可以处理更多的分片。<br>但是如果分片太小，分片的管理和map任务的创建会耗费太多的时间。分片大小最好等于HDFS的block，默认是128M。数据存在于执行map任务的节点，执行效率更高，因为节省了宝贵的集群间的带宽资源。<br>一个block大小的分片是可以保证存储在同一个节点的，这就是为什么最优分片大小是block size。假设分片大小是两个block size，执行map任务的节点可能没有恰好存储两个block，这就需要在节点间传输数据。<br>reduce任务数量可以自定义，map的输出需要通过网络传输合并传递给运行reduce的节点，reduce的输出通常存储在HDFS。<br>当有多个reduce时，map分割输出，相同的key必须在同一个分割，用户可以自定义分割，但是默认分割方法挺好的，</p>
+<h5 id="Combiner-Functions"><a href="#Combiner-Functions" class="headerlink" title="Combiner Functions"></a>Combiner Functions</h5><p>许多MapReduce任务受限于集群的可用带宽，所以研究如何最小化map和reduce间传递的数据变得很重要。combiner方法允许用户指定并作用于map的输出，最后形成reduce的输入。因为combiner方法是优化方法，hadoop不保证可以运行几次combiner。<br>第一个map输出：<br>(1950, 0)<br>(1950, 20)<br>(1950, 10)<br>第二个输出：<br>(1950, 25)<br>(1950, 15)<br>reduce输入：<br>(1950, [0, 20, 10, 25, 15])<br>reduce输出：<br>(1950, 25)<br>我们可以使用combiner方法，类似于reduce，找到每个map输出的最大值：<br>(1950, [20, 25])<br>可表示为：<br>max(0, 20, 10, 25, 15) = max(max(0, 20, 10), max(25, 15)) = max(20, 25) = 25<br>但是，如果计算平均值，不能使用mean作为combiner，因为：<br>mean(0, 20, 10, 25, 15) = 14<br>但是：<br>mean(mean(0, 20, 10), mean(25, 15)) = mean(10, 20) = 15<br>综上，combiner可以减少传输数据的数量，值得考虑是否可以用combiner。</p>
+<h3 id="Chapter-3-The-Hadoop-Distributed-Filesystem"><a href="#Chapter-3-The-Hadoop-Distributed-Filesystem" class="headerlink" title="Chapter 3. The Hadoop Distributed Filesystem"></a>Chapter 3. The Hadoop Distributed Filesystem</h3><h4 id="The-Design-of-HDFS"><a href="#The-Design-of-HDFS" class="headerlink" title="The Design of HDFS"></a>The Design of HDFS</h4><p>HDFS is a filesystem designed for storing very large files with streaming data access<br>patterns, running on clusters of commodity hardware.</p>
+<p>Very large files<br>文件大小数百M，G，T，P</p>
+<p>Streaming data access<br>HDFS建立在最有效的数据处理模式下，一次写入，多次读取的模式。因此读取整个数据集的时间比读取第一条数据的延迟时间更重要。</p>
+<p>Commodity hardware<br>Hadoop不需要昂贵，高可靠性的硬件。</p>
+<p>Low-latency data access<br>HDFS对几十毫秒内的低延迟访问表现不好，因为它主要优化方向是高吞吐量，势必造成高延迟。HBase是当前达到低延迟的选择。</p>
+<p>Lots of small files<br>namenode将文件系统元数据放在内存，而每个文件，目录，block占用大约150比特。假设有100万的文件，每个文件是一个block，需要300M内存。</p>
+<p>Multiple writers, arbitrary file modifications<br>目前仅支持单用户在文件末尾append</p>
+<h4 id="HDFS-Concepts"><a href="#HDFS-Concepts" class="headerlink" title="HDFS Concepts"></a>HDFS Concepts</h4><h5 id="Blocks"><a href="#Blocks" class="headerlink" title="Blocks"></a>Blocks</h5><p>每个block默认128M，文件被拆分成block大小，不足block大小的文件虽然是一个block，但是仅占用实际大小的空间。</p>
+<h5 id="Namenodes-and-Datanodes"><a href="#Namenodes-and-Datanodes" class="headerlink" title="Namenodes and Datanodes"></a>Namenodes and Datanodes</h5><p>HDFS集群是master−worke模式，一个namenode（master）和一些datanode（workers）。namenode管理文件系统命名空间。它包含文件系统树和所有文件及目录的元数据，这些数据持久化在本地磁盘，两个文件分别是namespace image和edit log。namenode不持久化block的位置，因为每次系统启动都会通过datanode重建位置信息。<br>客户端访问namenode和datanode，对用户来说是透明的。<br>datanode存储检索block并周期性的向namenode报告blocks的存储情况。<br>没有namenode，HDFS将无法工作。namenode故障将使得文件系统的文件丢失，为了避免这种情况，Hadoop提供了两种机制：<br>第一种是备份文件系统元数据，备份是同步的和自动的，通常的配置是写入本地磁盘和原称NFS mount。<br>第二种是运行辅助namenode，周期性的合并namenode image及edit log。辅助namenode常运行在单独的机器，因为它需要大量的CPU和内存执行merge。如果主namenode挂了，总会出现数据丢失，在这种情况通常从NFS复制一份namenode的元数据。</p>
+<h5 id="Block-Caching"><a href="#Block-Caching" class="headerlink" title="Block Caching"></a>Block Caching</h5><p>通常datanode从disk读block，但是对高频访问的block可以明确缓存到datanode的内存，可以增加读的效率。应用通过添加缓存指令到缓存池来指导namenode缓存文件。</p>
+<h5 id="HDFS-High-Availability"><a href="#HDFS-High-Availability" class="headerlink" title="HDFS High Availability"></a>HDFS High Availability</h5><p>备份namenode元数据并使用辅助namenode防止数据丢失，不能获得高可用的系统。<br>如果namenode挂掉，新的namenode需要载入namespace image到内存，重现edit log，接收所有datanode上报的block映射关系，才能正常运行。在大型集群，需要耗费30分钟甚至更长的时间。<br>Hadoop 2添加高可用性（HA）支持，使用一对namenode（active-standby），active namenode挂掉，standby可以很快提供服务。<br>架构需要做一些改动：</p>
+<ul>
+<li>namenode必须使用高可用性共享存储来共享编辑日志</li>
+<li>datanode必须向所以namenode发送block的映射信息</li>
+<li>客户端需要配置处理故障转移，对用户透明</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://thathub.com/2019/01/10/Appium_mumu/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1511,7 +1685,7 @@ int main(){
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/11/05/dataStructure_graph/">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/11/05/dataStructure_order/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jokers">
@@ -1530,7 +1704,7 @@ int main(){
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/11/05/dataStructure_graph/" itemprop="url">数据结构--图</a></h1>
+                <a class="post-title-link" href="/2018/11/05/dataStructure_order/" itemprop="url">数据结构--排序</a></h1>
         
 
         <div class="post-meta">
@@ -1583,9 +1757,9 @@ int main(){
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/11/05/dataStructure_graph/#comments" itemprop="discussionUrl">
+                <a href="/2018/11/05/dataStructure_order/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/11/05/dataStructure_graph/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2018/11/05/dataStructure_order/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -1615,53 +1789,131 @@ int main(){
       
         
           
-            <h3 id="构建图及深度优先遍历"><a href="#构建图及深度优先遍历" class="headerlink" title="构建图及深度优先遍历"></a>构建图及深度优先遍历</h3><pre><code>#include &lt;stdio.h&gt;
+            <h3 id="直接插入排序"><a href="#直接插入排序" class="headerlink" title="直接插入排序"></a>直接插入排序</h3><pre><code>#include &lt;stdio.h&gt;
 
-#define MAX 99
+#define MAX 1000
 
 typedef struct{
-    int n;
-    int arcs[MAX][MAX];
-}Graph;
+    int key;
+}Node;
 
-int visited[MAX];
+typedef Node SeqList[MAX+1];
 
-void DFS(Graph g, int i, int n){
-    visited[i] = 1;
-    printf(&quot;V%d-&gt;&quot;, i);
-    for(int j=0; j&lt;n; j++){
-        if(g.arcs[i][j]==1 &amp;&amp; visited[j]==0){
-            DFS(g, j, n);
+void insertSort(SeqList R, int n){
+    for(int i=2; i&lt;=n ; i++){
+        R[0].key = R[i].key;
+        int j;
+        for(j=i-1; j&gt;=0; j--){
+            if(R[j].key &lt;= R[i].key)
+                break;
+        }
+        if(j &lt; i-1){
+            for(int k=i-1; k&gt;j; k--){
+                R[k+1].key = R[k].key;
+            }
+            R[j+1].key = R[0].key;
         }
     }
 }
 
 int main(){
-    Graph g;
-    int n;
-    int i, j;
-    scanf(&quot;%d&quot;, &amp;n);
-    for(i=0; i&lt;n; i++){
-        for(j=0; j&lt;n; j++){
-            g.arcs[i][j] = 0;
-        }
-    }
-    while(true){
-        scanf(&quot;%d %d&quot;, &amp;i, &amp;j);
-        if(i==-1 &amp;&amp; j==-1)
+    SeqList R;
+    int t;
+    int n = 0;
+    while (1==1) {
+        scanf(&quot;%d&quot;, &amp;t);
+        if(t == -9999)
             break;
-        g.arcs[i][j] = 1;
+        n++;
+        R[n].key = t;
     }
-    for(i=0; i&lt;n; i++){
-        for(j=0; j&lt;n; j++){
-            printf(&quot;%d &quot;, g.arcs[i][j]);
+    insertSort(R, n);
+    for(int i=1; i&lt;=n; i++){
+        printf(&quot;%d-&gt;&quot;, R[i].key);
+    }
+    printf(&quot;\n&quot;);
+    return 0;
+}
+</code></pre><h3 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h3><pre><code>#include &lt;stdio.h&gt;
+
+#define MAX 1000
+
+typedef struct{
+    int v;
+}Seq;
+
+typedef Seq seqList[MAX+1]
+
+int bubbleSort(seqList R, int n){
+    for(int i=2; i&lt;=n; i++){
+        int flag = 0;
+        for(int j=n; i&gt;=i; j--){
+            if(R[j].v &lt; R[j-1].v){
+                R[0].v = R[j-1].v;
+                R[j-1].v = R[j].v;
+                R[j].v = R[0].v;
+                flag = 1;
+            }
         }
-        printf(&quot;\n&quot;);
+        if(flag == 0){
+            break;
+        }
     }
-    for(i=0; i&lt;n; i++){
-        if(!visited[i])
-            DFS(g, i, n);
+    return 0;
+}
+
+int main(){
+    seqList R;
+    int t;
+    int n = 0;
+    while(true){
+        scanf(&apos;%d&apos;, &amp;t);
+        if(t == -9999)
+            break;
+        n++;
+        R[n].v = t;
     }
+    bubbleSort(R, n);
+}
+</code></pre><h3 id="直接选择排序"><a href="#直接选择排序" class="headerlink" title="直接选择排序"></a>直接选择排序</h3><pre><code>#include &lt;stdio&gt;
+
+#define MAX 1000
+
+typedef struct{
+    int v;
+}seq;
+
+typedef seq seqList[MAX+1];
+
+void selectSort(seqList R, n){
+    for(int i=1, i&lt;n; i++){
+        int t = i;
+        for(int j=i+1; j&lt;=n; j++){
+            if(R[j].v &lt; t){
+                t = j;
+            }
+            if(t != i){
+                R[0].v = R[i].v;
+                R[i].v = R[t].v;
+                R[t].v = R[0].v;
+            }
+        }
+    }
+}
+
+int main(){
+    seqList R;
+    int n = 0;
+    int t = 0;
+    while(true){
+        scanf(&apos;%d&apos;, &amp;t);
+        if(t == -9999){
+            break;
+        }
+        n++；
+        R[n].v = t;
+    }
+    selectSort(R, n);
     return 0;
 }
 </code></pre>
@@ -1979,7 +2231,7 @@ int main(){
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/11/05/dataStructure_order/">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/11/05/dataStructure_graph/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jokers">
@@ -1998,7 +2250,7 @@ int main(){
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/11/05/dataStructure_order/" itemprop="url">数据结构--排序</a></h1>
+                <a class="post-title-link" href="/2018/11/05/dataStructure_graph/" itemprop="url">数据结构--图</a></h1>
         
 
         <div class="post-meta">
@@ -2051,9 +2303,9 @@ int main(){
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/11/05/dataStructure_order/#comments" itemprop="discussionUrl">
+                <a href="/2018/11/05/dataStructure_graph/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/11/05/dataStructure_order/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2018/11/05/dataStructure_graph/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -2083,356 +2335,54 @@ int main(){
       
         
           
-            <h3 id="直接插入排序"><a href="#直接插入排序" class="headerlink" title="直接插入排序"></a>直接插入排序</h3><pre><code>#include &lt;stdio.h&gt;
+            <h3 id="构建图及深度优先遍历"><a href="#构建图及深度优先遍历" class="headerlink" title="构建图及深度优先遍历"></a>构建图及深度优先遍历</h3><pre><code>#include &lt;stdio.h&gt;
 
-#define MAX 1000
+#define MAX 99
 
 typedef struct{
-    int key;
-}Node;
+    int n;
+    int arcs[MAX][MAX];
+}Graph;
 
-typedef Node SeqList[MAX+1];
+int visited[MAX];
 
-void insertSort(SeqList R, int n){
-    for(int i=2; i&lt;=n ; i++){
-        R[0].key = R[i].key;
-        int j;
-        for(j=i-1; j&gt;=0; j--){
-            if(R[j].key &lt;= R[i].key)
-                break;
-        }
-        if(j &lt; i-1){
-            for(int k=i-1; k&gt;j; k--){
-                R[k+1].key = R[k].key;
-            }
-            R[j+1].key = R[0].key;
+void DFS(Graph g, int i, int n){
+    visited[i] = 1;
+    printf(&quot;V%d-&gt;&quot;, i);
+    for(int j=0; j&lt;n; j++){
+        if(g.arcs[i][j]==1 &amp;&amp; visited[j]==0){
+            DFS(g, j, n);
         }
     }
 }
 
 int main(){
-    SeqList R;
-    int t;
-    int n = 0;
-    while (1==1) {
-        scanf(&quot;%d&quot;, &amp;t);
-        if(t == -9999)
-            break;
-        n++;
-        R[n].key = t;
-    }
-    insertSort(R, n);
-    for(int i=1; i&lt;=n; i++){
-        printf(&quot;%d-&gt;&quot;, R[i].key);
-    }
-    printf(&quot;\n&quot;);
-    return 0;
-}
-</code></pre><h3 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h3><pre><code>#include &lt;stdio.h&gt;
-
-#define MAX 1000
-
-typedef struct{
-    int v;
-}Seq;
-
-typedef Seq seqList[MAX+1]
-
-int bubbleSort(seqList R, int n){
-    for(int i=2; i&lt;=n; i++){
-        int flag = 0;
-        for(int j=n; i&gt;=i; j--){
-            if(R[j].v &lt; R[j-1].v){
-                R[0].v = R[j-1].v;
-                R[j-1].v = R[j].v;
-                R[j].v = R[0].v;
-                flag = 1;
-            }
-        }
-        if(flag == 0){
-            break;
+    Graph g;
+    int n;
+    int i, j;
+    scanf(&quot;%d&quot;, &amp;n);
+    for(i=0; i&lt;n; i++){
+        for(j=0; j&lt;n; j++){
+            g.arcs[i][j] = 0;
         }
     }
-    return 0;
-}
-
-int main(){
-    seqList R;
-    int t;
-    int n = 0;
     while(true){
-        scanf(&apos;%d&apos;, &amp;t);
-        if(t == -9999)
+        scanf(&quot;%d %d&quot;, &amp;i, &amp;j);
+        if(i==-1 &amp;&amp; j==-1)
             break;
-        n++;
-        R[n].v = t;
-    }
-    bubbleSort(R, n);
-}
-</code></pre><h3 id="直接选择排序"><a href="#直接选择排序" class="headerlink" title="直接选择排序"></a>直接选择排序</h3><pre><code>#include &lt;stdio&gt;
-
-#define MAX 1000
-
-typedef struct{
-    int v;
-}seq;
-
-typedef seq seqList[MAX+1];
-
-void selectSort(seqList R, n){
-    for(int i=1, i&lt;n; i++){
-        int t = i;
-        for(int j=i+1; j&lt;=n; j++){
-            if(R[j].v &lt; t){
-                t = j;
-            }
-            if(t != i){
-                R[0].v = R[i].v;
-                R[i].v = R[t].v;
-                R[t].v = R[0].v;
-            }
-        }
-    }
-}
-
-int main(){
-    seqList R;
-    int n = 0;
-    int t = 0;
-    while(true){
-        scanf(&apos;%d&apos;, &amp;t);
-        if(t == -9999){
-            break;
-        }
-        n++；
-        R[n].v = t;
-    }
-    selectSort(R, n);
-    return 0;
-}
-</code></pre>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/11/05/dataStructure_multiArr/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jokers">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jokers's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/11/05/dataStructure_multiArr/" itemprop="url">数据结构--多维数组</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-05T07:00:00+08:00">
-                2018-11-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/数据结构/" itemprop="url" rel="index">
-                    <span itemprop="name">数据结构</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/11/05/dataStructure_multiArr/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/11/05/dataStructure_multiArr/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="三角矩阵-amp-amp-矩阵乘积"><a href="#三角矩阵-amp-amp-矩阵乘积" class="headerlink" title="三角矩阵 &amp;&amp; 矩阵乘积"></a>三角矩阵 &amp;&amp; 矩阵乘积</h3><pre><code>#include &lt;stdio.h&gt;
-
-#define MAX 1000
-
-void matMulti(int \*A, int \*B, int n){
-    int C[n][n];
-    int i, j, s;
-    int index_A = 0, index_B = 0;
-    for(i=0; i&lt;n; i++){
-        for(j=0; j&lt;n; j++){
-            C[i][j] = 0;
-        }
+        g.arcs[i][j] = 1;
     }
     for(i=0; i&lt;n; i++){
         for(j=0; j&lt;n; j++){
-            s=0;
-            for(int k=0; k&lt;n; k++){
-                if(i&lt;k || j&lt;k)
-                    continue;
-                index_A = i*(i+1)/2 + k;
-                index_B = k*(2*n-k+1)/2 + j -k;
-                printf(&quot;A:%d B:%d\n&quot;, A[index_A], B[index_B]);
-                s += A[index_A]\*B[index_B];
-            }
-            C[i][j] = s;
-        }
-    }
-    for(i=0; i&lt;n; i++){
-        for(j=0; j&lt;n; j++){
-            printf(&quot;%d &quot;, C[i][j]);
+            printf(&quot;%d &quot;, g.arcs[i][j]);
         }
         printf(&quot;\n&quot;);
     }
-}
-
-int main(){
-    // 上三角矩阵A, 下三角矩阵
-    int A[MAX], B[MAX];
-    // 矩阵数据长度
-    int i=0, j=0;
-    // 矩阵阶数
-    int n1=0, n2=0;
-    int flag1=1, flag2=1;
-    int tmp;
-    while (1 == 1) {
-        scanf(&quot;%d&quot;, &amp;tmp);
-        if(tmp == -9999)
-            break;
-        A[i] = tmp;
-        i++;
-        flag1--;
-        if(flag1 == 0){
-            n1++;
-            flag1=n1+1;
-        }
+    for(i=0; i&lt;n; i++){
+        if(!visited[i])
+            DFS(g, i, n);
     }
-    while (1 == 1) {
-        scanf(&quot;%d&quot;, &amp;tmp);
-        if(tmp == -9999)
-            break;
-        B[j] = tmp;
-        j++;
-        flag2--;
-        if(flag2 == 0){
-            n2++;
-            flag2=n2+1;
-        }
-    }
-    printf(&quot;%d %d\n&quot;, i, n1);
-    printf(&quot;%d %d\n&quot;, j, n2);
-    matMulti(A, B, n1);
+    return 0;
 }
 </code></pre>
           
@@ -2519,7 +2469,7 @@ int main(){
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">32</span>
+                <span class="site-state-item-count">33</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

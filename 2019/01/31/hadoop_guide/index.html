@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="Hadoop FundamentalsChapter 1. Meet HadoopHadoop通常指大型的生态系统，不仅仅是HDFS和MapReduce，属于分布式计算和大规模数据处理例如，HBase，key-value存储方式，使用HDFS作为底层存储yarn，Hadoop中新处理模型的推动者，它是一个集群资源管理系统，它允许分布式程序（不仅仅是MapReduce）在Hadoop集群处理数据Hi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="hadoop2指南">
+<meta property="og:url" content="http://thathub.com/2019/01/31/hadoop_guide/index.html">
+<meta property="og:site_name" content="Jokers&#39;s Blog">
+<meta property="og:description" content="Hadoop FundamentalsChapter 1. Meet HadoopHadoop通常指大型的生态系统，不仅仅是HDFS和MapReduce，属于分布式计算和大规模数据处理例如，HBase，key-value存储方式，使用HDFS作为底层存储yarn，Hadoop中新处理模型的推动者，它是一个集群资源管理系统，它允许分布式程序（不仅仅是MapReduce）在Hadoop集群处理数据Hi">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-02-18T08:44:45.755Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="hadoop2指南">
+<meta name="twitter:description" content="Hadoop FundamentalsChapter 1. Meet HadoopHadoop通常指大型的生态系统，不仅仅是HDFS和MapReduce，属于分布式计算和大规模数据处理例如，HBase，key-value存储方式，使用HDFS作为底层存储yarn，Hadoop中新处理模型的推动者，它是一个集群资源管理系统，它允许分布式程序（不仅仅是MapReduce）在Hadoop集群处理数据Hi">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://thathub.com/2019/01/31/hadoop_guide/"/>
+
+
+
+
+
+  <title>hadoop2指南 | Jokers's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jokers's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">高尚是高尚者的墓志铭 卑鄙是卑鄙者的通行证</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2019/01/31/hadoop_guide/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">hadoop2指南</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-31T11:30:00+08:00">
+                2019-01-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Hadoop/" itemprop="url" rel="index">
+                    <span itemprop="name">Hadoop</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/01/31/hadoop_guide/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2019/01/31/hadoop_guide/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Hadoop-Fundamentals"><a href="#Hadoop-Fundamentals" class="headerlink" title="Hadoop Fundamentals"></a>Hadoop Fundamentals</h2><h3 id="Chapter-1-Meet-Hadoop"><a href="#Chapter-1-Meet-Hadoop" class="headerlink" title="Chapter 1. Meet Hadoop"></a>Chapter 1. Meet Hadoop</h3><p>Hadoop通常指大型的生态系统，不仅仅是HDFS和MapReduce，属于分布式计算和大规模数据处理<br>例如，HBase，key-value存储方式，使用HDFS作为底层存储<br>yarn，Hadoop中新处理模型的推动者，它是一个集群资源管理系统，它允许分布式程序（不仅仅是MapReduce）在Hadoop集群处理数据<br>Hive，大数据集合低延迟的SQL交互查询<br>Spark，许多算法，例如机器学习算法，本质上是在数据集上的迭代计算，而MapReduce并不支持迭代数据持久化到内存，需要每次在磁盘载入，而Spark不需要<br>Solr，可在Hadoop集群上运行，索引文档存储在HDFS并提供查询服务<br>MapReduce有助于理解一些通用概念，例如输入格式概念和数据集的分片等<br>MapReduce等Hadoop处理模型都是随着数据量线性扩展的，而功能函数（例如Map和Reduce）可以在分区并行工作，因此假设据数量翻倍，而集群节点数量也翻倍，那么计算时间是不变的</p>
+<h3 id="Chapter-2-MapReduce"><a href="#Chapter-2-MapReduce" class="headerlink" title="Chapter 2. MapReduce"></a>Chapter 2. MapReduce</h3><h4 id="A-Weather-Dataset"><a href="#A-Weather-Dataset" class="headerlink" title="A Weather Dataset"></a>A Weather Dataset</h4><p>我们以计算历年记录的最高温度为例，传统方法会逐行读取并比较获得最高温度。为了提高运行速度，可以使用并行处理。<br>1.我们可以使用不同的进程运行不同年份的记录，但是不同年份的数据量不同，计算时间取决于最大的文件。因此最好的办法是把输入的数据分割成大小相等的块再分别处理。<br>2.因为数据被分割成大小相等的块，每个数据块都会计算出不同年份的最大温度，最终我们还要找到每年的最大温度。<br>3.仍然会受限于单台计算机的处理能力，可以使用多台计算机，那么主要问题在与协调性和可靠性，哪台计算机执行全局的任务，如何处理失败的进程。<br>以上方法虽然可行但是繁杂，所以我们可以借助类似Hadoop的框架。</p>
+<h4 id="Analyzing-the-Data-with-Hadoop"><a href="#Analyzing-the-Data-with-Hadoop" class="headerlink" title="Analyzing the Data with Hadoop"></a>Analyzing the Data with Hadoop</h4><p>MapReduce将操作分为两个阶段，map阶段和reduce阶段，每个阶段都是key-value对作为输入和输出，同时需要编写map和reduce方法。<br>map阶段的输入是NCDC原始的行数据，key是每行相对应文本开始位置的偏移值，不过可以忽略。map方法只是数据准备，只需要在每行数据中提取出年份和温度。<br>可视化map的工作<br>输入数据：<br>0067011990999991950051507004…9999999N9+00001+99999999999…<br>0043011990999991950051512004…9999999N9+00221+99999999999…<br>0043011990999991950051518004…9999999N9-00111+99999999999…<br>0043012650999991949032412004…0500001N9+01111+99999999999…<br>0043012650999991949032418004…0500001N9+00781+99999999999…<br>呈现给map方法的key-value对：<br>(0, 0067011990999991950051507004…9999999N9+00001+99999999999…)<br>(106, 0043011990999991950051512004…9999999N9+00221+99999999999…)<br>(212, 0043011990999991950051518004…9999999N9-00111+99999999999…)<br>(318, 0043012650999991949032412004…0500001N9+01111+99999999999…)<br>(424, 0043012650999991949032418004…0500001N9+00781+99999999999…)<br>map提取年份和温度，并输出：<br>(1950, 0)<br>(1950, 22)<br>(1950, -11)<br>(1949, 111)<br>(1949, 78)<br>MapReduce框架通过key聚合排序map的输出，再传输给reduce，所以reduce的输入为：<br>(1949, [111, 78])<br>(1950, [0, 22, −11])<br>reduce遍历list并找出最大温度：<br>(1949, 111)<br>(1950, 22)</p>
+<h4 id="Scaling-Out"><a href="#Scaling-Out" class="headerlink" title="Scaling Out"></a>Scaling Out</h4><p>将数据储存在分布式文件系统，使用Hadoop的资源管理系统（YARN），可使得每台机器持有一部分数据进行MapReduce计算。</p>
+<h5 id="Data-Flow"><a href="#Data-Flow" class="headerlink" title="Data Flow"></a>Data Flow</h5><p>YARN分配任务到集群节点，如果一个任务失败，会被自动分配到其它节点。Hadoop将输入数据分片并创建map任务将分片作为输入数据。<br>分片越小，负载均衡越好，因为一个运行速度快的机器可以处理更多的分片。<br>但是如果分片太小，分片的管理和map任务的创建会耗费太多的时间。分片大小最好等于HDFS的block，默认是128M。数据存在于执行map任务的节点，执行效率更高，因为节省了宝贵的集群间的带宽资源。<br>一个block大小的分片是可以保证存储在同一个节点的，这就是为什么最优分片大小是block size。假设分片大小是两个block size，执行map任务的节点可能没有恰好存储两个block，这就需要在节点间传输数据。<br>reduce任务数量可以自定义，map的输出需要通过网络传输合并传递给运行reduce的节点，reduce的输出通常存储在HDFS。<br>当有多个reduce时，map分割输出，相同的key必须在同一个分割，用户可以自定义分割，但是默认分割方法挺好的，</p>
+<h5 id="Combiner-Functions"><a href="#Combiner-Functions" class="headerlink" title="Combiner Functions"></a>Combiner Functions</h5><p>许多MapReduce任务受限于集群的可用带宽，所以研究如何最小化map和reduce间传递的数据变得很重要。combiner方法允许用户指定并作用于map的输出，最后形成reduce的输入。因为combiner方法是优化方法，hadoop不保证可以运行几次combiner。<br>第一个map输出：<br>(1950, 0)<br>(1950, 20)<br>(1950, 10)<br>第二个输出：<br>(1950, 25)<br>(1950, 15)<br>reduce输入：<br>(1950, [0, 20, 10, 25, 15])<br>reduce输出：<br>(1950, 25)<br>我们可以使用combiner方法，类似于reduce，找到每个map输出的最大值：<br>(1950, [20, 25])<br>可表示为：<br>max(0, 20, 10, 25, 15) = max(max(0, 20, 10), max(25, 15)) = max(20, 25) = 25<br>但是，如果计算平均值，不能使用mean作为combiner，因为：<br>mean(0, 20, 10, 25, 15) = 14<br>但是：<br>mean(mean(0, 20, 10), mean(25, 15)) = mean(10, 20) = 15<br>综上，combiner可以减少传输数据的数量，值得考虑是否可以用combiner。</p>
+<h3 id="Chapter-3-The-Hadoop-Distributed-Filesystem"><a href="#Chapter-3-The-Hadoop-Distributed-Filesystem" class="headerlink" title="Chapter 3. The Hadoop Distributed Filesystem"></a>Chapter 3. The Hadoop Distributed Filesystem</h3><h4 id="The-Design-of-HDFS"><a href="#The-Design-of-HDFS" class="headerlink" title="The Design of HDFS"></a>The Design of HDFS</h4><p>HDFS is a filesystem designed for storing very large files with streaming data access<br>patterns, running on clusters of commodity hardware.</p>
+<p>Very large files<br>文件大小数百M，G，T，P</p>
+<p>Streaming data access<br>HDFS建立在最有效的数据处理模式下，一次写入，多次读取的模式。因此读取整个数据集的时间比读取第一条数据的延迟时间更重要。</p>
+<p>Commodity hardware<br>Hadoop不需要昂贵，高可靠性的硬件。</p>
+<p>Low-latency data access<br>HDFS对几十毫秒内的低延迟访问表现不好，因为它主要优化方向是高吞吐量，势必造成高延迟。HBase是当前达到低延迟的选择。</p>
+<p>Lots of small files<br>namenode将文件系统元数据放在内存，而每个文件，目录，block占用大约150比特。假设有100万的文件，每个文件是一个block，需要300M内存。</p>
+<p>Multiple writers, arbitrary file modifications<br>目前仅支持单用户在文件末尾append</p>
+<h4 id="HDFS-Concepts"><a href="#HDFS-Concepts" class="headerlink" title="HDFS Concepts"></a>HDFS Concepts</h4><h5 id="Blocks"><a href="#Blocks" class="headerlink" title="Blocks"></a>Blocks</h5><p>每个block默认128M，文件被拆分成block大小，不足block大小的文件虽然是一个block，但是仅占用实际大小的空间。</p>
+<h5 id="Namenodes-and-Datanodes"><a href="#Namenodes-and-Datanodes" class="headerlink" title="Namenodes and Datanodes"></a>Namenodes and Datanodes</h5><p>HDFS集群是master−worke模式，一个namenode（master）和一些datanode（workers）。namenode管理文件系统命名空间。它包含文件系统树和所有文件及目录的元数据，这些数据持久化在本地磁盘，两个文件分别是namespace image和edit log。namenode不持久化block的位置，因为每次系统启动都会通过datanode重建位置信息。<br>客户端访问namenode和datanode，对用户来说是透明的。<br>datanode存储检索block并周期性的向namenode报告blocks的存储情况。<br>没有namenode，HDFS将无法工作。namenode故障将使得文件系统的文件丢失，为了避免这种情况，Hadoop提供了两种机制：<br>第一种是备份文件系统元数据，备份是同步的和自动的，通常的配置是写入本地磁盘和原称NFS mount。<br>第二种是运行辅助namenode，周期性的合并namenode image及edit log。辅助namenode常运行在单独的机器，因为它需要大量的CPU和内存执行merge。如果主namenode挂了，总会出现数据丢失，在这种情况通常从NFS复制一份namenode的元数据。</p>
+<h5 id="Block-Caching"><a href="#Block-Caching" class="headerlink" title="Block Caching"></a>Block Caching</h5><p>通常datanode从disk读block，但是对高频访问的block可以明确缓存到datanode的内存，可以增加读的效率。应用通过添加缓存指令到缓存池来指导namenode缓存文件。</p>
+<h5 id="HDFS-High-Availability"><a href="#HDFS-High-Availability" class="headerlink" title="HDFS High Availability"></a>HDFS High Availability</h5><p>备份namenode元数据并使用辅助namenode防止数据丢失，不能获得高可用的系统。<br>如果namenode挂掉，新的namenode需要载入namespace image到内存，重现edit log，接收所有datanode上报的block映射关系，才能正常运行。在大型集群，需要耗费30分钟甚至更长的时间。<br>Hadoop 2添加高可用性（HA）支持，使用一对namenode（active-standby），active namenode挂掉，standby可以很快提供服务。<br>架构需要做一些改动：</p>
+<ul>
+<li>namenode必须使用高可用性共享存储来共享编辑日志</li>
+<li>datanode必须向所以namenode发送block的映射信息</li>
+<li>客户端需要配置处理故障转移，对用户透明</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/10/Appium_mumu/" rel="next" title="Appium + mumu 手机自动化测试环境和爬虫">
+                <i class="fa fa-chevron-left"></i> Appium + mumu 手机自动化测试环境和爬虫
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="Jokers" />
+          <p class="site-author-name" itemprop="name">Jokers</p>
+           
+              <p class="site-description motion-element" itemprop="description">hlxstc680@gmail.com</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Hadoop-Fundamentals"><span class="nav-number">1.</span> <span class="nav-text">Hadoop Fundamentals</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Chapter-1-Meet-Hadoop"><span class="nav-number">1.1.</span> <span class="nav-text">Chapter 1. Meet Hadoop</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Chapter-2-MapReduce"><span class="nav-number">1.2.</span> <span class="nav-text">Chapter 2. MapReduce</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#A-Weather-Dataset"><span class="nav-number">1.2.1.</span> <span class="nav-text">A Weather Dataset</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Analyzing-the-Data-with-Hadoop"><span class="nav-number">1.2.2.</span> <span class="nav-text">Analyzing the Data with Hadoop</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Scaling-Out"><span class="nav-number">1.2.3.</span> <span class="nav-text">Scaling Out</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Data-Flow"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">Data Flow</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Combiner-Functions"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">Combiner Functions</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Chapter-3-The-Hadoop-Distributed-Filesystem"><span class="nav-number">1.3.</span> <span class="nav-text">Chapter 3. The Hadoop Distributed Filesystem</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#The-Design-of-HDFS"><span class="nav-number">1.3.1.</span> <span class="nav-text">The Design of HDFS</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HDFS-Concepts"><span class="nav-number">1.3.2.</span> <span class="nav-text">HDFS Concepts</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Blocks"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">Blocks</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Namenodes-and-Datanodes"><span class="nav-number">1.3.2.2.</span> <span class="nav-text">Namenodes and Datanodes</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Block-Caching"><span class="nav-number">1.3.2.3.</span> <span class="nav-text">Block Caching</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#HDFS-High-Availability"><span class="nav-number">1.3.2.4.</span> <span class="nav-text">HDFS High Availability</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jokers</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://thathub-com.disqus.com.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://thathub.com/2019/01/31/hadoop_guide/';
+          this.page.identifier = '2019/01/31/hadoop_guide/';
+          this.page.title = 'hadoop2指南';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://thathub-com.disqus.com.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
