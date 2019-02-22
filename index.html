@@ -1685,7 +1685,7 @@ int main(){
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/11/05/dataStructure_order/">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/11/05/dataStructure_graph/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jokers">
@@ -1704,7 +1704,7 @@ int main(){
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/11/05/dataStructure_order/" itemprop="url">数据结构--排序</a></h1>
+                <a class="post-title-link" href="/2018/11/05/dataStructure_graph/" itemprop="url">数据结构--图</a></h1>
         
 
         <div class="post-meta">
@@ -1757,9 +1757,9 @@ int main(){
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/11/05/dataStructure_order/#comments" itemprop="discussionUrl">
+                <a href="/2018/11/05/dataStructure_graph/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/11/05/dataStructure_order/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2018/11/05/dataStructure_graph/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -1789,131 +1789,53 @@ int main(){
       
         
           
-            <h3 id="直接插入排序"><a href="#直接插入排序" class="headerlink" title="直接插入排序"></a>直接插入排序</h3><pre><code>#include &lt;stdio.h&gt;
+            <h3 id="构建图及深度优先遍历"><a href="#构建图及深度优先遍历" class="headerlink" title="构建图及深度优先遍历"></a>构建图及深度优先遍历</h3><pre><code>#include &lt;stdio.h&gt;
 
-#define MAX 1000
+#define MAX 99
 
 typedef struct{
-    int key;
-}Node;
+    int n;
+    int arcs[MAX][MAX];
+}Graph;
 
-typedef Node SeqList[MAX+1];
+int visited[MAX];
 
-void insertSort(SeqList R, int n){
-    for(int i=2; i&lt;=n ; i++){
-        R[0].key = R[i].key;
-        int j;
-        for(j=i-1; j&gt;=0; j--){
-            if(R[j].key &lt;= R[i].key)
-                break;
-        }
-        if(j &lt; i-1){
-            for(int k=i-1; k&gt;j; k--){
-                R[k+1].key = R[k].key;
-            }
-            R[j+1].key = R[0].key;
+void DFS(Graph g, int i, int n){
+    visited[i] = 1;
+    printf(&quot;V%d-&gt;&quot;, i);
+    for(int j=0; j&lt;n; j++){
+        if(g.arcs[i][j]==1 &amp;&amp; visited[j]==0){
+            DFS(g, j, n);
         }
     }
 }
 
 int main(){
-    SeqList R;
-    int t;
-    int n = 0;
-    while (1==1) {
-        scanf(&quot;%d&quot;, &amp;t);
-        if(t == -9999)
-            break;
-        n++;
-        R[n].key = t;
-    }
-    insertSort(R, n);
-    for(int i=1; i&lt;=n; i++){
-        printf(&quot;%d-&gt;&quot;, R[i].key);
-    }
-    printf(&quot;\n&quot;);
-    return 0;
-}
-</code></pre><h3 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h3><pre><code>#include &lt;stdio.h&gt;
-
-#define MAX 1000
-
-typedef struct{
-    int v;
-}Seq;
-
-typedef Seq seqList[MAX+1]
-
-int bubbleSort(seqList R, int n){
-    for(int i=2; i&lt;=n; i++){
-        int flag = 0;
-        for(int j=n; i&gt;=i; j--){
-            if(R[j].v &lt; R[j-1].v){
-                R[0].v = R[j-1].v;
-                R[j-1].v = R[j].v;
-                R[j].v = R[0].v;
-                flag = 1;
-            }
-        }
-        if(flag == 0){
-            break;
+    Graph g;
+    int n;
+    int i, j;
+    scanf(&quot;%d&quot;, &amp;n);
+    for(i=0; i&lt;n; i++){
+        for(j=0; j&lt;n; j++){
+            g.arcs[i][j] = 0;
         }
     }
-    return 0;
-}
-
-int main(){
-    seqList R;
-    int t;
-    int n = 0;
     while(true){
-        scanf(&apos;%d&apos;, &amp;t);
-        if(t == -9999)
+        scanf(&quot;%d %d&quot;, &amp;i, &amp;j);
+        if(i==-1 &amp;&amp; j==-1)
             break;
-        n++;
-        R[n].v = t;
+        g.arcs[i][j] = 1;
     }
-    bubbleSort(R, n);
-}
-</code></pre><h3 id="直接选择排序"><a href="#直接选择排序" class="headerlink" title="直接选择排序"></a>直接选择排序</h3><pre><code>#include &lt;stdio&gt;
-
-#define MAX 1000
-
-typedef struct{
-    int v;
-}seq;
-
-typedef seq seqList[MAX+1];
-
-void selectSort(seqList R, n){
-    for(int i=1, i&lt;n; i++){
-        int t = i;
-        for(int j=i+1; j&lt;=n; j++){
-            if(R[j].v &lt; t){
-                t = j;
-            }
-            if(t != i){
-                R[0].v = R[i].v;
-                R[i].v = R[t].v;
-                R[t].v = R[0].v;
-            }
+    for(i=0; i&lt;n; i++){
+        for(j=0; j&lt;n; j++){
+            printf(&quot;%d &quot;, g.arcs[i][j]);
         }
+        printf(&quot;\n&quot;);
     }
-}
-
-int main(){
-    seqList R;
-    int n = 0;
-    int t = 0;
-    while(true){
-        scanf(&apos;%d&apos;, &amp;t);
-        if(t == -9999){
-            break;
-        }
-        n++；
-        R[n].v = t;
+    for(i=0; i&lt;n; i++){
+        if(!visited[i])
+            DFS(g, i, n);
     }
-    selectSort(R, n);
     return 0;
 }
 </code></pre>
@@ -2231,7 +2153,7 @@ int main(){
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/11/05/dataStructure_graph/">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/11/05/dataStructure_order/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jokers">
@@ -2250,7 +2172,7 @@ int main(){
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/11/05/dataStructure_graph/" itemprop="url">数据结构--图</a></h1>
+                <a class="post-title-link" href="/2018/11/05/dataStructure_order/" itemprop="url">数据结构--排序</a></h1>
         
 
         <div class="post-meta">
@@ -2303,9 +2225,9 @@ int main(){
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/11/05/dataStructure_graph/#comments" itemprop="discussionUrl">
+                <a href="/2018/11/05/dataStructure_order/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/11/05/dataStructure_graph/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2018/11/05/dataStructure_order/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -2335,53 +2257,131 @@ int main(){
       
         
           
-            <h3 id="构建图及深度优先遍历"><a href="#构建图及深度优先遍历" class="headerlink" title="构建图及深度优先遍历"></a>构建图及深度优先遍历</h3><pre><code>#include &lt;stdio.h&gt;
+            <h3 id="直接插入排序"><a href="#直接插入排序" class="headerlink" title="直接插入排序"></a>直接插入排序</h3><pre><code>#include &lt;stdio.h&gt;
 
-#define MAX 99
+#define MAX 1000
 
 typedef struct{
-    int n;
-    int arcs[MAX][MAX];
-}Graph;
+    int key;
+}Node;
 
-int visited[MAX];
+typedef Node SeqList[MAX+1];
 
-void DFS(Graph g, int i, int n){
-    visited[i] = 1;
-    printf(&quot;V%d-&gt;&quot;, i);
-    for(int j=0; j&lt;n; j++){
-        if(g.arcs[i][j]==1 &amp;&amp; visited[j]==0){
-            DFS(g, j, n);
+void insertSort(SeqList R, int n){
+    for(int i=2; i&lt;=n ; i++){
+        R[0].key = R[i].key;
+        int j;
+        for(j=i-1; j&gt;=0; j--){
+            if(R[j].key &lt;= R[i].key)
+                break;
+        }
+        if(j &lt; i-1){
+            for(int k=i-1; k&gt;j; k--){
+                R[k+1].key = R[k].key;
+            }
+            R[j+1].key = R[0].key;
         }
     }
 }
 
 int main(){
-    Graph g;
-    int n;
-    int i, j;
-    scanf(&quot;%d&quot;, &amp;n);
-    for(i=0; i&lt;n; i++){
-        for(j=0; j&lt;n; j++){
-            g.arcs[i][j] = 0;
-        }
-    }
-    while(true){
-        scanf(&quot;%d %d&quot;, &amp;i, &amp;j);
-        if(i==-1 &amp;&amp; j==-1)
+    SeqList R;
+    int t;
+    int n = 0;
+    while (1==1) {
+        scanf(&quot;%d&quot;, &amp;t);
+        if(t == -9999)
             break;
-        g.arcs[i][j] = 1;
+        n++;
+        R[n].key = t;
     }
-    for(i=0; i&lt;n; i++){
-        for(j=0; j&lt;n; j++){
-            printf(&quot;%d &quot;, g.arcs[i][j]);
+    insertSort(R, n);
+    for(int i=1; i&lt;=n; i++){
+        printf(&quot;%d-&gt;&quot;, R[i].key);
+    }
+    printf(&quot;\n&quot;);
+    return 0;
+}
+</code></pre><h3 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h3><pre><code>#include &lt;stdio.h&gt;
+
+#define MAX 1000
+
+typedef struct{
+    int v;
+}Seq;
+
+typedef Seq seqList[MAX+1]
+
+int bubbleSort(seqList R, int n){
+    for(int i=2; i&lt;=n; i++){
+        int flag = 0;
+        for(int j=n; i&gt;=i; j--){
+            if(R[j].v &lt; R[j-1].v){
+                R[0].v = R[j-1].v;
+                R[j-1].v = R[j].v;
+                R[j].v = R[0].v;
+                flag = 1;
+            }
         }
-        printf(&quot;\n&quot;);
+        if(flag == 0){
+            break;
+        }
     }
-    for(i=0; i&lt;n; i++){
-        if(!visited[i])
-            DFS(g, i, n);
+    return 0;
+}
+
+int main(){
+    seqList R;
+    int t;
+    int n = 0;
+    while(true){
+        scanf(&apos;%d&apos;, &amp;t);
+        if(t == -9999)
+            break;
+        n++;
+        R[n].v = t;
     }
+    bubbleSort(R, n);
+}
+</code></pre><h3 id="直接选择排序"><a href="#直接选择排序" class="headerlink" title="直接选择排序"></a>直接选择排序</h3><pre><code>#include &lt;stdio&gt;
+
+#define MAX 1000
+
+typedef struct{
+    int v;
+}seq;
+
+typedef seq seqList[MAX+1];
+
+void selectSort(seqList R, n){
+    for(int i=1, i&lt;n; i++){
+        int t = i;
+        for(int j=i+1; j&lt;=n; j++){
+            if(R[j].v &lt; t){
+                t = j;
+            }
+            if(t != i){
+                R[0].v = R[i].v;
+                R[i].v = R[t].v;
+                R[t].v = R[0].v;
+            }
+        }
+    }
+}
+
+int main(){
+    seqList R;
+    int n = 0;
+    int t = 0;
+    while(true){
+        scanf(&apos;%d&apos;, &amp;t);
+        if(t == -9999){
+            break;
+        }
+        n++；
+        R[n].v = t;
+    }
+    selectSort(R, n);
     return 0;
 }
 </code></pre>
