@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="开发模式和生产模式es节点加入集群，必须绑定transport到non-loopback地址，es通过http.host，transport.host和single-node discovery的配置判断是否为生产模式。 引导启动检查使用引导启动检查检查es和系统设置。在开发模式下，不安全的配置会以warnings记录日志。在生产模式下，会拒绝启动。 强制引导启动检查单节点的生产模式可以绕过引导启">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Elasticsearch6测试和开发环境配置">
+<meta property="og:url" content="http://thathub.com/2018/04/23/bigdata/elastcsearch-config/index.html">
+<meta property="og:site_name" content="Jokers&#39;s Blog">
+<meta property="og:description" content="开发模式和生产模式es节点加入集群，必须绑定transport到non-loopback地址，es通过http.host，transport.host和single-node discovery的配置判断是否为生产模式。 引导启动检查使用引导启动检查检查es和系统设置。在开发模式下，不安全的配置会以warnings记录日志。在生产模式下，会拒绝启动。 强制引导启动检查单节点的生产模式可以绕过引导启">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-04-23T03:42:24.979Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Elasticsearch6测试和开发环境配置">
+<meta name="twitter:description" content="开发模式和生产模式es节点加入集群，必须绑定transport到non-loopback地址，es通过http.host，transport.host和single-node discovery的配置判断是否为生产模式。 引导启动检查使用引导启动检查检查es和系统设置。在开发模式下，不安全的配置会以warnings记录日志。在生产模式下，会拒绝启动。 强制引导启动检查单节点的生产模式可以绕过引导启">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://thathub.com/2018/04/23/bigdata/elastcsearch-config/"/>
+
+
+
+
+
+  <title>Elasticsearch6测试和开发环境配置 | Jokers's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jokers's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">高尚是高尚者的墓志铭 卑鄙是卑鄙者的通行证</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/04/23/bigdata/elastcsearch-config/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Elasticsearch6测试和开发环境配置</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-23T16:35:00+08:00">
+                2018-04-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/BigData/" itemprop="url" rel="index">
+                    <span itemprop="name">BigData</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/04/23/bigdata/elastcsearch-config/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/04/23/bigdata/elastcsearch-config/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="开发模式和生产模式"><a href="#开发模式和生产模式" class="headerlink" title="开发模式和生产模式"></a>开发模式和生产模式</h2><p>es节点加入集群，必须绑定transport到non-loopback地址，es通过http.host，transport.host和single-node discovery的配置判断是否为生产模式。</p>
+<h2 id="引导启动检查"><a href="#引导启动检查" class="headerlink" title="引导启动检查"></a>引导启动检查</h2><p>使用引导启动检查检查es和系统设置。在开发模式下，不安全的配置会以warnings记录日志。在生产模式下，会拒绝启动。</p>
+<h2 id="强制引导启动检查"><a href="#强制引导启动检查" class="headerlink" title="强制引导启动检查"></a>强制引导启动检查</h2><p>单节点的生产模式可以绕过引导启动检查，通过设置es.enforce.bootstrap.checks(JVM options)为True，可以强制检查。</p>
+<h2 id="堆大小检查"><a href="#堆大小检查" class="headerlink" title="堆大小检查"></a>堆大小检查</h2><p>JVM配置初始堆大小和最大堆值相同，否则会导致系统运行停顿。es默认使用1GB的堆。规则如下：</p>
+<ul>
+<li>堆越大，缓存越大，但是太大的话会导致长时间的垃圾回收而造成系统停顿。</li>
+<li>不要超过物理内存的50%</li>
+<li>26GB对大多数系统比较安全，对一些系统可达到30G</li>
+</ul>
+<p>jvm.options配置文件</p>
+<pre><code>-Xms26g
+-Xmx26g
+</code></pre><h2 id="文件描述符检查"><a href="#文件描述符检查" class="headerlink" title="文件描述符检查"></a>文件描述符检查</h2><p>es需要大量的文件描述符。必须保证文件描述符的数量限制大与等于65535。通过RPM和Debian包默认设置为65536。可以通过以下命令检查max_file_descriptors的大小。</p>
+<pre><code>curl -X GET &quot;localhost:9200/_nodes/stats/process?filter_path=**.max_file_descriptors&quot;
+</code></pre><h2 id="内存锁定检查"><a href="#内存锁定检查" class="headerlink" title="内存锁定检查"></a>内存锁定检查</h2><p>JVM进行垃圾回收时，如果有page被换出到硬盘，再换入内存回收，影响效率。有多种办法可以禁止交换。</p>
+<ul>
+<li><p>系统级别的禁止交换</p>
+<p>  sudo swapoff -a</p>
+</li>
+<li><p>配置swappiness</p>
+</li>
+<li><p>阻止es内存换出，添加以下配置到config/elasticsearch.yml文件</p>
+<p>  bootstrap.memory_lock: true</p>
+</li>
+<li><p>检查mlockall的配置</p>
+<p>  GET _nodes?filter_path=**.mlockall</p>
+</li>
+<li><p>如果mlockall的值是false, 意味着mlockall请求失败，最有可能的原因是运行es的用户没有lock Memory的权限，授权方式</p>
+<p>  添加一个文件<br>  /etc/systemd/system/elasticsearch.service.d/override.conf<br>  or<br>  sudo systemctl edit elasticsearch<br>  编辑<br>  [Service]<br>  LimitMEMLOCK=infinity<br>  加载<br>  sudo systemctl daemon-reload</p>
+</li>
+<li><p>如果依然失败可能是临时路径/tmp使用noexec选项挂载，可以使用ES_JAVA_OPTS环境变量指定一个新的temp路径</p>
+<p>  export ES_JAVA_OPTS=”$ES_JAVA_OPTS -Djava.io.tmpdir=/path/to/temp/dir”<br>  ./bin/elasticsearch</p>
+</li>
+</ul>
+<h2 id="最大线程数检查"><a href="#最大线程数检查" class="headerlink" title="最大线程数检查"></a>最大线程数检查</h2><p>es需要有创建至少4096个线程的能力并且只会在Linux系统上检查。通过设置/etc/security/limits.conf的nproc值（同时要增大root用户的限制）</p>
+<h2 id="最大虚拟内存检查"><a href="#最大虚拟内存检查" class="headerlink" title="最大虚拟内存检查"></a>最大虚拟内存检查</h2><p>es需要有无限制的地址空间并且只会在Linux系统上检查。通过设置/etc/security/limits.conf的as值为unlimited（同时要改变root用户的限制）</p>
+<h2 id="最大文件大小检查"><a href="#最大文件大小检查" class="headerlink" title="最大文件大小检查"></a>最大文件大小检查</h2><p>es需要有无限制大小的写文件能力。通过设置/etc/security/limits.conf的fsize值为unlimited（同时要改变root用户的限制）</p>
+<h2 id="最大地图数量检查"><a href="#最大地图数量检查" class="headerlink" title="最大地图数量检查"></a>最大地图数量检查</h2><p>es需要至少262144内存映射空间并且只会在Linux系统上检查。通过设置vm.max_map_count(sysctl)</p>
+<pre><code>sysctl -w vm.max_map_count=262144
+sysctl -a|grep vm.max_map_count
+</code></pre><h2 id="客户端JVM检查"><a href="#客户端JVM检查" class="headerlink" title="客户端JVM检查"></a>客户端JVM检查</h2><p>确保es没有运行在客户端JVM而是服务端JVM，现代操作系统，服务端JVM是默认的。</p>
+<h2 id="serial-collector检查"><a href="#serial-collector检查" class="headerlink" title="serial collector检查"></a>serial collector检查</h2><p>确保es运行时使用的垃圾收器不是serial collector，除非指定-XX:+UseSerialGC使用，JVM默认使用es的默认配置也就是CMS collector。</p>
+<h2 id="系统调用过滤器检查"><a href="#系统调用过滤器检查" class="headerlink" title="系统调用过滤器检查"></a>系统调用过滤器检查</h2><p>修复所有可能阻止es安装系统调用过滤器（Linux上的seccomp）的配置（检查日志）</p>
+<h2 id="OnError和OnOutOfMemoryError检查"><a href="#OnError和OnOutOfMemoryError检查" class="headerlink" title="OnError和OnOutOfMemoryError检查"></a>OnError和OnOutOfMemoryError检查</h2><p> 防止es启动时JVM的这两个选项被启用并且系统调用也被启用，它们相互之间不兼容。可以禁止OnError和OnOutOfMemoryError或则升级到Java 8u92并且使用JVM flag ExitOnOutOfMemoryError</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/16/mysql-install_1/" rel="next" title="centos7安装MySQL5.7">
+                <i class="fa fa-chevron-left"></i> centos7安装MySQL5.7
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/12/others/university_ranking/" rel="prev" title="Ranking">
+                Ranking <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="Jokers" />
+          <p class="site-author-name" itemprop="name">Jokers</p>
+           
+              <p class="site-description motion-element" itemprop="description">hlxstc680@gmail.com</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#开发模式和生产模式"><span class="nav-number">1.</span> <span class="nav-text">开发模式和生产模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引导启动检查"><span class="nav-number">2.</span> <span class="nav-text">引导启动检查</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#强制引导启动检查"><span class="nav-number">3.</span> <span class="nav-text">强制引导启动检查</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#堆大小检查"><span class="nav-number">4.</span> <span class="nav-text">堆大小检查</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文件描述符检查"><span class="nav-number">5.</span> <span class="nav-text">文件描述符检查</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内存锁定检查"><span class="nav-number">6.</span> <span class="nav-text">内存锁定检查</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最大线程数检查"><span class="nav-number">7.</span> <span class="nav-text">最大线程数检查</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最大虚拟内存检查"><span class="nav-number">8.</span> <span class="nav-text">最大虚拟内存检查</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最大文件大小检查"><span class="nav-number">9.</span> <span class="nav-text">最大文件大小检查</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最大地图数量检查"><span class="nav-number">10.</span> <span class="nav-text">最大地图数量检查</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#客户端JVM检查"><span class="nav-number">11.</span> <span class="nav-text">客户端JVM检查</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#serial-collector检查"><span class="nav-number">12.</span> <span class="nav-text">serial collector检查</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#系统调用过滤器检查"><span class="nav-number">13.</span> <span class="nav-text">系统调用过滤器检查</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OnError和OnOutOfMemoryError检查"><span class="nav-number">14.</span> <span class="nav-text">OnError和OnOutOfMemoryError检查</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jokers</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://thathub-com.disqus.com.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://thathub.com/2018/04/23/bigdata/elastcsearch-config/';
+          this.page.identifier = '2018/04/23/bigdata/elastcsearch-config/';
+          this.page.title = 'Elasticsearch6测试和开发环境配置';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://thathub-com.disqus.com.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

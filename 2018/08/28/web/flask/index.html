@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="flask," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="前言所有Web框架的使用都有自己的套路，作为一个框架本质就是一个工具。 安装pip install Flask 自动安装的依赖 Werkzeug 应用及服务间的标准接口 Jinja 模板 MarkupSafe Jinja附带，防止注入攻击 ItsDangerous 数据完整性，保护 session cookie 安全 Click 命令行应用框架  可选安装的依赖 Blinker provides">
+<meta name="keywords" content="flask">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Flask使用">
+<meta property="og:url" content="http://thathub.com/2018/08/28/web/flask/index.html">
+<meta property="og:site_name" content="Jokers&#39;s Blog">
+<meta property="og:description" content="前言所有Web框架的使用都有自己的套路，作为一个框架本质就是一个工具。 安装pip install Flask 自动安装的依赖 Werkzeug 应用及服务间的标准接口 Jinja 模板 MarkupSafe Jinja附带，防止注入攻击 ItsDangerous 数据完整性，保护 session cookie 安全 Click 命令行应用框架  可选安装的依赖 Blinker provides">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-11-05T02:07:31.338Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Flask使用">
+<meta name="twitter:description" content="前言所有Web框架的使用都有自己的套路，作为一个框架本质就是一个工具。 安装pip install Flask 自动安装的依赖 Werkzeug 应用及服务间的标准接口 Jinja 模板 MarkupSafe Jinja附带，防止注入攻击 ItsDangerous 数据完整性，保护 session cookie 安全 Click 命令行应用框架  可选安装的依赖 Blinker provides">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://thathub.com/2018/08/28/web/flask/"/>
+
+
+
+
+
+  <title>Flask使用 | Jokers's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jokers's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">高尚是高尚者的墓志铭 卑鄙是卑鄙者的通行证</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/08/28/web/flask/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Flask使用</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-28T10:00:58+08:00">
+                2018-08-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Flask/" itemprop="url" rel="index">
+                    <span itemprop="name">Flask</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/08/28/web/flask/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/08/28/web/flask/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>所有Web框架的使用都有自己的套路，作为一个框架本质就是一个工具。</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><pre><code>pip install Flask
+</code></pre><h3 id="自动安装的依赖"><a href="#自动安装的依赖" class="headerlink" title="自动安装的依赖"></a>自动安装的依赖</h3><ul>
+<li><a href="http://werkzeug.pocoo.org/" target="_blank" rel="noopener">Werkzeug</a> 应用及服务间的标准接口</li>
+<li><a href="http://jinja.pocoo.org/" target="_blank" rel="noopener">Jinja</a> 模板</li>
+<li><a href="https://pypi.org/project/MarkupSafe/" target="_blank" rel="noopener">MarkupSafe</a> Jinja附带，防止注入攻击</li>
+<li><a href="https://pythonhosted.org/itsdangerous/" target="_blank" rel="noopener">ItsDangerous</a> 数据完整性，保护 session cookie 安全</li>
+<li><a href="http://click.pocoo.org/5/" target="_blank" rel="noopener">Click</a> 命令行应用框架</li>
+</ul>
+<h3 id="可选安装的依赖"><a href="#可选安装的依赖" class="headerlink" title="可选安装的依赖"></a>可选安装的依赖</h3><ul>
+<li><a href="https://pythonhosted.org/blinker/" target="_blank" rel="noopener">Blinker</a> provides support for <a href="http://flask.pocoo.org/docs/1.0/signals/#signals" target="_blank" rel="noopener">Signals</a></li>
+<li><a href="https://simplejson.readthedocs.io/en/latest/" target="_blank" rel="noopener">SimpleJSON</a> fast JSON</li>
+<li><a href="https://github.com/theskumar/python-dotenv#readme" target="_blank" rel="noopener">python-dotenv</a></li>
+<li><a href="https://pythonhosted.org/watchdog/" target="_blank" rel="noopener">Watchdog</a></li>
+</ul>
+<h2 id="Virtual-environments"><a href="#Virtual-environments" class="headerlink" title="Virtual environments"></a>Virtual environments</h2><ul>
+<li>创建<br>  $ mkdir myproject<br>  $ cd myproject<br>  $ python3 -m venv venv</li>
+<li>激活<br>  $ . venv/bin/activate</li>
+</ul>
+<h2 id="简单示例"><a href="#简单示例" class="headerlink" title="简单示例"></a>简单示例</h2><pre><code>from flask import Flask
+app = Flask(__name__)
+
+@app.route(&apos;/&apos;)
+def hello_world():
+return &apos;Hello, World!&apos;
+</code></pre><ul>
+<li>运行，设置环境变量 FLASK_APP<pre><code>$ FLASK_APP=hello.py flask run
+</code></pre></li>
+<li>监听公共 IP ，确保 debugger 模式已关<pre><code>flask run --host=0.0.0.0
+</code></pre></li>
+</ul>
+<h2 id="Debug-Mode"><a href="#Debug-Mode" class="headerlink" title="Debug Mode"></a>Debug Mode</h2><pre><code>export FLASK_ENV=development
+or FLASK_APP=hello.py FLASK_ENV=development flask run
+</code></pre><h2 id="Variable-Rules"><a href="#Variable-Rules" class="headerlink" title="Variable Rules"></a>Variable Rules</h2><pre><code>@app.route(&apos;/user/&lt;username&gt;&apos;)
+def show_user_profile(username):
+    # show the user profile for that user
+    return &apos;User %s&apos; % username
+
+@app.route(&apos;/post/&lt;int:post_id&gt;&apos;)
+def show_post(post_id):
+    # show the post with the given id, the id is an integer
+    return &apos;Post %d&apos; % post_id
+
+@app.route(&apos;/path/&lt;path:subpath&gt;&apos;)
+def show_subpath(subpath):
+    # show the subpath after /path/
+    return &apos;Subpath %s&apos; % subpath
+</code></pre><h2 id="URL-结尾斜线"><a href="#URL-结尾斜线" class="headerlink" title="URL 结尾斜线"></a>URL 结尾斜线</h2><ul>
+<li>不带斜线访问，会 redirects 到带斜线的 URL<pre><code>@app.route(&apos;/projects/&apos;)
+def projects():
+    return &apos;The project page&apos;
+</code></pre></li>
+<li>带斜线访问，会返回404，避免搜索引擎索引同一个页面两次<pre><code>@app.route(&apos;/about&apos;)
+def about():
+    return &apos;The about page&apos;
+</code></pre></li>
+</ul>
+<h2 id="HTTP-Methods"><a href="#HTTP-Methods" class="headerlink" title="HTTP Methods"></a>HTTP Methods</h2><pre><code>from flask import request
+
+@app.route(&apos;/login&apos;, methods=[&apos;GET&apos;, &apos;POST&apos;])
+def login():
+if request.method == &apos;POST&apos;:
+    return do_the_login()
+else:
+    return show_the_login_form()
+</code></pre><h2 id="URL-构建"><a href="#URL-构建" class="headerlink" title="URL 构建"></a>URL 构建</h2><pre><code>from flask import Flask, url_for
+
+app = Flask(__name__)
+
+@app.route(&apos;/&apos;)
+def index():
+    return &apos;index&apos;
+
+@app.route(&apos;/login&apos;)
+def login():
+    return &apos;login&apos;
+
+@app.route(&apos;/user/&lt;username&gt;&apos;)
+def profile(username):
+    return &apos;{}\&apos;s profile&apos;.format(username)
+
+with app.test_request_context():
+    print(url_for(&apos;index&apos;))
+    print(url_for(&apos;login&apos;))
+    print(url_for(&apos;login&apos;, next=&apos;/&apos;))
+    print(url_for(&apos;profile&apos;, username=&apos;John Doe&apos;))
+
+/
+/login
+/login?next=/
+/user/John%20Doe
+</code></pre><h2 id="Static-Files"><a href="#Static-Files" class="headerlink" title="Static Files"></a>Static Files</h2><p>在项目下创建 static 目录，存放 static files ,对于 url_for ，static 是保留字，用于生成指向 static 目录下的 URL</p>
+<pre><code>url_for(&apos;static&apos;, filename=&apos;style.css&apos;)
+</code></pre><h2 id="Rendering-Templates"><a href="#Rendering-Templates" class="headerlink" title="Rendering Templates"></a>Rendering Templates</h2><p>Flask 自动配置<a href="http://jinja.pocoo.org/docs/2.10/templates/" target="_blank" rel="noopener">Jinja2</a> template engine. Flask 自动去 templates 目录查找 template</p>
+<pre><code>from flask import render_template
+
+@app.route(&apos;/hello/&apos;)
+@app.route(&apos;/hello/&lt;name&gt;&apos;)
+def hello(name=None):
+    return render_template(&apos;hello.html&apos;, name=name)
+</code></pre><h2 id="The-Request-Object"><a href="#The-Request-Object" class="headerlink" title="The Request Object"></a>The Request Object</h2><pre><code>from flask import request
+
+@app.route(&apos;/login&apos;, methods=[&apos;POST&apos;, &apos;GET&apos;])
+def login():
+    error = None
+    if request.method == &apos;POST&apos;:
+        if valid_login(request.form[&apos;username&apos;],
+                       request.form[&apos;password&apos;]):
+            return log_the_user_in(request.form[&apos;username&apos;])
+        else:
+            error = &apos;Invalid username/password&apos;
+    # the code below is executed if the request method
+    # was GET or the credentials were invalid
+    return render_template(&apos;login.html&apos;, error=error)
+</code></pre><ul>
+<li>获取 form data, 使用 form 属性</li>
+<li>获取 parameters submitted in the URL (?key=value), request.args.get(‘key’, ‘’)</li>
+</ul>
+<h2 id="File-Uploads"><a href="#File-Uploads" class="headerlink" title="File Uploads"></a>File Uploads</h2><p>enctype=”multipart/form-data”</p>
+<pre><code>from flask import request
+
+@app.route(&apos;/upload&apos;, methods=[&apos;GET&apos;, &apos;POST&apos;])
+def upload_file():
+if request.method == &apos;POST&apos;:
+    f = request.files[&apos;the_file&apos;]
+    f.save(&apos;/var/www/uploads/uploaded_file.txt&apos;)
+...
+</code></pre><ul>
+<li><p>使用客户端的文件名存储在服务端，可以使用 secure_filename() 获取文件名</p>
+<pre><code>from flask import request
+from werkzeug.utils import secure_filename
+
+@app.route(&apos;/upload&apos;, methods=[&apos;GET&apos;, &apos;POST&apos;])
+    def upload_file():
+    if request.method == &apos;POST&apos;:
+    f = request.files[&apos;the_file&apos;]
+    f.save(&apos;/var/www/uploads/&apos; + secure_filename(f.filename))
+</code></pre></li>
+</ul>
+<h2 id="Cookies"><a href="#Cookies" class="headerlink" title="Cookies"></a>Cookies</h2><ul>
+<li><p>读</p>
+<pre><code>from flask import request
+
+@app.route(&apos;/&apos;)
+def index():
+    username = request.cookies.get(&apos;username&apos;)
+    # use cookies.get(key) instead of cookies[key] to not get a
+    # KeyError if the cookie is missing.
+</code></pre></li>
+<li><p>写</p>
+<p>  from flask import make_response</p>
+<p>  @app.route(‘/‘)<br>  def index():</p>
+<pre><code>resp = make_response(render_template(...))
+resp.set_cookie(&apos;username&apos;, &apos;the username&apos;)
+return resp
+</code></pre></li>
+<li><p>通常 Flask 自动转换返回值为 response objects ，如果自己想明确的指定 response 需要使用  make_response()</p>
+</li>
+</ul>
+<h2 id="redirect-abort"><a href="#redirect-abort" class="headerlink" title="redirect() abort()"></a>redirect() abort()</h2><pre><code>from flask import abort, redirect, url_for
+
+@app.route(&apos;/&apos;)
+def index():
+    return redirect(url_for(&apos;login&apos;))
+
+@app.route(&apos;/login&apos;)
+def login():
+    abort(401)
+    this_is_never_executed()
+</code></pre><ul>
+<li><p>使用 errorhandler() decorator 自定义 error page</p>
+<pre><code>from flask import render_template
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template(&apos;page_not_found.html&apos;), 404
+</code></pre></li>
+</ul>
+<h2 id="Sessions"><a href="#Sessions" class="headerlink" title="Sessions"></a>Sessions</h2><ul>
+<li><p>set a secret key</p>
+<pre><code>from flask import Flask, session, redirect, url_for, escape, request
+
+app = Flask(__name__)
+
+# Set the secret key to some random bytes. Keep this really secret!
+app.secret_key = b&apos;\_5#y2L&quot;F4Q8z\n\xec]/&apos;
+
+@app.route(&apos;/&apos;)
+def index():
+    if &apos;username&apos; in session:
+        return &apos;Logged in as %s&apos; % escape(session[&apos;username&apos;])
+    return &apos;You are not logged in&apos;
+
+@app.route(&apos;/login&apos;, methods=[&apos;GET&apos;, &apos;POST&apos;])
+def login():
+    if request.method == &apos;POST&apos;:
+        session[&apos;username&apos;] = request.form[&apos;username&apos;]
+        return redirect(url_for(&apos;index&apos;))
+    return &apos;&apos;&apos;
+        &lt;form method=&quot;post&quot;&gt;
+            &lt;p&gt;&lt;input type=text name=username&gt;
+            &lt;p&gt;&lt;input type=submit value=Login&gt;
+        &lt;/form&gt;
+    &apos;&apos;&apos;
+
+@app.route(&apos;/logout&apos;)
+def logout():
+    # remove the username from the session if it&apos;s there
+    session.pop(&apos;username&apos;, None)
+    return redirect(url_for(&apos;index&apos;))
+</code></pre></li>
+<li><p>escape(), 如果不使用模板引擎，escape 可转换 html 特殊字符</p>
+</li>
+<li>generate good secret keys, os.urandom(16)</li>
+</ul>
+<h2 id="Logging"><a href="#Logging" class="headerlink" title="Logging"></a>Logging</h2><pre><code>app.logger.debug(&apos;A value for debugging&apos;)
+app.logger.warning(&apos;A warning occurred (%d apples)&apos;, 42)
+app.logger.error(&apos;An error occurred&apos;)
+</code></pre><h2 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h2><ul>
+<li>Flask 自带 wsgi 扩展性能不好，仅适用于开发环境</li>
+<li>WSGI HTTP Server 可选的有 Gunicorn 和 uWSGI</li>
+<li>Nginx 作为静态文件访问容器和反向代理、分布式环境下作负载均衡</li>
+</ul>
+<h3 id="Gunicorn"><a href="#Gunicorn" class="headerlink" title="Gunicorn"></a>Gunicorn</h3><ul>
+<li><p>安装</p>
+<pre><code>$ pip install gunicorn
+</code></pre></li>
+<li><p>Async Workers<br>Gunicorn 默认同步 Workers ，通常我们还需要安装 Eventlet 或则 Gevent ，实现异步 Workers 。greenlet 是默认安装的。eventlet 和 gevent 性能差不多，可以选一个安装。</p>
+<pre><code>$ pip install greenlet            # Required for both
+$ pip install eventlet            # For eventlet workers
+$ pip install gunicorn[eventlet]  # Or, using extra
+$ pip install gevent              # For gevent workers
+$ pip install gunicorn[gevent]    # Or, using extra
+</code></pre></li>
+<li><p>运行</p>
+<pre><code>gunicorn --workers=2 --worker-class=eventlet hello:app
+</code></pre></li>
+<li><p>其它参数</p>
+<pre><code>-c CONFIG, --config=CONFIG  Specify a config file in the form $(PATH), file:$(PATH), or python:$(MODULE_NAME).
+-b BIND, --bind=BIND - Specify a server socket to bind. Server sockets can be any of $(HOST), $(HOST):$(PORT), or unix:$(PATH). An IP is a valid $(HOST).
+-n APP_NAME, --name=APP_NAME - If setproctitle is installed you can adjust the name of Gunicorn process as they appear in the process system table (which affects tools like ps and top).
+</code></pre></li>
+</ul>
+<h3 id="布署-Gunicorn"><a href="#布署-Gunicorn" class="headerlink" title="布署 Gunicorn"></a><a href="http://docs.gunicorn.org/en/stable/deploy.html" target="_blank" rel="noopener">布署 Gunicorn</a></h3>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/flask/" rel="tag"># flask</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/15/bigdata/reverse_proxy/" rel="next" title="Nginx作反向代理保护Kibana">
+                <i class="fa fa-chevron-left"></i> Nginx作反向代理保护Kibana
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/09/10/linux/chrome_install/" rel="prev" title="Linux 安装 Chrome">
+                Linux 安装 Chrome <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="Jokers" />
+          <p class="site-author-name" itemprop="name">Jokers</p>
+           
+              <p class="site-description motion-element" itemprop="description">hlxstc680@gmail.com</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">2.</span> <span class="nav-text">安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#自动安装的依赖"><span class="nav-number">2.1.</span> <span class="nav-text">自动安装的依赖</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可选安装的依赖"><span class="nav-number">2.2.</span> <span class="nav-text">可选安装的依赖</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Virtual-environments"><span class="nav-number">3.</span> <span class="nav-text">Virtual environments</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#简单示例"><span class="nav-number">4.</span> <span class="nav-text">简单示例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Debug-Mode"><span class="nav-number">5.</span> <span class="nav-text">Debug Mode</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Variable-Rules"><span class="nav-number">6.</span> <span class="nav-text">Variable Rules</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#URL-结尾斜线"><span class="nav-number">7.</span> <span class="nav-text">URL 结尾斜线</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTP-Methods"><span class="nav-number">8.</span> <span class="nav-text">HTTP Methods</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#URL-构建"><span class="nav-number">9.</span> <span class="nav-text">URL 构建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Static-Files"><span class="nav-number">10.</span> <span class="nav-text">Static Files</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Rendering-Templates"><span class="nav-number">11.</span> <span class="nav-text">Rendering Templates</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#The-Request-Object"><span class="nav-number">12.</span> <span class="nav-text">The Request Object</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#File-Uploads"><span class="nav-number">13.</span> <span class="nav-text">File Uploads</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cookies"><span class="nav-number">14.</span> <span class="nav-text">Cookies</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#redirect-abort"><span class="nav-number">15.</span> <span class="nav-text">redirect() abort()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Sessions"><span class="nav-number">16.</span> <span class="nav-text">Sessions</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Logging"><span class="nav-number">17.</span> <span class="nav-text">Logging</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#部署"><span class="nav-number">18.</span> <span class="nav-text">部署</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Gunicorn"><span class="nav-number">18.1.</span> <span class="nav-text">Gunicorn</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#布署-Gunicorn"><span class="nav-number">18.2.</span> <span class="nav-text">布署 Gunicorn</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jokers</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://thathub-com.disqus.com.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://thathub.com/2018/08/28/web/flask/';
+          this.page.identifier = '2018/08/28/web/flask/';
+          this.page.title = 'Flask使用';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://thathub-com.disqus.com.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

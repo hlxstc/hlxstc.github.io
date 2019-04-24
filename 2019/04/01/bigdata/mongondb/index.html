@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="简介 MongoDB 是一个面向文档（document-oriented）的数据库。 不再有预定义模式（predefined schema）：文档的键（key）和值（value）不再是固定的类型和大小。 MongoDB 能自动处理跨集群的数据和负载，自动重新分配文档，以及将用户请求路由到正确的机器上。 MongoDB 并不具备一些在关系型数据库中很普遍的功能，如连接（join）和复杂的多行事务（m">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MongoDB">
+<meta property="og:url" content="http://thathub.com/2019/04/01/bigdata/mongondb/index.html">
+<meta property="og:site_name" content="Jokers&#39;s Blog">
+<meta property="og:description" content="简介 MongoDB 是一个面向文档（document-oriented）的数据库。 不再有预定义模式（predefined schema）：文档的键（key）和值（value）不再是固定的类型和大小。 MongoDB 能自动处理跨集群的数据和负载，自动重新分配文档，以及将用户请求路由到正确的机器上。 MongoDB 并不具备一些在关系型数据库中很普遍的功能，如连接（join）和复杂的多行事务（m">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-04-23T03:42:16.750Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MongoDB">
+<meta name="twitter:description" content="简介 MongoDB 是一个面向文档（document-oriented）的数据库。 不再有预定义模式（predefined schema）：文档的键（key）和值（value）不再是固定的类型和大小。 MongoDB 能自动处理跨集群的数据和负载，自动重新分配文档，以及将用户请求路由到正确的机器上。 MongoDB 并不具备一些在关系型数据库中很普遍的功能，如连接（join）和复杂的多行事务（m">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://thathub.com/2019/04/01/bigdata/mongondb/"/>
+
+
+
+
+
+  <title>MongoDB | Jokers's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jokers's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">高尚是高尚者的墓志铭 卑鄙是卑鄙者的通行证</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2019/04/01/bigdata/mongondb/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">MongoDB</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-01T17:00:00+08:00">
+                2019-04-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/BigData/" itemprop="url" rel="index">
+                    <span itemprop="name">BigData</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/04/01/bigdata/mongondb/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2019/04/01/bigdata/mongondb/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><ul>
+<li>MongoDB 是一个面向文档（document-oriented）的数据库。</li>
+<li>不再有预定义模式（predefined schema）：文档的键（key）和值（value）不再是固定的类型和大小。</li>
+<li>MongoDB 能自动处理跨集群的数据和负载，自动重新分配文档，以及将用户请求路由到正确的机器上。</li>
+<li>MongoDB 并不具备一些在关系型数据库中很普遍的功能，如连接（join）和复杂的多行事务（multirow transaction）。省略这些功能是出于架构上的考虑（为了得到更好的扩展性），因为在分布式系统中这两个功能难以高效地实现。</li>
+<li>MongoDB 把尽可能多的内存用作缓存（cache），试图为每次查询自动选择正确的索引。</li>
+</ul>
+<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><h3 id="文档–-gt-行"><a href="#文档–-gt-行" class="headerlink" title="文档–&gt;行"></a>文档–&gt;行</h3><ul>
+<li>是键值对的一个有序集</li>
+</ul>
+<h3 id="集合–-gt-表"><a href="#集合–-gt-表" class="headerlink" title="集合–&gt;表"></a>集合–&gt;表</h3><ul>
+<li>组织集合的一种惯例是使用“.”分隔不同命名空间的子集合。</li>
+</ul>
+<h3 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h3><ul>
+<li>多个文档组成集合，而多个集合可以组成数据库。</li>
+<li>MongoDB 的一个实例可以拥有多个相互独立的数据库（database），每一个数据库都拥有自己的集合。</li>
+<li>按照经验，我们将有关一个应用程序的所有数据都存储在同一个数据库中。</li>
+<li>把数据库名添加到集合名前，得到集合的完全限定名，即命名空间（namespace）。</li>
+</ul>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><pre><code>sudo yum install mongodb mongodb-server
+</code></pre><ul>
+<li><p>mongod 还会启动一个非常基本的 HTTP 服务器，监听数字比主端口号高 1000 的端口，也就是 28017 端口。这意味着，通过浏览器访问 <a href="http://localhost:28017，能获取数据库的管理信息。" target="_blank" rel="noopener">http://localhost:28017，能获取数据库的管理信息。</a></p>
+</li>
+<li><p>启动配置</p>
+<pre><code>sudo vim /etc/mongod.conf
+&lt;!-- 配置后台启动 --&gt;
+fork = true
+</code></pre></li>
+<li><p>启动<br>使用 -f 或 –config 标记，告知服务器使用配置文件</p>
+<pre><code>mongod --config /etc/mongod.conf
+mongod -f /etc/mongod.conf
+</code></pre></li>
+</ul>
+<h3 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h3><ul>
+<li>ObjectId<br>不同的机器都能用全局唯一的同种方法方便地生成它。在多个服务器上同步自动增加主键值既费力又费时。所以能够在分片环境中生成唯一的标示符非常重要。</li>
+</ul>
+<h3 id="shell"><a href="#shell" class="headerlink" title="shell"></a>shell</h3><ul>
+<li>如果某些脚本会被频繁加载，可以将它们添加到 .mongorc.js 文件中。这个文件会在启动 shell 时自动运行。</li>
+<li><p>.mongorc.js 最常见的用途之一是移除那些比较“危险”的 shell 辅助函数。可以在这里集中重写这些方法，比如为dropDatabase 或者 deleteIndexes 等辅助函数添加 no 选项，或者取消它们的定义。</p>
+<pre><code>var no = function() {
+    print(&quot;Not on my watch.&quot;);
+};
+// 禁止删除数据库
+db.dropDatabase = DB.prototype.dropDatabase = no;
+// 禁止删除集合
+DBCollection.prototype.drop = no;
+// 禁止删除索引
+DBCollection.prototype.dropIndex = no;
+</code></pre></li>
+<li><p>在启动 shell 时指定 –norc 参数，就可以禁止加载 .mongorc.js。</p>
+</li>
+<li><p>定制shell提示</p>
+<pre><code>prompt = function() {
+    return (new Date())+&quot;&gt; &quot;;
+};
+
+prompt = function() {
+    if (typeof db == &apos;undefined&apos;) {
+        return &apos;(nodb)&gt; &apos;;
+    }
+    // 检查最后的数据库操作
+    try {
+        db.runCommand({getLastError:1});
+    }
+    catch (e) {
+        print(e);
+    }
+    return db+&quot;&gt; &quot;;
+};
+</code></pre></li>
+<li><p>配置编辑器</p>
+<pre><code>EDITOR=&quot;/usr/bin/emacs&quot;
+</code></pre></li>
+<li><p>编辑变量</p>
+<pre><code>var wap = db.books.findOne({title: &quot;War and Peace&quot;})
+edit wap
+</code></pre></li>
+</ul>
+<h2 id="创建、更新和删除文档"><a href="#创建、更新和删除文档" class="headerlink" title="创建、更新和删除文档"></a>创建、更新和删除文档</h2><h3 id="插入"><a href="#插入" class="headerlink" title="插入"></a>插入</h3><pre><code>db.foo.insert({&quot;bar&quot; : &quot;baz&quot;})
+&lt;!-- 批量插入 --&gt;
+db.foo.batchInsert([{&quot;_ id&quot; : 0}, {&quot;_ id&quot; : 1}, {&quot;_ id&quot; : 2}])
+&lt;!-- 忽略错误并且继续执行添加 continueOnError --&gt;
+</code></pre><h3 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h3><pre><code>db.foo.remove()
+&lt;!-- 删除 mailing.list 集合中所有 &quot;opt-out&quot; 为true 的人 --&gt;
+db.mailing.list.remove({&quot;opt-out&quot; : true})
+&lt;!-- drop 直接删除集合会更快 --&gt;
+db.tester.drop()
+</code></pre><h3 id="更新"><a href="#更新" class="headerlink" title="更新"></a>更新</h3><ul>
+<li><p>文档替换</p>
+<pre><code>db.people.update({&quot;_ id&quot; : ObjectId(&quot;4b2b9f67a1f631733d917a7c&quot;)}, joe)
+</code></pre></li>
+<li><p>使用原子性的修改器，指定对文档中的某些字段进行更新。</p>
+</li>
+<li><p>要有人访问页面，就增加计数器。</p>
+<pre><code>db.analytics.update({&quot;url&quot; : &quot;www.example.com&quot;}, {&quot;$inc&quot; : {&quot;pageviews&quot; : 1}})、
+</code></pre></li>
+<li><p>“$set” 用来指定一个字段的值。如果这个字段不存在，则创建它。</p>
+</li>
+<li><p>$unset 删除键</p>
+<pre><code>db.users.update({&quot;name&quot; : &quot;joe&quot;}, {&quot;$unset&quot; : {&quot;favorite book&quot; : 1}})
+</code></pre></li>
+<li><p>增加、修改或删除键时，应该使用 $ 修改器。</p>
+</li>
+<li><p>“$inc” 修改器用来增加已有键的值，或者该键不存在那就创建一个。</p>
+</li>
+<li><p>“$push” 会向已有的数组末尾加入一个元素，要是没有就创建一个新的数组。</p>
+</li>
+<li><p>使用 “$each” 子操作符，可以通过一次 “$push” 操作添加多个值。</p>
+</li>
+<li><p>可以将 “$slice” 和 “$push” 组合在一起<br>使用，这样就可以保证数组不会超出设定好的最大长度</p>
+</li>
+<li><p>可以在清理元素之前使用 “$sort”，只要向数组中添加子对象就需要清理：</p>
+<pre><code>db.movies.find({&quot;genre&quot; : &quot;horror&quot;},{&quot;$push&quot; : {&quot;top10&quot; : {&quot;$each&quot; : [{&quot;name&quot; : &quot;Nightmare on Elm Street&quot;, &quot;rating&quot; : 6.6},{&quot;name&quot; : &quot;Saw&quot;, &quot;rating&quot; : 4.3}],&quot;$slice&quot; : -10,&quot;$sort&quot; : {&quot;rating&quot; : -1}}}})
+</code></pre></li>
+<li><p>不能只将 “$slice” 或者 “$sort” 与 “$push” 配合使用，且必须使用 “$each”。</p>
+</li>
+<li><p>将数组作为set使用</p>
+<pre><code>db.users.update({&quot;_ id&quot; : ObjectId(&quot;4b2d75476cc613d5ee930164&quot;)},{&quot;$addToSet&quot; : {&quot;emails&quot; : &quot;joe@gmail.com&quot;}})
+</code></pre></li>
+<li><p>{“$pop”:{“key”:1}} 从数组末尾删除一个元素，{“$pop”:{“key”:-1}} 则从头部删除。需要基于特定条件来删除元素，”$pull”。</p>
+<pre><code>db.lists.update({}, {&quot;$pull&quot; : {&quot;todo&quot; : &quot;laundry&quot;}})
+</code></pre></li>
+<li><p>MongoDB 提供了定位操作符 “$”，用来定位查询文档已经匹配的数组元素，并进行更新。</p>
+</li>
+</ul>
+<h3 id="upsert"><a href="#upsert" class="headerlink" title="upsert"></a>upsert</h3><ul>
+<li><p>使用 upsert，既可以避免竞态问题，又可以缩减代码量（update 的第 3 个参数表示这是个 upsert）</p>
+<pre><code>db.analytics.update({&quot;url&quot; : &quot;/blog&quot;}, {&quot;$inc&quot; : {&quot;pageviews&quot; : 1}}, true)
+</code></pre></li>
+<li><p>“$setOnInsert” 只会在文档插入时设置字段的值。</p>
+</li>
+<li><p>save 是一个 shell 函数，如果文档不存在，它会自动创建文档；如果文档存在，它就更新这个文档。</p>
+</li>
+<li><p>要更新所有匹配的文档，可以将 update 的第 4 个参数设置为 true。</p>
+</li>
+<li><p>运行 getLastError 命令（可以理<br>解为“返回最后一次操作的相关信息”）。键 “n” 的值就是被更新文档的数量。</p>
+</li>
+<li><p>调用 getLastError 仅能获得关于更新的有限信息，并不能返回被更新的文档。可以通过 findAndModify 命令得到被更新的文档。这对于操作队列以及执行其他需要进行原子性取值和赋值的操作来说，十分方便。</p>
+</li>
+</ul>
+<h2 id="查询"><a href="#查询" class="headerlink" title="查询"></a>查询</h2><h3 id="find"><a href="#find" class="headerlink" title="find"></a>find</h3><ul>
+<li><p>指定需要返回的键</p>
+<pre><code>db.users.find({}, {&quot;username&quot; : 1, &quot;email&quot; : 1})
+&lt;!-- 剔除 --&gt;
+db.users.find({}, {&quot;fatal_weakness&quot; : 0})
+</code></pre></li>
+<li><p>“$lt”、”$lte”、”$gt” 和 “$gte” 就是全部的比较操作符，分别对应 &lt;、&lt;=、&gt; 和 &gt;=</p>
+</li>
+<li><p>“$ne”表示“不相等”</p>
+<pre><code>db.users.find({&quot;username&quot; : {&quot;$ne&quot; : &quot;joe&quot;}})
+</code></pre></li>
+<li><p>or</p>
+<pre><code>db.raffle.find({&quot;ticket_no&quot; : {&quot;$in&quot; : [725, 542, 390]}})
+db.raffle.find({&quot;ticket_no&quot; : {&quot;$nin&quot; : [725, 542, 390]}})
+db.raffle.find({&quot;$or&quot; : [{&quot;ticket_no&quot; : 725}, {&quot;winner&quot; : true}]})
+</code></pre></li>
+<li><p>not<br>“$mod” 会将查询的值除以第一个给定值，若余数等于第二个给定值则匹配成功</p>
+<pre><code>db.users.find({&quot;id_num&quot; : {&quot;$mod&quot; : [5, 1]}})
+db.users.find({&quot;id_num&quot; : {&quot;$not&quot; : {&quot;$mod&quot; : [5, 1]}}})
+</code></pre></li>
+<li><p>条件语句<br>注意，查询优化器不会对 “$and” 进行优化，这与其他操作符不同。</p>
+<pre><code>db.users.find({&quot;$and&quot; : [{&quot;x&quot; : {&quot;$lt&quot; : 1}}, {&quot;x&quot; : 4}]})
+</code></pre></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/01/quant/" rel="next" title="vnpy">
+                <i class="fa fa-chevron-left"></i> vnpy
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/23/linux/error_relocation/" rel="prev" title="GLIB出错">
+                GLIB出错 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="Jokers" />
+          <p class="site-author-name" itemprop="name">Jokers</p>
+           
+              <p class="site-description motion-element" itemprop="description">hlxstc680@gmail.com</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本概念"><span class="nav-number">2.</span> <span class="nav-text">基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#文档–-gt-行"><span class="nav-number">2.1.</span> <span class="nav-text">文档–&gt;行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#集合–-gt-表"><span class="nav-number">2.2.</span> <span class="nav-text">集合–&gt;表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据库"><span class="nav-number">2.3.</span> <span class="nav-text">数据库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装"><span class="nav-number">2.4.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据类型"><span class="nav-number">2.5.</span> <span class="nav-text">数据类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#shell"><span class="nav-number">2.6.</span> <span class="nav-text">shell</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建、更新和删除文档"><span class="nav-number">3.</span> <span class="nav-text">创建、更新和删除文档</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#插入"><span class="nav-number">3.1.</span> <span class="nav-text">插入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除"><span class="nav-number">3.2.</span> <span class="nav-text">删除</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#更新"><span class="nav-number">3.3.</span> <span class="nav-text">更新</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#upsert"><span class="nav-number">3.4.</span> <span class="nav-text">upsert</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查询"><span class="nav-number">4.</span> <span class="nav-text">查询</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#find"><span class="nav-number">4.1.</span> <span class="nav-text">find</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jokers</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://thathub-com.disqus.com.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://thathub.com/2019/04/01/bigdata/mongondb/';
+          this.page.identifier = '2019/04/01/bigdata/mongondb/';
+          this.page.title = 'MongoDB';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://thathub-com.disqus.com.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

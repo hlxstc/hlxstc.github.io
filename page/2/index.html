@@ -273,7 +273,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/11/05/dataStructure_multiArr/">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/11/05/data_structure/dataStructure_select/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jokers">
@@ -292,7 +292,1061 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/11/05/dataStructure_multiArr/" itemprop="url">数据结构--多维数组</a></h1>
+                <a class="post-title-link" href="/2018/11/05/data_structure/dataStructure_select/" itemprop="url">数据结构--查找</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-05T09:00:00+08:00">
+                2018-11-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Data-Structure/" itemprop="url" rel="index">
+                    <span itemprop="name">Data Structure</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/11/05/data_structure/dataStructure_select/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/11/05/data_structure/dataStructure_select/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="二分查找-amp-amp-利用二分查找插入"><a href="#二分查找-amp-amp-利用二分查找插入" class="headerlink" title="二分查找 &amp;&amp; 利用二分查找插入"></a>二分查找 &amp;&amp; 利用二分查找插入</h3><pre><code>#include &lt;stdio.h&gt;
+
+#define MAX 100
+
+typedef struct{
+    int key;
+}Node;
+
+typedef Node SeqList[MAX+1];
+
+//递归二分查找
+int binSearch1(SeqList R, int k, int low, int high){
+    int mid;
+    if(low &lt;= high){
+        mid = (low+high)/2;
+        if(R[mid].key == k)
+            return mid;
+        if(R[mid].key &gt; k)
+            return binSearch1(R, k, low, mid-1);
+        else
+            return binSearch1(R, k, mid+1, high);
+    }
+    return 0;
+}
+
+//非递归查找
+int binSearch2(SeqList R, int k, int low, int high){
+    int mid;
+    while(low &lt;= high){
+        mid = (low+high)/2;
+        if(R[mid].key == k)
+            return mid;
+        if(R[mid].key &gt; k)
+            high = mid-1;
+        else
+            low = mid+1;
+    }
+    return 0;
+}
+
+//插入
+void binInsert(SeqList R, int n, int k){
+    int low=1, high=n,find=0, mid;
+    while(low&lt;=high &amp;&amp; !find){
+        mid = (low+high)/2;
+        if(R[mid].key == k){
+            find = mid;
+            break;
+        }
+        if(R[mid].key &gt; k)
+            high = mid - 1;
+        else
+            low = mid + 1;
+    }
+    if(!find)
+        find = low;
+    for(int i=n; i&gt;=find; i--){
+        R[i+1] = R[i];
+    }
+    R[find].key = k;
+}
+
+int main(){
+    SeqList R;
+    int t;
+    int n = 0;
+    int i;
+    while (1==1) {
+        scanf(&quot;%d&quot;, &amp;t);
+        if(t == -9999)
+            break;
+        n++;
+        R[n].key = t;
+    }
+    i = binSearch1(R, 5, 1, n);
+    printf(&quot;%d\n&quot;, i);
+    binInsert(R, n, 5);
+    for(int j=1; j&lt;=n+1; j++){
+        printf(&quot;%d-&gt;&quot;, R[j].key);
+    }
+    return 0;
+}
+</code></pre><h3 id="二叉排序树"><a href="#二叉排序树" class="headerlink" title="二叉排序树"></a>二叉排序树</h3><pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+typedef struct Node{
+    int data;
+    struct Node \*lchild;
+    struct Node \*rchild;
+}BSNode;
+
+typedef BSNode \*BSTree;
+
+
+BSTree insertBSTree(BSTree bst, int k){
+    if(bst == NULL){
+        bst = (BSNode \*)malloc(sizeof(BSNode));
+        bst-&gt;data = k;
+        bst-&gt;lchild = NULL;
+        bst-&gt;rchild = NULL;
+    }
+    BSTree lc;
+    BSTree rc;
+    if(k &lt; bst-&gt;data){
+        lc = insertBSTree(bst-&gt;lchild, k);
+        bst-&gt;lchild = lc;
+    }
+    else if(k &gt; bst-&gt;data){
+        rc = insertBSTree(bst-&gt;rchild, k);
+        bst-&gt;rchild = rc;
+    }
+    return bst;
+}
+
+void interOder(BSTree bst){
+    if(bst){
+        interOder(bst-&gt;lchild);
+        printf(&quot;%d-&gt;&quot;, bst-&gt;data);
+        interOder(bst-&gt;rchild);
+    }
+}
+
+int main(){
+    BSTree bst = NULL;
+    int t;
+    scanf(&quot;%d&quot;, &amp;t);
+    while (t != -9999) {
+        bst = insertBSTree(bst, t);
+        scanf(&quot;%d&quot;, &amp;t);
+    }
+    interOder(bst);
+    printf(&quot;\n&quot;);
+    return 0;
+}
+</code></pre><h3 id="并判断第n个整数在前（n-1）个整数中出现的次数"><a href="#并判断第n个整数在前（n-1）个整数中出现的次数" class="headerlink" title="并判断第n个整数在前（n-1）个整数中出现的次数"></a>并判断第n个整数在前（n-1）个整数中出现的次数</h3><pre><code>#include&lt;stdio.h&gt;
+#define MAX 100
+
+int main(){
+    int a[MAX];
+    int i=0, n, t;
+    while(1==1){
+        scanf(&quot;%d &quot;, &amp;t);
+        if(t == -9999){
+            break;
+        }
+        i++;
+        a[i] = t;
+    };
+    for(int j=1; j&lt;i; j++){
+        if(a[j] == a[i])
+            n++;
+    }
+    printf(&quot;第n个整数在前n-1个数中出现的次数为：%d\n&quot;, n);
+    return 0;
+}
+</code></pre>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/11/05/data_structure/dataStructure_order/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/11/05/data_structure/dataStructure_order/" itemprop="url">数据结构--排序</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-05T08:00:00+08:00">
+                2018-11-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Data-Structure/" itemprop="url" rel="index">
+                    <span itemprop="name">Data Structure</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/11/05/data_structure/dataStructure_order/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/11/05/data_structure/dataStructure_order/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="直接插入排序"><a href="#直接插入排序" class="headerlink" title="直接插入排序"></a>直接插入排序</h3><pre><code>#include &lt;stdio.h&gt;
+
+#define MAX 1000
+
+typedef struct{
+    int key;
+}Node;
+
+typedef Node SeqList[MAX+1];
+
+void insertSort(SeqList R, int n){
+    for(int i=2; i&lt;=n ; i++){
+        R[0].key = R[i].key;
+        int j;
+        for(j=i-1; j&gt;=0; j--){
+            if(R[j].key &lt;= R[i].key)
+                break;
+        }
+        if(j &lt; i-1){
+            for(int k=i-1; k&gt;j; k--){
+                R[k+1].key = R[k].key;
+            }
+            R[j+1].key = R[0].key;
+        }
+    }
+}
+
+int main(){
+    SeqList R;
+    int t;
+    int n = 0;
+    while (1==1) {
+        scanf(&quot;%d&quot;, &amp;t);
+        if(t == -9999)
+            break;
+        n++;
+        R[n].key = t;
+    }
+    insertSort(R, n);
+    for(int i=1; i&lt;=n; i++){
+        printf(&quot;%d-&gt;&quot;, R[i].key);
+    }
+    printf(&quot;\n&quot;);
+    return 0;
+}
+</code></pre><h3 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h3><pre><code>#include &lt;stdio.h&gt;
+
+#define MAX 1000
+
+typedef struct{
+    int v;
+}Seq;
+
+typedef Seq seqList[MAX+1]
+
+int bubbleSort(seqList R, int n){
+    for(int i=2; i&lt;=n; i++){
+        int flag = 0;
+        for(int j=n; i&gt;=i; j--){
+            if(R[j].v &lt; R[j-1].v){
+                R[0].v = R[j-1].v;
+                R[j-1].v = R[j].v;
+                R[j].v = R[0].v;
+                flag = 1;
+            }
+        }
+        if(flag == 0){
+            break;
+        }
+    }
+    return 0;
+}
+
+int main(){
+    seqList R;
+    int t;
+    int n = 0;
+    while(true){
+        scanf(&apos;%d&apos;, &amp;t);
+        if(t == -9999)
+            break;
+        n++;
+        R[n].v = t;
+    }
+    bubbleSort(R, n);
+}
+</code></pre><h3 id="直接选择排序"><a href="#直接选择排序" class="headerlink" title="直接选择排序"></a>直接选择排序</h3><pre><code>#include &lt;stdio&gt;
+
+#define MAX 1000
+
+typedef struct{
+    int v;
+}seq;
+
+typedef seq seqList[MAX+1];
+
+void selectSort(seqList R, n){
+    for(int i=1, i&lt;n; i++){
+        int t = i;
+        for(int j=i+1; j&lt;=n; j++){
+            if(R[j].v &lt; t){
+                t = j;
+            }
+            if(t != i){
+                R[0].v = R[i].v;
+                R[i].v = R[t].v;
+                R[t].v = R[0].v;
+            }
+        }
+    }
+}
+
+int main(){
+    seqList R;
+    int n = 0;
+    int t = 0;
+    while(true){
+        scanf(&apos;%d&apos;, &amp;t);
+        if(t == -9999){
+            break;
+        }
+        n++；
+        R[n].v = t;
+    }
+    selectSort(R, n);
+    return 0;
+}
+</code></pre>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/11/05/data_structure/dataStructure_graph/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/11/05/data_structure/dataStructure_graph/" itemprop="url">数据结构--图</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-05T08:00:00+08:00">
+                2018-11-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Data-Structure/" itemprop="url" rel="index">
+                    <span itemprop="name">Data Structure</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/11/05/data_structure/dataStructure_graph/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/11/05/data_structure/dataStructure_graph/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="构建图及深度优先遍历"><a href="#构建图及深度优先遍历" class="headerlink" title="构建图及深度优先遍历"></a>构建图及深度优先遍历</h3><pre><code>#include &lt;stdio.h&gt;
+
+#define MAX 99
+
+typedef struct{
+    int n;
+    int arcs[MAX][MAX];
+}Graph;
+
+int visited[MAX];
+
+void DFS(Graph g, int i, int n){
+    visited[i] = 1;
+    printf(&quot;V%d-&gt;&quot;, i);
+    for(int j=0; j&lt;n; j++){
+        if(g.arcs[i][j]==1 &amp;&amp; visited[j]==0){
+            DFS(g, j, n);
+        }
+    }
+}
+
+int main(){
+    Graph g;
+    int n;
+    int i, j;
+    scanf(&quot;%d&quot;, &amp;n);
+    for(i=0; i&lt;n; i++){
+        for(j=0; j&lt;n; j++){
+            g.arcs[i][j] = 0;
+        }
+    }
+    while(true){
+        scanf(&quot;%d %d&quot;, &amp;i, &amp;j);
+        if(i==-1 &amp;&amp; j==-1)
+            break;
+        g.arcs[i][j] = 1;
+    }
+    for(i=0; i&lt;n; i++){
+        for(j=0; j&lt;n; j++){
+            printf(&quot;%d &quot;, g.arcs[i][j]);
+        }
+        printf(&quot;\n&quot;);
+    }
+    for(i=0; i&lt;n; i++){
+        if(!visited[i])
+            DFS(g, i, n);
+    }
+    return 0;
+}
+</code></pre>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/11/05/data_structure/dataStructure_tree/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/11/05/data_structure/dataStructure_tree/" itemprop="url">数据结构--二叉树</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-05T08:00:00+08:00">
+                2018-11-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Data-Structure/" itemprop="url" rel="index">
+                    <span itemprop="name">Data Structure</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/11/05/data_structure/dataStructure_tree/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/11/05/data_structure/dataStructure_tree/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="前序序列构建二叉树"><a href="#前序序列构建二叉树" class="headerlink" title="前序序列构建二叉树"></a>前序序列构建二叉树</h3><pre><code>#include &lt;stdio.h&gt;
+
+#define MAX 100
+
+typedef struct Node{
+    char data;
+    struct Node \*lChild;
+    struct Node \*rChild;
+}BinTNode;
+
+typedef BintNode \*BinTree;
+
+int mkTree(BinTree bt, char \*str, int i){
+    bt-&gt;lChild = NULL;
+    bt-&gt;rChild = NULL;
+    bt-&gt;data = str[i];
+    printf(&quot;%c\n&quot;, bt-&gt;data);
+    if(i&lt;strlen(str)-1 &amp;&amp; str[i+1]!=&apos;.&apos;){
+        bt-&gt;lchild = (BinTNode \*)malloc(sizeof(BinTNode));
+        i = mkTree(bt-&gt;lchild, str, i+1);
+    }
+    i++;
+    if(i&lt;strlen(str)-1 &amp;&amp; str[i+1]!=&apos;.&apos;){
+        bt-&gt;rchild = (BinTNode \*)malloc(sizeof(BinTNode));
+        i = mkTree(bt-&gt;rchild, str, i+1);
+    }
+    return i;
+}
+
+void preSort(BintTree bt){
+    if(bt){
+        printf(&quot;%c-&gt;&quot;, bt-&gt;data);
+        preSort(bt-&gt;lchild);
+        preSort(bt-&gt;rchild);
+    }
+}
+
+int main(){
+    BintTree bt = (BinTNode \*)malloc(sizeof(BinTNode));
+    char str[MAX];
+    scanf(&quot;%s&quot;, str);
+    printf(&quot;%s&quot;, str);
+    mkTree(bt, str, 0);
+    preSort(bt);
+    return 0;
+}
+</code></pre><h3 id="中后序列构建二叉树"><a href="#中后序列构建二叉树" class="headerlink" title="中后序列构建二叉树"></a>中后序列构建二叉树</h3><pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+
+typedef struct Node{
+    char data;
+    struct Node \*lchild;
+    struct Node \*rchild;
+}BinTNode;
+
+typedef BinTNode \*BinTree;
+
+#define MAX 100
+
+void mkBinTree(BinTree bt, char \*inter, int ii, int ij, char \*post, int pi, int pj){
+    bt-&gt;lchild = NULL;
+    bt-&gt;rchild = NULL;
+    bt-&gt;data = post[pj];
+    int n = 0;
+    for(int i=ii; i&lt;=ij; i++){
+        if(post[pj] == inter[i]){
+            n = i-ii;
+            if(i&gt;ii){
+                bt-&gt;lchild = (BinTNode \*)malloc(sizeof(BinTNode));
+                mkBinTree(bt-&gt;lchild, inter, ii, i-1, post, pi, pi+n-1);
+            }
+            if(i&lt;ij){
+                bt-&gt;rchild = (BinTNode \*)malloc(sizeof(BinTNode));
+                mkBinTree(bt-&gt;rchild, inter, i+1, ij, post, pi+n, pj-1);
+            }
+        }
+    }
+}
+
+void preOrder(BinTree bt){
+    if(bt){
+        printf(&quot;%c&quot;, bt-&gt;data);
+        preOrder(bt-&gt;lchild);
+        preOrder(bt-&gt;rchild);
+    }
+}
+
+int btDepth(BinTree bt){
+    if(bt == NULL)
+        return 0;
+    int ldepth = 0;
+    int rdepth = 0;
+    ldepth = btDepth(bt-&gt;lchild);
+    rdepth = btDepth(bt-&gt;rchild);
+    if(ldepth&gt;rdepth)
+        return ldepth+1;
+    else
+        return rdepth+1;
+}
+
+int main(){
+    BinTree bt = (BinTNode \*)malloc(sizeof(BinTNode));
+    char inter[MAX];//前序序列
+    char post[MAX];//后序序列
+    scanf(&quot;%s&quot;, inter);
+    scanf(&quot;%s&quot;, post);
+    mkBinTree(bt, inter, 0, strlen(inter)-1, post, 0, strlen(post)-1);
+    preOrder(bt);
+    printf(&quot;\n&quot;);
+    int depth;
+    depth = btDepth(bt);
+    printf(&quot;%d\n&quot;, depth);
+    return 0;
+}
+</code></pre>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/11/05/data_structure/dataStructure_multiArr/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/11/05/data_structure/dataStructure_multiArr/" itemprop="url">数据结构--多维数组</a></h1>
         
 
         <div class="post-meta">
@@ -327,8 +1381,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/数据结构/" itemprop="url" rel="index">
-                    <span itemprop="name">数据结构</span>
+                  <a href="/categories/Data-Structure/" itemprop="url" rel="index">
+                    <span itemprop="name">Data Structure</span>
                   </a>
                 </span>
 
@@ -345,9 +1399,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/11/05/dataStructure_multiArr/#comments" itemprop="discussionUrl">
+                <a href="/2018/11/05/data_structure/dataStructure_multiArr/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/11/05/dataStructure_multiArr/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2018/11/05/data_structure/dataStructure_multiArr/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -450,6 +1504,384 @@ int main(){
     matMulti(A, B, n1);
 }
 </code></pre>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/11/05/data_structure/dataStructure/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/11/05/data_structure/dataStructure/" itemprop="url">数据结构</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-05T07:00:00+08:00">
+                2018-11-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Data-Structure/" itemprop="url" rel="index">
+                    <span itemprop="name">Data Structure</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/11/05/data_structure/dataStructure/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/11/05/data_structure/dataStructure/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="线性表"><a href="#线性表" class="headerlink" title="线性表"></a>线性表</h2><h3 id="逻辑结构"><a href="#逻辑结构" class="headerlink" title="逻辑结构"></a>逻辑结构</h3><p>n个数据元素构成的有限序列。有且仅有一个开始结点a(1)，它没有直接前趋，仅有一直接后继。有且仅有一个终端点a(n)，它没有直接后继，仅有一个直接前趋。其余结点都仅有一个直接前趋和直接后继。<br>数据运算定义在逻辑结构，而具体实现在存储结构上。</p>
+<h3 id="线性表的顺序存储结构"><a href="#线性表的顺序存储结构" class="headerlink" title="线性表的顺序存储结构"></a>线性表的顺序存储结构</h3><p>把线性表的结点按逻辑次序依次存放在一组连续的存储单元里。简称顺序表。<br>高级语言中向量或一维数组采用顺序存储，可用来描述顺序表。</p>
+<pre><code># define ListSize 100
+typedef int DataType;
+typedef struct {
+    DataType data[ListSize];
+    int length;
+}SeqList;
+</code></pre><h3 id="线性表的链式存储结构"><a href="#线性表的链式存储结构" class="headerlink" title="线性表的链式存储结构"></a>线性表的链式存储结构</h3><p>顺序存储结构的插入和删除操作会移动大量结点，为避免大量结点的移动，可使用链式存储结构。链式存储还可用于各种非线形的逻辑结构。<br>物理存储单元的地址可以不连续，单链表每个结点除了存储值以外还要存储后继结点的地址。<br>c语言描述如下：</p>
+<pre><code>typedef char DataType;
+typedef struct node{
+    DataType value;
+    struct node * next;
+}ListNode;
+typedef ListNode * LinkList;
+LinkList head;
+ListNode * p;
+</code></pre><p>ListNode * 和 LinkList 是同一个指针类型，命名不同的目的是概念上更明确。head表示单链表的头指针，p表示结点指针。<br>p的值是某一节点地址，程序执行过程中生成属于动态变量，通过标准函数生成，即：</p>
+<pre><code>p = (ListNode * )malloc(sizeof(ListNode))
+</code></pre><h2 id="栈和队列"><a href="#栈和队列" class="headerlink" title="栈和队列"></a>栈和队列</h2><p>逻辑结构与线性表相同，又称为运算受限的线性表。</p>
+<h3 id="栈"><a href="#栈" class="headerlink" title="栈"></a>栈</h3><p>顺序栈的定义</p>
+<pre><code># define StackSize 100
+typedef char DataType;
+typedef struct{
+    DataType data[StackSize];
+    int top; # 指示当前栈顶位置，又称栈顶指针
+}SeqStack;
+</code></pre><h3 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h3><p>顺序队列，分别设置队头front指针和队尾rear指针。初值均为0。当插入元素时，插入rear所指位置，rear加1。当删除元素时，删除front所指位置，front加1。可见当front==rear时，队列为空。为防止假上溢现象，将向量空间想像为首尾相接的循环向量称为循环队列。<br>加1操作可描述为模运算</p>
+<pre><code>i = (i+1)%QueueSize;
+</code></pre><p>注意，循环队列front==rear时，可能是队列满<br>循环队列定义</p>
+<pre><code># define QueueSize 100
+typedef char DataType;
+typedef struct{
+    DataType data[QueueSize];
+    int front;
+    int rear;
+    int count; # 区分队列空或满
+}
+</code></pre><h3 id="栈和队列应用实例"><a href="#栈和队列应用实例" class="headerlink" title="栈和队列应用实例"></a>栈和队列应用实例</h3><ul>
+<li><p>十进制整数N转换为B进制数</p>
+<pre><code>void MultiBaseOutput(int N, int B){
+    SeqStack S;
+    while(N != 0){
+        push(&amp;S, N%B);
+        N = N/B #整除
+    }
+    while(!StackEmpty(S)){
+        pop(&amp;S);
+        printf(&quot;%d&quot;, i);
+    }
+}
+</code></pre></li>
+</ul>
+<p>时间复杂度为O(log(B)N)</p>
+<ul>
+<li>递归</li>
+</ul>
+<p>递归设计步骤：1、分解为类似原问题特性的子问题。2、保证有限次递归后满足终止条件</p>
+<h2 id="树"><a href="#树" class="headerlink" title="树"></a>树</h2><h3 id="树的基本概念"><a href="#树的基本概念" class="headerlink" title="树的基本概念"></a>树的基本概念</h3><ul>
+<li>树是一种非常重要的非线性结构</li>
+<li>一个结点拥有的子树称为该结点的度，树的度为结点最大度数。度为零的结点称为叶子结点。</li>
+<li>结点的层数从根算起，最大层数称为树的高度或深度</li>
+</ul>
+<h3 id="二叉树"><a href="#二叉树" class="headerlink" title="二叉树"></a>二叉树</h3><ul>
+<li>二叉树第i层的结点个数最多是2^(i-1)</li>
+<li>深度为k的二叉树至多有2^k-1个结点</li>
+<li>终端结点即度数为0的结点个数为n0，度数为2的结点个树是n2，有n0=n2+1</li>
+<li>满二叉树，深度位k且有2^k-1个结点</li>
+<li>完全二叉树，最底层的结点集中在左边</li>
+</ul>
+<h3 id="二叉树的链式存储"><a href="#二叉树的链式存储" class="headerlink" title="二叉树的链式存储"></a>二叉树的链式存储</h3><pre><code>typedef char DataType;
+typedef struct node{
+    DataType data;
+    struct node * left;
+    struct node * right;
+}BinTNode;
+typedef BinTNode * BinTree;
+</code></pre><h3 id="二叉树的遍历"><a href="#二叉树的遍历" class="headerlink" title="二叉树的遍历"></a>二叉树的遍历</h3><p>前序遍历，中序遍历，后序遍历</p>
+<pre><code># 前序遍历
+void Inorder(BinTree T){
+    if(T){
+        Iorder(T-&gt;lchild);
+        print(&quot;%c&quot;, T-&gt;data)
+        Iorder(T-&gt;rchild);
+    }
+}
+
+# 先序序列构建二叉树
+void createBinTree(BinTree T){
+    char c;
+    c = getchar();
+    if(c == &apos; &apos;){
+        T = NULL;
+    }else{
+        T = (BinTNode * )malloc(sizeof(BinTNode));
+        T -&gt; data = c;
+        createBinTree(T -&gt; lchild);
+        createBinTree(T -&gt; rchild);
+    }   
+}
+</code></pre><h2 id="图"><a href="#图" class="headerlink" title="图"></a>图</h2><h3 id="图的基本概念"><a href="#图的基本概念" class="headerlink" title="图的基本概念"></a>图的基本概念</h3><ul>
+<li>G = (V, E)</li>
+<li>有n(n-1)/2条边的图称为完全无向图</li>
+<li>有n(n-1)条边的图称为完全有向图</li>
+<li>无向图顶点v的度是关于该顶点边的数目，记为D(v)</li>
+<li>有向图为入度和出度</li>
+<li>边数 = (1/2)度数和</li>
+<li>无向图，若任意顶点连通，称G为连通图</li>
+</ul>
+<h3 id="图的存储结构"><a href="#图的存储结构" class="headerlink" title="图的存储结构"></a>图的存储结构</h3><ul>
+<li><p>邻接矩阵表示法</p>
+<pre><code># define MaxVertexNum 100
+typedef char VertexType;
+typedef int EdgeType;
+typedef struct{
+    VertexType vexs[MaxVertexNum];
+    EdgeType edges[MaxVertexNum][MaxVertexNum];
+    int n, e;
+}MGraph;
+</code></pre></li>
+<li><p>邻接矩阵无向图创建</p>
+<pre><code>void createGraph(MGraph * g){
+    int i, j, k, w;
+    scanf(&quot;%d%d&quot;, &amp;g-&gt;n, &amp;g-&gt;e);
+    for(i=0; i&lt;g-&gt;n; i++){
+        g-&gt;vexs[i] = getchar();
+    }
+    for(i=0; i&lt;g-&gt;e; i++){
+        for(j=0; j&lt;g-&gt;e; j++){
+            g-&gt;edges[i][j] = 0;
+        }
+    }
+    for(k=0; k&lt;G-&gt;e; k++){
+        scanf(&quot;%d%d%d&quot;, &amp;i, &amp;j, &amp;w);
+        g-&gt;edges[i][j] = w;
+        g-&gt;edges[j][i] = w;
+    }
+}
+</code></pre></li>
+</ul>
+<h3 id="图遍历"><a href="#图遍历" class="headerlink" title="图遍历"></a>图遍历</h3><ul>
+<li><p>深度优先遍历</p>
+<pre><code>int visited[MaxVertexNum];
+void DFTraversal(MGraph * g){
+    int i;
+    for(i=0; i&lt;g-&gt;n; i++){
+        visited[i] = 0;
+    }
+    for(i=0; i&lt;g-&gt;n; i++){
+        if(visited[i] == 0){
+            DFS(g, i);
+        }
+    }
+}
+void DFS(MGraph * g, i){
+    int j;
+    printf(&quot;%c&quot;, g-&gt;vexs[i]);
+    visited[i] = 1;
+    for(j=1; j&lt;g-&gt;n, j++){
+        if(g-&gt;edges[i][j] != 0 &amp;&amp; visited[i] == 0){
+            DFS(g, j);
+        }
+    }
+}
+</code></pre></li>
+<li><p>广度优先遍历</p>
+<pre><code>int visited[MaxVertexNum];
+void DFTraversal(MGraph * g){
+    int i;
+    for(i=0; i&lt;g-&gt;n; i++){
+        visited[i] = 0;
+    }
+    for(i=0; i&lt;g-&gt;n; i++){
+        if(visited[i] == 0){
+            BFS(g, i);
+        }
+    }
+}
+void BFS(MGraph * g, i){
+    int j;
+    printf(&quot;%c&quot;, g-&gt;vexs[i]);
+    visited[i] = 1;
+    EnQueue(i); //队列，先进先出
+    while(!QueueEmpty()){
+        i = DeQueue();
+        for(j=1; j&lt;g-&gt;n, j++){
+            if(g-&gt;edges[i][j] != 0 &amp;&amp; visited[i] == 0){
+                printf(&quot;%c&quot;, g-&gt;vexs[j]);
+                EnQueue(j);
+            }
+        }
+    }
+}
+</code></pre></li>
+</ul>
+<h2 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h2><h3 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h3><ul>
+<li><p>直接插入排序</p>
+<pre><code># define n 100
+typedef struct{
+    int key;
+}RecType;
+
+typedef RecType SeqList[n+1];
+
+void insertSort(SeqList R){
+    int i, j, k;
+    // 循环
+    for(i=2; i&lt;=n; i++){
+        R[0].key = R[i].key;
+        for(j=i-1; j&gt;=0; j--){
+            if(R[j].key &lt;= R[i].key){
+                break;
+            }
+        }
+        if(j &lt; i-1){
+            for(k=i-1; k&gt;j; k--){
+                R[k+1].key = R[k].key;
+            }
+            R[j+1].key = R[0].key;
+        }
+    }
+}
+</code></pre></li>
+<li><p>希尔排序</p>
+</li>
+</ul>
+
           
         
       
@@ -758,7 +2190,7 @@ int main(){
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/09/20/ngrok/">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/09/20/Tools/ngrok/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jokers">
@@ -777,7 +2209,7 @@ int main(){
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/09/20/ngrok/" itemprop="url">ngrok</a></h1>
+                <a class="post-title-link" href="/2018/09/20/Tools/ngrok/" itemprop="url">ngrok</a></h1>
         
 
         <div class="post-meta">
@@ -830,9 +2262,9 @@ int main(){
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/09/20/ngrok/#comments" itemprop="discussionUrl">
+                <a href="/2018/09/20/Tools/ngrok/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/09/20/ngrok/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2018/09/20/Tools/ngrok/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -954,7 +2386,7 @@ tunnels:
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/09/10/chrome_install/">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/09/10/linux/chrome_install/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jokers">
@@ -973,7 +2405,7 @@ tunnels:
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/09/10/chrome_install/" itemprop="url">Linux 安装 Chrome</a></h1>
+                <a class="post-title-link" href="/2018/09/10/linux/chrome_install/" itemprop="url">Linux 安装 Chrome</a></h1>
         
 
         <div class="post-meta">
@@ -1008,8 +2440,8 @@ tunnels:
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/常用软件/" itemprop="url" rel="index">
-                    <span itemprop="name">常用软件</span>
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
                   </a>
                 </span>
 
@@ -1026,9 +2458,9 @@ tunnels:
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/09/10/chrome_install/#comments" itemprop="discussionUrl">
+                <a href="/2018/09/10/linux/chrome_install/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/09/10/chrome_install/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2018/09/10/linux/chrome_install/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -1132,7 +2564,7 @@ yum install -y google-chrome-beta
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/08/28/flask/">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/08/28/web/flask/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jokers">
@@ -1151,7 +2583,7 @@ yum install -y google-chrome-beta
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/08/28/flask/" itemprop="url">Flask使用</a></h1>
+                <a class="post-title-link" href="/2018/08/28/web/flask/" itemprop="url">Flask使用</a></h1>
         
 
         <div class="post-meta">
@@ -1204,9 +2636,9 @@ yum install -y google-chrome-beta
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/08/28/flask/#comments" itemprop="discussionUrl">
+                <a href="/2018/08/28/web/flask/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/08/28/flask/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2018/08/28/web/flask/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -1514,1143 +2946,6 @@ $ pip install gunicorn[gevent]    # Or, using extra
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/08/15/reverse_proxy/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jokers">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jokers's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/08/15/reverse_proxy/" itemprop="url">Nginx作反向代理保护Kibana</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-15T17:36:00+08:00">
-                2018-08-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/ES/" itemprop="url" rel="index">
-                    <span itemprop="name">ES</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/08/15/reverse_proxy/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/08/15/reverse_proxy/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="安装-Nginx-，先安装-EPEL-repository"><a href="#安装-Nginx-，先安装-EPEL-repository" class="headerlink" title="安装 Nginx ，先安装 EPEL repository"></a>安装 Nginx ，先安装 EPEL repository</h3><pre><code>$ yum install epel-release
-$ yum install nginx
-$ systemctl start nginx
-$ systemctl enable nginx
-</code></pre><h3 id="httpd-tools-setting-up-an-HTTP-authentication"><a href="#httpd-tools-setting-up-an-HTTP-authentication" class="headerlink" title="httpd-tools, setting up an HTTP authentication"></a>httpd-tools, setting up an HTTP authentication</h3><pre><code>$ yum install httpd-tools
-</code></pre><ul>
-<li><p>create a “.htpasswd” file to store our credential data such as Usernames and Passwords in an encrypted format</p>
-<pre><code>$ htpasswd -c [filename] /etc/nginx/ username
-</code></pre></li>
-</ul>
-<h3 id="Configuring-Nginx"><a href="#Configuring-Nginx" class="headerlink" title="Configuring Nginx"></a>Configuring Nginx</h3><pre><code>$ /etc/nginx/nginx.conf
-</code></pre><ul>
-<li><p>Find the “server” directive and change it  like below:</p>
-<pre><code>server {
-    listen 80;
-    server_name \_;
-    location ~ ^/kibana/(.\*)$ {
-        rewrite /kibana/(.\*) /$1 break;
-        proxy_pass http://127.0.0.1:9396;
-        auth_basic &quot;Restricted&quot;;
-        auth_basic_user_file /etc/nginx/.htpasswd;
-    }
-}
-</code></pre></li>
-<li><p>检查 Nginx 配置</p>
-<pre><code>$ nginx -t
-</code></pre></li>
-<li><p>重启 Nginx</p>
-<pre><code>$ systemctl restart nginx
-</code></pre></li>
-</ul>
-<h3 id="Configuring-Kibnana"><a href="#Configuring-Kibnana" class="headerlink" title="Configuring Kibnana"></a>Configuring Kibnana</h3><ul>
-<li><p>打开配置文件</p>
-<pre><code>$ vim /etc/kibana/kibana.yml
-</code></pre></li>
-<li><p>添加</p>
-<pre><code>server.basePath: &quot;/kibana&quot;
-</code></pre></li>
-<li><p>重启 Kibana</p>
-<pre><code>$ systemctl restart Kibana
-</code></pre></li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/08/14/elastcsearch-command/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jokers">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jokers's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/08/14/elastcsearch-command/" itemprop="url">Elasticsearch常用操作</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-14T15:36:00+08:00">
-                2018-08-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/ES/" itemprop="url" rel="index">
-                    <span itemprop="name">ES</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/08/14/elastcsearch-command/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/08/14/elastcsearch-command/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Reindex"><a href="#Reindex" class="headerlink" title="Reindex"></a>Reindex</h2><ol>
-<li>新建一个 index ，复制原 index 的 mappings 和 settings</li>
-<li><p>设置新 index 的 refresh_interval 为-1， number_of_replicas 为 0， reindex 效率更高</p>
-<pre><code>PUT /twitter/_settings
-{
-    &quot;index&quot; : {
-        &quot;number_of_replicas&quot; : 0
-    }
-}
-
-PUT /twitter/_settings
-{
-    &quot;index&quot; : {
-        &quot;refresh_interval&quot; : &quot;-1&quot;
-    }
-}
-</code></pre></li>
-<li><p>reindex api</p>
-<ul>
-<li><p>Just leaving out version_type (as above) or setting it to internal will cause Elasticsearch to blindly dump documents into the target, overwriting any that happen to have the same type and id:</p>
-<pre><code>POST _reindex
-{
-    &quot;source&quot;: {
-        &quot;index&quot;: &quot;twitter&quot;
-    },
-    &quot;dest&quot;: {
-        &quot;index&quot;: &quot;new_twitter&quot;,
-        &quot;version_type&quot;: &quot;internal&quot;
-    }
-}
-</code></pre></li>
-<li><p>Setting version_type to external will cause Elasticsearch to preserve the version from the source, create any documents that are missing, and update any documents that have an older version in the destination index than they do in the source index</p>
-<pre><code>POST _reindex
-{
-    &quot;source&quot;: {
-        &quot;index&quot;: &quot;twitter&quot;
-    },
-    &quot;dest&quot;: {
-        &quot;index&quot;: &quot;new_twitter&quot;,
-        &quot;version_type&quot;: &quot;external&quot;
-    }
-}
-</code></pre></li>
-<li><p>Settings op_type to create will cause _reindex to only create missing documents in the target index. All existing documents will cause a version conflic</p>
-<pre><code>POST _reindex
-{
-    &quot;source&quot;: {
-        &quot;index&quot;: &quot;twitter&quot;
-    },
-    &quot;dest&quot;: {
-        &quot;index&quot;: &quot;new_twitter&quot;,
-        &quot;op_type&quot;: &quot;create&quot;
-    }
-}
-</code></pre></li>
-<li><p>By default version conflicts abort the _reindex process but you can just count them by settings “conflicts”: “proceed” in the request body</p>
-<pre><code>POST _reindex
-{
-    &quot;conflicts&quot;: &quot;proceed&quot;,
-    &quot;source&quot;: {
-        &quot;index&quot;: &quot;twitter&quot;
-    },
-    &quot;dest&quot;: {
-        &quot;index&quot;: &quot;new_twitter&quot;,
-        &quot;op_type&quot;: &quot;create&quot;
-    }
-}
-</code></pre></li>
-<li><p>如果某个字段设置了 completion suggest ,重建索引时或则索引数据时因相应字段为空会报错</p>
-<pre><code># value must have a length &gt; 0
-# elasticsearch completion field does not support null values
-
-POST _reindex
-{
-    &quot;source&quot;: {
-        &quot;index&quot;: &quot;twitter&quot;
-    },
-    &quot;dest&quot;: {
-        &quot;index&quot;: &quot;new_twitter&quot;
-    }
-}
-&quot;script&quot;: {
-    &quot;source&quot;: &quot;if (ctx._source.name == null || ctx._source.name == &apos;&apos;) {ctx._source.tmname=&apos; &apos;}&quot;,
-    &quot;lang&quot;: &quot;painless&quot;
-}
-</code></pre></li>
-<li><p>kibana 30s 后返回 timeout ，在请求后跟参数 ?wait_for_completion=true</p>
-</li>
-</ul>
-</li>
-<li><p>重新设置 refresh_interval 和 number_of_replicas</p>
-</li>
-<li>等待 index 状态 变为 green</li>
-<li>添加 aliases</li>
-</ol>
-<h2 id="Reindex-task"><a href="#Reindex-task" class="headerlink" title="Reindex task"></a>Reindex task</h2><ul>
-<li><p>获取正在运行的 reindex</p>
-<pre><code>GET _tasks?detailed=true&amp;actions=*reindex
-</code></pre></li>
-<li><p>查看单个 task</p>
-<pre><code>GET /_tasks/taskId:1
-</code></pre></li>
-<li><p>删除某个 task</p>
-<pre><code>POST _tasks/task_id:1/_cancel
-</code></pre></li>
-</ul>
-<h2 id="null-value"><a href="#null-value" class="headerlink" title="null_value"></a>null_value</h2><p>null 值不能被索引和查询， null_value 可以明确的替换 null 值</p>
-<pre><code>PUT my_index
-{
-    &quot;mappings&quot;: {
-        &quot;_doc&quot;: {
-          &quot;properties&quot;: {
-            &quot;status_code&quot;: {
-              &quot;type&quot;:       &quot;keyword&quot;,
-              &quot;null_value&quot;: &quot;NULL&quot;
-            }
-          }
-        }
-    }
-}
-</code></pre><ul>
-<li>The null_value needs to be the same datatype as the field. For instance, a long field cannot have a string null_value.</li>
-<li>The null_value only influences how data is indexed, it doesn’t modify the _source document.</li>
-</ul>
-<h2 id="Completion-Suggester"><a href="#Completion-Suggester" class="headerlink" title="Completion Suggester"></a>Completion Suggester</h2><ul>
-<li><p>mapping</p>
-<pre><code>PUT music
-{
-    &quot;mappings&quot;: {
-        &quot;_doc&quot; : {
-            &quot;properties&quot; : {
-                &quot;suggest&quot; : {
-                    &quot;type&quot; : &quot;completion&quot;,
-                    &quot;analyzer&quot; : &quot;simple&quot;,
-                    &quot;search_analyzer&quot; : &quot;simple&quot;
-                },
-                &quot;title&quot; : {
-                    &quot;type&quot;: &quot;keyword&quot;
-                }
-            }
-        }
-    }   
-}
-</code></pre></li>
-<li><p>query ，_source 会影响查询效率</p>
-<pre><code>POST music/_search?pretty
-{
-    &quot;_source&quot;: &quot;suggest&quot;,
-    &quot;suggest&quot;: {
-        &quot;song-suggest&quot; : {
-            &quot;prefix&quot; : &quot;nir&quot;,
-            &quot;completion&quot; : {
-                &quot;field&quot; : &quot;suggest&quot;
-            },
-            &quot;size&quot;:10
-        }
-    }
-}
-</code></pre></li>
-<li><p>Whether duplicate suggestions should be filtered out (defaults to false).</p>
-<p>  The autocomplete suggester is document-oriented in Elasticsearch 5 and will thus return suggestions for all documents that match. In Elasticsearch 1 and 2, the autocomplete suggester automatically de-duplicated suggestions.</p>
-<pre><code>POST music/_search?pretty
-{
-    &quot;_source&quot;: &quot;suggest&quot;,
-    &quot;suggest&quot;: {
-        &quot;song-suggest&quot; : {
-            &quot;prefix&quot; : &quot;nir&quot;,
-            &quot;completion&quot; : {
-                &quot;field&quot; : &quot;suggest&quot;
-            },
-            &quot;size&quot;:10,
-            &quot;skip_duplicates&quot;:true
-        }
-    }
-}
-</code></pre></li>
-</ul>
-<h2 id="DSL"><a href="#DSL" class="headerlink" title="DSL"></a>DSL</h2><ul>
-<li><p>completion suggest sample</p>
-<pre><code>s = s.suggest(&apos;my_sugestion&apos;, keyword, completion={ &apos;field&apos; : &apos;name&apos;, &apos;size&apos;:100})
-</code></pre></li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/08/06/spider_court/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jokers">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jokers's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/08/06/spider_court/" itemprop="url">中国裁判文书网反爬机制更新</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-06T10:00:00+08:00">
-                2018-08-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/采集/" itemprop="url" rel="index">
-                    <span itemprop="name">采集</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/08/06/spider_court/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/08/06/spider_court/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="关于更新"><a href="#关于更新" class="headerlink" title="关于更新"></a>关于更新</h3><p>2019年1月12日，更新一次反爬机制。这里做记录，仅作为以后参考。</p>
-<ol>
-<li>又改了，没心情看改的什么。</li>
-<li>反编译了手机APP,直接请求接口。</li>
-<li>需要获得Token,Token会过期。</li>
-<li>也封IP，没有web端变态。</li>
-<li>变态的是每种查询条件只给20条。</li>
-<li>所以，拼条件吧。</li>
-</ol>
-<h3 id="关于更新-1"><a href="#关于更新-1" class="headerlink" title="关于更新"></a>关于更新</h3><p>2018年12月16日，更新一次反爬机制。这里做记录，仅作为以后参考。</p>
-<ol>
-<li>终于放大招了，开始封IP了，并且非常容易触发被封，我已经每30s访问一次了，依然绕不过。</li>
-<li>验证码改了，不规则的四位英文及数字，不像以前即使输入正确也要提交十几次才能通过。现在是如果被封IP，还是会弹验证码，但是验证成功也没用，还是会弹验证码，这个验证码有啥用呢。</li>
-<li>number不清楚，好像又得传了。</li>
-<li>买代理吧，</li>
-</ol>
-<h3 id="关于更新-2"><a href="#关于更新-2" class="headerlink" title="关于更新"></a>关于更新</h3><p>2018年11月29日，更新一次反爬机制。这里做记录，仅作为以后参考。</p>
-<ol>
-<li>在获取列表时，number不再是必传参数。</li>
-</ol>
-<h3 id="关于更新-3"><a href="#关于更新-3" class="headerlink" title="关于更新"></a>关于更新</h3><p>2018年8月18日，更新一次反爬机制。这里做记录，仅作为以后参考。</p>
-<ol>
-<li>在列表页获取详情页链接过程中，DocID作了加密，只要做一次解密DocID即可。</li>
-<li>AES双向对称加密，重点在与获取分发的密钥。</li>
-</ol>
-<h3 id="关于更新-4"><a href="#关于更新-4" class="headerlink" title="关于更新"></a>关于更新</h3><p>2018年8月15日，更新一次反爬机制。这里做记录，仅作为以后参考。</p>
-<ol>
-<li>vl5x的计算，计算vl5x的函数有修改。</li>
-</ol>
-<h3 id="关于更新-5"><a href="#关于更新-5" class="headerlink" title="关于更新"></a>关于更新</h3><p>2018年8月6日，更新一次反爬机制。这里做记录，仅作为以后参考。</p>
-<ol>
-<li><p>vl5x的计算，计算vl5x的函数相关函数又添加了一些。排查时最简单的方法就是用浏览器请求，拿到vjkl5，用现有解码的js函数执行得到结果和浏览器form里的vl5x进行比较。</p>
-</li>
-<li><p>在100页以内请求列表页过于频繁会跳验证码，想要成功验证，需要多次请求，一般十次以内。</p>
-</li>
-</ol>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/07/27/Scrapy/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jokers">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jokers's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/27/Scrapy/" itemprop="url">Scrapy+Scrapyd+Redis</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-27T14:05:00+08:00">
-                2018-07-27
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/采集/" itemprop="url" rel="index">
-                    <span itemprop="name">采集</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/07/27/Scrapy/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/07/27/Scrapy/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Scrapy"><a href="#Scrapy" class="headerlink" title="Scrapy"></a>Scrapy</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><pre><code>pip install scrapy
-</code></pre><ul>
-<li><p>某些系统会找不到 Twisted ，需要手动下载<a href="https://files.pythonhosted.org/packages/90/50/4c315ce5d119f67189d1819629cae7908ca0b0a6c572980df5cc6942bc22/Twisted-18.7.0.tar.bz2" target="_blank" rel="noopener">source</a>，解压后再安装</p>
-<pre><code>bzip2 -d Twisted-18.7.0.tar.bz2
-pip3 install Twisted-18.7.0.tar
-</code></pre></li>
-</ul>
-<h3 id="使用-scrapy-命令生成一个新的-project"><a href="#使用-scrapy-命令生成一个新的-project" class="headerlink" title="使用 scrapy 命令生成一个新的 project"></a>使用 scrapy 命令生成一个新的 project</h3><pre><code>scrapy startproject myproject
-
-myproject/
-    scrapy.cfg            # deploy configuration file
-
-    myproject/             # project&apos;s Python module, you&apos;ll import your code from here
-        __init__.py
-
-        items.py          # project items definition file
-
-        middlewares.py    # project middlewares file
-
-        pipelines.py      # project pipelines file
-
-        settings.py       # project settings file
-
-        spiders/          # a directory where you&apos;ll later put your spiders
-            __init__.py
-</code></pre><h3 id="在-tutorial-spiders-目录下创建第一个-spider"><a href="#在-tutorial-spiders-目录下创建第一个-spider" class="headerlink" title="在 tutorial/spiders 目录下创建第一个 spider"></a>在 tutorial/spiders 目录下创建第一个 spider</h3><pre><code>import scrapy
-
-
-class QuotesSpider(scrapy.Spider):
-    name = &quot;quotes&quot;
-
-    def start_requests(self):
-        urls = [
-            &apos;http://quotes.toscrape.com/page/1/&apos;,
-            &apos;http://quotes.toscrape.com/page/2/&apos;,
-        ]
-        for url in urls:
-            yield scrapy.Request(url=url, callback=self.parse)
-
-    def parse(self, response):
-        page = response.url.split(&quot;/&quot;)[-2]
-        filename = &apos;quotes-%s.html&apos; % page
-        with open(filename, &apos;wb&apos;) as f:
-            f.write(response.body)
-        self.log(&apos;Saved file %s&apos; % filename)
-</code></pre><h3 id="运行-spider-，在-project-的根目录运行"><a href="#运行-spider-，在-project-的根目录运行" class="headerlink" title="运行 spider ，在 project 的根目录运行"></a>运行 spider ，在 project 的根目录运行</h3><pre><code>scrapy crawl quotes
-</code></pre><h2 id="Scrapyd-，远程管理-Scrapy"><a href="#Scrapyd-，远程管理-Scrapy" class="headerlink" title="Scrapyd ，远程管理 Scrapy"></a>Scrapyd ，远程管理 Scrapy</h2><h3 id="安装-1"><a href="#安装-1" class="headerlink" title="安装"></a>安装</h3><pre><code>pip install scrapyd
-</code></pre><h3 id="远程访问，修改配置文件-site-packages-scrapyd-default-scrapyd-conf"><a href="#远程访问，修改配置文件-site-packages-scrapyd-default-scrapyd-conf" class="headerlink" title="远程访问，修改配置文件 site-packages/scrapyd/default_scrapyd.conf"></a>远程访问，修改配置文件 site-packages/scrapyd/default_scrapyd.conf</h3><pre><code>bind_address = 0.0.0.0
-</code></pre><h3 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h3><pre><code>scrapyd
-</code></pre><h3 id="Scrapy-project-部署到-Scrapyd"><a href="#Scrapy-project-部署到-Scrapyd" class="headerlink" title="Scrapy project 部署到 Scrapyd"></a>Scrapy project 部署到 Scrapyd</h3><ul>
-<li>eggifying the project</li>
-<li>uploading the egg to Scrapyd via the addversion.json</li>
-<li>以上手动步骤可以通过 scrapyd-client 提供的 scrapyd-deploy 工具实现</li>
-</ul>
-<h3 id="安装-scrapyd-client"><a href="#安装-scrapyd-client" class="headerlink" title="安装 scrapyd-client"></a>安装 scrapyd-client</h3><pre><code>pip install scrapyd-client
-</code></pre><h3 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h3><pre><code>scrapyd-deploy &lt;target&gt; -p &lt;project&gt;
-</code></pre><ul>
-<li><p>可以编辑 scrapy.cfg 设置默认值，免于指定 target 和 project</p>
-<pre><code>[deploy:target]
-url = http://localhost:6800/
-username = scrapy
-password = secret
-project = myproject
-</code></pre></li>
-<li><p>执行</p>
-<pre><code>scrapyd-deploy target
-</code></pre></li>
-</ul>
-<h3 id="schedule-a-spider-run"><a href="#schedule-a-spider-run" class="headerlink" title="schedule a spider run"></a>schedule a spider run</h3><pre><code>$ curl http://localhost:6800/schedule.json -d project=myproject -d spider=spider2
-{&quot;status&quot;: &quot;ok&quot;, &quot;jobid&quot;: &quot;26d1b1a6d6f111e0be5c001e648c57f8&quot;}
-</code></pre><h2 id="scrapy-redis-分布式"><a href="#scrapy-redis-分布式" class="headerlink" title="scrapy-redis 分布式"></a>scrapy-redis 分布式</h2><h3 id="安装Redis"><a href="#安装Redis" class="headerlink" title="安装Redis"></a>安装Redis</h3><pre><code>yum install redis
-pip install scrapy-redis
-</code></pre><h3 id="配置Redis-，编辑-etc-redis-conf"><a href="#配置Redis-，编辑-etc-redis-conf" class="headerlink" title="配置Redis ，编辑 /etc/redis.conf"></a>配置Redis ，编辑 /etc/redis.conf</h3><ul>
-<li><p>设置访问密码</p>
-<pre><code>requirepass password
-</code></pre></li>
-<li><p>注释 bind ，可远程访问</p>
-<pre><code># bind 127.0.0.1 ::1
-</code></pre></li>
-</ul>
-<h3 id="编辑-project-的-settings-py"><a href="#编辑-project-的-settings-py" class="headerlink" title="编辑 project 的 settings.py"></a>编辑 project 的 settings.py</h3><pre><code># Enables scheduling storing requests queue in redis.
-SCHEDULER = &quot;scrapy_redis.scheduler.Scheduler&quot;
-
-# Ensure all spiders share same duplicates filter through redis.
-DUPEFILTER_CLASS = &quot;scrapy_redis.dupefilter.RFPDupeFilter&quot;
-
-# Store scraped item in redis for post-processing.
-ITEM_PIPELINES = {
-    &apos;scrapy_redis.pipelines.RedisPipeline&apos;: 300
-}
-
-# Specify the full Redis URL for connecting (optional).
-# If set, this takes precedence over the REDIS_HOST and REDIS_PORT settings.
-REDIS_URL = &apos;redis://user:password@host:6379&apos;
-</code></pre><h3 id="运行-spider-，在-project-的根目录运行-1"><a href="#运行-spider-，在-project-的根目录运行-1" class="headerlink" title="运行 spider ，在 project 的根目录运行"></a>运行 spider ，在 project 的根目录运行</h3><pre><code>scrapy crawl quotes
-</code></pre><h3 id="处理-Item"><a href="#处理-Item" class="headerlink" title="处理 Item"></a>处理 Item</h3><p>所有 Item 保存在 Redis ，key 为 quotes:items ，可以写脚本保存到数据库。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/06/12/spark-HelloWorld/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jokers">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jokers's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/06/12/spark-HelloWorld/" itemprop="url">Spark</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-12T17:46:35+08:00">
-                2018-06-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Hadoop/" itemprop="url" rel="index">
-                    <span itemprop="name">Hadoop</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/06/12/spark-HelloWorld/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/06/12/spark-HelloWorld/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><ul>
-<li><p>安装JAVA</p>
-<pre><code>$ java -version
-</code></pre></li>
-<li><p>安装Scala</p>
-<pre><code>$ wget https://downloads.lightbend.com/scala/2.12.6/scala-2.12.6.rpm
-$ sudo rpm -ivh scala-2.12.6.rpm
-$ scala -version
-</code></pre></li>
-<li><p>安装Spark</p>
-<pre><code>$ wget http://mirrors.hust.edu.cn/apache/spark/spark-2.3.1/spark-2.3.1-bin-hadoop2.7.tgz
-$ tar xvf spark-2.3.1-bin-hadoop2.7.tgz
-$ sudo mv spark-2.3.1-bin-hadoop2.7/* /usr/local/spark
-
-$ vim ~/.bashrc
-export PATH = $PATH:/usr/local/spark/bin
-$ source ~/.bashrc
-
-$ spark-shell
-</code></pre></li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2701,7 +2996,7 @@ $ spark-shell
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-count">39</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2712,7 +3007,7 @@ $ spark-shell
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

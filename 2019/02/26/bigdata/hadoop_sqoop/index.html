@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="MapReduce需要使用额外的API与存储在HDFS外的数据交互。例如，数据经常存储在RDBMS，开源的工具Sqoop允许用户将结构化数据提取到Hadoop，使用MapReduce处理或者更高级的工具(例如hive)。Sqoop可以将处理的最终结果导出到RDBMS。 Getting Sqoop列出Sqoop所有的工具    % sqoop help 列出具体工具的使用说明    % sqoop">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Sqoop">
+<meta property="og:url" content="http://thathub.com/2019/02/26/bigdata/hadoop_sqoop/index.html">
+<meta property="og:site_name" content="Jokers&#39;s Blog">
+<meta property="og:description" content="MapReduce需要使用额外的API与存储在HDFS外的数据交互。例如，数据经常存储在RDBMS，开源的工具Sqoop允许用户将结构化数据提取到Hadoop，使用MapReduce处理或者更高级的工具(例如hive)。Sqoop可以将处理的最终结果导出到RDBMS。 Getting Sqoop列出Sqoop所有的工具    % sqoop help 列出具体工具的使用说明    % sqoop">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-04-23T03:42:54.695Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Sqoop">
+<meta name="twitter:description" content="MapReduce需要使用额外的API与存储在HDFS外的数据交互。例如，数据经常存储在RDBMS，开源的工具Sqoop允许用户将结构化数据提取到Hadoop，使用MapReduce处理或者更高级的工具(例如hive)。Sqoop可以将处理的最终结果导出到RDBMS。 Getting Sqoop列出Sqoop所有的工具    % sqoop help 列出具体工具的使用说明    % sqoop">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://thathub.com/2019/02/26/bigdata/hadoop_sqoop/"/>
+
+
+
+
+
+  <title>Sqoop | Jokers's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jokers's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">高尚是高尚者的墓志铭 卑鄙是卑鄙者的通行证</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2019/02/26/bigdata/hadoop_sqoop/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Sqoop</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-26T09:38:00+08:00">
+                2019-02-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/BigData/" itemprop="url" rel="index">
+                    <span itemprop="name">BigData</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/02/26/bigdata/hadoop_sqoop/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2019/02/26/bigdata/hadoop_sqoop/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>MapReduce需要使用额外的API与存储在HDFS外的数据交互。例如，数据经常存储在RDBMS，开源的工具Sqoop允许用户将结构化数据提取到Hadoop，使用MapReduce处理或者更高级的工具(例如hive)。Sqoop可以将处理的最终结果导出到RDBMS。</p>
+<h3 id="Getting-Sqoop"><a href="#Getting-Sqoop" class="headerlink" title="Getting Sqoop"></a>Getting Sqoop</h3><p>列出Sqoop所有的工具<br>    % sqoop help</p>
+<p>列出具体工具的使用说明<br>    % sqoop help import</p>
+<h3 id="Sqoop-Connectors"><a href="#Sqoop-Connectors" class="headerlink" title="Sqoop Connectors"></a>Sqoop Connectors</h3><p>Sqoop connector是一个模块化的组件，使得Sqoop可以将数据导入或导出到其它数据库(MySQL, PostgreSQL, Oracle, SQL Server, DB2, and Netezza)。如果数据库支持JDBC协议，可以使用通用的JDBC connector。Sqoop提供优化(MySQL, PostgreSQL, Oracle, and Netezza)后的connector，使用数据库定义的API，执行批量数据传输效率更高。</p>
+<h3 id="A-Sample-Import"><a href="#A-Sample-Import" class="headerlink" title="A Sample Import"></a>A Sample Import</h3><p>我们先下载MySQL的JDBC driver JAR文件，放到Sqoop的lib目录下。<br>将数据表导入到HDFS<br>    % sqoop import –connect jdbc:mysql://localhost/mydatabase –table mytable -m 1<br>sqoop的导入工具将运行一个MapReduce工作，连接数据库并读表。默认开启4个map并行任务加快导入速度。每个任务导入到不同的文件，但是都在同一个目录下。(-m 1)指定单独的map任务。<br>检查导入的文件:<br>    % hadoop fs -cat widgets/part-m-00000<br>Sqoop默认导入逗号分割的文本文件，分割符可以明确指定，以及允许字段内容存在分割符的字段封闭符和转义符。</p>
+<h3 id="Imports-A-Deeper-Look"><a href="#Imports-A-Deeper-Look" class="headerlink" title="Imports: A Deeper Look"></a>Imports: A Deeper Look</h3><p>分割数据到多个map任务可以提高导入性能，Sqoop通常会选择主键作为分割依据。<br>假设有100.000行数据，id为0-99.999，5个map分别执行查询：<br>    SELECT id, widget_name, … FROM widgets WHERE id &gt;= 0 AND id &lt; 20000 ,<br>    SELECT id, widget_name, … FROM widgets WHERE id &gt;= 20000 AND id &lt; 40000 ,<br>    and so on.<br>如果id非均匀分布，一些map会有很少甚至没有导入工作。用户可以指定字段作为分割依据(via the –split-by argument)。</p>
+<h4 id="Controlling-the-Import"><a href="#Controlling-the-Import" class="headerlink" title="Controlling the Import"></a>Controlling the Import</h4><p>Sqoop不需要每次导入全部数据，可以导入表的子集，通过 –where 参数。<br>指定 –query参数，可以执行更多的控制。</p>
+<h4 id="Incremental-Imports"><a href="#Incremental-Imports" class="headerlink" title="Incremental Imports"></a>Incremental Imports</h4><p>增量导入很常见，为了识别新数据，–check-column指定字段，–last-value指定值大于的数值。<br>这种方法适合新增而没有更新的情况，称为append模式。通过–incremental append激活。如果某一列记录最后更新时间，可以基于时间进行增量导入，通过–incremental lastmodified激活。<br>增量导入以后，Sqoop将打印出作为下次使用的last-value。手工导入时很有用，但是定期导入最好使用Sqoop的saved job工具，自动保存last value并用于下次job。sqoop job –hlep</p>
+<h4 id="Direct-Mode-Imports"><a href="#Direct-Mode-Imports" class="headerlink" title="Direct-Mode Imports"></a>Direct-Mode Imports</h4><p>Sqoop有很多测律执行导入。有些数据库提供更快提取数据的工具，例如MySQL的mysqldump,这些工具的使用称为direct mode(via the –direct argument)。但是MySQL的direct mode不能处理大的对象，例如CLOB或者BLOB字段，所以Sqoop需要JDBC加载这些字段。因此direct mode不能像JDBC一样实现通用的目的。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/31/bigdata/hadoop_guide/" rel="next" title="hadoop2指南">
+                <i class="fa fa-chevron-left"></i> hadoop2指南
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/01/quant/" rel="prev" title="vnpy">
+                vnpy <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="Jokers" />
+          <p class="site-author-name" itemprop="name">Jokers</p>
+           
+              <p class="site-description motion-element" itemprop="description">hlxstc680@gmail.com</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Getting-Sqoop"><span class="nav-number">1.</span> <span class="nav-text">Getting Sqoop</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Sqoop-Connectors"><span class="nav-number">2.</span> <span class="nav-text">Sqoop Connectors</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#A-Sample-Import"><span class="nav-number">3.</span> <span class="nav-text">A Sample Import</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Imports-A-Deeper-Look"><span class="nav-number">4.</span> <span class="nav-text">Imports: A Deeper Look</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Controlling-the-Import"><span class="nav-number">4.1.</span> <span class="nav-text">Controlling the Import</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Incremental-Imports"><span class="nav-number">4.2.</span> <span class="nav-text">Incremental Imports</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Direct-Mode-Imports"><span class="nav-number">4.3.</span> <span class="nav-text">Direct-Mode Imports</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jokers</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://thathub-com.disqus.com.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://thathub.com/2019/02/26/bigdata/hadoop_sqoop/';
+          this.page.identifier = '2019/02/26/bigdata/hadoop_sqoop/';
+          this.page.title = 'Sqoop';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://thathub-com.disqus.com.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="线性表逻辑结构n个数据元素构成的有限序列。有且仅有一个开始结点a(1)，它没有直接前趋，仅有一直接后继。有且仅有一个终端点a(n)，它没有直接后继，仅有一个直接前趋。其余结点都仅有一个直接前趋和直接后继。数据运算定义在逻辑结构，而具体实现在存储结构上。 线性表的顺序存储结构把线性表的结点按逻辑次序依次存放在一组连续的存储单元里。简称顺序表。高级语言中向量或一维数组采用顺序存储，可用来描述顺序表。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构">
+<meta property="og:url" content="http://thathub.com/2018/11/05/data_structure/dataStructure/index.html">
+<meta property="og:site_name" content="Jokers&#39;s Blog">
+<meta property="og:description" content="线性表逻辑结构n个数据元素构成的有限序列。有且仅有一个开始结点a(1)，它没有直接前趋，仅有一直接后继。有且仅有一个终端点a(n)，它没有直接后继，仅有一个直接前趋。其余结点都仅有一个直接前趋和直接后继。数据运算定义在逻辑结构，而具体实现在存储结构上。 线性表的顺序存储结构把线性表的结点按逻辑次序依次存放在一组连续的存储单元里。简称顺序表。高级语言中向量或一维数组采用顺序存储，可用来描述顺序表。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-04-23T03:48:59.937Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据结构">
+<meta name="twitter:description" content="线性表逻辑结构n个数据元素构成的有限序列。有且仅有一个开始结点a(1)，它没有直接前趋，仅有一直接后继。有且仅有一个终端点a(n)，它没有直接后继，仅有一个直接前趋。其余结点都仅有一个直接前趋和直接后继。数据运算定义在逻辑结构，而具体实现在存储结构上。 线性表的顺序存储结构把线性表的结点按逻辑次序依次存放在一组连续的存储单元里。简称顺序表。高级语言中向量或一维数组采用顺序存储，可用来描述顺序表。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://thathub.com/2018/11/05/data_structure/dataStructure/"/>
+
+
+
+
+
+  <title>数据结构 | Jokers's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jokers's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">高尚是高尚者的墓志铭 卑鄙是卑鄙者的通行证</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/11/05/data_structure/dataStructure/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">数据结构</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-05T07:00:00+08:00">
+                2018-11-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Data-Structure/" itemprop="url" rel="index">
+                    <span itemprop="name">Data Structure</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/11/05/data_structure/dataStructure/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/11/05/data_structure/dataStructure/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="线性表"><a href="#线性表" class="headerlink" title="线性表"></a>线性表</h2><h3 id="逻辑结构"><a href="#逻辑结构" class="headerlink" title="逻辑结构"></a>逻辑结构</h3><p>n个数据元素构成的有限序列。有且仅有一个开始结点a(1)，它没有直接前趋，仅有一直接后继。有且仅有一个终端点a(n)，它没有直接后继，仅有一个直接前趋。其余结点都仅有一个直接前趋和直接后继。<br>数据运算定义在逻辑结构，而具体实现在存储结构上。</p>
+<h3 id="线性表的顺序存储结构"><a href="#线性表的顺序存储结构" class="headerlink" title="线性表的顺序存储结构"></a>线性表的顺序存储结构</h3><p>把线性表的结点按逻辑次序依次存放在一组连续的存储单元里。简称顺序表。<br>高级语言中向量或一维数组采用顺序存储，可用来描述顺序表。</p>
+<pre><code># define ListSize 100
+typedef int DataType;
+typedef struct {
+    DataType data[ListSize];
+    int length;
+}SeqList;
+</code></pre><h3 id="线性表的链式存储结构"><a href="#线性表的链式存储结构" class="headerlink" title="线性表的链式存储结构"></a>线性表的链式存储结构</h3><p>顺序存储结构的插入和删除操作会移动大量结点，为避免大量结点的移动，可使用链式存储结构。链式存储还可用于各种非线形的逻辑结构。<br>物理存储单元的地址可以不连续，单链表每个结点除了存储值以外还要存储后继结点的地址。<br>c语言描述如下：</p>
+<pre><code>typedef char DataType;
+typedef struct node{
+    DataType value;
+    struct node * next;
+}ListNode;
+typedef ListNode * LinkList;
+LinkList head;
+ListNode * p;
+</code></pre><p>ListNode * 和 LinkList 是同一个指针类型，命名不同的目的是概念上更明确。head表示单链表的头指针，p表示结点指针。<br>p的值是某一节点地址，程序执行过程中生成属于动态变量，通过标准函数生成，即：</p>
+<pre><code>p = (ListNode * )malloc(sizeof(ListNode))
+</code></pre><h2 id="栈和队列"><a href="#栈和队列" class="headerlink" title="栈和队列"></a>栈和队列</h2><p>逻辑结构与线性表相同，又称为运算受限的线性表。</p>
+<h3 id="栈"><a href="#栈" class="headerlink" title="栈"></a>栈</h3><p>顺序栈的定义</p>
+<pre><code># define StackSize 100
+typedef char DataType;
+typedef struct{
+    DataType data[StackSize];
+    int top; # 指示当前栈顶位置，又称栈顶指针
+}SeqStack;
+</code></pre><h3 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h3><p>顺序队列，分别设置队头front指针和队尾rear指针。初值均为0。当插入元素时，插入rear所指位置，rear加1。当删除元素时，删除front所指位置，front加1。可见当front==rear时，队列为空。为防止假上溢现象，将向量空间想像为首尾相接的循环向量称为循环队列。<br>加1操作可描述为模运算</p>
+<pre><code>i = (i+1)%QueueSize;
+</code></pre><p>注意，循环队列front==rear时，可能是队列满<br>循环队列定义</p>
+<pre><code># define QueueSize 100
+typedef char DataType;
+typedef struct{
+    DataType data[QueueSize];
+    int front;
+    int rear;
+    int count; # 区分队列空或满
+}
+</code></pre><h3 id="栈和队列应用实例"><a href="#栈和队列应用实例" class="headerlink" title="栈和队列应用实例"></a>栈和队列应用实例</h3><ul>
+<li><p>十进制整数N转换为B进制数</p>
+<pre><code>void MultiBaseOutput(int N, int B){
+    SeqStack S;
+    while(N != 0){
+        push(&amp;S, N%B);
+        N = N/B #整除
+    }
+    while(!StackEmpty(S)){
+        pop(&amp;S);
+        printf(&quot;%d&quot;, i);
+    }
+}
+</code></pre></li>
+</ul>
+<p>时间复杂度为O(log(B)N)</p>
+<ul>
+<li>递归</li>
+</ul>
+<p>递归设计步骤：1、分解为类似原问题特性的子问题。2、保证有限次递归后满足终止条件</p>
+<h2 id="树"><a href="#树" class="headerlink" title="树"></a>树</h2><h3 id="树的基本概念"><a href="#树的基本概念" class="headerlink" title="树的基本概念"></a>树的基本概念</h3><ul>
+<li>树是一种非常重要的非线性结构</li>
+<li>一个结点拥有的子树称为该结点的度，树的度为结点最大度数。度为零的结点称为叶子结点。</li>
+<li>结点的层数从根算起，最大层数称为树的高度或深度</li>
+</ul>
+<h3 id="二叉树"><a href="#二叉树" class="headerlink" title="二叉树"></a>二叉树</h3><ul>
+<li>二叉树第i层的结点个数最多是2^(i-1)</li>
+<li>深度为k的二叉树至多有2^k-1个结点</li>
+<li>终端结点即度数为0的结点个数为n0，度数为2的结点个树是n2，有n0=n2+1</li>
+<li>满二叉树，深度位k且有2^k-1个结点</li>
+<li>完全二叉树，最底层的结点集中在左边</li>
+</ul>
+<h3 id="二叉树的链式存储"><a href="#二叉树的链式存储" class="headerlink" title="二叉树的链式存储"></a>二叉树的链式存储</h3><pre><code>typedef char DataType;
+typedef struct node{
+    DataType data;
+    struct node * left;
+    struct node * right;
+}BinTNode;
+typedef BinTNode * BinTree;
+</code></pre><h3 id="二叉树的遍历"><a href="#二叉树的遍历" class="headerlink" title="二叉树的遍历"></a>二叉树的遍历</h3><p>前序遍历，中序遍历，后序遍历</p>
+<pre><code># 前序遍历
+void Inorder(BinTree T){
+    if(T){
+        Iorder(T-&gt;lchild);
+        print(&quot;%c&quot;, T-&gt;data)
+        Iorder(T-&gt;rchild);
+    }
+}
+
+# 先序序列构建二叉树
+void createBinTree(BinTree T){
+    char c;
+    c = getchar();
+    if(c == &apos; &apos;){
+        T = NULL;
+    }else{
+        T = (BinTNode * )malloc(sizeof(BinTNode));
+        T -&gt; data = c;
+        createBinTree(T -&gt; lchild);
+        createBinTree(T -&gt; rchild);
+    }   
+}
+</code></pre><h2 id="图"><a href="#图" class="headerlink" title="图"></a>图</h2><h3 id="图的基本概念"><a href="#图的基本概念" class="headerlink" title="图的基本概念"></a>图的基本概念</h3><ul>
+<li>G = (V, E)</li>
+<li>有n(n-1)/2条边的图称为完全无向图</li>
+<li>有n(n-1)条边的图称为完全有向图</li>
+<li>无向图顶点v的度是关于该顶点边的数目，记为D(v)</li>
+<li>有向图为入度和出度</li>
+<li>边数 = (1/2)度数和</li>
+<li>无向图，若任意顶点连通，称G为连通图</li>
+</ul>
+<h3 id="图的存储结构"><a href="#图的存储结构" class="headerlink" title="图的存储结构"></a>图的存储结构</h3><ul>
+<li><p>邻接矩阵表示法</p>
+<pre><code># define MaxVertexNum 100
+typedef char VertexType;
+typedef int EdgeType;
+typedef struct{
+    VertexType vexs[MaxVertexNum];
+    EdgeType edges[MaxVertexNum][MaxVertexNum];
+    int n, e;
+}MGraph;
+</code></pre></li>
+<li><p>邻接矩阵无向图创建</p>
+<pre><code>void createGraph(MGraph * g){
+    int i, j, k, w;
+    scanf(&quot;%d%d&quot;, &amp;g-&gt;n, &amp;g-&gt;e);
+    for(i=0; i&lt;g-&gt;n; i++){
+        g-&gt;vexs[i] = getchar();
+    }
+    for(i=0; i&lt;g-&gt;e; i++){
+        for(j=0; j&lt;g-&gt;e; j++){
+            g-&gt;edges[i][j] = 0;
+        }
+    }
+    for(k=0; k&lt;G-&gt;e; k++){
+        scanf(&quot;%d%d%d&quot;, &amp;i, &amp;j, &amp;w);
+        g-&gt;edges[i][j] = w;
+        g-&gt;edges[j][i] = w;
+    }
+}
+</code></pre></li>
+</ul>
+<h3 id="图遍历"><a href="#图遍历" class="headerlink" title="图遍历"></a>图遍历</h3><ul>
+<li><p>深度优先遍历</p>
+<pre><code>int visited[MaxVertexNum];
+void DFTraversal(MGraph * g){
+    int i;
+    for(i=0; i&lt;g-&gt;n; i++){
+        visited[i] = 0;
+    }
+    for(i=0; i&lt;g-&gt;n; i++){
+        if(visited[i] == 0){
+            DFS(g, i);
+        }
+    }
+}
+void DFS(MGraph * g, i){
+    int j;
+    printf(&quot;%c&quot;, g-&gt;vexs[i]);
+    visited[i] = 1;
+    for(j=1; j&lt;g-&gt;n, j++){
+        if(g-&gt;edges[i][j] != 0 &amp;&amp; visited[i] == 0){
+            DFS(g, j);
+        }
+    }
+}
+</code></pre></li>
+<li><p>广度优先遍历</p>
+<pre><code>int visited[MaxVertexNum];
+void DFTraversal(MGraph * g){
+    int i;
+    for(i=0; i&lt;g-&gt;n; i++){
+        visited[i] = 0;
+    }
+    for(i=0; i&lt;g-&gt;n; i++){
+        if(visited[i] == 0){
+            BFS(g, i);
+        }
+    }
+}
+void BFS(MGraph * g, i){
+    int j;
+    printf(&quot;%c&quot;, g-&gt;vexs[i]);
+    visited[i] = 1;
+    EnQueue(i); //队列，先进先出
+    while(!QueueEmpty()){
+        i = DeQueue();
+        for(j=1; j&lt;g-&gt;n, j++){
+            if(g-&gt;edges[i][j] != 0 &amp;&amp; visited[i] == 0){
+                printf(&quot;%c&quot;, g-&gt;vexs[j]);
+                EnQueue(j);
+            }
+        }
+    }
+}
+</code></pre></li>
+</ul>
+<h2 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h2><h3 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h3><ul>
+<li><p>直接插入排序</p>
+<pre><code># define n 100
+typedef struct{
+    int key;
+}RecType;
+
+typedef RecType SeqList[n+1];
+
+void insertSort(SeqList R){
+    int i, j, k;
+    // 循环
+    for(i=2; i&lt;=n; i++){
+        R[0].key = R[i].key;
+        for(j=i-1; j&gt;=0; j--){
+            if(R[j].key &lt;= R[i].key){
+                break;
+            }
+        }
+        if(j &lt; i-1){
+            for(k=i-1; k&gt;j; k--){
+                R[k+1].key = R[k].key;
+            }
+            R[j+1].key = R[0].key;
+        }
+    }
+}
+</code></pre></li>
+<li><p>希尔排序</p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/10/21/computer_network/" rel="next" title="计算机网络原理">
+                <i class="fa fa-chevron-left"></i> 计算机网络原理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/11/05/data_structure/dataStructure_multiArr/" rel="prev" title="数据结构--多维数组">
+                数据结构--多维数组 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="Jokers" />
+          <p class="site-author-name" itemprop="name">Jokers</p>
+           
+              <p class="site-description motion-element" itemprop="description">hlxstc680@gmail.com</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#线性表"><span class="nav-number">1.</span> <span class="nav-text">线性表</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#逻辑结构"><span class="nav-number">1.1.</span> <span class="nav-text">逻辑结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线性表的顺序存储结构"><span class="nav-number">1.2.</span> <span class="nav-text">线性表的顺序存储结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线性表的链式存储结构"><span class="nav-number">1.3.</span> <span class="nav-text">线性表的链式存储结构</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#栈和队列"><span class="nav-number">2.</span> <span class="nav-text">栈和队列</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#栈"><span class="nav-number">2.1.</span> <span class="nav-text">栈</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#队列"><span class="nav-number">2.2.</span> <span class="nav-text">队列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#栈和队列应用实例"><span class="nav-number">2.3.</span> <span class="nav-text">栈和队列应用实例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#树"><span class="nav-number">3.</span> <span class="nav-text">树</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#树的基本概念"><span class="nav-number">3.1.</span> <span class="nav-text">树的基本概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二叉树"><span class="nav-number">3.2.</span> <span class="nav-text">二叉树</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二叉树的链式存储"><span class="nav-number">3.3.</span> <span class="nav-text">二叉树的链式存储</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二叉树的遍历"><span class="nav-number">3.4.</span> <span class="nav-text">二叉树的遍历</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图"><span class="nav-number">4.</span> <span class="nav-text">图</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#图的基本概念"><span class="nav-number">4.1.</span> <span class="nav-text">图的基本概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#图的存储结构"><span class="nav-number">4.2.</span> <span class="nav-text">图的存储结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#图遍历"><span class="nav-number">4.3.</span> <span class="nav-text">图遍历</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#排序"><span class="nav-number">5.</span> <span class="nav-text">排序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#插入排序"><span class="nav-number">5.1.</span> <span class="nav-text">插入排序</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jokers</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://thathub-com.disqus.com.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://thathub.com/2018/11/05/data_structure/dataStructure/';
+          this.page.identifier = '2018/11/05/data_structure/dataStructure/';
+          this.page.title = '数据结构';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://thathub-com.disqus.com.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

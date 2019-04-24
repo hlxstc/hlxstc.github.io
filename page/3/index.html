@@ -273,6 +273,1143 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/08/15/bigdata/reverse_proxy/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/15/bigdata/reverse_proxy/" itemprop="url">Nginx作反向代理保护Kibana</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-15T17:36:00+08:00">
+                2018-08-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/BigData/" itemprop="url" rel="index">
+                    <span itemprop="name">BigData</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/08/15/bigdata/reverse_proxy/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/08/15/bigdata/reverse_proxy/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="安装-Nginx-，先安装-EPEL-repository"><a href="#安装-Nginx-，先安装-EPEL-repository" class="headerlink" title="安装 Nginx ，先安装 EPEL repository"></a>安装 Nginx ，先安装 EPEL repository</h3><pre><code>$ yum install epel-release
+$ yum install nginx
+$ systemctl start nginx
+$ systemctl enable nginx
+</code></pre><h3 id="httpd-tools-setting-up-an-HTTP-authentication"><a href="#httpd-tools-setting-up-an-HTTP-authentication" class="headerlink" title="httpd-tools, setting up an HTTP authentication"></a>httpd-tools, setting up an HTTP authentication</h3><pre><code>$ yum install httpd-tools
+</code></pre><ul>
+<li><p>create a “.htpasswd” file to store our credential data such as Usernames and Passwords in an encrypted format</p>
+<pre><code>$ htpasswd -c [filename] /etc/nginx/ username
+</code></pre></li>
+</ul>
+<h3 id="Configuring-Nginx"><a href="#Configuring-Nginx" class="headerlink" title="Configuring Nginx"></a>Configuring Nginx</h3><pre><code>$ /etc/nginx/nginx.conf
+</code></pre><ul>
+<li><p>Find the “server” directive and change it  like below:</p>
+<pre><code>server {
+    listen 80;
+    server_name \_;
+    location ~ ^/kibana/(.\*)$ {
+        rewrite /kibana/(.\*) /$1 break;
+        proxy_pass http://127.0.0.1:9396;
+        auth_basic &quot;Restricted&quot;;
+        auth_basic_user_file /etc/nginx/.htpasswd;
+    }
+}
+</code></pre></li>
+<li><p>检查 Nginx 配置</p>
+<pre><code>$ nginx -t
+</code></pre></li>
+<li><p>重启 Nginx</p>
+<pre><code>$ systemctl restart nginx
+</code></pre></li>
+</ul>
+<h3 id="Configuring-Kibnana"><a href="#Configuring-Kibnana" class="headerlink" title="Configuring Kibnana"></a>Configuring Kibnana</h3><ul>
+<li><p>打开配置文件</p>
+<pre><code>$ vim /etc/kibana/kibana.yml
+</code></pre></li>
+<li><p>添加</p>
+<pre><code>server.basePath: &quot;/kibana&quot;
+</code></pre></li>
+<li><p>重启 Kibana</p>
+<pre><code>$ systemctl restart Kibana
+</code></pre></li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/08/14/bigdata/elastcsearch-command/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/14/bigdata/elastcsearch-command/" itemprop="url">Elasticsearch常用操作</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-14T15:36:00+08:00">
+                2018-08-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/BigData/" itemprop="url" rel="index">
+                    <span itemprop="name">BigData</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/08/14/bigdata/elastcsearch-command/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/08/14/bigdata/elastcsearch-command/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Reindex"><a href="#Reindex" class="headerlink" title="Reindex"></a>Reindex</h2><ol>
+<li>新建一个 index ，复制原 index 的 mappings 和 settings</li>
+<li><p>设置新 index 的 refresh_interval 为-1， number_of_replicas 为 0， reindex 效率更高</p>
+<pre><code>PUT /twitter/_settings
+{
+    &quot;index&quot; : {
+        &quot;number_of_replicas&quot; : 0
+    }
+}
+
+PUT /twitter/_settings
+{
+    &quot;index&quot; : {
+        &quot;refresh_interval&quot; : &quot;-1&quot;
+    }
+}
+</code></pre></li>
+<li><p>reindex api</p>
+<ul>
+<li><p>Just leaving out version_type (as above) or setting it to internal will cause Elasticsearch to blindly dump documents into the target, overwriting any that happen to have the same type and id:</p>
+<pre><code>POST _reindex
+{
+    &quot;source&quot;: {
+        &quot;index&quot;: &quot;twitter&quot;
+    },
+    &quot;dest&quot;: {
+        &quot;index&quot;: &quot;new_twitter&quot;,
+        &quot;version_type&quot;: &quot;internal&quot;
+    }
+}
+</code></pre></li>
+<li><p>Setting version_type to external will cause Elasticsearch to preserve the version from the source, create any documents that are missing, and update any documents that have an older version in the destination index than they do in the source index</p>
+<pre><code>POST _reindex
+{
+    &quot;source&quot;: {
+        &quot;index&quot;: &quot;twitter&quot;
+    },
+    &quot;dest&quot;: {
+        &quot;index&quot;: &quot;new_twitter&quot;,
+        &quot;version_type&quot;: &quot;external&quot;
+    }
+}
+</code></pre></li>
+<li><p>Settings op_type to create will cause _reindex to only create missing documents in the target index. All existing documents will cause a version conflic</p>
+<pre><code>POST _reindex
+{
+    &quot;source&quot;: {
+        &quot;index&quot;: &quot;twitter&quot;
+    },
+    &quot;dest&quot;: {
+        &quot;index&quot;: &quot;new_twitter&quot;,
+        &quot;op_type&quot;: &quot;create&quot;
+    }
+}
+</code></pre></li>
+<li><p>By default version conflicts abort the _reindex process but you can just count them by settings “conflicts”: “proceed” in the request body</p>
+<pre><code>POST _reindex
+{
+    &quot;conflicts&quot;: &quot;proceed&quot;,
+    &quot;source&quot;: {
+        &quot;index&quot;: &quot;twitter&quot;
+    },
+    &quot;dest&quot;: {
+        &quot;index&quot;: &quot;new_twitter&quot;,
+        &quot;op_type&quot;: &quot;create&quot;
+    }
+}
+</code></pre></li>
+<li><p>如果某个字段设置了 completion suggest ,重建索引时或则索引数据时因相应字段为空会报错</p>
+<pre><code># value must have a length &gt; 0
+# elasticsearch completion field does not support null values
+
+POST _reindex
+{
+    &quot;source&quot;: {
+        &quot;index&quot;: &quot;twitter&quot;
+    },
+    &quot;dest&quot;: {
+        &quot;index&quot;: &quot;new_twitter&quot;
+    }
+}
+&quot;script&quot;: {
+    &quot;source&quot;: &quot;if (ctx._source.name == null || ctx._source.name == &apos;&apos;) {ctx._source.tmname=&apos; &apos;}&quot;,
+    &quot;lang&quot;: &quot;painless&quot;
+}
+</code></pre></li>
+<li><p>kibana 30s 后返回 timeout ，在请求后跟参数 ?wait_for_completion=true</p>
+</li>
+</ul>
+</li>
+<li><p>重新设置 refresh_interval 和 number_of_replicas</p>
+</li>
+<li>等待 index 状态 变为 green</li>
+<li>添加 aliases</li>
+</ol>
+<h2 id="Reindex-task"><a href="#Reindex-task" class="headerlink" title="Reindex task"></a>Reindex task</h2><ul>
+<li><p>获取正在运行的 reindex</p>
+<pre><code>GET _tasks?detailed=true&amp;actions=*reindex
+</code></pre></li>
+<li><p>查看单个 task</p>
+<pre><code>GET /_tasks/taskId:1
+</code></pre></li>
+<li><p>删除某个 task</p>
+<pre><code>POST _tasks/task_id:1/_cancel
+</code></pre></li>
+</ul>
+<h2 id="null-value"><a href="#null-value" class="headerlink" title="null_value"></a>null_value</h2><p>null 值不能被索引和查询， null_value 可以明确的替换 null 值</p>
+<pre><code>PUT my_index
+{
+    &quot;mappings&quot;: {
+        &quot;_doc&quot;: {
+          &quot;properties&quot;: {
+            &quot;status_code&quot;: {
+              &quot;type&quot;:       &quot;keyword&quot;,
+              &quot;null_value&quot;: &quot;NULL&quot;
+            }
+          }
+        }
+    }
+}
+</code></pre><ul>
+<li>The null_value needs to be the same datatype as the field. For instance, a long field cannot have a string null_value.</li>
+<li>The null_value only influences how data is indexed, it doesn’t modify the _source document.</li>
+</ul>
+<h2 id="Completion-Suggester"><a href="#Completion-Suggester" class="headerlink" title="Completion Suggester"></a>Completion Suggester</h2><ul>
+<li><p>mapping</p>
+<pre><code>PUT music
+{
+    &quot;mappings&quot;: {
+        &quot;_doc&quot; : {
+            &quot;properties&quot; : {
+                &quot;suggest&quot; : {
+                    &quot;type&quot; : &quot;completion&quot;,
+                    &quot;analyzer&quot; : &quot;simple&quot;,
+                    &quot;search_analyzer&quot; : &quot;simple&quot;
+                },
+                &quot;title&quot; : {
+                    &quot;type&quot;: &quot;keyword&quot;
+                }
+            }
+        }
+    }   
+}
+</code></pre></li>
+<li><p>query ，_source 会影响查询效率</p>
+<pre><code>POST music/_search?pretty
+{
+    &quot;_source&quot;: &quot;suggest&quot;,
+    &quot;suggest&quot;: {
+        &quot;song-suggest&quot; : {
+            &quot;prefix&quot; : &quot;nir&quot;,
+            &quot;completion&quot; : {
+                &quot;field&quot; : &quot;suggest&quot;
+            },
+            &quot;size&quot;:10
+        }
+    }
+}
+</code></pre></li>
+<li><p>Whether duplicate suggestions should be filtered out (defaults to false).</p>
+<p>  The autocomplete suggester is document-oriented in Elasticsearch 5 and will thus return suggestions for all documents that match. In Elasticsearch 1 and 2, the autocomplete suggester automatically de-duplicated suggestions.</p>
+<pre><code>POST music/_search?pretty
+{
+    &quot;_source&quot;: &quot;suggest&quot;,
+    &quot;suggest&quot;: {
+        &quot;song-suggest&quot; : {
+            &quot;prefix&quot; : &quot;nir&quot;,
+            &quot;completion&quot; : {
+                &quot;field&quot; : &quot;suggest&quot;
+            },
+            &quot;size&quot;:10,
+            &quot;skip_duplicates&quot;:true
+        }
+    }
+}
+</code></pre></li>
+</ul>
+<h2 id="DSL"><a href="#DSL" class="headerlink" title="DSL"></a>DSL</h2><ul>
+<li><p>completion suggest sample</p>
+<pre><code>s = s.suggest(&apos;my_sugestion&apos;, keyword, completion={ &apos;field&apos; : &apos;name&apos;, &apos;size&apos;:100})
+</code></pre></li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/08/06/spider/spider_court/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/06/spider/spider_court/" itemprop="url">中国裁判文书网反爬机制更新</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-06T10:00:00+08:00">
+                2018-08-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Spider/" itemprop="url" rel="index">
+                    <span itemprop="name">Spider</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/08/06/spider/spider_court/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/08/06/spider/spider_court/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="关于更新"><a href="#关于更新" class="headerlink" title="关于更新"></a>关于更新</h3><p>2019年1月12日，更新一次反爬机制。这里做记录，仅作为以后参考。</p>
+<ol>
+<li>又改了，没心情看改的什么。</li>
+<li>反编译了手机APP,直接请求接口。</li>
+<li>需要获得Token,Token会过期。</li>
+<li>也封IP，没有web端变态。</li>
+<li>变态的是每种查询条件只给20条。</li>
+<li>所以，拼条件吧。</li>
+</ol>
+<h3 id="关于更新-1"><a href="#关于更新-1" class="headerlink" title="关于更新"></a>关于更新</h3><p>2018年12月16日，更新一次反爬机制。这里做记录，仅作为以后参考。</p>
+<ol>
+<li>终于放大招了，开始封IP了，并且非常容易触发被封，我已经每30s访问一次了，依然绕不过。</li>
+<li>验证码改了，不规则的四位英文及数字，不像以前即使输入正确也要提交十几次才能通过。现在是如果被封IP，还是会弹验证码，但是验证成功也没用，还是会弹验证码，这个验证码有啥用呢。</li>
+<li>number不清楚，好像又得传了。</li>
+<li>买代理吧，</li>
+</ol>
+<h3 id="关于更新-2"><a href="#关于更新-2" class="headerlink" title="关于更新"></a>关于更新</h3><p>2018年11月29日，更新一次反爬机制。这里做记录，仅作为以后参考。</p>
+<ol>
+<li>在获取列表时，number不再是必传参数。</li>
+</ol>
+<h3 id="关于更新-3"><a href="#关于更新-3" class="headerlink" title="关于更新"></a>关于更新</h3><p>2018年8月18日，更新一次反爬机制。这里做记录，仅作为以后参考。</p>
+<ol>
+<li>在列表页获取详情页链接过程中，DocID作了加密，只要做一次解密DocID即可。</li>
+<li>AES双向对称加密，重点在与获取分发的密钥。</li>
+</ol>
+<h3 id="关于更新-4"><a href="#关于更新-4" class="headerlink" title="关于更新"></a>关于更新</h3><p>2018年8月15日，更新一次反爬机制。这里做记录，仅作为以后参考。</p>
+<ol>
+<li>vl5x的计算，计算vl5x的函数有修改。</li>
+</ol>
+<h3 id="关于更新-5"><a href="#关于更新-5" class="headerlink" title="关于更新"></a>关于更新</h3><p>2018年8月6日，更新一次反爬机制。这里做记录，仅作为以后参考。</p>
+<ol>
+<li><p>vl5x的计算，计算vl5x的函数相关函数又添加了一些。排查时最简单的方法就是用浏览器请求，拿到vjkl5，用现有解码的js函数执行得到结果和浏览器form里的vl5x进行比较。</p>
+</li>
+<li><p>在100页以内请求列表页过于频繁会跳验证码，想要成功验证，需要多次请求，一般十次以内。</p>
+</li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/07/27/spider/Scrapy/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/27/spider/Scrapy/" itemprop="url">Scrapy+Scrapyd+Redis</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-27T14:05:00+08:00">
+                2018-07-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Spider/" itemprop="url" rel="index">
+                    <span itemprop="name">Spider</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/07/27/spider/Scrapy/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/07/27/spider/Scrapy/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Scrapy"><a href="#Scrapy" class="headerlink" title="Scrapy"></a>Scrapy</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><pre><code>pip install scrapy
+</code></pre><ul>
+<li><p>某些系统会找不到 Twisted ，需要手动下载<a href="https://files.pythonhosted.org/packages/90/50/4c315ce5d119f67189d1819629cae7908ca0b0a6c572980df5cc6942bc22/Twisted-18.7.0.tar.bz2" target="_blank" rel="noopener">source</a>，解压后再安装</p>
+<pre><code>bzip2 -d Twisted-18.7.0.tar.bz2
+pip3 install Twisted-18.7.0.tar
+</code></pre></li>
+</ul>
+<h3 id="使用-scrapy-命令生成一个新的-project"><a href="#使用-scrapy-命令生成一个新的-project" class="headerlink" title="使用 scrapy 命令生成一个新的 project"></a>使用 scrapy 命令生成一个新的 project</h3><pre><code>scrapy startproject myproject
+
+myproject/
+    scrapy.cfg            # deploy configuration file
+
+    myproject/             # project&apos;s Python module, you&apos;ll import your code from here
+        __init__.py
+
+        items.py          # project items definition file
+
+        middlewares.py    # project middlewares file
+
+        pipelines.py      # project pipelines file
+
+        settings.py       # project settings file
+
+        spiders/          # a directory where you&apos;ll later put your spiders
+            __init__.py
+</code></pre><h3 id="在-tutorial-spiders-目录下创建第一个-spider"><a href="#在-tutorial-spiders-目录下创建第一个-spider" class="headerlink" title="在 tutorial/spiders 目录下创建第一个 spider"></a>在 tutorial/spiders 目录下创建第一个 spider</h3><pre><code>import scrapy
+
+
+class QuotesSpider(scrapy.Spider):
+    name = &quot;quotes&quot;
+
+    def start_requests(self):
+        urls = [
+            &apos;http://quotes.toscrape.com/page/1/&apos;,
+            &apos;http://quotes.toscrape.com/page/2/&apos;,
+        ]
+        for url in urls:
+            yield scrapy.Request(url=url, callback=self.parse)
+
+    def parse(self, response):
+        page = response.url.split(&quot;/&quot;)[-2]
+        filename = &apos;quotes-%s.html&apos; % page
+        with open(filename, &apos;wb&apos;) as f:
+            f.write(response.body)
+        self.log(&apos;Saved file %s&apos; % filename)
+</code></pre><h3 id="运行-spider-，在-project-的根目录运行"><a href="#运行-spider-，在-project-的根目录运行" class="headerlink" title="运行 spider ，在 project 的根目录运行"></a>运行 spider ，在 project 的根目录运行</h3><pre><code>scrapy crawl quotes
+</code></pre><h2 id="Scrapyd-，远程管理-Scrapy"><a href="#Scrapyd-，远程管理-Scrapy" class="headerlink" title="Scrapyd ，远程管理 Scrapy"></a>Scrapyd ，远程管理 Scrapy</h2><h3 id="安装-1"><a href="#安装-1" class="headerlink" title="安装"></a>安装</h3><pre><code>pip install scrapyd
+</code></pre><h3 id="远程访问，修改配置文件-site-packages-scrapyd-default-scrapyd-conf"><a href="#远程访问，修改配置文件-site-packages-scrapyd-default-scrapyd-conf" class="headerlink" title="远程访问，修改配置文件 site-packages/scrapyd/default_scrapyd.conf"></a>远程访问，修改配置文件 site-packages/scrapyd/default_scrapyd.conf</h3><pre><code>bind_address = 0.0.0.0
+</code></pre><h3 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h3><pre><code>scrapyd
+</code></pre><h3 id="Scrapy-project-部署到-Scrapyd"><a href="#Scrapy-project-部署到-Scrapyd" class="headerlink" title="Scrapy project 部署到 Scrapyd"></a>Scrapy project 部署到 Scrapyd</h3><ul>
+<li>eggifying the project</li>
+<li>uploading the egg to Scrapyd via the addversion.json</li>
+<li>以上手动步骤可以通过 scrapyd-client 提供的 scrapyd-deploy 工具实现</li>
+</ul>
+<h3 id="安装-scrapyd-client"><a href="#安装-scrapyd-client" class="headerlink" title="安装 scrapyd-client"></a>安装 scrapyd-client</h3><pre><code>pip install scrapyd-client
+</code></pre><h3 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h3><pre><code>scrapyd-deploy &lt;target&gt; -p &lt;project&gt;
+</code></pre><ul>
+<li><p>可以编辑 scrapy.cfg 设置默认值，免于指定 target 和 project</p>
+<pre><code>[deploy:target]
+url = http://localhost:6800/
+username = scrapy
+password = secret
+project = myproject
+</code></pre></li>
+<li><p>执行</p>
+<pre><code>scrapyd-deploy target
+</code></pre></li>
+</ul>
+<h3 id="schedule-a-spider-run"><a href="#schedule-a-spider-run" class="headerlink" title="schedule a spider run"></a>schedule a spider run</h3><pre><code>$ curl http://localhost:6800/schedule.json -d project=myproject -d spider=spider2
+{&quot;status&quot;: &quot;ok&quot;, &quot;jobid&quot;: &quot;26d1b1a6d6f111e0be5c001e648c57f8&quot;}
+</code></pre><h2 id="scrapy-redis-分布式"><a href="#scrapy-redis-分布式" class="headerlink" title="scrapy-redis 分布式"></a>scrapy-redis 分布式</h2><h3 id="安装Redis"><a href="#安装Redis" class="headerlink" title="安装Redis"></a>安装Redis</h3><pre><code>yum install redis
+pip install scrapy-redis
+</code></pre><h3 id="配置Redis-，编辑-etc-redis-conf"><a href="#配置Redis-，编辑-etc-redis-conf" class="headerlink" title="配置Redis ，编辑 /etc/redis.conf"></a>配置Redis ，编辑 /etc/redis.conf</h3><ul>
+<li><p>设置访问密码</p>
+<pre><code>requirepass password
+</code></pre></li>
+<li><p>注释 bind ，可远程访问</p>
+<pre><code># bind 127.0.0.1 ::1
+</code></pre></li>
+</ul>
+<h3 id="编辑-project-的-settings-py"><a href="#编辑-project-的-settings-py" class="headerlink" title="编辑 project 的 settings.py"></a>编辑 project 的 settings.py</h3><pre><code># Enables scheduling storing requests queue in redis.
+SCHEDULER = &quot;scrapy_redis.scheduler.Scheduler&quot;
+
+# Ensure all spiders share same duplicates filter through redis.
+DUPEFILTER_CLASS = &quot;scrapy_redis.dupefilter.RFPDupeFilter&quot;
+
+# Store scraped item in redis for post-processing.
+ITEM_PIPELINES = {
+    &apos;scrapy_redis.pipelines.RedisPipeline&apos;: 300
+}
+
+# Specify the full Redis URL for connecting (optional).
+# If set, this takes precedence over the REDIS_HOST and REDIS_PORT settings.
+REDIS_URL = &apos;redis://user:password@host:6379&apos;
+</code></pre><h3 id="运行-spider-，在-project-的根目录运行-1"><a href="#运行-spider-，在-project-的根目录运行-1" class="headerlink" title="运行 spider ，在 project 的根目录运行"></a>运行 spider ，在 project 的根目录运行</h3><pre><code>scrapy crawl quotes
+</code></pre><h3 id="处理-Item"><a href="#处理-Item" class="headerlink" title="处理 Item"></a>处理 Item</h3><p>所有 Item 保存在 Redis ，key 为 quotes:items ，可以写脚本保存到数据库。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/06/12/bigdata/spark-HelloWorld/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/12/bigdata/spark-HelloWorld/" itemprop="url">Spark</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-12T17:46:35+08:00">
+                2018-06-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/BigData/" itemprop="url" rel="index">
+                    <span itemprop="name">BigData</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/06/12/bigdata/spark-HelloWorld/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/06/12/bigdata/spark-HelloWorld/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><ul>
+<li><p>安装JAVA</p>
+<pre><code>$ java -version
+</code></pre></li>
+<li><p>安装Scala</p>
+<pre><code>$ wget https://downloads.lightbend.com/scala/2.12.6/scala-2.12.6.rpm
+$ sudo rpm -ivh scala-2.12.6.rpm
+$ scala -version
+</code></pre></li>
+<li><p>安装Spark</p>
+<pre><code>$ wget http://mirrors.hust.edu.cn/apache/spark/spark-2.3.1/spark-2.3.1-bin-hadoop2.7.tgz
+$ tar xvf spark-2.3.1-bin-hadoop2.7.tgz
+$ sudo mv spark-2.3.1-bin-hadoop2.7/* /usr/local/spark
+
+$ vim ~/.bashrc
+export PATH = $PATH:/usr/local/spark/bin
+$ source ~/.bashrc
+
+$ spark-shell
+</code></pre></li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/06/10/scala-HelloWorld/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -525,7 +1662,7 @@ res0: Int = 2
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/05/24/install-hive/">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/05/24/bigdata/install-hive/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jokers">
@@ -544,7 +1681,7 @@ res0: Int = 2
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/05/24/install-hive/" itemprop="url">Hive2安装</a></h1>
+                <a class="post-title-link" href="/2018/05/24/bigdata/install-hive/" itemprop="url">Hive2安装</a></h1>
         
 
         <div class="post-meta">
@@ -579,8 +1716,8 @@ res0: Int = 2
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Hadoop/" itemprop="url" rel="index">
-                    <span itemprop="name">Hadoop</span>
+                  <a href="/categories/BigData/" itemprop="url" rel="index">
+                    <span itemprop="name">BigData</span>
                   </a>
                 </span>
 
@@ -597,9 +1734,9 @@ res0: Int = 2
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/05/24/install-hive/#comments" itemprop="discussionUrl">
+                <a href="/2018/05/24/bigdata/install-hive/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/05/24/install-hive/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2018/05/24/bigdata/install-hive/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -1017,7 +2154,7 @@ $ source ~/.bashrc
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/05/18/install-hadoop/">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/05/18/bigdata/install-hadoop/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jokers">
@@ -1036,7 +2173,7 @@ $ source ~/.bashrc
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/05/18/install-hadoop/" itemprop="url">hadoop2安装</a></h1>
+                <a class="post-title-link" href="/2018/05/18/bigdata/install-hadoop/" itemprop="url">hadoop2安装</a></h1>
         
 
         <div class="post-meta">
@@ -1071,8 +2208,8 @@ $ source ~/.bashrc
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Hadoop/" itemprop="url" rel="index">
-                    <span itemprop="name">Hadoop</span>
+                  <a href="/categories/BigData/" itemprop="url" rel="index">
+                    <span itemprop="name">BigData</span>
                   </a>
                 </span>
 
@@ -1089,9 +2226,9 @@ $ source ~/.bashrc
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/05/18/install-hadoop/#comments" itemprop="discussionUrl">
+                <a href="/2018/05/18/bigdata/install-hadoop/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/05/18/install-hadoop/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2018/05/18/bigdata/install-hadoop/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -1274,7 +2411,7 @@ source ~/.bashrc
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/05/12/university_ranking/">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/05/12/others/university_ranking/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jokers">
@@ -1293,7 +2430,7 @@ source ~/.bashrc
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/05/12/university_ranking/" itemprop="url">Ranking</a></h1>
+                <a class="post-title-link" href="/2018/05/12/others/university_ranking/" itemprop="url">Ranking</a></h1>
         
 
         <div class="post-meta">
@@ -1346,9 +2483,9 @@ source ~/.bashrc
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/05/12/university_ranking/#comments" itemprop="discussionUrl">
+                <a href="/2018/05/12/others/university_ranking/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/05/12/university_ranking/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2018/05/12/others/university_ranking/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -1379,864 +2516,6 @@ source ~/.bashrc
         
           
             <p>剑桥大学University of Cambridge<br>牛津大学University of Oxford<br>伦敦大学学院University College London<br>帝国理工学院Imperial College London<br>伦敦大学国王学院King’s College London<br>爱丁堡大学The University of Edinburgh<br>曼彻斯特大学The University of Manchester<br>伦敦政治经济学院the London Shool of Economics and Political Scienc<br>布里斯托大学University of Bristol<br>华威大学The University of Warwick<br>格拉斯哥大学University of Glasgow<br>杜伦大学Durham University<br>谢菲尔德大学The University of Sheffield<br>诺丁汉大学The University of Nottingham<br>伯明翰大学University of Birmingham<br>圣安德鲁斯大学University of St Andrews<br>利兹大学University of Leeds<br>南安普顿大学University of Southampton<br>伦敦大学玛丽女王学院Queen Mary University of London<br>兰卡斯特大学University of Lancaster<br>约克大学University of York<br>卡迪夫大学Cardiff University<br>阿伯丁大学University of Aberdeen<br>埃克塞特大学University of Exeter<br>巴斯大学University of Bath<br>纽卡斯尔大学Newcastle University<br>利物浦大学The University of Liverpool<br>雷丁大学University of Reading<br>英国女王大学Queen’s University Belfast<br>萨塞克斯大学The University of Sussex<br>拉夫堡大学Loughborough University<br>莱斯特大学University of Leicester<br>伦敦大学皇家霍洛威学院Royal Holloway University of London<br>邓迪大学University of Dundee<br>萨里大学University of Surrey<br>东英吉利大学University of East Anglia<br>思克莱德大学University of Strathclyde<br>伦敦大学亚非学院SOAS University of London<br>伦敦大学伯克贝克学院Birkbeck, University Of London<br>赫瑞·瓦特大学Heriot-Watt University<br>伦敦城市大学City University London<br>布鲁内尔大学Brunel University<br>埃塞克斯大学University of Essex<br>牛津布鲁克斯大学Oxford Brookes University<br>阿斯顿大学Aston University<br>肯特大学University of Kent<br>伦敦大学金史密斯学院Goldsmiths, University of London</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/04/23/elastcsearch-config/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jokers">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jokers's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/04/23/elastcsearch-config/" itemprop="url">Elasticsearch6测试和开发环境配置</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-23T16:35:00+08:00">
-                2018-04-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/ES/" itemprop="url" rel="index">
-                    <span itemprop="name">ES</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/04/23/elastcsearch-config/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/04/23/elastcsearch-config/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="开发模式和生产模式"><a href="#开发模式和生产模式" class="headerlink" title="开发模式和生产模式"></a>开发模式和生产模式</h2><p>es节点加入集群，必须绑定transport到non-loopback地址，es通过http.host，transport.host和single-node discovery的配置判断是否为生产模式。</p>
-<h2 id="引导启动检查"><a href="#引导启动检查" class="headerlink" title="引导启动检查"></a>引导启动检查</h2><p>使用引导启动检查检查es和系统设置。在开发模式下，不安全的配置会以warnings记录日志。在生产模式下，会拒绝启动。</p>
-<h2 id="强制引导启动检查"><a href="#强制引导启动检查" class="headerlink" title="强制引导启动检查"></a>强制引导启动检查</h2><p>单节点的生产模式可以绕过引导启动检查，通过设置es.enforce.bootstrap.checks(JVM options)为True，可以强制检查。</p>
-<h2 id="堆大小检查"><a href="#堆大小检查" class="headerlink" title="堆大小检查"></a>堆大小检查</h2><p>JVM配置初始堆大小和最大堆值相同，否则会导致系统运行停顿。es默认使用1GB的堆。规则如下：</p>
-<ul>
-<li>堆越大，缓存越大，但是太大的话会导致长时间的垃圾回收而造成系统停顿。</li>
-<li>不要超过物理内存的50%</li>
-<li>26GB对大多数系统比较安全，对一些系统可达到30G</li>
-</ul>
-<p>jvm.options配置文件</p>
-<pre><code>-Xms26g
--Xmx26g
-</code></pre><h2 id="文件描述符检查"><a href="#文件描述符检查" class="headerlink" title="文件描述符检查"></a>文件描述符检查</h2><p>es需要大量的文件描述符。必须保证文件描述符的数量限制大与等于65535。通过RPM和Debian包默认设置为65536。可以通过以下命令检查max_file_descriptors的大小。</p>
-<pre><code>curl -X GET &quot;localhost:9200/_nodes/stats/process?filter_path=**.max_file_descriptors&quot;
-</code></pre><h2 id="内存锁定检查"><a href="#内存锁定检查" class="headerlink" title="内存锁定检查"></a>内存锁定检查</h2><p>JVM进行垃圾回收时，如果有page被换出到硬盘，再换入内存回收，影响效率。有多种办法可以禁止交换。</p>
-<ul>
-<li><p>系统级别的禁止交换</p>
-<p>  sudo swapoff -a</p>
-</li>
-<li><p>配置swappiness</p>
-</li>
-<li><p>阻止es内存换出，添加以下配置到config/elasticsearch.yml文件</p>
-<p>  bootstrap.memory_lock: true</p>
-</li>
-<li><p>检查mlockall的配置</p>
-<p>  GET _nodes?filter_path=**.mlockall</p>
-</li>
-<li><p>如果mlockall的值是false, 意味着mlockall请求失败，最有可能的原因是运行es的用户没有lock Memory的权限，授权方式</p>
-<p>  添加一个文件<br>  /etc/systemd/system/elasticsearch.service.d/override.conf<br>  or<br>  sudo systemctl edit elasticsearch<br>  编辑<br>  [Service]<br>  LimitMEMLOCK=infinity<br>  加载<br>  sudo systemctl daemon-reload</p>
-</li>
-<li><p>如果依然失败可能是临时路径/tmp使用noexec选项挂载，可以使用ES_JAVA_OPTS环境变量指定一个新的temp路径</p>
-<p>  export ES_JAVA_OPTS=”$ES_JAVA_OPTS -Djava.io.tmpdir=/path/to/temp/dir”<br>  ./bin/elasticsearch</p>
-</li>
-</ul>
-<h2 id="最大线程数检查"><a href="#最大线程数检查" class="headerlink" title="最大线程数检查"></a>最大线程数检查</h2><p>es需要有创建至少4096个线程的能力并且只会在Linux系统上检查。通过设置/etc/security/limits.conf的nproc值（同时要增大root用户的限制）</p>
-<h2 id="最大虚拟内存检查"><a href="#最大虚拟内存检查" class="headerlink" title="最大虚拟内存检查"></a>最大虚拟内存检查</h2><p>es需要有无限制的地址空间并且只会在Linux系统上检查。通过设置/etc/security/limits.conf的as值为unlimited（同时要改变root用户的限制）</p>
-<h2 id="最大文件大小检查"><a href="#最大文件大小检查" class="headerlink" title="最大文件大小检查"></a>最大文件大小检查</h2><p>es需要有无限制大小的写文件能力。通过设置/etc/security/limits.conf的fsize值为unlimited（同时要改变root用户的限制）</p>
-<h2 id="最大地图数量检查"><a href="#最大地图数量检查" class="headerlink" title="最大地图数量检查"></a>最大地图数量检查</h2><p>es需要至少262144内存映射空间并且只会在Linux系统上检查。通过设置vm.max_map_count(sysctl)</p>
-<pre><code>sysctl -w vm.max_map_count=262144
-sysctl -a|grep vm.max_map_count
-</code></pre><h2 id="客户端JVM检查"><a href="#客户端JVM检查" class="headerlink" title="客户端JVM检查"></a>客户端JVM检查</h2><p>确保es没有运行在客户端JVM而是服务端JVM，现代操作系统，服务端JVM是默认的。</p>
-<h2 id="serial-collector检查"><a href="#serial-collector检查" class="headerlink" title="serial collector检查"></a>serial collector检查</h2><p>确保es运行时使用的垃圾收器不是serial collector，除非指定-XX:+UseSerialGC使用，JVM默认使用es的默认配置也就是CMS collector。</p>
-<h2 id="系统调用过滤器检查"><a href="#系统调用过滤器检查" class="headerlink" title="系统调用过滤器检查"></a>系统调用过滤器检查</h2><p>修复所有可能阻止es安装系统调用过滤器（Linux上的seccomp）的配置（检查日志）</p>
-<h2 id="OnError和OnOutOfMemoryError检查"><a href="#OnError和OnOutOfMemoryError检查" class="headerlink" title="OnError和OnOutOfMemoryError检查"></a>OnError和OnOutOfMemoryError检查</h2><p> 防止es启动时JVM的这两个选项被启用并且系统调用也被启用，它们相互之间不兼容。可以禁止OnError和OnOutOfMemoryError或则升级到Java 8u92并且使用JVM flag ExitOnOutOfMemoryError</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/04/16/mysql-install_1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jokers">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jokers's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/04/16/mysql-install_1/" itemprop="url">centos7安装MySQL5.7</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-16T11:06:35+08:00">
-                2018-04-16
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/DataBase/" itemprop="url" rel="index">
-                    <span itemprop="name">DataBase</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/04/16/mysql-install_1/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/04/16/mysql-install_1/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="添加YUM源"><a href="#添加YUM源" class="headerlink" title="添加YUM源"></a>添加YUM源</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo rpm -Uvh https://repo.mysql.com//mysql57-community-release-el7-11.noarch.rpm</span><br></pre></td></tr></table></figure>
-<h2 id="查看提供的MySQL版本"><a href="#查看提供的MySQL版本" class="headerlink" title="查看提供的MySQL版本"></a>查看提供的MySQL版本</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yum repolist all | grep mysql</span><br></pre></td></tr></table></figure>
-<h2 id="如果要安装5-6，需要禁用5-7并启用5-6，编辑mysql-community-repo"><a href="#如果要安装5-6，需要禁用5-7并启用5-6，编辑mysql-community-repo" class="headerlink" title="如果要安装5.6，需要禁用5.7并启用5.6，编辑mysql-community.repo"></a>如果要安装5.6，需要禁用5.7并启用5.6，编辑mysql-community.repo</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">$ sudo vim  /etc/yum.repos.d/mysql-community.repo</span><br><span class="line"></span><br><span class="line"># Enable to use MySQL 5.6</span><br><span class="line">[mysql56-community]</span><br><span class="line">name=MySQL 5.6 Community Server</span><br><span class="line">baseurl=http://repo.mysql.com/yum/mysql-5.6-community/el/7/$basearch/</span><br><span class="line">enabled=1 # 启用</span><br><span class="line">gpgcheck=1</span><br><span class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql</span><br><span class="line"></span><br><span class="line">[mysql57-community]</span><br><span class="line">name=MySQL 5.7 Community Server</span><br><span class="line">baseurl=http://repo.mysql.com/yum/mysql-5.7-community/el/7/$basearch/</span><br><span class="line">enabled=0 # 禁用</span><br><span class="line">gpgcheck=1</span><br><span class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql</span><br></pre></td></tr></table></figure>
-<h2 id="查看可安装的MySQL版本"><a href="#查看可安装的MySQL版本" class="headerlink" title="查看可安装的MySQL版本"></a>查看可安装的MySQL版本</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yum repolist enabled | grep mysql</span><br></pre></td></tr></table></figure>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo yum install mysql-community-server</span><br></pre></td></tr></table></figure>
-<h2 id="更改存储路径，需要修改目标文件夹及子目录的读写权限"><a href="#更改存储路径，需要修改目标文件夹及子目录的读写权限" class="headerlink" title="更改存储路径，需要修改目标文件夹及子目录的读写权限"></a>更改存储路径，需要修改目标文件夹及子目录的读写权限</h2><h3 id="【init-默认存储位置-target-修改后的目标文件夹"><a href="#【init-默认存储位置-target-修改后的目标文件夹" class="headerlink" title="【init]:默认存储位置 [target]:修改后的目标文件夹"></a>【init]:默认存储位置 [target]:修改后的目标文件夹</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo cp -R [init] [target]</span><br><span class="line">$ sudo chown -R mysql:mysql [target]</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/03/13/linux-command/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jokers">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jokers's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/13/linux-command/" itemprop="url">常用的Linux命令</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-13T11:00:00+08:00">
-                2018-03-13
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/常用命令/" itemprop="url" rel="index">
-                    <span itemprop="name">常用命令</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/03/13/linux-command/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/03/13/linux-command/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="ls统计文件数目"><a href="#ls统计文件数目" class="headerlink" title="ls统计文件数目"></a>ls统计文件数目</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"> # grep &quot;^-&quot; 仅统计普通文件</span><br><span class="line"> # grep &quot;^d&quot; 仅统计目录文件</span><br><span class="line"> # grep .txt 仅统计制定后缀的文件</span><br><span class="line"> # R recusive统计子目录的文件</span><br><span class="line">$ ls -lR|grep &quot;^-&quot;|wc -l</span><br></pre></td></tr></table></figure>
-<h2 id="find"><a href="#find" class="headerlink" title="find"></a>find</h2><h3 id="统计文件数目"><a href="#统计文件数目" class="headerlink" title="统计文件数目"></a>统计文件数目</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> # -maxdepth 1 仅统计当前目录的文件</span><br><span class="line"> # 比ls方法快很多</span><br><span class="line">$ find ./ -maxdepth 1 -type f|wc -l</span><br></pre></td></tr></table></figure>
-<h3 id="查找文件"><a href="#查找文件" class="headerlink" title="查找文件"></a>查找文件</h3><pre><code>$ find / -name filename
-</code></pre><h2 id="centos7防火墙"><a href="#centos7防火墙" class="headerlink" title="centos7防火墙"></a>centos7防火墙</h2><h3 id="放弃使用iptables"><a href="#放弃使用iptables" class="headerlink" title="放弃使用iptables"></a>放弃使用iptables</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"> # 开启防火墙</span><br><span class="line">$ sudo systemctl start firewalld.service</span><br><span class="line"> # 关闭防火墙</span><br><span class="line">$ sudo systemctl stop firewalld.service</span><br><span class="line"> # 启用开机启动防火墙</span><br><span class="line">$ sudo systemctl enable firewalld.service</span><br><span class="line"> # 禁止开机启动防火墙</span><br><span class="line">$ sudo systemctl disable firewalld.service</span><br><span class="line"> # 查看防火墙状态</span><br><span class="line">$ sudo systemctl status firewalld.service</span><br></pre></td></tr></table></figure>
-<h2 id="端口管理"><a href="#端口管理" class="headerlink" title="端口管理"></a>端口管理</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> # 查询80端口是否开去</span><br><span class="line">$ firewall-cmd --query-port=80/tcp</span><br><span class="line"> # 开启80端口</span><br><span class="line">$ firewall-cmd --add-port=80/tcp --permanent</span><br></pre></td></tr></table></figure>
-<h2 id="yum"><a href="#yum" class="headerlink" title="yum"></a>yum</h2><h3 id="列出已安装的包"><a href="#列出已安装的包" class="headerlink" title="列出已安装的包"></a>列出已安装的包</h3><pre><code>$ yum list installed
-</code></pre><h2 id="netstat"><a href="#netstat" class="headerlink" title="netstat"></a>netstat</h2><h3 id="查看端口是否占用"><a href="#查看端口是否占用" class="headerlink" title="查看端口是否占用"></a>查看端口是否占用</h3><pre><code>netstat -anp|grep 80
-</code></pre><h2 id="telnet"><a href="#telnet" class="headerlink" title="telnet"></a>telnet</h2><h3 id="检测远程端口是否打开"><a href="#检测远程端口是否打开" class="headerlink" title="检测远程端口是否打开"></a>检测远程端口是否打开</h3><pre><code>telnet 111.111.111.111 6379
-</code></pre><h3 id="查看进程占用的端口号"><a href="#查看进程占用的端口号" class="headerlink" title="查看进程占用的端口号"></a>查看进程占用的端口号</h3><pre><code>netstat -anp|grep pid
-</code></pre><h2 id="RPM"><a href="#RPM" class="headerlink" title="RPM"></a>RPM</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><pre><code>rpm -ivh xxx.rpm
-</code></pre><h3 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h3><pre><code>rpm -q xxx
-</code></pre><h3 id="卸载"><a href="#卸载" class="headerlink" title="卸载"></a>卸载</h3><pre><code>rpm -e xxx.rpm
-</code></pre><h3 id="Linux-版本号"><a href="#Linux-版本号" class="headerlink" title="Linux 版本号"></a>Linux 版本号</h3><pre><code>cat /etc/redhat-release
-</code></pre>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/02/05/mysql-install/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jokers">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jokers's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/05/mysql-install/" itemprop="url">Fedora27安装Mariadb10.2</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-05T11:06:35+08:00">
-                2018-02-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/DataBase/" itemprop="url" rel="index">
-                    <span itemprop="name">DataBase</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/02/05/mysql-install/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/02/05/mysql-install/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><p><a href="https://downloads.mariadb.org/mariadb/10.2.10/" target="_blank" rel="noopener">下载编译好的linux版本</a></p>
-<ul>
-<li>截至今天，Mariadb还未发布Fedora27的yum版本，Fedora26版本实测会产生系统崩溃。</li>
-<li>Centos7的yum版本，修改配置文件改变数据存储位置后，不能正常启动，试了很多方法都没能成功。</li>
-</ul>
-<h2 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h2><p><a href="https://mariadb.com/kb/en/library/mysqld-configuration-files-and-groups/" target="_blank" rel="noopener">需要手动建立配置文件</a></p>
-<ul>
-<li>安装好的Mariadb会自动识别/etc/my.cnf</li>
-<li>修改socket路径</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># The MariaDB server</span><br><span class="line">[mysqld]</span><br><span class="line">port            = 3306</span><br><span class="line">#socket         = /var/lib/mysql/mysql.sock</span><br><span class="line">socket          = /home/data/mysql/mysql.sock</span><br></pre></td></tr></table></figure>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">groupadd mysql</span><br><span class="line">useradd -g mysql mysql</span><br><span class="line">cd /usr/local</span><br><span class="line">tar -zxvpf /path-to/mariadb-VERSION-OS.tar.gz</span><br><span class="line">ln -s mariadb-VERSION-OS mysql</span><br><span class="line">cd mysql</span><br><span class="line">./scripts/mysql_install_db --user=mysql</span><br><span class="line">chown -R root .</span><br><span class="line">chown -R mysql data</span><br></pre></td></tr></table></figure>
-<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">./bin/mysqld_safe --user=mysql &amp;</span><br><span class="line">or</span><br><span class="line">./bin/mysqld_safe --defaults-file=~/.my.cnf --user=mysql &amp;</span><br></pre></td></tr></table></figure>
-<h2 id="自启动-推荐"><a href="#自启动-推荐" class="headerlink" title="自启动(推荐)"></a>自启动(推荐)</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp support-files/mysql.server /etc/init.d/mysql.server</span><br></pre></td></tr></table></figure>
-<ul>
-<li>修改mysql.server,改变数据存储位置</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">datadir=/home/data/mysql</span><br></pre></td></tr></table></figure>
-<ul>
-<li>复制data</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo cp -R /usr/local/mysql/data/* /home/data/mysql</span><br><span class="line">$ sudo chown -R mysql:mysql /home/data/mysql</span><br></pre></td></tr></table></figure>
-<ul>
-<li>启动方式</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/init.d/mysql.server start</span><br></pre></td></tr></table></figure>
-<h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ /usr/local/mysql/bin/mysqladmin -u root password &apos;password&apos;</span><br><span class="line">$ /usr/local/mysql/bin/mysql -uroot -p</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MariaDB [(none)]&gt; GRANT ALL PRIVILEGES ON *.* TO &apos;ai&apos;@&apos;%&apos; IDENTIFIED BY &apos;mypassword&apos;</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/02/05/elastcsearch-install/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jokers">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jokers's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/05/elastcsearch-install/" itemprop="url">Fedora使用dnf(yum)简易安装Elasticsearch6</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-05T11:04:58+08:00">
-                2018-02-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/ES/" itemprop="url" rel="index">
-                    <span itemprop="name">ES</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/02/05/elastcsearch-install/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/02/05/elastcsearch-install/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="安装JDK8"><a href="#安装JDK8" class="headerlink" title="安装JDK8"></a>安装JDK8</h2><pre><code>http://www.oracle.com/technetwork/java/javase/downloads/index.html
-</code></pre><h2 id="下载安装-public-signing-key"><a href="#下载安装-public-signing-key" class="headerlink" title="下载安装 public signing key"></a>下载安装 public signing key</h2><pre><code>rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch
-</code></pre><h2 id="添加仓库"><a href="#添加仓库" class="headerlink" title="添加仓库"></a>添加仓库</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ sudo vi /etc/yum.repos.d/elasticsearch.repo</span><br><span class="line"></span><br><span class="line"># 添加如下</span><br><span class="line">[elasticsearch-6.x]</span><br><span class="line">name=Elasticsearch repository for 6.x packages</span><br><span class="line">baseurl=https://artifacts.elastic.co/packages/6.x/yum</span><br><span class="line">gpgcheck=1</span><br><span class="line">gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch</span><br><span class="line">enabled=1</span><br><span class="line">autorefresh=1</span><br><span class="line">type=rpm-md</span><br></pre></td></tr></table></figure>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo dnf install Elasticsearch</span><br></pre></td></tr></table></figure>
-<h2 id="配置-需要更改存数据储位置或日志存储位置"><a href="#配置-需要更改存数据储位置或日志存储位置" class="headerlink" title="配置(需要更改存数据储位置或日志存储位置)"></a>配置(需要更改存数据储位置或日志存储位置)</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ sudo vi /etc/elasticsearch/elasticsearch.yml</span><br><span class="line"></span><br><span class="line"># 更改如下</span><br><span class="line">#path.data: /var/lib/elasticsearch</span><br><span class="line">path.data: /home/lib/elasticsearch</span><br><span class="line">#path.logs: /var/log/elasticsearch</span><br><span class="line">path.logs: /home/log/elasticsearch</span><br></pre></td></tr></table></figure>
-<h3 id="手动建立-home-lib-elasticsearch和-home-log-elasticsearch路径"><a href="#手动建立-home-lib-elasticsearch和-home-log-elasticsearch路径" class="headerlink" title="手动建立/home/lib/elasticsearch和/home/log/elasticsearch路径"></a>手动建立/home/lib/elasticsearch和/home/log/elasticsearch路径</h3><h3 id="更改权限"><a href="#更改权限" class="headerlink" title="更改权限"></a>更改权限</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo chown -R elasticsearch:elasticsearch /home/lib/elasticsearch</span><br><span class="line">$ sudo chown -R elasticsearch:elasticsearch /home/log/elasticsearch</span><br></pre></td></tr></table></figure>
-<h2 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo systemctl start elasticsearch</span><br></pre></td></tr></table></figure>
 
           
         
@@ -2322,7 +2601,7 @@ sysctl -a|grep vm.max_map_count
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-count">39</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2333,7 +2612,7 @@ sysctl -a|grep vm.max_map_count
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

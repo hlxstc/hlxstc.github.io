@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="scrapy scrapyd Redis," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="Scrapy安装pip install scrapy  某些系统会找不到 Twisted ，需要手动下载source，解压后再安装 bzip2 -d Twisted-18.7.0.tar.bz2 pip3 install Twisted-18.7.0.tar   使用 scrapy 命令生成一个新的 projectscrapy startproject myproject  myproject/">
+<meta name="keywords" content="scrapy scrapyd Redis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Scrapy+Scrapyd+Redis">
+<meta property="og:url" content="http://thathub.com/2018/07/27/spider/Scrapy/index.html">
+<meta property="og:site_name" content="Jokers&#39;s Blog">
+<meta property="og:description" content="Scrapy安装pip install scrapy  某些系统会找不到 Twisted ，需要手动下载source，解压后再安装 bzip2 -d Twisted-18.7.0.tar.bz2 pip3 install Twisted-18.7.0.tar   使用 scrapy 命令生成一个新的 projectscrapy startproject myproject  myproject/">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-04-23T03:40:21.796Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Scrapy+Scrapyd+Redis">
+<meta name="twitter:description" content="Scrapy安装pip install scrapy  某些系统会找不到 Twisted ，需要手动下载source，解压后再安装 bzip2 -d Twisted-18.7.0.tar.bz2 pip3 install Twisted-18.7.0.tar   使用 scrapy 命令生成一个新的 projectscrapy startproject myproject  myproject/">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://thathub.com/2018/07/27/spider/Scrapy/"/>
+
+
+
+
+
+  <title>Scrapy+Scrapyd+Redis | Jokers's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jokers's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">高尚是高尚者的墓志铭 卑鄙是卑鄙者的通行证</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/07/27/spider/Scrapy/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Scrapy+Scrapyd+Redis</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-27T14:05:00+08:00">
+                2018-07-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Spider/" itemprop="url" rel="index">
+                    <span itemprop="name">Spider</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/07/27/spider/Scrapy/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/07/27/spider/Scrapy/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Scrapy"><a href="#Scrapy" class="headerlink" title="Scrapy"></a>Scrapy</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><pre><code>pip install scrapy
+</code></pre><ul>
+<li><p>某些系统会找不到 Twisted ，需要手动下载<a href="https://files.pythonhosted.org/packages/90/50/4c315ce5d119f67189d1819629cae7908ca0b0a6c572980df5cc6942bc22/Twisted-18.7.0.tar.bz2" target="_blank" rel="noopener">source</a>，解压后再安装</p>
+<pre><code>bzip2 -d Twisted-18.7.0.tar.bz2
+pip3 install Twisted-18.7.0.tar
+</code></pre></li>
+</ul>
+<h3 id="使用-scrapy-命令生成一个新的-project"><a href="#使用-scrapy-命令生成一个新的-project" class="headerlink" title="使用 scrapy 命令生成一个新的 project"></a>使用 scrapy 命令生成一个新的 project</h3><pre><code>scrapy startproject myproject
+
+myproject/
+    scrapy.cfg            # deploy configuration file
+
+    myproject/             # project&apos;s Python module, you&apos;ll import your code from here
+        __init__.py
+
+        items.py          # project items definition file
+
+        middlewares.py    # project middlewares file
+
+        pipelines.py      # project pipelines file
+
+        settings.py       # project settings file
+
+        spiders/          # a directory where you&apos;ll later put your spiders
+            __init__.py
+</code></pre><h3 id="在-tutorial-spiders-目录下创建第一个-spider"><a href="#在-tutorial-spiders-目录下创建第一个-spider" class="headerlink" title="在 tutorial/spiders 目录下创建第一个 spider"></a>在 tutorial/spiders 目录下创建第一个 spider</h3><pre><code>import scrapy
+
+
+class QuotesSpider(scrapy.Spider):
+    name = &quot;quotes&quot;
+
+    def start_requests(self):
+        urls = [
+            &apos;http://quotes.toscrape.com/page/1/&apos;,
+            &apos;http://quotes.toscrape.com/page/2/&apos;,
+        ]
+        for url in urls:
+            yield scrapy.Request(url=url, callback=self.parse)
+
+    def parse(self, response):
+        page = response.url.split(&quot;/&quot;)[-2]
+        filename = &apos;quotes-%s.html&apos; % page
+        with open(filename, &apos;wb&apos;) as f:
+            f.write(response.body)
+        self.log(&apos;Saved file %s&apos; % filename)
+</code></pre><h3 id="运行-spider-，在-project-的根目录运行"><a href="#运行-spider-，在-project-的根目录运行" class="headerlink" title="运行 spider ，在 project 的根目录运行"></a>运行 spider ，在 project 的根目录运行</h3><pre><code>scrapy crawl quotes
+</code></pre><h2 id="Scrapyd-，远程管理-Scrapy"><a href="#Scrapyd-，远程管理-Scrapy" class="headerlink" title="Scrapyd ，远程管理 Scrapy"></a>Scrapyd ，远程管理 Scrapy</h2><h3 id="安装-1"><a href="#安装-1" class="headerlink" title="安装"></a>安装</h3><pre><code>pip install scrapyd
+</code></pre><h3 id="远程访问，修改配置文件-site-packages-scrapyd-default-scrapyd-conf"><a href="#远程访问，修改配置文件-site-packages-scrapyd-default-scrapyd-conf" class="headerlink" title="远程访问，修改配置文件 site-packages/scrapyd/default_scrapyd.conf"></a>远程访问，修改配置文件 site-packages/scrapyd/default_scrapyd.conf</h3><pre><code>bind_address = 0.0.0.0
+</code></pre><h3 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h3><pre><code>scrapyd
+</code></pre><h3 id="Scrapy-project-部署到-Scrapyd"><a href="#Scrapy-project-部署到-Scrapyd" class="headerlink" title="Scrapy project 部署到 Scrapyd"></a>Scrapy project 部署到 Scrapyd</h3><ul>
+<li>eggifying the project</li>
+<li>uploading the egg to Scrapyd via the addversion.json</li>
+<li>以上手动步骤可以通过 scrapyd-client 提供的 scrapyd-deploy 工具实现</li>
+</ul>
+<h3 id="安装-scrapyd-client"><a href="#安装-scrapyd-client" class="headerlink" title="安装 scrapyd-client"></a>安装 scrapyd-client</h3><pre><code>pip install scrapyd-client
+</code></pre><h3 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h3><pre><code>scrapyd-deploy &lt;target&gt; -p &lt;project&gt;
+</code></pre><ul>
+<li><p>可以编辑 scrapy.cfg 设置默认值，免于指定 target 和 project</p>
+<pre><code>[deploy:target]
+url = http://localhost:6800/
+username = scrapy
+password = secret
+project = myproject
+</code></pre></li>
+<li><p>执行</p>
+<pre><code>scrapyd-deploy target
+</code></pre></li>
+</ul>
+<h3 id="schedule-a-spider-run"><a href="#schedule-a-spider-run" class="headerlink" title="schedule a spider run"></a>schedule a spider run</h3><pre><code>$ curl http://localhost:6800/schedule.json -d project=myproject -d spider=spider2
+{&quot;status&quot;: &quot;ok&quot;, &quot;jobid&quot;: &quot;26d1b1a6d6f111e0be5c001e648c57f8&quot;}
+</code></pre><h2 id="scrapy-redis-分布式"><a href="#scrapy-redis-分布式" class="headerlink" title="scrapy-redis 分布式"></a>scrapy-redis 分布式</h2><h3 id="安装Redis"><a href="#安装Redis" class="headerlink" title="安装Redis"></a>安装Redis</h3><pre><code>yum install redis
+pip install scrapy-redis
+</code></pre><h3 id="配置Redis-，编辑-etc-redis-conf"><a href="#配置Redis-，编辑-etc-redis-conf" class="headerlink" title="配置Redis ，编辑 /etc/redis.conf"></a>配置Redis ，编辑 /etc/redis.conf</h3><ul>
+<li><p>设置访问密码</p>
+<pre><code>requirepass password
+</code></pre></li>
+<li><p>注释 bind ，可远程访问</p>
+<pre><code># bind 127.0.0.1 ::1
+</code></pre></li>
+</ul>
+<h3 id="编辑-project-的-settings-py"><a href="#编辑-project-的-settings-py" class="headerlink" title="编辑 project 的 settings.py"></a>编辑 project 的 settings.py</h3><pre><code># Enables scheduling storing requests queue in redis.
+SCHEDULER = &quot;scrapy_redis.scheduler.Scheduler&quot;
+
+# Ensure all spiders share same duplicates filter through redis.
+DUPEFILTER_CLASS = &quot;scrapy_redis.dupefilter.RFPDupeFilter&quot;
+
+# Store scraped item in redis for post-processing.
+ITEM_PIPELINES = {
+    &apos;scrapy_redis.pipelines.RedisPipeline&apos;: 300
+}
+
+# Specify the full Redis URL for connecting (optional).
+# If set, this takes precedence over the REDIS_HOST and REDIS_PORT settings.
+REDIS_URL = &apos;redis://user:password@host:6379&apos;
+</code></pre><h3 id="运行-spider-，在-project-的根目录运行-1"><a href="#运行-spider-，在-project-的根目录运行-1" class="headerlink" title="运行 spider ，在 project 的根目录运行"></a>运行 spider ，在 project 的根目录运行</h3><pre><code>scrapy crawl quotes
+</code></pre><h3 id="处理-Item"><a href="#处理-Item" class="headerlink" title="处理 Item"></a>处理 Item</h3><p>所有 Item 保存在 Redis ，key 为 quotes:items ，可以写脚本保存到数据库。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/scrapy-scrapyd-Redis/" rel="tag"># scrapy scrapyd Redis</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/12/bigdata/spark-HelloWorld/" rel="next" title="Spark">
+                <i class="fa fa-chevron-left"></i> Spark
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/08/06/spider/spider_court/" rel="prev" title="中国裁判文书网反爬机制更新">
+                中国裁判文书网反爬机制更新 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="Jokers" />
+          <p class="site-author-name" itemprop="name">Jokers</p>
+           
+              <p class="site-description motion-element" itemprop="description">hlxstc680@gmail.com</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Scrapy"><span class="nav-number">1.</span> <span class="nav-text">Scrapy</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装"><span class="nav-number">1.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用-scrapy-命令生成一个新的-project"><span class="nav-number">1.2.</span> <span class="nav-text">使用 scrapy 命令生成一个新的 project</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在-tutorial-spiders-目录下创建第一个-spider"><span class="nav-number">1.3.</span> <span class="nav-text">在 tutorial/spiders 目录下创建第一个 spider</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运行-spider-，在-project-的根目录运行"><span class="nav-number">1.4.</span> <span class="nav-text">运行 spider ，在 project 的根目录运行</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Scrapyd-，远程管理-Scrapy"><span class="nav-number">2.</span> <span class="nav-text">Scrapyd ，远程管理 Scrapy</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-1"><span class="nav-number">2.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#远程访问，修改配置文件-site-packages-scrapyd-default-scrapyd-conf"><span class="nav-number">2.2.</span> <span class="nav-text">远程访问，修改配置文件 site-packages/scrapyd/default_scrapyd.conf</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运行"><span class="nav-number">2.3.</span> <span class="nav-text">运行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Scrapy-project-部署到-Scrapyd"><span class="nav-number">2.4.</span> <span class="nav-text">Scrapy project 部署到 Scrapyd</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-scrapyd-client"><span class="nav-number">2.5.</span> <span class="nav-text">安装 scrapyd-client</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#部署"><span class="nav-number">2.6.</span> <span class="nav-text">部署</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#schedule-a-spider-run"><span class="nav-number">2.7.</span> <span class="nav-text">schedule a spider run</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#scrapy-redis-分布式"><span class="nav-number">3.</span> <span class="nav-text">scrapy-redis 分布式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装Redis"><span class="nav-number">3.1.</span> <span class="nav-text">安装Redis</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置Redis-，编辑-etc-redis-conf"><span class="nav-number">3.2.</span> <span class="nav-text">配置Redis ，编辑 /etc/redis.conf</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编辑-project-的-settings-py"><span class="nav-number">3.3.</span> <span class="nav-text">编辑 project 的 settings.py</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运行-spider-，在-project-的根目录运行-1"><span class="nav-number">3.4.</span> <span class="nav-text">运行 spider ，在 project 的根目录运行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#处理-Item"><span class="nav-number">3.5.</span> <span class="nav-text">处理 Item</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jokers</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://thathub-com.disqus.com.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://thathub.com/2018/07/27/spider/Scrapy/';
+          this.page.identifier = '2018/07/27/spider/Scrapy/';
+          this.page.title = 'Scrapy+Scrapyd+Redis';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://thathub-com.disqus.com.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
