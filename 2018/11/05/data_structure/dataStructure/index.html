@@ -101,7 +101,7 @@
 <meta property="og:site_name" content="Jokers&#39;s Blog">
 <meta property="og:description" content="线性表逻辑结构n个数据元素构成的有限序列。有且仅有一个开始结点a(1)，它没有直接前趋，仅有一直接后继。有且仅有一个终端点a(n)，它没有直接后继，仅有一个直接前趋。其余结点都仅有一个直接前趋和直接后继。数据运算定义在逻辑结构，而具体实现在存储结构上。 线性表的顺序存储结构把线性表的结点按逻辑次序依次存放在一组连续的存储单元里。简称顺序表。高级语言中向量或一维数组采用顺序存储，可用来描述顺序表。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-04-23T03:48:59.937Z">
+<meta property="og:updated_time" content="2019-05-05T03:31:51.964Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数据结构">
 <meta name="twitter:description" content="线性表逻辑结构n个数据元素构成的有限序列。有且仅有一个开始结点a(1)，它没有直接前趋，仅有一直接后继。有且仅有一个终端点a(n)，它没有直接后继，仅有一个直接前趋。其余结点都仅有一个直接前趋和直接后继。数据运算定义在逻辑结构，而具体实现在存储结构上。 线性表的顺序存储结构把线性表的结点按逻辑次序依次存放在一组连续的存储单元里。简称顺序表。高级语言中向量或一维数组采用顺序存储，可用来描述顺序表。">
@@ -380,7 +380,33 @@ typedef struct {
     DataType data[ListSize];
     int length;
 }SeqList;
-</code></pre><h3 id="线性表的链式存储结构"><a href="#线性表的链式存储结构" class="headerlink" title="线性表的链式存储结构"></a>线性表的链式存储结构</h3><p>顺序存储结构的插入和删除操作会移动大量结点，为避免大量结点的移动，可使用链式存储结构。链式存储还可用于各种非线形的逻辑结构。<br>物理存储单元的地址可以不连续，单链表每个结点除了存储值以外还要存储后继结点的地址。<br>c语言描述如下：</p>
+</code></pre><ul>
+<li><p>插入</p>
+<pre><code>void InsertList(SeqList * L, DataType x, int i){
+    if(i&lt;1 || i&gt;L-&gt;length+1)
+        Error(&quot;Position Error&quot;);
+    if(L-&gt;length&gt;=ListSize)
+        Error(&quot;Overflow&quot;);
+    for(int j=L-&gt;length; j&gt;=i; j--){
+        L-&gt;data[j] = L-&gt;data[j-1];
+    }
+    L[i-1] = x;
+    L-&gt;length ++;
+}
+</code></pre></li>
+<li><p>删除</p>
+<pre><code>void DeleteList(SeqList * L, int i){
+    if(i&lt;1 || i&gt;L-&gt;length-1){
+        Error(&quot;Position Error&quot;);
+    }
+    for(int j=i; j&lt;L-&gt;length; j++){
+        L-&gt;data[j-1] = L-&gt;data[j];
+    }
+    L-&gt;length --;
+}
+</code></pre></li>
+</ul>
+<h3 id="线性表的链式存储结构"><a href="#线性表的链式存储结构" class="headerlink" title="线性表的链式存储结构"></a>线性表的链式存储结构</h3><p>顺序存储结构的插入和删除操作会移动大量结点，为避免大量结点的移动，可使用链式存储结构。链式存储还可用于各种非线形的逻辑结构。<br>物理存储单元的地址可以不连续，单链表每个结点除了存储值以外还要存储后继结点的地址。<br>c语言描述如下：</p>
 <pre><code>typedef char DataType;
 typedef struct node{
     DataType value;
@@ -391,7 +417,94 @@ LinkList head;
 ListNode * p;
 </code></pre><p>ListNode * 和 LinkList 是同一个指针类型，命名不同的目的是概念上更明确。head表示单链表的头指针，p表示结点指针。<br>p的值是某一节点地址，程序执行过程中生成属于动态变量，通过标准函数生成，即：</p>
 <pre><code>p = (ListNode * )malloc(sizeof(ListNode))
-</code></pre><h2 id="栈和队列"><a href="#栈和队列" class="headerlink" title="栈和队列"></a>栈和队列</h2><p>逻辑结构与线性表相同，又称为运算受限的线性表。</p>
+</code></pre><ul>
+<li><p>头插法创建单链表</p>
+<pre><code>LinkList CreateListF(){
+    LinkList head;
+    head = NULL;
+    ListNode * s;
+    char ch = getchar();
+    while(ch != &apos;\n&apos;){
+        s = (ListNode * )malloc(sieof(ListNode));
+        s -&gt; value = ch;
+        s -&gt; next = head;
+        head = s;
+        ch = getchar();
+    }
+    return head;
+}
+</code></pre></li>
+<li><p>尾插法创建单链表</p>
+<pre><code>LinkList CreateListT(){
+    LinkList head;
+    head = NULL;
+    LinkList tail;
+    tail = NULL;
+    ListNode * s;
+    char ch = getchar();
+    while(ch != &apos;\n&apos;){
+        s = (ListNode * )malloc(sieof(ListNode));
+        s -&gt; value = ch;
+        tail -&gt; next = s;
+        tail = s;
+        ch = getchar();
+        if(head == NULL)
+            head = s
+    }
+    if(r != NULL)
+        r -&gt; next = NULL;  //尾节点置空
+    return head;
+}
+</code></pre></li>
+<li><p>查找</p>
+<pre><code>//按位置查找
+ListNode * GetNode(LinkList head, int i){
+    int j = 0;
+    ListNode p = head;
+    while(j&lt;i &amp;&amp; p-&gt;next){
+        p = p-&gt;next;
+        j++;
+    }
+    if(j == i)
+        return p;
+    else
+        return NULL;
+}
+
+//按值查找
+ListNode * LocateNode(LinkList head, DataType key){
+    ListNode * p;
+    p = head-&gt;next;
+    while(p){
+        if(key == p-&gt;value)
+            return p;
+        p = p-&gt;next;
+    }
+    return NULL;
+}
+</code></pre></li>
+<li><p>插入</p>
+<pre><code>void InsertList(LinkList head, DataType x, int i){
+    ListNode * p = GetNode(head, i-1);
+    if(p == NULL)
+        Error(&quot;Position Error&quot;);
+    ListNode * s = (ListNode * )malloc(sizeof(ListNode));
+    s -&gt; value = x;
+    s -&gt; next = p -&gt; next;
+    p -&gt; next = s;
+}
+
+void DeleteList(LinkList head, int i){
+    ListNode * p = GetNode(head, i-1);
+    if(p == NULL || p-&gt;next==NULL)
+        Error(&quot;Position Error&quot;);
+    r = p-&gt;next;
+    p -&gt; next = r-&gt;next;
+    free(r);
+}
+</code></pre></li>
+</ul>
+<h2 id="栈和队列"><a href="#栈和队列" class="headerlink" title="栈和队列"></a>栈和队列</h2><p>逻辑结构与线性表相同，又称为运算受限的线性表。</p>
 <h3 id="栈"><a href="#栈" class="headerlink" title="栈"></a>栈</h3><p>顺序栈的定义</p>
 <pre><code># define StackSize 100
 typedef char DataType;
@@ -399,7 +512,7 @@ typedef struct{
     DataType data[StackSize];
     int top; # 指示当前栈顶位置，又称栈顶指针
 }SeqStack;
-</code></pre><h3 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h3><p>顺序队列，分别设置队头front指针和队尾rear指针。初值均为0。当插入元素时，插入rear所指位置，rear加1。当删除元素时，删除front所指位置，front加1。可见当front==rear时，队列为空。为防止假上溢现象，将向量空间想像为首尾相接的循环向量称为循环队列。<br>加1操作可描述为模运算</p>
+</code></pre><h3 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h3><h4 id="顺序队列"><a href="#顺序队列" class="headerlink" title="顺序队列"></a>顺序队列</h4><p>顺序队列，分别设置队头front指针和队尾rear指针。初值均为0。当插入元素时，插入rear所指位置，rear加1。当删除元素时，删除front所指位置，front加1。可见当front==rear时，队列为空。为防止假上溢现象，将向量空间想像为首尾相接的循环向量称为循环队列。<br>加1操作可描述为模运算</p>
 <pre><code>i = (i+1)%QueueSize;
 </code></pre><p>注意，循环队列front==rear时，可能是队列满<br>循环队列定义</p>
 <pre><code># define QueueSize 100
@@ -409,17 +522,26 @@ typedef struct{
     int front;
     int rear;
     int count; # 区分队列空或满
+} CirQueue;
+</code></pre><ul>
+<li><p>队列初始化</p>
+<pre><code>void InitQueue(CirQueue * Q){
+    Q-&gt;front = Q-&gt;rear = 0;
+    Q-&gt;count = 0;
 }
-</code></pre><h3 id="栈和队列应用实例"><a href="#栈和队列应用实例" class="headerlink" title="栈和队列应用实例"></a>栈和队列应用实例</h3><ul>
+</code></pre></li>
+</ul>
+<h3 id="栈和队列应用实例"><a href="#栈和队列应用实例" class="headerlink" title="栈和队列应用实例"></a>栈和队列应用实例</h3><ul>
 <li><p>十进制整数N转换为B进制数</p>
 <pre><code>void MultiBaseOutput(int N, int B){
     SeqStack S;
+    int i;
     while(N != 0){
         push(&amp;S, N%B);
         N = N/B #整除
     }
     while(!StackEmpty(S)){
-        pop(&amp;S);
+        i = pop(&amp;S);
         printf(&quot;%d&quot;, i);
     }
 }
@@ -442,24 +564,23 @@ typedef struct{
 <li>满二叉树，深度位k且有2^k-1个结点</li>
 <li>完全二叉树，最底层的结点集中在左边</li>
 </ul>
-<h3 id="二叉树的链式存储"><a href="#二叉树的链式存储" class="headerlink" title="二叉树的链式存储"></a>二叉树的链式存储</h3><pre><code>typedef char DataType;
+<h4 id="二叉树的链式存储"><a href="#二叉树的链式存储" class="headerlink" title="二叉树的链式存储"></a>二叉树的链式存储</h4><pre><code>typedef char DataType;
 typedef struct node{
     DataType data;
     struct node * left;
     struct node * right;
 }BinTNode;
 typedef BinTNode * BinTree;
-</code></pre><h3 id="二叉树的遍历"><a href="#二叉树的遍历" class="headerlink" title="二叉树的遍历"></a>二叉树的遍历</h3><p>前序遍历，中序遍历，后序遍历</p>
-<pre><code># 前序遍历
-void Inorder(BinTree T){
+</code></pre><h4 id="二叉树的遍历"><a href="#二叉树的遍历" class="headerlink" title="二叉树的遍历"></a>二叉树的遍历</h4><p>前序遍历，中序遍历，后序遍历</p>
+<pre><code># 中序遍历
+void Inorder(BinTree * T){
     if(T){
         Iorder(T-&gt;lchild);
         print(&quot;%c&quot;, T-&gt;data)
         Iorder(T-&gt;rchild);
     }
 }
-
-# 先序序列构建二叉树
+</code></pre><h4 id="二叉树的构建"><a href="#二叉树的构建" class="headerlink" title="二叉树的构建"></a>二叉树的构建</h4><pre><code># 先序序列构建二叉树
 void createBinTree(BinTree T){
     char c;
     c = getchar();
@@ -472,7 +593,7 @@ void createBinTree(BinTree T){
         createBinTree(T -&gt; rchild);
     }   
 }
-</code></pre><h2 id="图"><a href="#图" class="headerlink" title="图"></a>图</h2><h3 id="图的基本概念"><a href="#图的基本概念" class="headerlink" title="图的基本概念"></a>图的基本概念</h3><ul>
+</code></pre><h4 id="层次遍历"><a href="#层次遍历" class="headerlink" title="层次遍历"></a>层次遍历</h4><h4 id="求叶子和结点个数"><a href="#求叶子和结点个数" class="headerlink" title="求叶子和结点个数"></a>求叶子和结点个数</h4><h2 id="图"><a href="#图" class="headerlink" title="图"></a>图</h2><h3 id="图的基本概念"><a href="#图的基本概念" class="headerlink" title="图的基本概念"></a>图的基本概念</h3><ul>
 <li>G = (V, E)</li>
 <li>有n(n-1)/2条边的图称为完全无向图</li>
 <li>有n(n-1)条边的图称为完全有向图</li>
@@ -493,7 +614,7 @@ typedef struct{
 }MGraph;
 </code></pre></li>
 <li><p>邻接矩阵无向图创建</p>
-<pre><code>void createGraph(MGraph * g){
+<pre><code>void createMGraph(MGraph * g){
     int i, j, k, w;
     scanf(&quot;%d%d&quot;, &amp;g-&gt;n, &amp;g-&gt;e);
     for(i=0; i&lt;g-&gt;n; i++){
@@ -511,9 +632,72 @@ typedef struct{
     }
 }
 </code></pre></li>
+<li><p>邻接表表示法及其创建算法</p>
+<pre><code>typedef struct node{
+    int adjvex;
+    struct node * next;
+}EdgeNode;
+
+typedef struct vnode{
+    VertexType vertex;
+    EdgeNode * firstdege;
+}VertexNode;
+
+typedef VertexNode AdjList[MaxVertexNum];
+
+typedef struct{
+    AdjList adjList;
+    int n, e;
+}ALGraph;
+
+void createALGraph(ALGraph * G){
+    int i, j, k;
+    scanf(&quot;%d %d&quot;, &amp;G-&gt;n, &amp;G-&gt;e);
+    EdgeNode * s;
+    for(i=0; i&lt;G-&gt;n; i++){
+        G-&gt;adjList[i].vertex = getchar();
+        G-&gt;adjList[i].firstdege = NULL:
+    }
+    for(k=0; i&lt;G-&gt;e; k++){
+        scanf(&quot;%d %d&quot;, &amp;i, &amp;j);
+        s = (EdgeNode * )malloc(sizeof(EdgeNode));
+        s -&gt; adjvex = i;
+        s -&gt; next = G-&gt;adjList[j].firstdege;
+        G-&gt;adjList[j].firstdege = s;
+        s = (EdgeNode * )malloc(sizeof(EdgeNode));
+        s -&gt; adjvex = j;
+        s -&gt; next = G-&gt;adjList[i].firstdege;
+        G-&gt;adjList[i].firstdege = s;
+    }
+}
+</code></pre></li>
 </ul>
 <h3 id="图遍历"><a href="#图遍历" class="headerlink" title="图遍历"></a>图遍历</h3><ul>
-<li><p>深度优先遍历</p>
+<li><p>深度优先遍历–邻接表</p>
+<pre><code>Boolean visited[MaxVertexNum];
+
+void DFSTraverse(ALGraph * G){
+    for(int i=0; i&lt;G-&gt;n; i++)
+        visited[i] = FALSE;
+    for(int j=0; j&lt;G-&gt;n; j++){
+        if(!visited[j])
+            DFS(G, j);
+    }
+}
+
+void DFS(ALGraph * G, int i){
+    printf(&quot;%c&quot;, G-&gt;adjList[i].vertex);
+    visited[i] = TRUE;
+    EdgeNode * p = G-&gt;adjList[i].firstdege;    
+    while(p){
+        if(!visited(p-&gt;adjvex)){
+            DFS(G, p-&gt;adjvex);
+        }
+        p = p-&gt;next;
+    }
+}
+</code></pre></li>
+<li><p>深度优先遍历–邻接矩阵</p>
 <pre><code>int visited[MaxVertexNum];
 void DFTraversal(MGraph * g){
     int i;
@@ -537,7 +721,38 @@ void DFS(MGraph * g, i){
     }
 }
 </code></pre></li>
-<li><p>广度优先遍历</p>
+<li><p>广度优先遍历–邻接表</p>
+<pre><code>Boolean visited[MaxVertexNum];
+
+void DFSTraverse(ALGraph * G){
+    for(int i=0; i&lt;G-&gt;n; i++)
+        visited[i] = FALSE;
+    for(int j=0; j&lt;G-&gt;n; j++){
+        if(!visited[j])
+            DFS(G, j);
+    }
+}
+
+void DFS(ALGraph * G, int i){
+    printf(&quot;%c&quot;, G-&gt;adjList[i].vertex);
+    visited[i] = TRUE;
+    EnQueue(&amp;Q, i);
+    EdgeNode * p;
+    while(!QueueEmpty(&amp;Q)){
+        i = DeQueue(&amp;Q);
+        p = G-&gt;adjList[i].firstdege;
+        while(p){
+            if(!visited(p-&gt;adjvex)){
+                printf(&quot;%c&quot;, G-&gt;adjList[p-&gt;adjvex].vertex);
+                visited[p-&gt;adjvex] = TRUE;
+                EnQueue(&amp;Q, i);
+            }
+            p = p-&gt;next;
+        }
+    }
+}
+</code></pre></li>
+<li><p>广度优先遍历–邻接矩阵</p>
 <pre><code>int visited[MaxVertexNum];
 void DFTraversal(MGraph * g){
     int i;
@@ -598,7 +813,138 @@ void insertSort(SeqList R){
 <li><p>希尔排序</p>
 </li>
 </ul>
+<h3 id="交换排序"><a href="#交换排序" class="headerlink" title="交换排序"></a>交换排序</h3><ul>
+<li><p>冒泡</p>
+<pre><code>void BubbleSort(SeqList R){
+    int i, j;
+    Boolean exchange;
+    for(i=1; i&lt;n; i++){
+        exchange = FALSE;
+        for(j=n; j&gt;i; j--){
+            if(R[j]&lt;R[j-1]){
+                R[0] = R[j-1];
+                R[j-1] = R[j];
+                R[j] = R[0];
+                exchange = TRUE;
+            }
+        }
+        if(!exchange)
+            break;
+    }
+}
+</code></pre></li>
+<li><p>快速排序</p>
+<pre><code>void QuickSort(SeqList R, int low, int high){
+    int pivotpos;
+    if(low &lt; high){
+        pivotpos = Partition(R, low, high);
+        QuickSort(R, low, pivotpos-1);
+        QuickSort(R, pivotpos+1, high)
+    }
+}
 
+void Partition(SeqList R, int i, int j){
+    RecType pivot = R[i];
+    while(i&lt;j){
+        while(i&lt;j &amp;&amp; R[j]&gt;=pivot){
+            j--;
+        }
+        if(i&lt;j){
+            R[i] = R[j];
+            i++;
+        }
+        while(i&lt;j &amp;&amp; R[i]&lt;=pivot){
+            i++;
+        }
+        if(i&lt;j){
+            R[j] = R[i];
+            j--;
+        }
+    }
+    R[i] = pivot;
+    return i;
+}
+</code></pre></li>
+</ul>
+<h3 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h3><ul>
+<li><p>直接选择排序</p>
+<pre><code>void selectSort(SeqList R){
+    int i, j, k;
+    for(i=1; i&lt;n; i++){
+        k = i;
+        for(j=i+1; j&lt;=n; j++){
+            if(R[j] &lt; R[k]){
+                k = j;
+            }
+        }
+        if(k != i){
+            R[0] = R[i];
+            R[i] = R[k];
+            R[k] = R[0];
+        }
+    }
+}
+</code></pre></li>
+<li><p>堆排序</p>
+<pre><code>void HeapSort(SeqList R){
+    int i;
+    BuidHeap(R);
+    for(i=n; i&gt;1; i--){
+        R[0] = R[1];
+        R[1] = R[i]
+        R[i] = R[0];
+        Heapify(R, 1, i-1);
+    }
+}
+
+void Heapify(SeqList R, int low, int high){
+    while(low &lt;= high){
+        tmp = 2*low;
+        if(R[low]&gt;=R[tmp] &amp;&amp; R[low]&gt;=R[tmp+1])
+            break;
+        if(tmp+1&lt;=high &amp;&amp; R[tmp]&lt;R[tmp+1])
+            tmp ++;
+        t = R[low];
+        R[low] = R[tmp];
+        R[tmp] = t;
+        low = tmp;
+    }
+}
+
+void BuidHeap(SeqList R){
+    for(int i=n/2; i&gt;=1; i--)
+        Heapify(R, i, n)
+}
+</code></pre></li>
+</ul>
+<h3 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h3><pre><code>void Merge(SeqList R, int low, int m, int high){
+    // R[low...m]和R[m+1...high]为有序序列
+    RecType * R1 = (RecType * )malloc((high-low+1)* sizeof(RecType));
+    int i = low;
+    int j = m+1;
+    int p = 0;
+    while(i&lt;=m &amp;&amp; j&lt;=high)
+        R1[p++] = (R[i]&lt;=R[j]):R[i++]?R[j++];
+    while(i&lt;=m)
+        R1[p++] = R[i++];
+    while(j&lt;=high)
+        R1[p++] = R[j++];
+    for(p=0,i=low; i&lt;=high; i++, p++){
+        R[i] = R1[p];   
+    }
+}
+
+// 自顶向下
+void MergeSortDC(SeqList R, int low, int high){
+    int mid;
+    if(low &lt; high){
+        mid = (low + high)/2;
+        MergeSortDC(R, low, mid);
+        MergeSortDC(R, mid+1, high);
+        Merge(R, low, mid, high);
+    }
+}
+</code></pre>
       
     </div>
     
@@ -775,7 +1121,7 @@ void insertSort(SeqList R){
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#线性表"><span class="nav-number">1.</span> <span class="nav-text">线性表</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#逻辑结构"><span class="nav-number">1.1.</span> <span class="nav-text">逻辑结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线性表的顺序存储结构"><span class="nav-number">1.2.</span> <span class="nav-text">线性表的顺序存储结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线性表的链式存储结构"><span class="nav-number">1.3.</span> <span class="nav-text">线性表的链式存储结构</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#栈和队列"><span class="nav-number">2.</span> <span class="nav-text">栈和队列</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#栈"><span class="nav-number">2.1.</span> <span class="nav-text">栈</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#队列"><span class="nav-number">2.2.</span> <span class="nav-text">队列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#栈和队列应用实例"><span class="nav-number">2.3.</span> <span class="nav-text">栈和队列应用实例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#树"><span class="nav-number">3.</span> <span class="nav-text">树</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#树的基本概念"><span class="nav-number">3.1.</span> <span class="nav-text">树的基本概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二叉树"><span class="nav-number">3.2.</span> <span class="nav-text">二叉树</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二叉树的链式存储"><span class="nav-number">3.3.</span> <span class="nav-text">二叉树的链式存储</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二叉树的遍历"><span class="nav-number">3.4.</span> <span class="nav-text">二叉树的遍历</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图"><span class="nav-number">4.</span> <span class="nav-text">图</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#图的基本概念"><span class="nav-number">4.1.</span> <span class="nav-text">图的基本概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#图的存储结构"><span class="nav-number">4.2.</span> <span class="nav-text">图的存储结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#图遍历"><span class="nav-number">4.3.</span> <span class="nav-text">图遍历</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#排序"><span class="nav-number">5.</span> <span class="nav-text">排序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#插入排序"><span class="nav-number">5.1.</span> <span class="nav-text">插入排序</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#线性表"><span class="nav-number">1.</span> <span class="nav-text">线性表</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#逻辑结构"><span class="nav-number">1.1.</span> <span class="nav-text">逻辑结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线性表的顺序存储结构"><span class="nav-number">1.2.</span> <span class="nav-text">线性表的顺序存储结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线性表的链式存储结构"><span class="nav-number">1.3.</span> <span class="nav-text">线性表的链式存储结构</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#栈和队列"><span class="nav-number">2.</span> <span class="nav-text">栈和队列</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#栈"><span class="nav-number">2.1.</span> <span class="nav-text">栈</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#队列"><span class="nav-number">2.2.</span> <span class="nav-text">队列</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#顺序队列"><span class="nav-number">2.2.1.</span> <span class="nav-text">顺序队列</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#栈和队列应用实例"><span class="nav-number">2.3.</span> <span class="nav-text">栈和队列应用实例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#树"><span class="nav-number">3.</span> <span class="nav-text">树</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#树的基本概念"><span class="nav-number">3.1.</span> <span class="nav-text">树的基本概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二叉树"><span class="nav-number">3.2.</span> <span class="nav-text">二叉树</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#二叉树的链式存储"><span class="nav-number">3.2.1.</span> <span class="nav-text">二叉树的链式存储</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二叉树的遍历"><span class="nav-number">3.2.2.</span> <span class="nav-text">二叉树的遍历</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二叉树的构建"><span class="nav-number">3.2.3.</span> <span class="nav-text">二叉树的构建</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#层次遍历"><span class="nav-number">3.2.4.</span> <span class="nav-text">层次遍历</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#求叶子和结点个数"><span class="nav-number">3.2.5.</span> <span class="nav-text">求叶子和结点个数</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图"><span class="nav-number">4.</span> <span class="nav-text">图</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#图的基本概念"><span class="nav-number">4.1.</span> <span class="nav-text">图的基本概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#图的存储结构"><span class="nav-number">4.2.</span> <span class="nav-text">图的存储结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#图遍历"><span class="nav-number">4.3.</span> <span class="nav-text">图遍历</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#排序"><span class="nav-number">5.</span> <span class="nav-text">排序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#插入排序"><span class="nav-number">5.1.</span> <span class="nav-text">插入排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#交换排序"><span class="nav-number">5.2.</span> <span class="nav-text">交换排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#选择排序"><span class="nav-number">5.3.</span> <span class="nav-text">选择排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#归并排序"><span class="nav-number">5.4.</span> <span class="nav-text">归并排序</span></a></li></ol></li></ol></div>
             
 
           </div>

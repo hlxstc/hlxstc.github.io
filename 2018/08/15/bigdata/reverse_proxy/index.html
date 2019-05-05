@@ -101,7 +101,7 @@
 <meta property="og:site_name" content="Jokers&#39;s Blog">
 <meta property="og:description" content="安装 Nginx ，先安装 EPEL repository$ yum install epel-release $ yum install nginx $ systemctl start nginx $ systemctl enable nginx httpd-tools, setting up an HTTP authentication$ yum install httpd-tools  cr">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-04-23T03:47:19.503Z">
+<meta property="og:updated_time" content="2019-04-26T06:22:29.747Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Nginx作反向代理保护Kibana">
 <meta name="twitter:description" content="安装 Nginx ，先安装 EPEL repository$ yum install epel-release $ yum install nginx $ systemctl start nginx $ systemctl enable nginx httpd-tools, setting up an HTTP authentication$ yum install httpd-tools  cr">
@@ -379,7 +379,7 @@ $ systemctl enable nginx
 </code></pre><h3 id="httpd-tools-setting-up-an-HTTP-authentication"><a href="#httpd-tools-setting-up-an-HTTP-authentication" class="headerlink" title="httpd-tools, setting up an HTTP authentication"></a>httpd-tools, setting up an HTTP authentication</h3><pre><code>$ yum install httpd-tools
 </code></pre><ul>
 <li><p>create a “.htpasswd” file to store our credential data such as Usernames and Passwords in an encrypted format</p>
-<pre><code>$ htpasswd -c [filename] /etc/nginx/ username
+<pre><code>$ htpasswd -c [filename] username
 </code></pre></li>
 </ul>
 <h3 id="Configuring-Nginx"><a href="#Configuring-Nginx" class="headerlink" title="Configuring Nginx"></a>Configuring Nginx</h3><pre><code>$ /etc/nginx/nginx.conf

@@ -384,7 +384,7 @@ $ systemctl enable nginx
 </code></pre><h3 id="httpd-tools-setting-up-an-HTTP-authentication"><a href="#httpd-tools-setting-up-an-HTTP-authentication" class="headerlink" title="httpd-tools, setting up an HTTP authentication"></a>httpd-tools, setting up an HTTP authentication</h3><pre><code>$ yum install httpd-tools
 </code></pre><ul>
 <li><p>create a “.htpasswd” file to store our credential data such as Usernames and Passwords in an encrypted format</p>
-<pre><code>$ htpasswd -c [filename] /etc/nginx/ username
+<pre><code>$ htpasswd -c [filename] username
 </code></pre></li>
 </ul>
 <h3 id="Configuring-Nginx"><a href="#Configuring-Nginx" class="headerlink" title="Configuring Nginx"></a>Configuring Nginx</h3><pre><code>$ /etc/nginx/nginx.conf

@@ -101,7 +101,7 @@
 <meta property="og:site_name" content="Jokers&#39;s Blog">
 <meta property="og:description" content="前序序列构建二叉树#include &amp;lt;stdio.h&amp;gt;  #define MAX 100  typedef struct Node{     char data;     struct Node \*lChild;     struct Node \*rChild; }BinTNode;  typedef BintNode \*BinTree;  int mkTree(BinTree">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-04-23T03:48:57.883Z">
+<meta property="og:updated_time" content="2019-05-03T07:40:57.618Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数据结构--二叉树">
 <meta name="twitter:description" content="前序序列构建二叉树#include &amp;lt;stdio.h&amp;gt;  #define MAX 100  typedef struct Node{     char data;     struct Node \*lChild;     struct Node \*rChild; }BinTNode;  typedef BintNode \*BinTree;  int mkTree(BinTree">
@@ -401,6 +401,7 @@ int mkTree(BinTree bt, char \*str, int i){
     return i;
 }
 
+&lt;!-- 前序遍历 --&gt;
 void preSort(BintTree bt){
     if(bt){
         printf(&quot;%c-&gt;&quot;, bt-&gt;data);
@@ -511,8 +512,8 @@ int main(){
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/11/05/data_structure/dataStructure_multiArr/" rel="next" title="数据结构--多维数组">
-                <i class="fa fa-chevron-left"></i> 数据结构--多维数组
+              <a href="/2018/11/05/data_structure/dataStructure_graph/" rel="next" title="数据结构--图">
+                <i class="fa fa-chevron-left"></i> 数据结构--图
               </a>
             
           </div>
@@ -521,8 +522,8 @@ int main(){
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/11/05/data_structure/dataStructure_graph/" rel="prev" title="数据结构--图">
-                数据结构--图 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/11/05/data_structure/dataStructure_order/" rel="prev" title="数据结构--排序">
+                数据结构--排序 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
