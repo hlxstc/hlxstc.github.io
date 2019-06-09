@@ -273,6 +273,401 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/08/28/web/flask/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/28/web/flask/" itemprop="url">Flask使用</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-28T10:00:58+08:00">
+                2018-08-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Flask/" itemprop="url" rel="index">
+                    <span itemprop="name">Flask</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/08/28/web/flask/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/08/28/web/flask/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>所有Web框架的使用都有自己的套路，作为一个框架本质就是一个工具。</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><pre><code>pip install Flask
+</code></pre><h3 id="自动安装的依赖"><a href="#自动安装的依赖" class="headerlink" title="自动安装的依赖"></a>自动安装的依赖</h3><ul>
+<li><a href="http://werkzeug.pocoo.org/" target="_blank" rel="noopener">Werkzeug</a> 应用及服务间的标准接口</li>
+<li><a href="http://jinja.pocoo.org/" target="_blank" rel="noopener">Jinja</a> 模板</li>
+<li><a href="https://pypi.org/project/MarkupSafe/" target="_blank" rel="noopener">MarkupSafe</a> Jinja附带，防止注入攻击</li>
+<li><a href="https://pythonhosted.org/itsdangerous/" target="_blank" rel="noopener">ItsDangerous</a> 数据完整性，保护 session cookie 安全</li>
+<li><a href="http://click.pocoo.org/5/" target="_blank" rel="noopener">Click</a> 命令行应用框架</li>
+</ul>
+<h3 id="可选安装的依赖"><a href="#可选安装的依赖" class="headerlink" title="可选安装的依赖"></a>可选安装的依赖</h3><ul>
+<li><a href="https://pythonhosted.org/blinker/" target="_blank" rel="noopener">Blinker</a> provides support for <a href="http://flask.pocoo.org/docs/1.0/signals/#signals" target="_blank" rel="noopener">Signals</a></li>
+<li><a href="https://simplejson.readthedocs.io/en/latest/" target="_blank" rel="noopener">SimpleJSON</a> fast JSON</li>
+<li><a href="https://github.com/theskumar/python-dotenv#readme" target="_blank" rel="noopener">python-dotenv</a></li>
+<li><a href="https://pythonhosted.org/watchdog/" target="_blank" rel="noopener">Watchdog</a></li>
+</ul>
+<h2 id="Virtual-environments"><a href="#Virtual-environments" class="headerlink" title="Virtual environments"></a>Virtual environments</h2><ul>
+<li>创建<br>  $ mkdir myproject<br>  $ cd myproject<br>  $ python3 -m venv venv</li>
+<li>激活<br>  $ . venv/bin/activate</li>
+</ul>
+<h2 id="简单示例"><a href="#简单示例" class="headerlink" title="简单示例"></a>简单示例</h2><pre><code>from flask import Flask
+app = Flask(__name__)
+
+@app.route(&apos;/&apos;)
+def hello_world():
+return &apos;Hello, World!&apos;
+</code></pre><ul>
+<li>运行，设置环境变量 FLASK_APP<pre><code>$ FLASK_APP=hello.py flask run
+</code></pre></li>
+<li>监听公共 IP ，确保 debugger 模式已关<pre><code>flask run --host=0.0.0.0
+</code></pre></li>
+</ul>
+<h2 id="Debug-Mode"><a href="#Debug-Mode" class="headerlink" title="Debug Mode"></a>Debug Mode</h2><pre><code>export FLASK_ENV=development
+or FLASK_APP=hello.py FLASK_ENV=development flask run
+</code></pre><h2 id="Variable-Rules"><a href="#Variable-Rules" class="headerlink" title="Variable Rules"></a>Variable Rules</h2><pre><code>@app.route(&apos;/user/&lt;username&gt;&apos;)
+def show_user_profile(username):
+    # show the user profile for that user
+    return &apos;User %s&apos; % username
+
+@app.route(&apos;/post/&lt;int:post_id&gt;&apos;)
+def show_post(post_id):
+    # show the post with the given id, the id is an integer
+    return &apos;Post %d&apos; % post_id
+
+@app.route(&apos;/path/&lt;path:subpath&gt;&apos;)
+def show_subpath(subpath):
+    # show the subpath after /path/
+    return &apos;Subpath %s&apos; % subpath
+</code></pre><h2 id="URL-结尾斜线"><a href="#URL-结尾斜线" class="headerlink" title="URL 结尾斜线"></a>URL 结尾斜线</h2><ul>
+<li>不带斜线访问，会 redirects 到带斜线的 URL<pre><code>@app.route(&apos;/projects/&apos;)
+def projects():
+    return &apos;The project page&apos;
+</code></pre></li>
+<li>带斜线访问，会返回404，避免搜索引擎索引同一个页面两次<pre><code>@app.route(&apos;/about&apos;)
+def about():
+    return &apos;The about page&apos;
+</code></pre></li>
+</ul>
+<h2 id="HTTP-Methods"><a href="#HTTP-Methods" class="headerlink" title="HTTP Methods"></a>HTTP Methods</h2><pre><code>from flask import request
+
+@app.route(&apos;/login&apos;, methods=[&apos;GET&apos;, &apos;POST&apos;])
+def login():
+if request.method == &apos;POST&apos;:
+    return do_the_login()
+else:
+    return show_the_login_form()
+</code></pre><h2 id="URL-构建"><a href="#URL-构建" class="headerlink" title="URL 构建"></a>URL 构建</h2><pre><code>from flask import Flask, url_for
+
+app = Flask(__name__)
+
+@app.route(&apos;/&apos;)
+def index():
+    return &apos;index&apos;
+
+@app.route(&apos;/login&apos;)
+def login():
+    return &apos;login&apos;
+
+@app.route(&apos;/user/&lt;username&gt;&apos;)
+def profile(username):
+    return &apos;{}\&apos;s profile&apos;.format(username)
+
+with app.test_request_context():
+    print(url_for(&apos;index&apos;))
+    print(url_for(&apos;login&apos;))
+    print(url_for(&apos;login&apos;, next=&apos;/&apos;))
+    print(url_for(&apos;profile&apos;, username=&apos;John Doe&apos;))
+
+/
+/login
+/login?next=/
+/user/John%20Doe
+</code></pre><h2 id="Static-Files"><a href="#Static-Files" class="headerlink" title="Static Files"></a>Static Files</h2><p>在项目下创建 static 目录，存放 static files ,对于 url_for ，static 是保留字，用于生成指向 static 目录下的 URL</p>
+<pre><code>url_for(&apos;static&apos;, filename=&apos;style.css&apos;)
+</code></pre><h2 id="Rendering-Templates"><a href="#Rendering-Templates" class="headerlink" title="Rendering Templates"></a>Rendering Templates</h2><p>Flask 自动配置<a href="http://jinja.pocoo.org/docs/2.10/templates/" target="_blank" rel="noopener">Jinja2</a> template engine. Flask 自动去 templates 目录查找 template</p>
+<pre><code>from flask import render_template
+
+@app.route(&apos;/hello/&apos;)
+@app.route(&apos;/hello/&lt;name&gt;&apos;)
+def hello(name=None):
+    return render_template(&apos;hello.html&apos;, name=name)
+</code></pre><h2 id="The-Request-Object"><a href="#The-Request-Object" class="headerlink" title="The Request Object"></a>The Request Object</h2><pre><code>from flask import request
+
+@app.route(&apos;/login&apos;, methods=[&apos;POST&apos;, &apos;GET&apos;])
+def login():
+    error = None
+    if request.method == &apos;POST&apos;:
+        if valid_login(request.form[&apos;username&apos;],
+                       request.form[&apos;password&apos;]):
+            return log_the_user_in(request.form[&apos;username&apos;])
+        else:
+            error = &apos;Invalid username/password&apos;
+    # the code below is executed if the request method
+    # was GET or the credentials were invalid
+    return render_template(&apos;login.html&apos;, error=error)
+</code></pre><ul>
+<li>获取 form data, 使用 form 属性</li>
+<li>获取 parameters submitted in the URL (?key=value), request.args.get(‘key’, ‘’)</li>
+</ul>
+<h2 id="File-Uploads"><a href="#File-Uploads" class="headerlink" title="File Uploads"></a>File Uploads</h2><p>enctype=”multipart/form-data”</p>
+<pre><code>from flask import request
+
+@app.route(&apos;/upload&apos;, methods=[&apos;GET&apos;, &apos;POST&apos;])
+def upload_file():
+if request.method == &apos;POST&apos;:
+    f = request.files[&apos;the_file&apos;]
+    f.save(&apos;/var/www/uploads/uploaded_file.txt&apos;)
+...
+</code></pre><ul>
+<li><p>使用客户端的文件名存储在服务端，可以使用 secure_filename() 获取文件名</p>
+<pre><code>from flask import request
+from werkzeug.utils import secure_filename
+
+@app.route(&apos;/upload&apos;, methods=[&apos;GET&apos;, &apos;POST&apos;])
+    def upload_file():
+    if request.method == &apos;POST&apos;:
+    f = request.files[&apos;the_file&apos;]
+    f.save(&apos;/var/www/uploads/&apos; + secure_filename(f.filename))
+</code></pre></li>
+</ul>
+<h2 id="Cookies"><a href="#Cookies" class="headerlink" title="Cookies"></a>Cookies</h2><ul>
+<li><p>读</p>
+<pre><code>from flask import request
+
+@app.route(&apos;/&apos;)
+def index():
+    username = request.cookies.get(&apos;username&apos;)
+    # use cookies.get(key) instead of cookies[key] to not get a
+    # KeyError if the cookie is missing.
+</code></pre></li>
+<li><p>写</p>
+<p>  from flask import make_response</p>
+<p>  @app.route(‘/‘)<br>  def index():</p>
+<pre><code>resp = make_response(render_template(...))
+resp.set_cookie(&apos;username&apos;, &apos;the username&apos;)
+return resp
+</code></pre></li>
+<li><p>通常 Flask 自动转换返回值为 response objects ，如果自己想明确的指定 response 需要使用  make_response()</p>
+</li>
+</ul>
+<h2 id="redirect-abort"><a href="#redirect-abort" class="headerlink" title="redirect() abort()"></a>redirect() abort()</h2><pre><code>from flask import abort, redirect, url_for
+
+@app.route(&apos;/&apos;)
+def index():
+    return redirect(url_for(&apos;login&apos;))
+
+@app.route(&apos;/login&apos;)
+def login():
+    abort(401)
+    this_is_never_executed()
+</code></pre><ul>
+<li><p>使用 errorhandler() decorator 自定义 error page</p>
+<pre><code>from flask import render_template
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template(&apos;page_not_found.html&apos;), 404
+</code></pre></li>
+</ul>
+<h2 id="Sessions"><a href="#Sessions" class="headerlink" title="Sessions"></a>Sessions</h2><ul>
+<li><p>set a secret key</p>
+<pre><code>from flask import Flask, session, redirect, url_for, escape, request
+
+app = Flask(__name__)
+
+# Set the secret key to some random bytes. Keep this really secret!
+app.secret_key = b&apos;\_5#y2L&quot;F4Q8z\n\xec]/&apos;
+
+@app.route(&apos;/&apos;)
+def index():
+    if &apos;username&apos; in session:
+        return &apos;Logged in as %s&apos; % escape(session[&apos;username&apos;])
+    return &apos;You are not logged in&apos;
+
+@app.route(&apos;/login&apos;, methods=[&apos;GET&apos;, &apos;POST&apos;])
+def login():
+    if request.method == &apos;POST&apos;:
+        session[&apos;username&apos;] = request.form[&apos;username&apos;]
+        return redirect(url_for(&apos;index&apos;))
+    return &apos;&apos;&apos;
+        &lt;form method=&quot;post&quot;&gt;
+            &lt;p&gt;&lt;input type=text name=username&gt;
+            &lt;p&gt;&lt;input type=submit value=Login&gt;
+        &lt;/form&gt;
+    &apos;&apos;&apos;
+
+@app.route(&apos;/logout&apos;)
+def logout():
+    # remove the username from the session if it&apos;s there
+    session.pop(&apos;username&apos;, None)
+    return redirect(url_for(&apos;index&apos;))
+</code></pre></li>
+<li><p>escape(), 如果不使用模板引擎，escape 可转换 html 特殊字符</p>
+</li>
+<li>generate good secret keys, os.urandom(16)</li>
+</ul>
+<h2 id="Logging"><a href="#Logging" class="headerlink" title="Logging"></a>Logging</h2><pre><code>app.logger.debug(&apos;A value for debugging&apos;)
+app.logger.warning(&apos;A warning occurred (%d apples)&apos;, 42)
+app.logger.error(&apos;An error occurred&apos;)
+</code></pre><h2 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h2><ul>
+<li>Flask 自带 wsgi 扩展性能不好，仅适用于开发环境</li>
+<li>WSGI HTTP Server 可选的有 Gunicorn 和 uWSGI</li>
+<li>Nginx 作为静态文件访问容器和反向代理、分布式环境下作负载均衡</li>
+</ul>
+<h3 id="Gunicorn"><a href="#Gunicorn" class="headerlink" title="Gunicorn"></a>Gunicorn</h3><ul>
+<li><p>安装</p>
+<pre><code>$ pip install gunicorn
+</code></pre></li>
+<li><p>Async Workers<br>Gunicorn 默认同步 Workers ，通常我们还需要安装 Eventlet 或则 Gevent ，实现异步 Workers 。greenlet 是默认安装的。eventlet 和 gevent 性能差不多，可以选一个安装。</p>
+<pre><code>$ pip install greenlet            # Required for both
+$ pip install eventlet            # For eventlet workers
+$ pip install gunicorn[eventlet]  # Or, using extra
+$ pip install gevent              # For gevent workers
+$ pip install gunicorn[gevent]    # Or, using extra
+</code></pre></li>
+<li><p>运行</p>
+<pre><code>gunicorn --workers=2 --worker-class=eventlet hello:app
+</code></pre></li>
+<li><p>其它参数</p>
+<pre><code>-c CONFIG, --config=CONFIG  Specify a config file in the form $(PATH), file:$(PATH), or python:$(MODULE_NAME).
+-b BIND, --bind=BIND - Specify a server socket to bind. Server sockets can be any of $(HOST), $(HOST):$(PORT), or unix:$(PATH). An IP is a valid $(HOST).
+-n APP_NAME, --name=APP_NAME - If setproctitle is installed you can adjust the name of Gunicorn process as they appear in the process system table (which affects tools like ps and top).
+</code></pre></li>
+</ul>
+<h3 id="布署-Gunicorn"><a href="#布署-Gunicorn" class="headerlink" title="布署 Gunicorn"></a><a href="http://docs.gunicorn.org/en/stable/deploy.html" target="_blank" rel="noopener">布署 Gunicorn</a></h3>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/08/15/bigdata/reverse_proxy/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2398,159 +2793,6 @@ source ~/.bashrc
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/05/12/others/university_ranking/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jokers">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jokers's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/12/others/university_ranking/" itemprop="url">Ranking</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-12T17:46:35+08:00">
-                2018-05-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Others/" itemprop="url" rel="index">
-                    <span itemprop="name">Others</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/05/12/others/university_ranking/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/05/12/others/university_ranking/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>剑桥大学University of Cambridge<br>牛津大学University of Oxford<br>伦敦大学学院University College London<br>帝国理工学院Imperial College London<br>伦敦大学国王学院King’s College London<br>爱丁堡大学The University of Edinburgh<br>曼彻斯特大学The University of Manchester<br>伦敦政治经济学院the London Shool of Economics and Political Scienc<br>布里斯托大学University of Bristol<br>华威大学The University of Warwick<br>格拉斯哥大学University of Glasgow<br>杜伦大学Durham University<br>谢菲尔德大学The University of Sheffield<br>诺丁汉大学The University of Nottingham<br>伯明翰大学University of Birmingham<br>圣安德鲁斯大学University of St Andrews<br>利兹大学University of Leeds<br>南安普顿大学University of Southampton<br>伦敦大学玛丽女王学院Queen Mary University of London<br>兰卡斯特大学University of Lancaster<br>约克大学University of York<br>卡迪夫大学Cardiff University<br>阿伯丁大学University of Aberdeen<br>埃克塞特大学University of Exeter<br>巴斯大学University of Bath<br>纽卡斯尔大学Newcastle University<br>利物浦大学The University of Liverpool<br>雷丁大学University of Reading<br>英国女王大学Queen’s University Belfast<br>萨塞克斯大学The University of Sussex<br>拉夫堡大学Loughborough University<br>莱斯特大学University of Leicester<br>伦敦大学皇家霍洛威学院Royal Holloway University of London<br>邓迪大学University of Dundee<br>萨里大学University of Surrey<br>东英吉利大学University of East Anglia<br>思克莱德大学University of Strathclyde<br>伦敦大学亚非学院SOAS University of London<br>伦敦大学伯克贝克学院Birkbeck, University Of London<br>赫瑞·瓦特大学Heriot-Watt University<br>伦敦城市大学City University London<br>布鲁内尔大学Brunel University<br>埃塞克斯大学University of Essex<br>牛津布鲁克斯大学Oxford Brookes University<br>阿斯顿大学Aston University<br>肯特大学University of Kent<br>伦敦大学金史密斯学院Goldsmiths, University of London</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2601,7 +2843,7 @@ source ~/.bashrc
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-count">40</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
