@@ -1034,230 +1034,6 @@ db.users.find({&quot;id_num&quot; : {&quot;$not&quot; : {&quot;$mod&quot; : [5, 
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2019/04/01/quant/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jokers">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jokers's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/04/01/quant/" itemprop="url">vnpy</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-01T10:20:00+08:00">
-                2019-04-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/量化/" itemprop="url" rel="index">
-                    <span itemprop="name">量化</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/04/01/quant/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2019/04/01/quant/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="INSTALL"><a href="#INSTALL" class="headerlink" title="INSTALL"></a>INSTALL</h2><ul>
-<li>安装Tushare财经数据接口包、</li>
-<li><p>美股港股，富途开放API</p>
-<pre><code>pip install futu-api
-</code></pre></li>
-<li><p>老虎开放平台API</p>
-<pre><code>pip install tigeropen
-</code></pre></li>
-<li><p>GUI编成解决方案</p>
-<pre><code>pip install PyQt5
-</code></pre></li>
-<li><p>Qt5深色样式表</p>
-<pre><code>pip install qdarkstyle
-</code></pre></li>
-<li><p>ORM</p>
-<pre><code>pip install peewee
-</code></pre></li>
-<li><p>ta-lib</p>
-<pre><code>pip install TA-Lib
-# To use TA-Lib for python, you need to have the TA-Lib already installed:
-# Download form https://sourceforge.net/projects/ta-lib/files/ta-lib/0.4.0/ta-lib-0.4.0-src.tar.gz/download?use_mirror=jaist
-$ untar and cd
-$ ./configure --prefix=/usr
-$ make
-$ sudo make install
-</code></pre></li>
-</ul>
-<h2 id="vnpy"><a href="#vnpy" class="headerlink" title="vnpy"></a>vnpy</h2><ul>
-<li><p>fork vnpy</p>
-<pre><code>git clone git@github.com:vnpy/vnpy.git
-</code></pre></li>
-<li><p>切换到2.0.1 dev 分支</p>
-<pre><code>&lt;!-- 列出本地和远程分支 --&gt;
-git branch -a
-&lt;!-- 创建本地及切换分支 --&gt;
-git checkout -b my_dev origin/dev
-</code></pre></li>
-<li><p>安装第三方包，配置环境</p>
-<pre><code>./install.sh
-</code></pre></li>
-<li><p>启动，任意位置创建文件</p>
-<pre><code>from vnpy.event import EventEngine
-from vnpy.trader.engine import MainEngine
-from vnpy.trader.ui import MainWindow, create_qapp
-from vnpy.gateway.ctp import CtpGateway
-from vnpy.app.cta_strategy import CtaStrategyApp
-</code></pre></li>
-</ul>
-<pre><code>def main():
-    &quot;&quot;&quot;启动VN Trader&quot;&quot;&quot;
-    qapp = create_qapp()
-
-    event_engine = EventEngine()
-    main_engine = MainEngine(event_engine)
-
-    main_engine.add_gateway(CtpGateway)
-    main_engine.add_app(CtaStrategyApp)
-
-    main_window = MainWindow(main_engine, event_engine)
-    # main_window.showMaximized()
-    main_window.show()
-
-    qapp.exec()
-
-
-if __name__ == &quot;__main__&quot;:
-    &quot;&quot;&quot;.&quot;&quot;&quot;
-    main()
-</code></pre><h2 id="术语"><a href="#术语" class="headerlink" title="术语"></a>术语</h2><ul>
-<li>CTA(Commodity Trading Advisors)</li>
-<li>CTP(Comprehensive Transaction Platform)</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://thathub.com/2019/02/26/bigdata/hadoop_sqoop/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2350,6 +2126,168 @@ colorscheme desert
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/11/16/ML/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/11/16/ML/" itemprop="url">PyTorch VS TensorFlow</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-16T10:33:00+08:00">
+                2018-11-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ML/" itemprop="url" rel="index">
+                    <span itemprop="name">ML</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/11/16/ML/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/11/16/ML/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>原作者: <a href="https://www.quora.com/profile/Iliya-Valchanov" target="_blank" rel="noopener">Iliya Valchanov</a><br>转载自: <a href="https://www.quora.com/How-is-PyTorch-different-from-TensorFlow-What-are-the-advantages-of-using-one-vs-the-other-When-should-I-use-one-or-the-other/answer/Iliya-Valchanov#" target="_blank" rel="noopener">quora</a></p>
+<p>Let’s start from NumPy (you’ll see why a bit later).</p>
+<p>You can build a machine learning algorithm even with NumPy, but creating a deep neural network is getting exponentially harder. NumPy is designed for (fast) computations, and not machine learning. It is usually used for machine learning together with a machine learning package.</p>
+<h3 id="PyTorch"><a href="#PyTorch" class="headerlink" title="PyTorch"></a>PyTorch</h3><p>PyTorch is similar to NumPy in the way that it manages computations, but has a strong GPU support. Similarly to NumPy, it also has a C (the programming language) backend, so they are both much faster than native Python libraries. NumPy could be GPU accelerated (with some extra code), but it doesn’t have this strong GPU support that PyTorch or TensorFlow do. Finally, PyTorch was specifically tailored for GPU functionality in Python.</p>
+<h3 id="TensorFlow"><a href="#TensorFlow" class="headerlink" title="TensorFlow"></a>TensorFlow</h3><p>TensorFlow, on the other hand, was written mainly in C++ and CUDA (NVIDIA’s language for programming GPUs), and was not specifically created for Python. It provides functionalities in C, C++, Java, Go (Google’s language), and there is community support for Haskell and Rust [1]. So, with TF, you are not restricted by Python. Even if the syntax differs a bit across languages, the concepts are the same.</p>
+<h3 id="Comparison"><a href="#Comparison" class="headerlink" title="Comparison"></a>Comparison</h3><p>Now, PyTorch has deep neural networks functionalities and that is why it is often compared with TensorFlow, sklearn, etc. Moreover, TensorFlow has a peculiar logic (with concepts like placeholders, sessions, etc.). So, for TensorFlow, you need to make that extra effort. Knowing NumPy (which is my underlying assumption for the dear reader), it is easier to switch to PyTorch than TensorFlow, that is why it is gaining popularity so fast.</p>
+<p>As TensorFlow was used by Google for so long, it is very easy to deploy algorithms using it. So you can think about it as more product oriented. Logically, you want to be able to deploy the algorithms that you are creating (you can check out TensorFlow Serving[2] for more on that).</p>
+<p>PyTorch, on the other hand, is more recent, so it does not have the full range of capabilities of other packages. I am sure that this will change and they are on their way to catch up. However, TensorFlow has this module tf.contrib. That’s code, contributed by the community, that will probably be embedded into the core TF. Point being, the TensorFlow community is stronger, because TF is older. I don’t know if PyTorch will catch up to the community of TF (that depends on the users and the adoption).</p>
+<h3 id="Opinion"><a href="#Opinion" class="headerlink" title="Opinion"></a>Opinion</h3><p>So, my verdict would be that TensorFlow has kind of stood the test of time (if you can use this expression for a framework that is not that old itself) and is still more widely adopted. It has more capabilities and a better scalability for larger projects (projects of the scale of Google). PyTorch is surely gaining momentum as it is easier to learn but doesn’t have the same integration. It is very good for small projects that need to be done quite fast, but is not optimal for product deployment.</p>
+<h3 id="Practical-reasons-to-learn-both"><a href="#Practical-reasons-to-learn-both" class="headerlink" title="Practical reasons to learn both"></a>Practical reasons to learn both</h3><p>If you want to work in the industry, it is probable that a company may have some customized framework. On your CV, you will be expected to have experience with (a) machine learning package(s). In any case, they won’t expect you to have worked with all of them. If you have to choose a single one of them, it seems to me that going for “the easier to learn” package looks worse. So learn both or go with TF.</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
   </section>
 
   
@@ -2400,7 +2338,7 @@ colorscheme desert
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">40</span>
+                <span class="site-state-item-count">39</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2411,7 +2349,7 @@ colorscheme desert
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">11</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

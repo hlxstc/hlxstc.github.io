@@ -273,168 +273,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/11/16/ML/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jokers">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jokers's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/11/16/ML/" itemprop="url">PyTorch VS TensorFlow</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-16T10:33:00+08:00">
-                2018-11-16
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/ML/" itemprop="url" rel="index">
-                    <span itemprop="name">ML</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/11/16/ML/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/11/16/ML/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>原作者: <a href="https://www.quora.com/profile/Iliya-Valchanov" target="_blank" rel="noopener">Iliya Valchanov</a><br>转载自: <a href="https://www.quora.com/How-is-PyTorch-different-from-TensorFlow-What-are-the-advantages-of-using-one-vs-the-other-When-should-I-use-one-or-the-other/answer/Iliya-Valchanov#" target="_blank" rel="noopener">quora</a></p>
-<p>Let’s start from NumPy (you’ll see why a bit later).</p>
-<p>You can build a machine learning algorithm even with NumPy, but creating a deep neural network is getting exponentially harder. NumPy is designed for (fast) computations, and not machine learning. It is usually used for machine learning together with a machine learning package.</p>
-<h3 id="PyTorch"><a href="#PyTorch" class="headerlink" title="PyTorch"></a>PyTorch</h3><p>PyTorch is similar to NumPy in the way that it manages computations, but has a strong GPU support. Similarly to NumPy, it also has a C (the programming language) backend, so they are both much faster than native Python libraries. NumPy could be GPU accelerated (with some extra code), but it doesn’t have this strong GPU support that PyTorch or TensorFlow do. Finally, PyTorch was specifically tailored for GPU functionality in Python.</p>
-<h3 id="TensorFlow"><a href="#TensorFlow" class="headerlink" title="TensorFlow"></a>TensorFlow</h3><p>TensorFlow, on the other hand, was written mainly in C++ and CUDA (NVIDIA’s language for programming GPUs), and was not specifically created for Python. It provides functionalities in C, C++, Java, Go (Google’s language), and there is community support for Haskell and Rust [1]. So, with TF, you are not restricted by Python. Even if the syntax differs a bit across languages, the concepts are the same.</p>
-<h3 id="Comparison"><a href="#Comparison" class="headerlink" title="Comparison"></a>Comparison</h3><p>Now, PyTorch has deep neural networks functionalities and that is why it is often compared with TensorFlow, sklearn, etc. Moreover, TensorFlow has a peculiar logic (with concepts like placeholders, sessions, etc.). So, for TensorFlow, you need to make that extra effort. Knowing NumPy (which is my underlying assumption for the dear reader), it is easier to switch to PyTorch than TensorFlow, that is why it is gaining popularity so fast.</p>
-<p>As TensorFlow was used by Google for so long, it is very easy to deploy algorithms using it. So you can think about it as more product oriented. Logically, you want to be able to deploy the algorithms that you are creating (you can check out TensorFlow Serving[2] for more on that).</p>
-<p>PyTorch, on the other hand, is more recent, so it does not have the full range of capabilities of other packages. I am sure that this will change and they are on their way to catch up. However, TensorFlow has this module tf.contrib. That’s code, contributed by the community, that will probably be embedded into the core TF. Point being, the TensorFlow community is stronger, because TF is older. I don’t know if PyTorch will catch up to the community of TF (that depends on the users and the adoption).</p>
-<h3 id="Opinion"><a href="#Opinion" class="headerlink" title="Opinion"></a>Opinion</h3><p>So, my verdict would be that TensorFlow has kind of stood the test of time (if you can use this expression for a framework that is not that old itself) and is still more widely adopted. It has more capabilities and a better scalability for larger projects (projects of the scale of Google). PyTorch is surely gaining momentum as it is easier to learn but doesn’t have the same integration. It is very good for small projects that need to be done quite fast, but is not optimal for product deployment.</p>
-<h3 id="Practical-reasons-to-learn-both"><a href="#Practical-reasons-to-learn-both" class="headerlink" title="Practical reasons to learn both"></a>Practical reasons to learn both</h3><p>If you want to work in the industry, it is probable that a company may have some customized framework. On your CV, you will be expected to have experience with (a) machine learning package(s). In any case, they won’t expect you to have worked with all of them. If you have to choose a single one of them, it seems to me that going for “the easier to learn” package looks worse. So learn both or go with TF.</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/11/05/data_structure/dataStructure_select/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -692,6 +530,274 @@ int main(){
             n++;
     }
     printf(&quot;第n个整数在前n-1个数中出现的次数为：%d\n&quot;, n);
+    return 0;
+}
+</code></pre>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/11/05/data_structure/dataStructure_tree/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/11/05/data_structure/dataStructure_tree/" itemprop="url">数据结构--二叉树</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-05T08:00:00+08:00">
+                2018-11-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Data-Structure/" itemprop="url" rel="index">
+                    <span itemprop="name">Data Structure</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/11/05/data_structure/dataStructure_tree/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/11/05/data_structure/dataStructure_tree/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="前序序列构建二叉树"><a href="#前序序列构建二叉树" class="headerlink" title="前序序列构建二叉树"></a>前序序列构建二叉树</h3><pre><code>#include &lt;stdio.h&gt;
+
+#define MAX 100
+
+typedef struct Node{
+    char data;
+    struct Node \*lChild;
+    struct Node \*rChild;
+}BinTNode;
+
+typedef BintNode \*BinTree;
+
+int mkTree(BinTree bt, char \*str, int i){
+    bt-&gt;lChild = NULL;
+    bt-&gt;rChild = NULL;
+    bt-&gt;data = str[i];
+    printf(&quot;%c\n&quot;, bt-&gt;data);
+    if(i&lt;strlen(str)-1 &amp;&amp; str[i+1]!=&apos;.&apos;){
+        bt-&gt;lchild = (BinTNode \*)malloc(sizeof(BinTNode));
+        i = mkTree(bt-&gt;lchild, str, i+1);
+    }
+    i++;
+    if(i&lt;strlen(str)-1 &amp;&amp; str[i+1]!=&apos;.&apos;){
+        bt-&gt;rchild = (BinTNode \*)malloc(sizeof(BinTNode));
+        i = mkTree(bt-&gt;rchild, str, i+1);
+    }
+    return i;
+}
+
+&lt;!-- 前序遍历 --&gt;
+void preSort(BintTree bt){
+    if(bt){
+        printf(&quot;%c-&gt;&quot;, bt-&gt;data);
+        preSort(bt-&gt;lchild);
+        preSort(bt-&gt;rchild);
+    }
+}
+
+int main(){
+    BintTree bt = (BinTNode \*)malloc(sizeof(BinTNode));
+    char str[MAX];
+    scanf(&quot;%s&quot;, str);
+    printf(&quot;%s&quot;, str);
+    mkTree(bt, str, 0);
+    preSort(bt);
+    return 0;
+}
+</code></pre><h3 id="中后序列构建二叉树"><a href="#中后序列构建二叉树" class="headerlink" title="中后序列构建二叉树"></a>中后序列构建二叉树</h3><pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+
+typedef struct Node{
+    char data;
+    struct Node \*lchild;
+    struct Node \*rchild;
+}BinTNode;
+
+typedef BinTNode \*BinTree;
+
+#define MAX 100
+
+void mkBinTree(BinTree bt, char \*inter, int ii, int ij, char \*post, int pi, int pj){
+    bt-&gt;lchild = NULL;
+    bt-&gt;rchild = NULL;
+    bt-&gt;data = post[pj];
+    int n = 0;
+    for(int i=ii; i&lt;=ij; i++){
+        if(post[pj] == inter[i]){
+            n = i-ii;
+            if(i&gt;ii){
+                bt-&gt;lchild = (BinTNode \*)malloc(sizeof(BinTNode));
+                mkBinTree(bt-&gt;lchild, inter, ii, i-1, post, pi, pi+n-1);
+            }
+            if(i&lt;ij){
+                bt-&gt;rchild = (BinTNode \*)malloc(sizeof(BinTNode));
+                mkBinTree(bt-&gt;rchild, inter, i+1, ij, post, pi+n, pj-1);
+            }
+        }
+    }
+}
+
+void preOrder(BinTree bt){
+    if(bt){
+        printf(&quot;%c&quot;, bt-&gt;data);
+        preOrder(bt-&gt;lchild);
+        preOrder(bt-&gt;rchild);
+    }
+}
+
+int btDepth(BinTree bt){
+    if(bt == NULL)
+        return 0;
+    int ldepth = 0;
+    int rdepth = 0;
+    ldepth = btDepth(bt-&gt;lchild);
+    rdepth = btDepth(bt-&gt;rchild);
+    if(ldepth&gt;rdepth)
+        return ldepth+1;
+    else
+        return rdepth+1;
+}
+
+int main(){
+    BinTree bt = (BinTNode \*)malloc(sizeof(BinTNode));
+    char inter[MAX];//前序序列
+    char post[MAX];//后序序列
+    scanf(&quot;%s&quot;, inter);
+    scanf(&quot;%s&quot;, post);
+    mkBinTree(bt, inter, 0, strlen(inter)-1, post, 0, strlen(post)-1);
+    preOrder(bt);
+    printf(&quot;\n&quot;);
+    int depth;
+    depth = btDepth(bt);
+    printf(&quot;%d\n&quot;, depth);
     return 0;
 }
 </code></pre>
@@ -1172,274 +1278,6 @@ int main(){
         if(!visited[i])
             DFS(g, i, n);
     }
-    return 0;
-}
-</code></pre>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/11/05/data_structure/dataStructure_tree/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jokers">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jokers's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/11/05/data_structure/dataStructure_tree/" itemprop="url">数据结构--二叉树</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-05T08:00:00+08:00">
-                2018-11-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Data-Structure/" itemprop="url" rel="index">
-                    <span itemprop="name">Data Structure</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/11/05/data_structure/dataStructure_tree/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/11/05/data_structure/dataStructure_tree/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="前序序列构建二叉树"><a href="#前序序列构建二叉树" class="headerlink" title="前序序列构建二叉树"></a>前序序列构建二叉树</h3><pre><code>#include &lt;stdio.h&gt;
-
-#define MAX 100
-
-typedef struct Node{
-    char data;
-    struct Node \*lChild;
-    struct Node \*rChild;
-}BinTNode;
-
-typedef BintNode \*BinTree;
-
-int mkTree(BinTree bt, char \*str, int i){
-    bt-&gt;lChild = NULL;
-    bt-&gt;rChild = NULL;
-    bt-&gt;data = str[i];
-    printf(&quot;%c\n&quot;, bt-&gt;data);
-    if(i&lt;strlen(str)-1 &amp;&amp; str[i+1]!=&apos;.&apos;){
-        bt-&gt;lchild = (BinTNode \*)malloc(sizeof(BinTNode));
-        i = mkTree(bt-&gt;lchild, str, i+1);
-    }
-    i++;
-    if(i&lt;strlen(str)-1 &amp;&amp; str[i+1]!=&apos;.&apos;){
-        bt-&gt;rchild = (BinTNode \*)malloc(sizeof(BinTNode));
-        i = mkTree(bt-&gt;rchild, str, i+1);
-    }
-    return i;
-}
-
-&lt;!-- 前序遍历 --&gt;
-void preSort(BintTree bt){
-    if(bt){
-        printf(&quot;%c-&gt;&quot;, bt-&gt;data);
-        preSort(bt-&gt;lchild);
-        preSort(bt-&gt;rchild);
-    }
-}
-
-int main(){
-    BintTree bt = (BinTNode \*)malloc(sizeof(BinTNode));
-    char str[MAX];
-    scanf(&quot;%s&quot;, str);
-    printf(&quot;%s&quot;, str);
-    mkTree(bt, str, 0);
-    preSort(bt);
-    return 0;
-}
-</code></pre><h3 id="中后序列构建二叉树"><a href="#中后序列构建二叉树" class="headerlink" title="中后序列构建二叉树"></a>中后序列构建二叉树</h3><pre><code>#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-#include &lt;string.h&gt;
-
-typedef struct Node{
-    char data;
-    struct Node \*lchild;
-    struct Node \*rchild;
-}BinTNode;
-
-typedef BinTNode \*BinTree;
-
-#define MAX 100
-
-void mkBinTree(BinTree bt, char \*inter, int ii, int ij, char \*post, int pi, int pj){
-    bt-&gt;lchild = NULL;
-    bt-&gt;rchild = NULL;
-    bt-&gt;data = post[pj];
-    int n = 0;
-    for(int i=ii; i&lt;=ij; i++){
-        if(post[pj] == inter[i]){
-            n = i-ii;
-            if(i&gt;ii){
-                bt-&gt;lchild = (BinTNode \*)malloc(sizeof(BinTNode));
-                mkBinTree(bt-&gt;lchild, inter, ii, i-1, post, pi, pi+n-1);
-            }
-            if(i&lt;ij){
-                bt-&gt;rchild = (BinTNode \*)malloc(sizeof(BinTNode));
-                mkBinTree(bt-&gt;rchild, inter, i+1, ij, post, pi+n, pj-1);
-            }
-        }
-    }
-}
-
-void preOrder(BinTree bt){
-    if(bt){
-        printf(&quot;%c&quot;, bt-&gt;data);
-        preOrder(bt-&gt;lchild);
-        preOrder(bt-&gt;rchild);
-    }
-}
-
-int btDepth(BinTree bt){
-    if(bt == NULL)
-        return 0;
-    int ldepth = 0;
-    int rdepth = 0;
-    ldepth = btDepth(bt-&gt;lchild);
-    rdepth = btDepth(bt-&gt;rchild);
-    if(ldepth&gt;rdepth)
-        return ldepth+1;
-    else
-        return rdepth+1;
-}
-
-int main(){
-    BinTree bt = (BinTNode \*)malloc(sizeof(BinTNode));
-    char inter[MAX];//前序序列
-    char post[MAX];//后序序列
-    scanf(&quot;%s&quot;, inter);
-    scanf(&quot;%s&quot;, post);
-    mkBinTree(bt, inter, 0, strlen(inter)-1, post, 0, strlen(post)-1);
-    preOrder(bt);
-    printf(&quot;\n&quot;);
-    int depth;
-    depth = btDepth(bt);
-    printf(&quot;%d\n&quot;, depth);
     return 0;
 }
 </code></pre>
@@ -3060,6 +2898,401 @@ yum install -y google-chrome-beta
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/08/28/web/flask/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/28/web/flask/" itemprop="url">Flask使用</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-28T10:00:58+08:00">
+                2018-08-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Flask/" itemprop="url" rel="index">
+                    <span itemprop="name">Flask</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/08/28/web/flask/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/08/28/web/flask/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>所有Web框架的使用都有自己的套路，作为一个框架本质就是一个工具。</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><pre><code>pip install Flask
+</code></pre><h3 id="自动安装的依赖"><a href="#自动安装的依赖" class="headerlink" title="自动安装的依赖"></a>自动安装的依赖</h3><ul>
+<li><a href="http://werkzeug.pocoo.org/" target="_blank" rel="noopener">Werkzeug</a> 应用及服务间的标准接口</li>
+<li><a href="http://jinja.pocoo.org/" target="_blank" rel="noopener">Jinja</a> 模板</li>
+<li><a href="https://pypi.org/project/MarkupSafe/" target="_blank" rel="noopener">MarkupSafe</a> Jinja附带，防止注入攻击</li>
+<li><a href="https://pythonhosted.org/itsdangerous/" target="_blank" rel="noopener">ItsDangerous</a> 数据完整性，保护 session cookie 安全</li>
+<li><a href="http://click.pocoo.org/5/" target="_blank" rel="noopener">Click</a> 命令行应用框架</li>
+</ul>
+<h3 id="可选安装的依赖"><a href="#可选安装的依赖" class="headerlink" title="可选安装的依赖"></a>可选安装的依赖</h3><ul>
+<li><a href="https://pythonhosted.org/blinker/" target="_blank" rel="noopener">Blinker</a> provides support for <a href="http://flask.pocoo.org/docs/1.0/signals/#signals" target="_blank" rel="noopener">Signals</a></li>
+<li><a href="https://simplejson.readthedocs.io/en/latest/" target="_blank" rel="noopener">SimpleJSON</a> fast JSON</li>
+<li><a href="https://github.com/theskumar/python-dotenv#readme" target="_blank" rel="noopener">python-dotenv</a></li>
+<li><a href="https://pythonhosted.org/watchdog/" target="_blank" rel="noopener">Watchdog</a></li>
+</ul>
+<h2 id="Virtual-environments"><a href="#Virtual-environments" class="headerlink" title="Virtual environments"></a>Virtual environments</h2><ul>
+<li>创建<br>  $ mkdir myproject<br>  $ cd myproject<br>  $ python3 -m venv venv</li>
+<li>激活<br>  $ . venv/bin/activate</li>
+</ul>
+<h2 id="简单示例"><a href="#简单示例" class="headerlink" title="简单示例"></a>简单示例</h2><pre><code>from flask import Flask
+app = Flask(__name__)
+
+@app.route(&apos;/&apos;)
+def hello_world():
+return &apos;Hello, World!&apos;
+</code></pre><ul>
+<li>运行，设置环境变量 FLASK_APP<pre><code>$ FLASK_APP=hello.py flask run
+</code></pre></li>
+<li>监听公共 IP ，确保 debugger 模式已关<pre><code>flask run --host=0.0.0.0
+</code></pre></li>
+</ul>
+<h2 id="Debug-Mode"><a href="#Debug-Mode" class="headerlink" title="Debug Mode"></a>Debug Mode</h2><pre><code>export FLASK_ENV=development
+or FLASK_APP=hello.py FLASK_ENV=development flask run
+</code></pre><h2 id="Variable-Rules"><a href="#Variable-Rules" class="headerlink" title="Variable Rules"></a>Variable Rules</h2><pre><code>@app.route(&apos;/user/&lt;username&gt;&apos;)
+def show_user_profile(username):
+    # show the user profile for that user
+    return &apos;User %s&apos; % username
+
+@app.route(&apos;/post/&lt;int:post_id&gt;&apos;)
+def show_post(post_id):
+    # show the post with the given id, the id is an integer
+    return &apos;Post %d&apos; % post_id
+
+@app.route(&apos;/path/&lt;path:subpath&gt;&apos;)
+def show_subpath(subpath):
+    # show the subpath after /path/
+    return &apos;Subpath %s&apos; % subpath
+</code></pre><h2 id="URL-结尾斜线"><a href="#URL-结尾斜线" class="headerlink" title="URL 结尾斜线"></a>URL 结尾斜线</h2><ul>
+<li>不带斜线访问，会 redirects 到带斜线的 URL<pre><code>@app.route(&apos;/projects/&apos;)
+def projects():
+    return &apos;The project page&apos;
+</code></pre></li>
+<li>带斜线访问，会返回404，避免搜索引擎索引同一个页面两次<pre><code>@app.route(&apos;/about&apos;)
+def about():
+    return &apos;The about page&apos;
+</code></pre></li>
+</ul>
+<h2 id="HTTP-Methods"><a href="#HTTP-Methods" class="headerlink" title="HTTP Methods"></a>HTTP Methods</h2><pre><code>from flask import request
+
+@app.route(&apos;/login&apos;, methods=[&apos;GET&apos;, &apos;POST&apos;])
+def login():
+if request.method == &apos;POST&apos;:
+    return do_the_login()
+else:
+    return show_the_login_form()
+</code></pre><h2 id="URL-构建"><a href="#URL-构建" class="headerlink" title="URL 构建"></a>URL 构建</h2><pre><code>from flask import Flask, url_for
+
+app = Flask(__name__)
+
+@app.route(&apos;/&apos;)
+def index():
+    return &apos;index&apos;
+
+@app.route(&apos;/login&apos;)
+def login():
+    return &apos;login&apos;
+
+@app.route(&apos;/user/&lt;username&gt;&apos;)
+def profile(username):
+    return &apos;{}\&apos;s profile&apos;.format(username)
+
+with app.test_request_context():
+    print(url_for(&apos;index&apos;))
+    print(url_for(&apos;login&apos;))
+    print(url_for(&apos;login&apos;, next=&apos;/&apos;))
+    print(url_for(&apos;profile&apos;, username=&apos;John Doe&apos;))
+
+/
+/login
+/login?next=/
+/user/John%20Doe
+</code></pre><h2 id="Static-Files"><a href="#Static-Files" class="headerlink" title="Static Files"></a>Static Files</h2><p>在项目下创建 static 目录，存放 static files ,对于 url_for ，static 是保留字，用于生成指向 static 目录下的 URL</p>
+<pre><code>url_for(&apos;static&apos;, filename=&apos;style.css&apos;)
+</code></pre><h2 id="Rendering-Templates"><a href="#Rendering-Templates" class="headerlink" title="Rendering Templates"></a>Rendering Templates</h2><p>Flask 自动配置<a href="http://jinja.pocoo.org/docs/2.10/templates/" target="_blank" rel="noopener">Jinja2</a> template engine. Flask 自动去 templates 目录查找 template</p>
+<pre><code>from flask import render_template
+
+@app.route(&apos;/hello/&apos;)
+@app.route(&apos;/hello/&lt;name&gt;&apos;)
+def hello(name=None):
+    return render_template(&apos;hello.html&apos;, name=name)
+</code></pre><h2 id="The-Request-Object"><a href="#The-Request-Object" class="headerlink" title="The Request Object"></a>The Request Object</h2><pre><code>from flask import request
+
+@app.route(&apos;/login&apos;, methods=[&apos;POST&apos;, &apos;GET&apos;])
+def login():
+    error = None
+    if request.method == &apos;POST&apos;:
+        if valid_login(request.form[&apos;username&apos;],
+                       request.form[&apos;password&apos;]):
+            return log_the_user_in(request.form[&apos;username&apos;])
+        else:
+            error = &apos;Invalid username/password&apos;
+    # the code below is executed if the request method
+    # was GET or the credentials were invalid
+    return render_template(&apos;login.html&apos;, error=error)
+</code></pre><ul>
+<li>获取 form data, 使用 form 属性</li>
+<li>获取 parameters submitted in the URL (?key=value), request.args.get(‘key’, ‘’)</li>
+</ul>
+<h2 id="File-Uploads"><a href="#File-Uploads" class="headerlink" title="File Uploads"></a>File Uploads</h2><p>enctype=”multipart/form-data”</p>
+<pre><code>from flask import request
+
+@app.route(&apos;/upload&apos;, methods=[&apos;GET&apos;, &apos;POST&apos;])
+def upload_file():
+if request.method == &apos;POST&apos;:
+    f = request.files[&apos;the_file&apos;]
+    f.save(&apos;/var/www/uploads/uploaded_file.txt&apos;)
+...
+</code></pre><ul>
+<li><p>使用客户端的文件名存储在服务端，可以使用 secure_filename() 获取文件名</p>
+<pre><code>from flask import request
+from werkzeug.utils import secure_filename
+
+@app.route(&apos;/upload&apos;, methods=[&apos;GET&apos;, &apos;POST&apos;])
+    def upload_file():
+    if request.method == &apos;POST&apos;:
+    f = request.files[&apos;the_file&apos;]
+    f.save(&apos;/var/www/uploads/&apos; + secure_filename(f.filename))
+</code></pre></li>
+</ul>
+<h2 id="Cookies"><a href="#Cookies" class="headerlink" title="Cookies"></a>Cookies</h2><ul>
+<li><p>读</p>
+<pre><code>from flask import request
+
+@app.route(&apos;/&apos;)
+def index():
+    username = request.cookies.get(&apos;username&apos;)
+    # use cookies.get(key) instead of cookies[key] to not get a
+    # KeyError if the cookie is missing.
+</code></pre></li>
+<li><p>写</p>
+<p>  from flask import make_response</p>
+<p>  @app.route(‘/‘)<br>  def index():</p>
+<pre><code>resp = make_response(render_template(...))
+resp.set_cookie(&apos;username&apos;, &apos;the username&apos;)
+return resp
+</code></pre></li>
+<li><p>通常 Flask 自动转换返回值为 response objects ，如果自己想明确的指定 response 需要使用  make_response()</p>
+</li>
+</ul>
+<h2 id="redirect-abort"><a href="#redirect-abort" class="headerlink" title="redirect() abort()"></a>redirect() abort()</h2><pre><code>from flask import abort, redirect, url_for
+
+@app.route(&apos;/&apos;)
+def index():
+    return redirect(url_for(&apos;login&apos;))
+
+@app.route(&apos;/login&apos;)
+def login():
+    abort(401)
+    this_is_never_executed()
+</code></pre><ul>
+<li><p>使用 errorhandler() decorator 自定义 error page</p>
+<pre><code>from flask import render_template
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template(&apos;page_not_found.html&apos;), 404
+</code></pre></li>
+</ul>
+<h2 id="Sessions"><a href="#Sessions" class="headerlink" title="Sessions"></a>Sessions</h2><ul>
+<li><p>set a secret key</p>
+<pre><code>from flask import Flask, session, redirect, url_for, escape, request
+
+app = Flask(__name__)
+
+# Set the secret key to some random bytes. Keep this really secret!
+app.secret_key = b&apos;\_5#y2L&quot;F4Q8z\n\xec]/&apos;
+
+@app.route(&apos;/&apos;)
+def index():
+    if &apos;username&apos; in session:
+        return &apos;Logged in as %s&apos; % escape(session[&apos;username&apos;])
+    return &apos;You are not logged in&apos;
+
+@app.route(&apos;/login&apos;, methods=[&apos;GET&apos;, &apos;POST&apos;])
+def login():
+    if request.method == &apos;POST&apos;:
+        session[&apos;username&apos;] = request.form[&apos;username&apos;]
+        return redirect(url_for(&apos;index&apos;))
+    return &apos;&apos;&apos;
+        &lt;form method=&quot;post&quot;&gt;
+            &lt;p&gt;&lt;input type=text name=username&gt;
+            &lt;p&gt;&lt;input type=submit value=Login&gt;
+        &lt;/form&gt;
+    &apos;&apos;&apos;
+
+@app.route(&apos;/logout&apos;)
+def logout():
+    # remove the username from the session if it&apos;s there
+    session.pop(&apos;username&apos;, None)
+    return redirect(url_for(&apos;index&apos;))
+</code></pre></li>
+<li><p>escape(), 如果不使用模板引擎，escape 可转换 html 特殊字符</p>
+</li>
+<li>generate good secret keys, os.urandom(16)</li>
+</ul>
+<h2 id="Logging"><a href="#Logging" class="headerlink" title="Logging"></a>Logging</h2><pre><code>app.logger.debug(&apos;A value for debugging&apos;)
+app.logger.warning(&apos;A warning occurred (%d apples)&apos;, 42)
+app.logger.error(&apos;An error occurred&apos;)
+</code></pre><h2 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h2><ul>
+<li>Flask 自带 wsgi 扩展性能不好，仅适用于开发环境</li>
+<li>WSGI HTTP Server 可选的有 Gunicorn 和 uWSGI</li>
+<li>Nginx 作为静态文件访问容器和反向代理、分布式环境下作负载均衡</li>
+</ul>
+<h3 id="Gunicorn"><a href="#Gunicorn" class="headerlink" title="Gunicorn"></a>Gunicorn</h3><ul>
+<li><p>安装</p>
+<pre><code>$ pip install gunicorn
+</code></pre></li>
+<li><p>Async Workers<br>Gunicorn 默认同步 Workers ，通常我们还需要安装 Eventlet 或则 Gevent ，实现异步 Workers 。greenlet 是默认安装的。eventlet 和 gevent 性能差不多，可以选一个安装。</p>
+<pre><code>$ pip install greenlet            # Required for both
+$ pip install eventlet            # For eventlet workers
+$ pip install gunicorn[eventlet]  # Or, using extra
+$ pip install gevent              # For gevent workers
+$ pip install gunicorn[gevent]    # Or, using extra
+</code></pre></li>
+<li><p>运行</p>
+<pre><code>gunicorn --workers=2 --worker-class=eventlet hello:app
+</code></pre></li>
+<li><p>其它参数</p>
+<pre><code>-c CONFIG, --config=CONFIG  Specify a config file in the form $(PATH), file:$(PATH), or python:$(MODULE_NAME).
+-b BIND, --bind=BIND - Specify a server socket to bind. Server sockets can be any of $(HOST), $(HOST):$(PORT), or unix:$(PATH). An IP is a valid $(HOST).
+-n APP_NAME, --name=APP_NAME - If setproctitle is installed you can adjust the name of Gunicorn process as they appear in the process system table (which affects tools like ps and top).
+</code></pre></li>
+</ul>
+<h3 id="布署-Gunicorn"><a href="#布署-Gunicorn" class="headerlink" title="布署 Gunicorn"></a><a href="http://docs.gunicorn.org/en/stable/deploy.html" target="_blank" rel="noopener">布署 Gunicorn</a></h3>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
   </section>
 
   
@@ -3110,7 +3343,7 @@ yum install -y google-chrome-beta
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">40</span>
+                <span class="site-state-item-count">39</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -3121,7 +3354,7 @@ yum install -y google-chrome-beta
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">11</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
