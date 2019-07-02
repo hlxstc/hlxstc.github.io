@@ -273,202 +273,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/04/23/bigdata/elastcsearch-config/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jokers">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jokers's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/04/23/bigdata/elastcsearch-config/" itemprop="url">Elasticsearch6测试和开发环境配置</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-23T16:35:00+08:00">
-                2018-04-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/BigData/" itemprop="url" rel="index">
-                    <span itemprop="name">BigData</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/04/23/bigdata/elastcsearch-config/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/04/23/bigdata/elastcsearch-config/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="开发模式和生产模式"><a href="#开发模式和生产模式" class="headerlink" title="开发模式和生产模式"></a>开发模式和生产模式</h2><p>es节点加入集群，必须绑定transport到non-loopback地址，es通过http.host，transport.host和single-node discovery的配置判断是否为生产模式。</p>
-<h2 id="引导启动检查"><a href="#引导启动检查" class="headerlink" title="引导启动检查"></a>引导启动检查</h2><p>使用引导启动检查检查es和系统设置。在开发模式下，不安全的配置会以warnings记录日志。在生产模式下，会拒绝启动。</p>
-<h2 id="强制引导启动检查"><a href="#强制引导启动检查" class="headerlink" title="强制引导启动检查"></a>强制引导启动检查</h2><p>单节点的生产模式可以绕过引导启动检查，通过设置es.enforce.bootstrap.checks(JVM options)为True，可以强制检查。</p>
-<h2 id="堆大小检查"><a href="#堆大小检查" class="headerlink" title="堆大小检查"></a>堆大小检查</h2><p>JVM配置初始堆大小和最大堆值相同，否则会导致系统运行停顿。es默认使用1GB的堆。规则如下：</p>
-<ul>
-<li>堆越大，缓存越大，但是太大的话会导致长时间的垃圾回收而造成系统停顿。</li>
-<li>不要超过物理内存的50%</li>
-<li>26GB对大多数系统比较安全，对一些系统可达到30G</li>
-</ul>
-<p>jvm.options配置文件</p>
-<pre><code>-Xms26g
--Xmx26g
-</code></pre><h2 id="文件描述符检查"><a href="#文件描述符检查" class="headerlink" title="文件描述符检查"></a>文件描述符检查</h2><p>es需要大量的文件描述符。必须保证文件描述符的数量限制大与等于65535。通过RPM和Debian包默认设置为65536。可以通过以下命令检查max_file_descriptors的大小。</p>
-<pre><code>curl -X GET &quot;localhost:9200/_nodes/stats/process?filter_path=**.max_file_descriptors&quot;
-</code></pre><h2 id="内存锁定检查"><a href="#内存锁定检查" class="headerlink" title="内存锁定检查"></a>内存锁定检查</h2><p>JVM进行垃圾回收时，如果有page被换出到硬盘，再换入内存回收，影响效率。有多种办法可以禁止交换。</p>
-<ul>
-<li><p>系统级别的禁止交换</p>
-<p>  sudo swapoff -a</p>
-</li>
-<li><p>配置swappiness</p>
-</li>
-<li><p>阻止es内存换出，添加以下配置到config/elasticsearch.yml文件</p>
-<p>  bootstrap.memory_lock: true</p>
-</li>
-<li><p>检查mlockall的配置</p>
-<p>  GET _nodes?filter_path=**.mlockall</p>
-</li>
-<li><p>如果mlockall的值是false, 意味着mlockall请求失败，最有可能的原因是运行es的用户没有lock Memory的权限，授权方式</p>
-<p>  添加一个文件<br>  /etc/systemd/system/elasticsearch.service.d/override.conf<br>  or<br>  sudo systemctl edit elasticsearch<br>  编辑<br>  [Service]<br>  LimitMEMLOCK=infinity<br>  加载<br>  sudo systemctl daemon-reload</p>
-</li>
-<li><p>如果依然失败可能是临时路径/tmp使用noexec选项挂载，可以使用ES_JAVA_OPTS环境变量指定一个新的temp路径</p>
-<p>  export ES_JAVA_OPTS=”$ES_JAVA_OPTS -Djava.io.tmpdir=/path/to/temp/dir”<br>  ./bin/elasticsearch</p>
-</li>
-</ul>
-<h2 id="最大线程数检查"><a href="#最大线程数检查" class="headerlink" title="最大线程数检查"></a>最大线程数检查</h2><p>es需要有创建至少4096个线程的能力并且只会在Linux系统上检查。通过设置/etc/security/limits.conf的nproc值（同时要增大root用户的限制）</p>
-<h2 id="最大虚拟内存检查"><a href="#最大虚拟内存检查" class="headerlink" title="最大虚拟内存检查"></a>最大虚拟内存检查</h2><p>es需要有无限制的地址空间并且只会在Linux系统上检查。通过设置/etc/security/limits.conf的as值为unlimited（同时要改变root用户的限制）</p>
-<h2 id="最大文件大小检查"><a href="#最大文件大小检查" class="headerlink" title="最大文件大小检查"></a>最大文件大小检查</h2><p>es需要有无限制大小的写文件能力。通过设置/etc/security/limits.conf的fsize值为unlimited（同时要改变root用户的限制）</p>
-<h2 id="最大地图数量检查"><a href="#最大地图数量检查" class="headerlink" title="最大地图数量检查"></a>最大地图数量检查</h2><p>es需要至少262144内存映射空间并且只会在Linux系统上检查。通过设置vm.max_map_count(sysctl)</p>
-<pre><code>sysctl -w vm.max_map_count=262144
-sysctl -a|grep vm.max_map_count
-</code></pre><h2 id="客户端JVM检查"><a href="#客户端JVM检查" class="headerlink" title="客户端JVM检查"></a>客户端JVM检查</h2><p>确保es没有运行在客户端JVM而是服务端JVM，现代操作系统，服务端JVM是默认的。</p>
-<h2 id="serial-collector检查"><a href="#serial-collector检查" class="headerlink" title="serial collector检查"></a>serial collector检查</h2><p>确保es运行时使用的垃圾收器不是serial collector，除非指定-XX:+UseSerialGC使用，JVM默认使用es的默认配置也就是CMS collector。</p>
-<h2 id="系统调用过滤器检查"><a href="#系统调用过滤器检查" class="headerlink" title="系统调用过滤器检查"></a>系统调用过滤器检查</h2><p>修复所有可能阻止es安装系统调用过滤器（Linux上的seccomp）的配置（检查日志）</p>
-<h2 id="OnError和OnOutOfMemoryError检查"><a href="#OnError和OnOutOfMemoryError检查" class="headerlink" title="OnError和OnOutOfMemoryError检查"></a>OnError和OnOutOfMemoryError检查</h2><p> 防止es启动时JVM的这两个选项被启用并且系统调用也被启用，它们相互之间不兼容。可以禁止OnError和OnOutOfMemoryError或则升级到Java 8u92并且使用JVM flag ExitOnOutOfMemoryError</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/04/16/mysql-install_1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -772,6 +576,47 @@ du -h  --max-depth=1
 <pre><code>umount /dev/sdb1
 </code></pre></li>
 </ul>
+<h2 id="tab"><a href="#tab" class="headerlink" title="tab"></a>tab</h2><p>Rencently was troubled by the tab and space in python script in Vim editor, so need to config the editor properly to avoid this.</p>
+<p>Below is the reference from others.</p>
+<h3 id="Vim里面显示TAB键"><a href="#Vim里面显示TAB键" class="headerlink" title="Vim里面显示TAB键"></a>Vim里面显示TAB键</h3><ol>
+<li><p>文件中有 TAB 键的时候，你是看不见的。要把它显示出来：</p>
+<pre><code>:set list
+
+取消:set nolist
+</code></pre></li>
+</ol>
+<p>现在 TAB 键显示为 ^I ，而 $显示在每行的结尾，以便你能找到可能会被你忽略的空白 字符在哪里。 </p>
+<ol>
+<li><p>方法1中这样做的一个缺点是在有很多 TAB 的时候看起来很丑。如果你使用一个有颜色的终端，或者使用 GUI 模式，Vim 可以用高亮显示空格和TAB。 使用 ‘listchars’ 选项： </p>
+<pre><code>:set listchars=tab:&gt;-,trail:-
+</code></pre></li>
+</ol>
+<p>现在，TAB会被显示成 “&gt;—“ 而行尾多余的空白字符显示成 “-“。 </p>
+<h3 id="设定tab的形式"><a href="#设定tab的形式" class="headerlink" title="设定tab的形式"></a>设定tab的形式</h3><pre><code>:set tabstop=4
+</code></pre><ol>
+<li><p>输入tab时自动将其转化为空格 </p>
+<pre><code>:set expandtab
+</code></pre></li>
+</ol>
+<p>如果此时需要输入真正的tab，则输入Ctrl+V, tab，在windows下是Ctrl+Q, tab </p>
+<ol>
+<li><p>将已存在的tab都转化为空格 </p>
+<pre><code>:retab （在设定set expandtab的情况下才可以使用）
+</code></pre></li>
+</ol>
+<p>在没有设定 expandtab 选项时，使用“:retab!”可把空白字符转换成制表符（可能误转换，慎用）</p>
+<ol>
+<li><p>设定编辑模式下tab的视在宽度 </p>
+<pre><code>:set softtabstop
+</code></pre></li>
+</ol>
+<p>这不改变tabstop，但让编辑的时候tab看起来是指定的宽度，输入tab时会插入的tab和空格 的混合，比如tabstop=4， softtabstop=10，那么插入tab时会将光标移动10个字符，可能会是两个tab加两个空格，这对backspace也有效。 </p>
+<ol>
+<li><p>解决shiftwidth和tabstop不等时的麻烦 </p>
+<pre><code>:set smarttab
+</code></pre></li>
+</ol>
+<p>在行首输入tab时插入宽度为shiftwidth的空白，在其他地方按tabstop和softtabstop处理 </p>
 
           
         
@@ -1403,6 +1248,244 @@ du -h  --max-depth=1
         
           
             <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/local/python</span><br><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line">&apos;&apos;&apos;</span><br><span class="line">Created on 2018-04-14</span><br><span class="line">处理各种中英文金额，转化为阿拉伯数字</span><br><span class="line">author: wangweitao@ipforest.cn</span><br><span class="line">&apos;&apos;&apos;</span><br><span class="line">from lib import pub_mysql_product</span><br><span class="line">import re</span><br><span class="line"># 用于处理中文转数字的库</span><br><span class="line">import unicodedata</span><br><span class="line"># debug = True</span><br><span class="line">debug = False</span><br><span class="line"></span><br><span class="line"># ！！！注意，目前做了个美元的处理，正常逻辑应该是保存美元数字，做货币字段，而不应该转换成人民币</span><br><span class="line"></span><br><span class="line"># 中文 以及 混合数字，转为阿拉伯数字</span><br><span class="line"># 思路： 以万和亿进行分段, 字符串压栈，从后向前进行处理</span><br><span class="line"># 记录当前的分段值： 1, 10000, 10000000</span><br><span class="line"># max_mul: 记录当前分段值</span><br><span class="line"># total_num： 总值，当遇到比当前值更大的分段值或者字符串未空，则计算当前总值</span><br><span class="line"># cur_num: 分段数值</span><br><span class="line"># cur_n: 当前字符转成的数字</span><br><span class="line"># last_n: 上一个字符转成的数字</span><br><span class="line"># 示例: 100万， 则max_mul = 10000 , cur_num = 100</span><br><span class="line"># [&apos;1&apos;,&apos;0&apos;,&apos;0&apos;,&apos;万&apos;]</span><br><span class="line"># 默认值 max_mul = 1 , cur_num = 0 , total_num = 0</span><br><span class="line"># step 1 : 处理字符 &apos;万&apos;</span><br><span class="line">#	当前数组 [&apos;1&apos;,&apos;0&apos;,&apos;0&apos;]</span><br><span class="line">#	cur_n = 10000</span><br><span class="line"># 	last_n = 10000</span><br><span class="line">#	max_mul = 10000</span><br><span class="line">#   cur_num = 0</span><br><span class="line">#	total_num = 0</span><br><span class="line">#</span><br><span class="line"># step 2 : 处理字符 &apos;0&apos;</span><br><span class="line">#   当前数组 [&apos;1&apos;,&apos;0&apos;]</span><br><span class="line">#	cur_n = 0</span><br><span class="line"># 	last_n = 0</span><br><span class="line">#	max_mul = 10000</span><br><span class="line">#   cur_num = 0</span><br><span class="line">#	total_num = 0</span><br><span class="line"># step 3 : 处理字符 &apos;0&apos;</span><br><span class="line">#   当前数组 [&apos;1&apos;]</span><br><span class="line">#	cur_n = 0</span><br><span class="line"># 	last_n = 0</span><br><span class="line">#	max_mul = 10000</span><br><span class="line">#   cur_num = 0</span><br><span class="line">#	total_num = 0</span><br><span class="line"># step 4 : 处理字符 &apos;1&apos;</span><br><span class="line">#   当前数组 []</span><br><span class="line">#	cur_n = 1</span><br><span class="line"># 	last_n = 0</span><br><span class="line">#	max_mul = 10000</span><br><span class="line">#   cur_num = 100</span><br><span class="line">#	total_num =  total_num  + cur_num * max_mul =  0 + 100 * 10000</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 当前分段所在的值(total_num = total_num  + cur_num * max_mul)</span><br><span class="line">def chinese2digits(num_str):</span><br><span class="line">	if debug == True:</span><br><span class="line">		print &quot;开始处理字符串:&quot;,num_str</span><br><span class="line">	# print num_str</span><br><span class="line">	str_stack = []</span><br><span class="line">	for i in range(0,len(num_str)):</span><br><span class="line">		# print unicodedata.numeric(num_str[len(num_str) - 1 - i])</span><br><span class="line">		str_stack.append(num_str[i])</span><br><span class="line">		# print num_str[len(num_str) - 1 - i]</span><br><span class="line"></span><br><span class="line">	step = 0</span><br><span class="line">	total_num = 0</span><br><span class="line">	cur_num = 0</span><br><span class="line">	mul = 1</span><br><span class="line">	max_mul = 1</span><br><span class="line">	last_n = None</span><br><span class="line"></span><br><span class="line">	# 计算货币</span><br><span class="line">	foreign_mul = 1</span><br><span class="line"></span><br><span class="line">	while len(str_stack) &gt; 0:</span><br><span class="line">		cur_str = str_stack.pop()</span><br><span class="line">		step = step + 1</span><br><span class="line">		try:</span><br><span class="line"></span><br><span class="line">			if debug == True:</span><br><span class="line">				print &quot;----------------&quot;,cur_str,str_stack</span><br><span class="line">			cur_n = int(unicodedata.numeric(cur_str))</span><br><span class="line">			# 万 or 亿 分段</span><br><span class="line">			if (cur_n &gt;=10000 and cur_n &gt; max_mul) :</span><br><span class="line">				total_num = float(total_num)  + cur_num * max_mul</span><br><span class="line">				if debug == True:</span><br><span class="line">					print &quot;分段计算: &quot;,cur_n,max_mul,cur_num,total_num,str_stack</span><br><span class="line">				cur_num = 0</span><br><span class="line">				# 最大乘法因子</span><br><span class="line">				max_mul = cur_n</span><br><span class="line">				# 重置当前乘法因子</span><br><span class="line">				mul = 1</span><br><span class="line">			else:</span><br><span class="line">				if cur_n &gt;= 10:</span><br><span class="line">					# 处理万(当分段是已的时候，可能会出现万)千百十</span><br><span class="line">					if last_n &gt;= 10  :</span><br><span class="line">						# 处理 &quot;3千万亿&quot; 的情况</span><br><span class="line">						mul = mul * cur_n</span><br><span class="line">					else:</span><br><span class="line">						mul = cur_n</span><br><span class="line"></span><br><span class="line">					pass</span><br><span class="line">				elif cur_n &lt; 10 :</span><br><span class="line">					if last_n &lt; 10 and last_n is not None and cur_n == 0 :</span><br><span class="line">						# 处理数字0，增加乘积，比如 800 ， 每遇到</span><br><span class="line">						mul = 10 ** len(str(mul))</span><br><span class="line"></span><br><span class="line">					elif last_n &lt; 10 and last_n is not None and cur_n != 0 :</span><br><span class="line">						# 处理 812之类的数据</span><br><span class="line">						cur_num = cur_num + 10 ** len(str(mul)) * cur_n</span><br><span class="line">						mul = 10 ** len(str(mul))</span><br><span class="line"></span><br><span class="line">					else:</span><br><span class="line">						# 处理 3千</span><br><span class="line">						cur_num = cur_num + cur_n * mul</span><br><span class="line"></span><br><span class="line">			# 记录当前数字</span><br><span class="line">			last_n = cur_n</span><br><span class="line">		except:</span><br><span class="line">			# print &quot;无法识别的字符：&quot;, cur_str</span><br><span class="line">			if cur_str == u&quot;.&quot; or cur_str == u&quot;点&quot;:</span><br><span class="line">				# 处理小数点</span><br><span class="line">				cur_num = float(cur_num) / (10 ** len(str(int(cur_num))))</span><br><span class="line">				mul = 1</span><br><span class="line">				last_n = None</span><br><span class="line">			elif cur_str == u&quot;美&quot;:</span><br><span class="line">				# 处理美元，不建议转化成中文，需要增加不同语种， 而且需要计算当时的汇率</span><br><span class="line">				foreign_mul = 6.3</span><br><span class="line"></span><br><span class="line">		# 栈空，计算总数，遇到十，则压栈1，继续处理</span><br><span class="line">		if len(str_stack) == 0:</span><br><span class="line">			if cur_n is not None and cur_n == 10:</span><br><span class="line">				# 处理&apos;十&apos;开头的字符串</span><br><span class="line">				str_stack.append(u&quot;1&quot;)</span><br><span class="line">				continue</span><br><span class="line">			# 计算结果</span><br><span class="line">			total_num = float(total_num  + cur_num * max_mul) * foreign_mul</span><br><span class="line">			# if debug == True:</span><br><span class="line">				# print cur_n,&quot;\ttotal----&gt;&quot;,total_num,cur_num,max_mul</span><br><span class="line">		# 打印调试信息</span><br><span class="line">		if debug == True and cur_n is not None:</span><br><span class="line">			print u&quot;Step %d:\</span><br><span class="line">				\n\t当前字符 %s,\</span><br><span class="line">				\n\t当前数组 %s,\</span><br><span class="line">				\n\tcur_n = %s,\</span><br><span class="line">				\n\tlast_n = %s,\</span><br><span class="line">				\n\tmax_mul = %d,\</span><br><span class="line">				\n\tcur_num = %d,\</span><br><span class="line">				\n\tmul = %d,\</span><br><span class="line">				\n\ttotal_num =%s \n&quot; % (step,cur_str,str_stack,cur_n,last_n,max_mul,cur_num,mul,total_num)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	print &quot;=***&quot;,num_str,&quot;----&gt;&quot;,total_num</span><br><span class="line">	return total_num</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 测试函数</span><br><span class="line">def test():</span><br><span class="line">	test_str_arr = [u&quot;一&quot;,u&quot;一.一&quot;,u&quot;一十&quot;,u&quot;一十一&quot;,u&quot;一百一十&quot;,u&quot;1233&quot;,u&quot;1233.10&quot;,u&quot;3万零1&quot;,u&quot;1233&quot;,u&quot;3万零1千零1百&quot;,u&quot;3.31万&quot;,u&quot;3万5千零1&quot;,u&quot;3万零1百&quot;,u&quot;3亿零3千万&quot;,u&quot;1万零3千&quot;,u&quot;1万零3百&quot;,u&quot;5千万&quot;,u&quot;5千1百万&quot;,u&quot;5千零30万&quot;,u&quot;五千壹百万&quot;,u&quot;3.3亿&quot;,u&quot;3.3亿美&quot;,u&quot;3.3万美&quot;,u&quot;叁拾肆&quot;,u&quot;一亿三千万&quot;,u&quot;十万&quot;,u&quot;３&quot;,u&quot;⒈&quot;,u&quot;①&quot;,u&quot;十&quot;,u&quot;十三&quot;,u&quot;十万零一十&quot;,u&quot;1千兆&quot;,u&quot;３３３.333&quot;,u&quot;3千万&quot;,u&quot;3万零1十&quot;,u&quot;十点1万&quot;,u&quot;1点1&quot;,u&quot;1十点1万&quot;,u&quot;1亿零1百点1&quot;,u&quot;3千万亿&quot;]</span><br><span class="line"></span><br><span class="line">	# test_str_arr = [u&quot;3千万亿&quot;]</span><br><span class="line">	for str_num in test_str_arr:</span><br><span class="line">		chinese2digits(str_num)</span><br><span class="line"></span><br><span class="line"># 主程序</span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">	test()</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2017/05/03/Tools/git/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/05/03/Tools/git/" itemprop="url">GIT</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-03T11:30:00+08:00">
+                2017-05-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Tools/" itemprop="url" rel="index">
+                    <span itemprop="name">Tools</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/05/03/Tools/git/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/05/03/Tools/git/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><ul>
+<li><p>查看已建立的连接</p>
+<pre><code>git remote -v
+</code></pre></li>
+<li><p>取消对文件的修改。还原到最近的版本，废弃本地做的修改。</p>
+<pre><code>git checkout -- &lt;file&gt;
+</code></pre></li>
+<li><p>取消已经暂存的文件。即，撤销先前”git add”的操作</p>
+<pre><code>git reset HEAD &lt;file&gt;...
+</code></pre></li>
+<li><p>回退到上一个版本,即commit后的撤销操作,保留工作区的改变</p>
+<pre><code>git reset HEAD^ &lt;file&gt;...
+</code></pre></li>
+<li><p>回退到上一个版本</p>
+<pre><code>git reset --hard HEAD^ &lt;file&gt;...
+</code></pre></li>
+</ul>
+<h3 id="Stashing"><a href="#Stashing" class="headerlink" title="Stashing"></a>Stashing</h3><blockquote>
+<p>当我在一个分支fa中修改了文件，但是还没有完全改好，此时我并不想add/commit，但是这个时候有一个更急迫的事情在另外一个分支fb上需要我去做，我必须要切换分支。</p>
+</blockquote>
+<ul>
+<li><p>将当前分支文件储藏起来</p>
+<pre><code>git stash
+</code></pre></li>
+<li><p>恢复刚刚储藏的数据</p>
+<pre><code>git stash apply
+</code></pre></li>
+<li><p>查看储藏</p>
+<pre><code>git stash List
+</code></pre></li>
+<li><p>恢复到之前的某一次储藏</p>
+<pre><code>git stash apply stash@{1}
+</code></pre></li>
+<li><p>恢复储藏并出栈, 将栈顶的储藏移除</p>
+<pre><code>git stash pop
+</code></pre></li>
+<li><p>删除某一个储藏</p>
+<pre><code>git stash drop stash@{4}
+</code></pre></li>
+</ul>
+<h3 id="分支管理"><a href="#分支管理" class="headerlink" title="分支管理"></a>分支管理</h3><ul>
+<li><p>新建分支</p>
+<pre><code>git branch experimental
+</code></pre></li>
+<li><p>获取分支列表</p>
+<pre><code>git branch
+</code></pre></li>
+<li><p>切换分支</p>
+<pre><code>git checkout experimental
+</code></pre></li>
+<li><p>To merge the changes made in experimental into master</p>
+<pre><code>git merge experimental
+</code></pre></li>
+<li><p>删除分支</p>
+<pre><code>git branch -d experimental
+</code></pre></li>
+</ul>
+<h3 id="Configuring-a-remote-for-a-fork"><a href="#Configuring-a-remote-for-a-fork" class="headerlink" title="Configuring a remote for a fork"></a>Configuring a remote for a fork</h3><ul>
+<li><p>List the current configured remote repository for your fork.</p>
+<pre><code>$ git remote -v
+&gt; origin  https://github.com/YOUR_USERNAME/YOUR_FORK.git (fetch)
+&gt; origin  https://github.com/YOUR_USERNAME/YOUR_FORK.git (push)
+</code></pre></li>
+<li><p>Specify a new remote upstream repository that will be synced with the fork.</p>
+<pre><code>$ git remote add upstream https://github.com/ORIGINAL_OWNER/ORIGINAL_REPOSITORY.git
+</code></pre></li>
+<li><p>Verify the new upstream repository you’ve specified for your fork.</p>
+<pre><code>$ git remote -v
+&gt; origin    https://github.com/YOUR_USERNAME/YOUR_FORK.git (fetch)
+&gt; origin    https://github.com/YOUR_USERNAME/YOUR_FORK.git (push)
+&gt; upstream  https://github.com/ORIGINAL_OWNER/ORIGINAL_REPOSITORY.git (fetch)
+&gt; upstream  https://github.com/ORIGINAL_OWNER/ORIGINAL_REPOSITORY.git (push)
+</code></pre></li>
+</ul>
+<h3 id="Sync-a-fork-of-a-repository-to-keep-it-up-to-date-with-the-upstream-repository"><a href="#Sync-a-fork-of-a-repository-to-keep-it-up-to-date-with-the-upstream-repository" class="headerlink" title="Sync a fork of a repository to keep it up-to-date with the upstream repository."></a>Sync a fork of a repository to keep it up-to-date with the upstream repository.</h3><ul>
+<li><p>Fetch the branches and their respective commits from the upstream repository. Commits to master will be stored in a local branch, upstream/master</p>
+<pre><code>$ git fetch upstream
+</code></pre></li>
+<li><p>Check out your fork’s local master branch.</p>
+<pre><code>$ git checkout master
+&gt; Switched to branch &apos;master&apos;
+</code></pre></li>
+<li><p>Merge the changes from upstream/master into your local master branch. This brings your fork’s master branch into sync with the upstream repository, without losing your local changes.</p>
+<pre><code>$ git merge upstream/master
+</code></pre></li>
+</ul>
 
           
         

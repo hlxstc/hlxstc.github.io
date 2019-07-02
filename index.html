@@ -273,218 +273,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2019/05/03/Tools/git/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jokers">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jokers's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/05/03/Tools/git/" itemprop="url">GIT</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-03T11:30:00+08:00">
-                2019-05-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Tools/" itemprop="url" rel="index">
-                    <span itemprop="name">Tools</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/05/03/Tools/git/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2019/05/03/Tools/git/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><ul>
-<li><p>查看已建立的连接</p>
-<pre><code>git remote -v
-</code></pre></li>
-<li><p>取消对文件的修改。还原到最近的版本，废弃本地做的修改。</p>
-<pre><code>git checkout -- &lt;file&gt;
-</code></pre></li>
-<li><p>取消已经暂存的文件。即，撤销先前”git add”的操作</p>
-<pre><code>git reset HEAD &lt;file&gt;...
-</code></pre></li>
-<li><p>回退到上一个版本。即commit后的撤销操作</p>
-<pre><code>git reset HEAD^ &lt;file&gt;...
-</code></pre></li>
-</ul>
-<h3 id="分支管理"><a href="#分支管理" class="headerlink" title="分支管理"></a>分支管理</h3><ul>
-<li><p>新建分支</p>
-<pre><code>git branch experimental
-</code></pre></li>
-<li><p>获取分支列表</p>
-<pre><code>git branch
-</code></pre></li>
-<li><p>切换分支</p>
-<pre><code>git checkout experimental
-</code></pre></li>
-<li><p>To merge the changes made in experimental into master</p>
-<pre><code>git merge experimental
-</code></pre></li>
-<li><p>删除分支</p>
-<pre><code>git branch -d experimental
-</code></pre></li>
-</ul>
-<h3 id="Configuring-a-remote-for-a-fork"><a href="#Configuring-a-remote-for-a-fork" class="headerlink" title="Configuring a remote for a fork"></a>Configuring a remote for a fork</h3><ul>
-<li><p>List the current configured remote repository for your fork.</p>
-<pre><code>$ git remote -v
-&gt; origin  https://github.com/YOUR_USERNAME/YOUR_FORK.git (fetch)
-&gt; origin  https://github.com/YOUR_USERNAME/YOUR_FORK.git (push)
-</code></pre></li>
-<li><p>Specify a new remote upstream repository that will be synced with the fork.</p>
-<pre><code>$ git remote add upstream https://github.com/ORIGINAL_OWNER/ORIGINAL_REPOSITORY.git
-</code></pre></li>
-<li><p>Verify the new upstream repository you’ve specified for your fork.</p>
-<pre><code>$ git remote -v
-&gt; origin    https://github.com/YOUR_USERNAME/YOUR_FORK.git (fetch)
-&gt; origin    https://github.com/YOUR_USERNAME/YOUR_FORK.git (push)
-&gt; upstream  https://github.com/ORIGINAL_OWNER/ORIGINAL_REPOSITORY.git (fetch)
-&gt; upstream  https://github.com/ORIGINAL_OWNER/ORIGINAL_REPOSITORY.git (push)
-</code></pre></li>
-</ul>
-<h3 id="Sync-a-fork-of-a-repository-to-keep-it-up-to-date-with-the-upstream-repository"><a href="#Sync-a-fork-of-a-repository-to-keep-it-up-to-date-with-the-upstream-repository" class="headerlink" title="Sync a fork of a repository to keep it up-to-date with the upstream repository."></a>Sync a fork of a repository to keep it up-to-date with the upstream repository.</h3><ul>
-<li><p>Fetch the branches and their respective commits from the upstream repository. Commits to master will be stored in a local branch, upstream/master</p>
-<pre><code>$ git fetch upstream
-</code></pre></li>
-<li><p>Check out your fork’s local master branch.</p>
-<pre><code>$ git checkout master
-&gt; Switched to branch &apos;master&apos;
-</code></pre></li>
-<li><p>Merge the changes from upstream/master into your local master branch. This brings your fork’s master branch into sync with the upstream repository, without losing your local changes.</p>
-<pre><code>$ git merge upstream/master
-</code></pre></li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://thathub.com/2019/04/23/linux/error_relocation/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2254,6 +2042,313 @@ colorscheme desert
 <h3 id="Opinion"><a href="#Opinion" class="headerlink" title="Opinion"></a>Opinion</h3><p>So, my verdict would be that TensorFlow has kind of stood the test of time (if you can use this expression for a framework that is not that old itself) and is still more widely adopted. It has more capabilities and a better scalability for larger projects (projects of the scale of Google). PyTorch is surely gaining momentum as it is easier to learn but doesn’t have the same integration. It is very good for small projects that need to be done quite fast, but is not optimal for product deployment.</p>
 <h3 id="Practical-reasons-to-learn-both"><a href="#Practical-reasons-to-learn-both" class="headerlink" title="Practical reasons to learn both"></a>Practical reasons to learn both</h3><p>If you want to work in the industry, it is probable that a company may have some customized framework. On your CV, you will be expected to have experience with (a) machine learning package(s). In any case, they won’t expect you to have worked with all of them. If you have to choose a single one of them, it seems to me that going for “the easier to learn” package looks worse. So learn both or go with TF.</p>
 
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/11/05/data_structure/dataStructure_select/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/11/05/data_structure/dataStructure_select/" itemprop="url">数据结构--查找</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-05T09:00:00+08:00">
+                2018-11-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Data-Structure/" itemprop="url" rel="index">
+                    <span itemprop="name">Data Structure</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/11/05/data_structure/dataStructure_select/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/11/05/data_structure/dataStructure_select/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="二分查找-amp-amp-利用二分查找插入"><a href="#二分查找-amp-amp-利用二分查找插入" class="headerlink" title="二分查找 &amp;&amp; 利用二分查找插入"></a>二分查找 &amp;&amp; 利用二分查找插入</h3><pre><code>#include &lt;stdio.h&gt;
+
+#define MAX 100
+
+typedef struct{
+    int key;
+}Node;
+
+typedef Node SeqList[MAX+1];
+
+//递归二分查找
+int binSearch1(SeqList R, int k, int low, int high){
+    int mid;
+    if(low &lt;= high){
+        mid = (low+high)/2;
+        if(R[mid].key == k)
+            return mid;
+        if(R[mid].key &gt; k)
+            return binSearch1(R, k, low, mid-1);
+        else
+            return binSearch1(R, k, mid+1, high);
+    }
+    return 0;
+}
+
+//非递归查找
+int binSearch2(SeqList R, int k, int low, int high){
+    int mid;
+    while(low &lt;= high){
+        mid = (low+high)/2;
+        if(R[mid].key == k)
+            return mid;
+        if(R[mid].key &gt; k)
+            high = mid-1;
+        else
+            low = mid+1;
+    }
+    return 0;
+}
+
+//插入
+void binInsert(SeqList R, int n, int k){
+    int low=1, high=n,find=0, mid;
+    while(low&lt;=high &amp;&amp; !find){
+        mid = (low+high)/2;
+        if(R[mid].key == k){
+            find = mid;
+            break;
+        }
+        if(R[mid].key &gt; k)
+            high = mid - 1;
+        else
+            low = mid + 1;
+    }
+    if(!find)
+        find = low;
+    for(int i=n; i&gt;=find; i--){
+        R[i+1] = R[i];
+    }
+    R[find].key = k;
+}
+
+int main(){
+    SeqList R;
+    int t;
+    int n = 0;
+    int i;
+    while (1==1) {
+        scanf(&quot;%d&quot;, &amp;t);
+        if(t == -9999)
+            break;
+        n++;
+        R[n].key = t;
+    }
+    i = binSearch1(R, 5, 1, n);
+    printf(&quot;%d\n&quot;, i);
+    binInsert(R, n, 5);
+    for(int j=1; j&lt;=n+1; j++){
+        printf(&quot;%d-&gt;&quot;, R[j].key);
+    }
+    return 0;
+}
+</code></pre><h3 id="二叉排序树"><a href="#二叉排序树" class="headerlink" title="二叉排序树"></a>二叉排序树</h3><pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+typedef struct Node{
+    int data;
+    struct Node \*lchild;
+    struct Node \*rchild;
+}BSNode;
+
+typedef BSNode \*BSTree;
+
+
+BSTree insertBSTree(BSTree bst, int k){
+    if(bst == NULL){
+        bst = (BSNode \*)malloc(sizeof(BSNode));
+        bst-&gt;data = k;
+        bst-&gt;lchild = NULL;
+        bst-&gt;rchild = NULL;
+    }
+    BSTree lc;
+    BSTree rc;
+    if(k &lt; bst-&gt;data){
+        lc = insertBSTree(bst-&gt;lchild, k);
+        bst-&gt;lchild = lc;
+    }
+    else if(k &gt; bst-&gt;data){
+        rc = insertBSTree(bst-&gt;rchild, k);
+        bst-&gt;rchild = rc;
+    }
+    return bst;
+}
+
+void interOder(BSTree bst){
+    if(bst){
+        interOder(bst-&gt;lchild);
+        printf(&quot;%d-&gt;&quot;, bst-&gt;data);
+        interOder(bst-&gt;rchild);
+    }
+}
+
+int main(){
+    BSTree bst = NULL;
+    int t;
+    scanf(&quot;%d&quot;, &amp;t);
+    while (t != -9999) {
+        bst = insertBSTree(bst, t);
+        scanf(&quot;%d&quot;, &amp;t);
+    }
+    interOder(bst);
+    printf(&quot;\n&quot;);
+    return 0;
+}
+</code></pre><h3 id="并判断第n个整数在前（n-1）个整数中出现的次数"><a href="#并判断第n个整数在前（n-1）个整数中出现的次数" class="headerlink" title="并判断第n个整数在前（n-1）个整数中出现的次数"></a>并判断第n个整数在前（n-1）个整数中出现的次数</h3><pre><code>#include&lt;stdio.h&gt;
+#define MAX 100
+
+int main(){
+    int a[MAX];
+    int i=0, n, t;
+    while(1==1){
+        scanf(&quot;%d &quot;, &amp;t);
+        if(t == -9999){
+            break;
+        }
+        i++;
+        a[i] = t;
+    };
+    for(int j=1; j&lt;i; j++){
+        if(a[j] == a[i])
+            n++;
+    }
+    printf(&quot;第n个整数在前n-1个数中出现的次数为：%d\n&quot;, n);
+    return 0;
+}
+</code></pre>
           
         
       
