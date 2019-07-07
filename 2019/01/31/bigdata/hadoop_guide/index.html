@@ -101,7 +101,7 @@
 <meta property="og:site_name" content="Jokers&#39;s Blog">
 <meta property="og:description" content="Hadoop FundamentalsChapter 1. Meet HadoopHadoop通常指大型的生态系统，不仅仅是HDFS和MapReduce，属于分布式计算和大规模数据处理例如，HBase，key-value存储方式，使用HDFS作为底层存储yarn，Hadoop中新处理模型的推动者，它是一个集群资源管理系统，它允许分布式程序（不仅仅是MapReduce）在Hadoop集群处理数据Hi">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-04-23T03:43:02.223Z">
+<meta property="og:updated_time" content="2019-07-06T14:43:21.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="hadoop2指南">
 <meta name="twitter:description" content="Hadoop FundamentalsChapter 1. Meet HadoopHadoop通常指大型的生态系统，不仅仅是HDFS和MapReduce，属于分布式计算和大规模数据处理例如，HBase，key-value存储方式，使用HDFS作为底层存储yarn，Hadoop中新处理模型的推动者，它是一个集群资源管理系统，它允许分布式程序（不仅仅是MapReduce）在Hadoop集群处理数据Hi">
@@ -385,15 +385,45 @@
 <p>Low-latency data access<br>HDFS对几十毫秒内的低延迟访问表现不好，因为它主要优化方向是高吞吐量，势必造成高延迟。HBase是当前达到低延迟的选择。</p>
 <p>Lots of small files<br>namenode将文件系统元数据放在内存，而每个文件，目录，block占用大约150比特。假设有100万的文件，每个文件是一个block，需要300M内存。</p>
 <p>Multiple writers, arbitrary file modifications<br>目前仅支持单用户在文件末尾append</p>
-<h4 id="HDFS-Concepts"><a href="#HDFS-Concepts" class="headerlink" title="HDFS Concepts"></a>HDFS Concepts</h4><h5 id="Blocks"><a href="#Blocks" class="headerlink" title="Blocks"></a>Blocks</h5><p>每个block默认128M，文件被拆分成block大小，不足block大小的文件虽然是一个block，但是仅占用实际大小的空间。</p>
-<h5 id="Namenodes-and-Datanodes"><a href="#Namenodes-and-Datanodes" class="headerlink" title="Namenodes and Datanodes"></a>Namenodes and Datanodes</h5><p>HDFS集群是master−worke模式，一个namenode（master）和一些datanode（workers）。namenode管理文件系统命名空间。它包含文件系统树和所有文件及目录的元数据，这些数据持久化在本地磁盘，两个文件分别是namespace image和edit log。namenode不持久化block的位置，因为每次系统启动都会通过datanode重建位置信息。<br>客户端访问namenode和datanode，对用户来说是透明的。<br>datanode存储检索block并周期性的向namenode报告blocks的存储情况。<br>没有namenode，HDFS将无法工作。namenode故障将使得文件系统的文件丢失，为了避免这种情况，Hadoop提供了两种机制：<br>第一种是备份文件系统元数据，备份是同步的和自动的，通常的配置是写入本地磁盘和原称NFS mount。<br>第二种是运行辅助namenode，周期性的合并namenode image及edit log。辅助namenode常运行在单独的机器，因为它需要大量的CPU和内存执行merge。如果主namenode挂了，总会出现数据丢失，在这种情况通常从NFS复制一份namenode的元数据。</p>
+<h4 id="HDFS-Concepts"><a href="#HDFS-Concepts" class="headerlink" title="HDFS Concepts"></a>HDFS Concepts</h4><h5 id="Blocks"><a href="#Blocks" class="headerlink" title="Blocks"></a>Blocks</h5><p>每个block默认128M，文件被拆分成block大小，不足block大小的文件虽然是一个block，但是仅占用实际大小的空间。<br>block带给分布式系统好处：</p>
+<ol>
+<li>文件大小可以大于单个结点的磁盘</li>
+<li>简化储存子系统</li>
+<li>适合复制，增加了系统容错能力，默认复制到3个结点</li>
+</ol>
+<h5 id="Namenodes-and-Datanodes"><a href="#Namenodes-and-Datanodes" class="headerlink" title="Namenodes and Datanodes"></a>Namenodes and Datanodes</h5><p>HDFS集群是master−worke模式，一个namenode（master）和一些datanode（workers）。namenode管理文件系统命名空间。它包含文件系统树和所有文件及目录的元数据，这些数据持久化在本地磁盘，两个文件分别是namespace image和edit log。namenode不持久化block的位置，因为每次系统启动都会通过datanode重建位置信息。<br>客户端访问namenode和datanode，对用户来说是透明的。<br>datanode存储检索block并周期性的向namenode报告blocks的存储情况。<br>没有namenode，HDFS将无法工作。namenode故障将使得文件系统的文件丢失，为了避免这种情况，Hadoop提供了两种机制：<br>第一种是备份文件系统元数据，备份是同步的和原子的，通常的配置是写入本地磁盘和原称NFS mount。<br>第二种是运行secondary namenode，周期性的合并namespace image及edit log。secondary namenode常运行在单独的机器，因为它需要大量的CPU和内存执行merge。如果主namenode挂了，总会出现数据丢失，在这种情况通常从NFS复制一份namenode的元数据到ssecondary namenode并将其作为namenode使用。</p>
 <h5 id="Block-Caching"><a href="#Block-Caching" class="headerlink" title="Block Caching"></a>Block Caching</h5><p>通常datanode从disk读block，但是对高频访问的block可以明确缓存到datanode的内存，可以增加读的效率。应用通过添加缓存指令到缓存池来指导namenode缓存文件。</p>
-<h5 id="HDFS-High-Availability"><a href="#HDFS-High-Availability" class="headerlink" title="HDFS High Availability"></a>HDFS High Availability</h5><p>备份namenode元数据并使用辅助namenode防止数据丢失，不能获得高可用的系统。<br>如果namenode挂掉，新的namenode需要载入namespace image到内存，重现edit log，接收所有datanode上报的block映射关系，才能正常运行。在大型集群，需要耗费30分钟甚至更长的时间。<br>Hadoop 2添加高可用性（HA）支持，使用一对namenode（active-standby），active namenode挂掉，standby可以很快提供服务。<br>架构需要做一些改动：</p>
+<h5 id="HDFS-Federation"><a href="#HDFS-Federation" class="headerlink" title="HDFS Federation"></a>HDFS Federation</h5><p>每个文件和块的引用是保存在namenode的内存中的，我们可以添加namenode去扩展，每个namenode管理一部分的namespace，相互对立，不影响其它namenode的可用性</p>
+<h5 id="HDFS-High-Availability"><a href="#HDFS-High-Availability" class="headerlink" title="HDFS High Availability"></a>HDFS High Availability</h5><p>secondary namenode元数据并使用辅助namenode防止数据丢失，不能获得高可用的系统。<br>如果namenode挂掉，新的namenode需要载入namespace image到内存，重现edit log，接收所有datanode上报的block映射关系，才能正常运行。在大型集群，需要耗费30分钟甚至更长的时间。<br>Hadoop 2添加高可用性（HA）支持，使用一对namenode（active-standby），active namenode挂掉，standby可以很快提供服务。<br>架构需要做一些改动：</p>
 <ul>
 <li>namenode必须使用高可用性共享存储来共享编辑日志</li>
 <li>datanode必须向所以namenode发送block的映射信息</li>
 <li>客户端需要配置处理故障转移，对用户透明</li>
 </ul>
+<h4 id="The-Command-Line-Interface"><a href="#The-Command-Line-Interface" class="headerlink" title="The Command-Line Interface"></a>The Command-Line Interface</h4><p>首先安装一个伪分布式的Hadoop，配置文件中的fs.defaultFS设置为hdfs://localhost/，使用HDFS作为Hadoop的文件系统。<br>dfs.replication设置为1（默认3），不对blocks进行复制。<br>获得帮助信息</p>
+<pre><code>hadoop fs -help 
+</code></pre><p>从本地文件系统复制文件到HDFS</p>
+<pre><code>% hadoop fs -copyFromLocal input/docs/quangle.txt \
+hdfs://localhost/user/tom/quangle.txt
+</code></pre><p>我们可以省略schema和host，使用定义在core-site.xml中的值</p>
+<pre><code>% hadoop fs -copyFromLocal input/docs/quangle.txt /user/tom/quangle.txt
+</code></pre><p>创建文件夹以及列出所有的文件</p>
+<pre><code>% hadoop fs -mkdir books
+% hadoop fs -ls .
+</code></pre><h4 id="Hadoop-Filesystems"><a href="#Hadoop-Filesystems" class="headerlink" title="Hadoop Filesystems"></a>Hadoop Filesystems</h4><p>Hadoop有许多种Filesystems</p>
+<h5 id="Interfaces"><a href="#Interfaces" class="headerlink" title="Interfaces"></a>Interfaces</h5><p>接口有Java的Native API<br>有HTTP REST API，通过HTTP访问HDFS有两种方式：<br>1、直接访问namenode，然后重定向到datanode<br>2、使用代理服务器，代理负责访问namenode和重定向到datanode，这中方式可以允许更严格的防火墙和带宽限制策略<br>HTTP接口速度比Native慢</p>
+<h4 id="Parallel-Copying-with-distcp"><a href="#Parallel-Copying-with-distcp" class="headerlink" title="Parallel Copying with distcp"></a>Parallel Copying with distcp</h4><p>并行复制数据，可以有效代替 hadoop fs -cp<br>复制一个文件</p>
+<pre><code>% hadoop distcp file1 file2
+</code></pre><p>复制目录</p>
+<pre><code>% hadoop distcp dir1 dir2
+</code></pre><p>如果dir2不存在，则新建dir2并且把dir1的数据拷贝到dir2。如果dir2存在,则dir1会复制到dir2/dir1。<br>使用 -overwrite 选项可以避免改变目录结构。<br>使用 -update 选项只同步更新。</p>
+<pre><code>% hadoop distcp -update dir1 dir2
+</code></pre><p>distcp使用MapReduce任务实现，并行的maps执行复制，没有reduce。多达20个maps执行复制，可以通过 -m 参数指定数量。<br>distcp通常用于两个集群间传递数据</p>
+<pre><code>% hadoop distcp -update -delete -p hdfs://namenode1/foo hdfs://namenode2/foo
+</code></pre><p>–delete 删除namenode1不存在的文件，-p 保存文件参数，例如，block大小、权限等。<br>如果两个集群HDFS版本不同，可以使用webhdfs协议</p>
+<pre><code>% hadoop distcp webhdfs://namenode1:50070/foo webhdfs://namenode2:50070/foo
+</code></pre><h5 id="Keeping-an-HDFS-Cluster-Balanced"><a href="#Keeping-an-HDFS-Cluster-Balanced" class="headerlink" title="Keeping an HDFS Cluster Balanced"></a>Keeping an HDFS Cluster Balanced</h5><p>为保证集群中每个结点的blocks数量平衡，建议使用默认的20个map执行distcp，因为如果只有一个map，那么所有复制的block都会在运行map的node建立一个副本。</p>
+<h3 id="Chapter-4-YARN"><a href="#Chapter-4-YARN" class="headerlink" title="Chapter 4. YARN"></a>Chapter 4. YARN</h3><p>YARN是在Hadoop2引入的，改善MapReduce的实现，并且支持其他分布式计算框架。</p>
 
       
     </div>
@@ -514,7 +544,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-count">40</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -571,7 +601,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Hadoop-Fundamentals"><span class="nav-number">1.</span> <span class="nav-text">Hadoop Fundamentals</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Chapter-1-Meet-Hadoop"><span class="nav-number">1.1.</span> <span class="nav-text">Chapter 1. Meet Hadoop</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Chapter-2-MapReduce"><span class="nav-number">1.2.</span> <span class="nav-text">Chapter 2. MapReduce</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#A-Weather-Dataset"><span class="nav-number">1.2.1.</span> <span class="nav-text">A Weather Dataset</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Analyzing-the-Data-with-Hadoop"><span class="nav-number">1.2.2.</span> <span class="nav-text">Analyzing the Data with Hadoop</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Scaling-Out"><span class="nav-number">1.2.3.</span> <span class="nav-text">Scaling Out</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Data-Flow"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">Data Flow</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Combiner-Functions"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">Combiner Functions</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Chapter-3-The-Hadoop-Distributed-Filesystem"><span class="nav-number">1.3.</span> <span class="nav-text">Chapter 3. The Hadoop Distributed Filesystem</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#The-Design-of-HDFS"><span class="nav-number">1.3.1.</span> <span class="nav-text">The Design of HDFS</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HDFS-Concepts"><span class="nav-number">1.3.2.</span> <span class="nav-text">HDFS Concepts</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Blocks"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">Blocks</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Namenodes-and-Datanodes"><span class="nav-number">1.3.2.2.</span> <span class="nav-text">Namenodes and Datanodes</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Block-Caching"><span class="nav-number">1.3.2.3.</span> <span class="nav-text">Block Caching</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#HDFS-High-Availability"><span class="nav-number">1.3.2.4.</span> <span class="nav-text">HDFS High Availability</span></a></li></ol></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Hadoop-Fundamentals"><span class="nav-number">1.</span> <span class="nav-text">Hadoop Fundamentals</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Chapter-1-Meet-Hadoop"><span class="nav-number">1.1.</span> <span class="nav-text">Chapter 1. Meet Hadoop</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Chapter-2-MapReduce"><span class="nav-number">1.2.</span> <span class="nav-text">Chapter 2. MapReduce</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#A-Weather-Dataset"><span class="nav-number">1.2.1.</span> <span class="nav-text">A Weather Dataset</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Analyzing-the-Data-with-Hadoop"><span class="nav-number">1.2.2.</span> <span class="nav-text">Analyzing the Data with Hadoop</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Scaling-Out"><span class="nav-number">1.2.3.</span> <span class="nav-text">Scaling Out</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Data-Flow"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">Data Flow</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Combiner-Functions"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">Combiner Functions</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Chapter-3-The-Hadoop-Distributed-Filesystem"><span class="nav-number">1.3.</span> <span class="nav-text">Chapter 3. The Hadoop Distributed Filesystem</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#The-Design-of-HDFS"><span class="nav-number">1.3.1.</span> <span class="nav-text">The Design of HDFS</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HDFS-Concepts"><span class="nav-number">1.3.2.</span> <span class="nav-text">HDFS Concepts</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Blocks"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">Blocks</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Namenodes-and-Datanodes"><span class="nav-number">1.3.2.2.</span> <span class="nav-text">Namenodes and Datanodes</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Block-Caching"><span class="nav-number">1.3.2.3.</span> <span class="nav-text">Block Caching</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#HDFS-Federation"><span class="nav-number">1.3.2.4.</span> <span class="nav-text">HDFS Federation</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#HDFS-High-Availability"><span class="nav-number">1.3.2.5.</span> <span class="nav-text">HDFS High Availability</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#The-Command-Line-Interface"><span class="nav-number">1.3.3.</span> <span class="nav-text">The Command-Line Interface</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Hadoop-Filesystems"><span class="nav-number">1.3.4.</span> <span class="nav-text">Hadoop Filesystems</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Interfaces"><span class="nav-number">1.3.4.1.</span> <span class="nav-text">Interfaces</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Parallel-Copying-with-distcp"><span class="nav-number">1.3.5.</span> <span class="nav-text">Parallel Copying with distcp</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Keeping-an-HDFS-Cluster-Balanced"><span class="nav-number">1.3.5.1.</span> <span class="nav-text">Keeping an HDFS Cluster Balanced</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Chapter-4-YARN"><span class="nav-number">1.4.</span> <span class="nav-text">Chapter 4. YARN</span></a></li></ol></li></ol></div>
             
 
           </div>

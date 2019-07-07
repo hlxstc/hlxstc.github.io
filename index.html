@@ -273,6 +273,177 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2019/07/07/bigdata/Stop_Worrying_about_Solr_vs_Elasticsearch_Decisions/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/07/07/bigdata/Stop_Worrying_about_Solr_vs_Elasticsearch_Decisions/" itemprop="url">停止担心关于Solr和Elasticsearch使用决策</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-07T10:00:00+08:00">
+                2019-07-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/BigData/" itemprop="url" rel="index">
+                    <span itemprop="name">BigData</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/07/07/bigdata/Stop_Worrying_about_Solr_vs_Elasticsearch_Decisions/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2019/07/07/bigdata/Stop_Worrying_about_Solr_vs_Elasticsearch_Decisions/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>RE:<a href="https://opensourceconnections.com/blog/2019/02/28/stop-worrying-solr-elasticsearch/" target="_blank" rel="noopener">Stop Worrying about Solr vs Elasticsearch Decisions</a></p>
+<p>有人说Luncene是引擎，Solr和Elasticsearch是车，选择Solr还是ES就像选车。但实际上选择搜索引擎不是选车，它们只是一堆原始的零件、车轮和一个引擎，需要你去组装它。</p>
+<p>人们究竟如何使用Solr和ES：</p>
+<ol>
+<li><p>工程师的配置技巧是决定搜索引擎好坏关键性因素。ES可参考官方配置说明，翻译版在我的博客(<a href="http://thathub.com/2018/04/23/bigdata/elastcsearch-config/">http://thathub.com/2018/04/23/bigdata/elastcsearch-config/</a>)</p>
+</li>
+<li><p>写插件，扩展搜索引擎的功能</p>
+</li>
+<li><p>花费更多的时间在实验上，而不是特定的搜索引擎</p>
+</li>
+</ol>
+<p>我们究竟要比较什么</p>
+<p>我们更因该关注的是社区而不是功能。</p>
+<ul>
+<li><p>solr来自于Apache Software Foundation (ASF)。ASF希望个人和团体去定义产品的发展方向。Solr使得开发者有更多的机会去深入研究源码。</p>
+</li>
+<li><p>ES是由公司一个公司去主导的。虽然开发者没有主导权，但是对很多人来说，最需要的是”just work”。</p>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://thathub.com/2019/04/23/linux/error_relocation/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1100,15 +1271,45 @@ db.users.find({&quot;id_num&quot; : {&quot;$not&quot; : {&quot;$mod&quot; : [5, 
 <p>Low-latency data access<br>HDFS对几十毫秒内的低延迟访问表现不好，因为它主要优化方向是高吞吐量，势必造成高延迟。HBase是当前达到低延迟的选择。</p>
 <p>Lots of small files<br>namenode将文件系统元数据放在内存，而每个文件，目录，block占用大约150比特。假设有100万的文件，每个文件是一个block，需要300M内存。</p>
 <p>Multiple writers, arbitrary file modifications<br>目前仅支持单用户在文件末尾append</p>
-<h4 id="HDFS-Concepts"><a href="#HDFS-Concepts" class="headerlink" title="HDFS Concepts"></a>HDFS Concepts</h4><h5 id="Blocks"><a href="#Blocks" class="headerlink" title="Blocks"></a>Blocks</h5><p>每个block默认128M，文件被拆分成block大小，不足block大小的文件虽然是一个block，但是仅占用实际大小的空间。</p>
-<h5 id="Namenodes-and-Datanodes"><a href="#Namenodes-and-Datanodes" class="headerlink" title="Namenodes and Datanodes"></a>Namenodes and Datanodes</h5><p>HDFS集群是master−worke模式，一个namenode（master）和一些datanode（workers）。namenode管理文件系统命名空间。它包含文件系统树和所有文件及目录的元数据，这些数据持久化在本地磁盘，两个文件分别是namespace image和edit log。namenode不持久化block的位置，因为每次系统启动都会通过datanode重建位置信息。<br>客户端访问namenode和datanode，对用户来说是透明的。<br>datanode存储检索block并周期性的向namenode报告blocks的存储情况。<br>没有namenode，HDFS将无法工作。namenode故障将使得文件系统的文件丢失，为了避免这种情况，Hadoop提供了两种机制：<br>第一种是备份文件系统元数据，备份是同步的和自动的，通常的配置是写入本地磁盘和原称NFS mount。<br>第二种是运行辅助namenode，周期性的合并namenode image及edit log。辅助namenode常运行在单独的机器，因为它需要大量的CPU和内存执行merge。如果主namenode挂了，总会出现数据丢失，在这种情况通常从NFS复制一份namenode的元数据。</p>
+<h4 id="HDFS-Concepts"><a href="#HDFS-Concepts" class="headerlink" title="HDFS Concepts"></a>HDFS Concepts</h4><h5 id="Blocks"><a href="#Blocks" class="headerlink" title="Blocks"></a>Blocks</h5><p>每个block默认128M，文件被拆分成block大小，不足block大小的文件虽然是一个block，但是仅占用实际大小的空间。<br>block带给分布式系统好处：</p>
+<ol>
+<li>文件大小可以大于单个结点的磁盘</li>
+<li>简化储存子系统</li>
+<li>适合复制，增加了系统容错能力，默认复制到3个结点</li>
+</ol>
+<h5 id="Namenodes-and-Datanodes"><a href="#Namenodes-and-Datanodes" class="headerlink" title="Namenodes and Datanodes"></a>Namenodes and Datanodes</h5><p>HDFS集群是master−worke模式，一个namenode（master）和一些datanode（workers）。namenode管理文件系统命名空间。它包含文件系统树和所有文件及目录的元数据，这些数据持久化在本地磁盘，两个文件分别是namespace image和edit log。namenode不持久化block的位置，因为每次系统启动都会通过datanode重建位置信息。<br>客户端访问namenode和datanode，对用户来说是透明的。<br>datanode存储检索block并周期性的向namenode报告blocks的存储情况。<br>没有namenode，HDFS将无法工作。namenode故障将使得文件系统的文件丢失，为了避免这种情况，Hadoop提供了两种机制：<br>第一种是备份文件系统元数据，备份是同步的和原子的，通常的配置是写入本地磁盘和原称NFS mount。<br>第二种是运行secondary namenode，周期性的合并namespace image及edit log。secondary namenode常运行在单独的机器，因为它需要大量的CPU和内存执行merge。如果主namenode挂了，总会出现数据丢失，在这种情况通常从NFS复制一份namenode的元数据到ssecondary namenode并将其作为namenode使用。</p>
 <h5 id="Block-Caching"><a href="#Block-Caching" class="headerlink" title="Block Caching"></a>Block Caching</h5><p>通常datanode从disk读block，但是对高频访问的block可以明确缓存到datanode的内存，可以增加读的效率。应用通过添加缓存指令到缓存池来指导namenode缓存文件。</p>
-<h5 id="HDFS-High-Availability"><a href="#HDFS-High-Availability" class="headerlink" title="HDFS High Availability"></a>HDFS High Availability</h5><p>备份namenode元数据并使用辅助namenode防止数据丢失，不能获得高可用的系统。<br>如果namenode挂掉，新的namenode需要载入namespace image到内存，重现edit log，接收所有datanode上报的block映射关系，才能正常运行。在大型集群，需要耗费30分钟甚至更长的时间。<br>Hadoop 2添加高可用性（HA）支持，使用一对namenode（active-standby），active namenode挂掉，standby可以很快提供服务。<br>架构需要做一些改动：</p>
+<h5 id="HDFS-Federation"><a href="#HDFS-Federation" class="headerlink" title="HDFS Federation"></a>HDFS Federation</h5><p>每个文件和块的引用是保存在namenode的内存中的，我们可以添加namenode去扩展，每个namenode管理一部分的namespace，相互对立，不影响其它namenode的可用性</p>
+<h5 id="HDFS-High-Availability"><a href="#HDFS-High-Availability" class="headerlink" title="HDFS High Availability"></a>HDFS High Availability</h5><p>secondary namenode元数据并使用辅助namenode防止数据丢失，不能获得高可用的系统。<br>如果namenode挂掉，新的namenode需要载入namespace image到内存，重现edit log，接收所有datanode上报的block映射关系，才能正常运行。在大型集群，需要耗费30分钟甚至更长的时间。<br>Hadoop 2添加高可用性（HA）支持，使用一对namenode（active-standby），active namenode挂掉，standby可以很快提供服务。<br>架构需要做一些改动：</p>
 <ul>
 <li>namenode必须使用高可用性共享存储来共享编辑日志</li>
 <li>datanode必须向所以namenode发送block的映射信息</li>
 <li>客户端需要配置处理故障转移，对用户透明</li>
 </ul>
+<h4 id="The-Command-Line-Interface"><a href="#The-Command-Line-Interface" class="headerlink" title="The Command-Line Interface"></a>The Command-Line Interface</h4><p>首先安装一个伪分布式的Hadoop，配置文件中的fs.defaultFS设置为hdfs://localhost/，使用HDFS作为Hadoop的文件系统。<br>dfs.replication设置为1（默认3），不对blocks进行复制。<br>获得帮助信息</p>
+<pre><code>hadoop fs -help 
+</code></pre><p>从本地文件系统复制文件到HDFS</p>
+<pre><code>% hadoop fs -copyFromLocal input/docs/quangle.txt \
+hdfs://localhost/user/tom/quangle.txt
+</code></pre><p>我们可以省略schema和host，使用定义在core-site.xml中的值</p>
+<pre><code>% hadoop fs -copyFromLocal input/docs/quangle.txt /user/tom/quangle.txt
+</code></pre><p>创建文件夹以及列出所有的文件</p>
+<pre><code>% hadoop fs -mkdir books
+% hadoop fs -ls .
+</code></pre><h4 id="Hadoop-Filesystems"><a href="#Hadoop-Filesystems" class="headerlink" title="Hadoop Filesystems"></a>Hadoop Filesystems</h4><p>Hadoop有许多种Filesystems</p>
+<h5 id="Interfaces"><a href="#Interfaces" class="headerlink" title="Interfaces"></a>Interfaces</h5><p>接口有Java的Native API<br>有HTTP REST API，通过HTTP访问HDFS有两种方式：<br>1、直接访问namenode，然后重定向到datanode<br>2、使用代理服务器，代理负责访问namenode和重定向到datanode，这中方式可以允许更严格的防火墙和带宽限制策略<br>HTTP接口速度比Native慢</p>
+<h4 id="Parallel-Copying-with-distcp"><a href="#Parallel-Copying-with-distcp" class="headerlink" title="Parallel Copying with distcp"></a>Parallel Copying with distcp</h4><p>并行复制数据，可以有效代替 hadoop fs -cp<br>复制一个文件</p>
+<pre><code>% hadoop distcp file1 file2
+</code></pre><p>复制目录</p>
+<pre><code>% hadoop distcp dir1 dir2
+</code></pre><p>如果dir2不存在，则新建dir2并且把dir1的数据拷贝到dir2。如果dir2存在,则dir1会复制到dir2/dir1。<br>使用 -overwrite 选项可以避免改变目录结构。<br>使用 -update 选项只同步更新。</p>
+<pre><code>% hadoop distcp -update dir1 dir2
+</code></pre><p>distcp使用MapReduce任务实现，并行的maps执行复制，没有reduce。多达20个maps执行复制，可以通过 -m 参数指定数量。<br>distcp通常用于两个集群间传递数据</p>
+<pre><code>% hadoop distcp -update -delete -p hdfs://namenode1/foo hdfs://namenode2/foo
+</code></pre><p>–delete 删除namenode1不存在的文件，-p 保存文件参数，例如，block大小、权限等。<br>如果两个集群HDFS版本不同，可以使用webhdfs协议</p>
+<pre><code>% hadoop distcp webhdfs://namenode1:50070/foo webhdfs://namenode2:50070/foo
+</code></pre><h5 id="Keeping-an-HDFS-Cluster-Balanced"><a href="#Keeping-an-HDFS-Cluster-Balanced" class="headerlink" title="Keeping an HDFS Cluster Balanced"></a>Keeping an HDFS Cluster Balanced</h5><p>为保证集群中每个结点的blocks数量平衡，建议使用默认的20个map执行distcp，因为如果只有一个map，那么所有复制的block都会在运行map的node建立一个副本。</p>
+<h3 id="Chapter-4-YARN"><a href="#Chapter-4-YARN" class="headerlink" title="Chapter 4. YARN"></a>Chapter 4. YARN</h3><p>YARN是在Hadoop2引入的，改善MapReduce的实现，并且支持其他分布式计算框架。</p>
 
           
         
@@ -2076,313 +2277,6 @@ colorscheme desert
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/11/05/data_structure/dataStructure_select/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jokers">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jokers's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/11/05/data_structure/dataStructure_select/" itemprop="url">数据结构--查找</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-05T09:00:00+08:00">
-                2018-11-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Data-Structure/" itemprop="url" rel="index">
-                    <span itemprop="name">Data Structure</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/11/05/data_structure/dataStructure_select/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/11/05/data_structure/dataStructure_select/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="二分查找-amp-amp-利用二分查找插入"><a href="#二分查找-amp-amp-利用二分查找插入" class="headerlink" title="二分查找 &amp;&amp; 利用二分查找插入"></a>二分查找 &amp;&amp; 利用二分查找插入</h3><pre><code>#include &lt;stdio.h&gt;
-
-#define MAX 100
-
-typedef struct{
-    int key;
-}Node;
-
-typedef Node SeqList[MAX+1];
-
-//递归二分查找
-int binSearch1(SeqList R, int k, int low, int high){
-    int mid;
-    if(low &lt;= high){
-        mid = (low+high)/2;
-        if(R[mid].key == k)
-            return mid;
-        if(R[mid].key &gt; k)
-            return binSearch1(R, k, low, mid-1);
-        else
-            return binSearch1(R, k, mid+1, high);
-    }
-    return 0;
-}
-
-//非递归查找
-int binSearch2(SeqList R, int k, int low, int high){
-    int mid;
-    while(low &lt;= high){
-        mid = (low+high)/2;
-        if(R[mid].key == k)
-            return mid;
-        if(R[mid].key &gt; k)
-            high = mid-1;
-        else
-            low = mid+1;
-    }
-    return 0;
-}
-
-//插入
-void binInsert(SeqList R, int n, int k){
-    int low=1, high=n,find=0, mid;
-    while(low&lt;=high &amp;&amp; !find){
-        mid = (low+high)/2;
-        if(R[mid].key == k){
-            find = mid;
-            break;
-        }
-        if(R[mid].key &gt; k)
-            high = mid - 1;
-        else
-            low = mid + 1;
-    }
-    if(!find)
-        find = low;
-    for(int i=n; i&gt;=find; i--){
-        R[i+1] = R[i];
-    }
-    R[find].key = k;
-}
-
-int main(){
-    SeqList R;
-    int t;
-    int n = 0;
-    int i;
-    while (1==1) {
-        scanf(&quot;%d&quot;, &amp;t);
-        if(t == -9999)
-            break;
-        n++;
-        R[n].key = t;
-    }
-    i = binSearch1(R, 5, 1, n);
-    printf(&quot;%d\n&quot;, i);
-    binInsert(R, n, 5);
-    for(int j=1; j&lt;=n+1; j++){
-        printf(&quot;%d-&gt;&quot;, R[j].key);
-    }
-    return 0;
-}
-</code></pre><h3 id="二叉排序树"><a href="#二叉排序树" class="headerlink" title="二叉排序树"></a>二叉排序树</h3><pre><code>#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-
-typedef struct Node{
-    int data;
-    struct Node \*lchild;
-    struct Node \*rchild;
-}BSNode;
-
-typedef BSNode \*BSTree;
-
-
-BSTree insertBSTree(BSTree bst, int k){
-    if(bst == NULL){
-        bst = (BSNode \*)malloc(sizeof(BSNode));
-        bst-&gt;data = k;
-        bst-&gt;lchild = NULL;
-        bst-&gt;rchild = NULL;
-    }
-    BSTree lc;
-    BSTree rc;
-    if(k &lt; bst-&gt;data){
-        lc = insertBSTree(bst-&gt;lchild, k);
-        bst-&gt;lchild = lc;
-    }
-    else if(k &gt; bst-&gt;data){
-        rc = insertBSTree(bst-&gt;rchild, k);
-        bst-&gt;rchild = rc;
-    }
-    return bst;
-}
-
-void interOder(BSTree bst){
-    if(bst){
-        interOder(bst-&gt;lchild);
-        printf(&quot;%d-&gt;&quot;, bst-&gt;data);
-        interOder(bst-&gt;rchild);
-    }
-}
-
-int main(){
-    BSTree bst = NULL;
-    int t;
-    scanf(&quot;%d&quot;, &amp;t);
-    while (t != -9999) {
-        bst = insertBSTree(bst, t);
-        scanf(&quot;%d&quot;, &amp;t);
-    }
-    interOder(bst);
-    printf(&quot;\n&quot;);
-    return 0;
-}
-</code></pre><h3 id="并判断第n个整数在前（n-1）个整数中出现的次数"><a href="#并判断第n个整数在前（n-1）个整数中出现的次数" class="headerlink" title="并判断第n个整数在前（n-1）个整数中出现的次数"></a>并判断第n个整数在前（n-1）个整数中出现的次数</h3><pre><code>#include&lt;stdio.h&gt;
-#define MAX 100
-
-int main(){
-    int a[MAX];
-    int i=0, n, t;
-    while(1==1){
-        scanf(&quot;%d &quot;, &amp;t);
-        if(t == -9999){
-            break;
-        }
-        i++;
-        a[i] = t;
-    };
-    for(int j=1; j&lt;i; j++){
-        if(a[j] == a[i])
-            n++;
-    }
-    printf(&quot;第n个整数在前n-1个数中出现的次数为：%d\n&quot;, n);
-    return 0;
-}
-</code></pre>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2433,7 +2327,7 @@ int main(){
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-count">40</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
