@@ -94,17 +94,17 @@
 
 
 
-<meta name="description" content="简介Linux系统上管理控制进程的工具。 supervisorctl Actions restart allRestart all processes Note: restart does not reread config files. For that, see reread and update.">
+<meta name="description" content="HBase是分布式的面向列的数据存储系统，基于HDFS，提供Hadoop不具备的随即读写。它的的设计专注于在横向和纵向的表扩展，可以达到数十亿行，数百万列的规模，可以水平分区并在数千个结点自动复制。表的设计模式直接映射物理存储。 典型的RDMS是固定模式，面向行且具有复杂SQL查询的引擎，可以轻松建立索引，执行复杂的join和count、sum、sort、group等。MySQL，innodb最大">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Supervisor">
-<meta property="og:url" content="http://thathub.com/2014/04/23/Tools/supervisor/index.html">
+<meta property="og:title" content="HBase Versus RDBMS">
+<meta property="og:url" content="http://thathub.com/2019/07/07/bigdata/HBase_Versus_RDBMS/index.html">
 <meta property="og:site_name" content="Jokers&#39;s Blog">
-<meta property="og:description" content="简介Linux系统上管理控制进程的工具。 supervisorctl Actions restart allRestart all processes Note: restart does not reread config files. For that, see reread and update.">
+<meta property="og:description" content="HBase是分布式的面向列的数据存储系统，基于HDFS，提供Hadoop不具备的随即读写。它的的设计专注于在横向和纵向的表扩展，可以达到数十亿行，数百万列的规模，可以水平分区并在数千个结点自动复制。表的设计模式直接映射物理存储。 典型的RDMS是固定模式，面向行且具有复杂SQL查询的引擎，可以轻松建立索引，执行复杂的join和count、sum、sort、group等。MySQL，innodb最大">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-04-23T02:49:50.020Z">
+<meta property="og:updated_time" content="2019-07-07T11:13:07.377Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Supervisor">
-<meta name="twitter:description" content="简介Linux系统上管理控制进程的工具。 supervisorctl Actions restart allRestart all processes Note: restart does not reread config files. For that, see reread and update.">
+<meta name="twitter:title" content="HBase Versus RDBMS">
+<meta name="twitter:description" content="HBase是分布式的面向列的数据存储系统，基于HDFS，提供Hadoop不具备的随即读写。它的的设计专注于在横向和纵向的表扩展，可以达到数十亿行，数百万列的规模，可以水平分区并在数千个结点自动复制。表的设计模式直接映射物理存储。 典型的RDMS是固定模式，面向行且具有复杂SQL查询的引擎，可以轻松建立索引，执行复杂的join和count、sum、sort、group等。MySQL，innodb最大">
 
 
 
@@ -133,13 +133,13 @@
 
 
 
-  <link rel="canonical" href="http://thathub.com/2014/04/23/Tools/supervisor/"/>
+  <link rel="canonical" href="http://thathub.com/2019/07/07/bigdata/HBase_Versus_RDBMS/"/>
 
 
 
 
 
-  <title>Supervisor | Jokers's Blog</title>
+  <title>HBase Versus RDBMS | Jokers's Blog</title>
   
 
 
@@ -272,7 +272,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2014/04/23/Tools/supervisor/">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2019/07/07/bigdata/HBase_Versus_RDBMS/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jokers">
@@ -289,7 +289,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Supervisor</h1>
+          <h1 class="post-title" itemprop="name headline">HBase Versus RDBMS</h1>
         
 
         <div class="post-meta">
@@ -301,8 +301,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-04-23T10:39:00+08:00">
-                2014-04-23
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-07T17:35:00+08:00">
+                2019-07-07
               </time>
             
 
@@ -324,8 +324,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Tools/" itemprop="url" rel="index">
-                    <span itemprop="name">Tools</span>
+                  <a href="/categories/BigData/" itemprop="url" rel="index">
+                    <span itemprop="name">BigData</span>
                   </a>
                 </span>
 
@@ -342,9 +342,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2014/04/23/Tools/supervisor/#comments" itemprop="discussionUrl">
+                <a href="/2019/07/07/bigdata/HBase_Versus_RDBMS/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2014/04/23/Tools/supervisor/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2019/07/07/bigdata/HBase_Versus_RDBMS/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -372,10 +372,49 @@
       
 
       
-        <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>Linux系统上管理控制进程的工具。</p>
-<h3 id="supervisorctl-Actions"><a href="#supervisorctl-Actions" class="headerlink" title="supervisorctl Actions"></a>supervisorctl Actions</h3><ul>
-<li>restart all<br>Restart all processes Note: restart does not reread config files. For that, see reread and update.</li>
+        <p>HBase是分布式的面向列的数据存储系统，基于HDFS，提供Hadoop不具备的随即读写。<br>它的的设计专注于在横向和纵向的表扩展，可以达到数十亿行，数百万列的规模，可以水平分区并在数千个结点自动复制。<br>表的设计模式直接映射物理存储。</p>
+<p>典型的RDMS是固定模式，面向行且具有复杂SQL查询的引擎，可以轻松建立索引，执行复杂的join和count、sum、sort、group等。<br>MySQL，innodb最大列数限制为1024，有些为4096</p>
+<p>RDBMS适用于中小型的应用，如果需要扩展数据集或者并发读写，就会遇到巨大的性能问题和内在的分布式困难。<br>RDBMS的扩展需要涉及到打破Codd的规则和损失部分ACID限制，也就损失了那些使得RDBMS便利的特性。</p>
+<h3 id="RDBMS"><a href="#RDBMS" class="headerlink" title="RDBMS"></a>RDBMS</h3><p>ACID（数据库事务正确执行的四个基本要素的缩写）</p>
+<ul>
+<li>如果读的请求太多</li>
 </ul>
+<p>添加Redis</p>
+<ul>
+<li>如果写的请求过多</li>
+</ul>
+<p>购买服务器垂直扩展</p>
+<ul>
+<li>太多的JOIN</li>
+</ul>
+<p>Denormalize数据减少JOIN，比如增加冗余字段</p>
+<ul>
+<li>运算变慢</li>
+</ul>
+<p>停止作任何服务器端的计算</p>
+<ul>
+<li>一些查询依然很慢</li>
+</ul>
+<p>预先实现一些复杂的查询</p>
+<ul>
+<li>写入变慢</li>
+</ul>
+<p>删除二级索引</p>
+<h3 id="HBase"><a href="#HBase" class="headerlink" title="HBase"></a>HBase</h3><ul>
+<li>没有真正的索引</li>
+</ul>
+<p>行和列按顺序存储，插入性能不受表的大小影响</p>
+<ul>
+<li>自动分区</li>
+</ul>
+<p>自动分成regions并distribute到可用结点</p>
+<ul>
+<li><p>容错能力</p>
+</li>
+<li><p>批量操作</p>
+</li>
+</ul>
+<p>MapReduce的集成允许对数据进行完全并行的分布式作业</p>
 
       
     </div>
@@ -400,15 +439,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2019/07/07/bigdata/Stop_Worrying_about_Solr_vs_Elasticsearch_Decisions/" rel="next" title="停止担心关于Solr和Elasticsearch使用决策">
+                <i class="fa fa-chevron-left"></i> 停止担心关于Solr和Elasticsearch使用决策
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/04/12/mysql-regular/" rel="prev" title="MySQL开发规范">
-                MySQL开发规范 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -549,7 +588,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#supervisorctl-Actions"><span class="nav-number">2.</span> <span class="nav-text">supervisorctl Actions</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#RDBMS"><span class="nav-number">1.</span> <span class="nav-text">RDBMS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HBase"><span class="nav-number">2.</span> <span class="nav-text">HBase</span></a></li></ol></div>
             
 
           </div>
@@ -692,9 +731,9 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://thathub.com/2014/04/23/Tools/supervisor/';
-          this.page.identifier = '2014/04/23/Tools/supervisor/';
-          this.page.title = 'Supervisor';
+          this.page.url = 'http://thathub.com/2019/07/07/bigdata/HBase_Versus_RDBMS/';
+          this.page.identifier = '2019/07/07/bigdata/HBase_Versus_RDBMS/';
+          this.page.title = 'HBase Versus RDBMS';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://thathub-com.disqus.com.disqus.com/embed.js';
