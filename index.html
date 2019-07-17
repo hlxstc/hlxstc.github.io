@@ -273,6 +273,204 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2019/07/16/ML/applied_machine_learning_in_python_w1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/07/16/ML/applied_machine_learning_in_python_w1/" itemprop="url">Applied Machine Learning in Python</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-16T22:30:00+08:00">
+                2019-07-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/machine-learning/" itemprop="url" rel="index">
+                    <span itemprop="name">machine learning</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/07/16/ML/applied_machine_learning_in_python_w1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2019/07/16/ML/applied_machine_learning_in_python_w1/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="introduction"><a href="#introduction" class="headerlink" title="introduction"></a>introduction</h2><p>手工编写程序和一系列的规则并不能有效的解决所有我问题。例如精确的将人类对话转换成文本。<br>手写规则识别音频信号的一部分并决定那些单词出现在信号中是一项庞大的任务，识别不同语音时显得不够灵活和稳定。<br>如果我们要识别新的单词和特征，需要编写新的规则。<br>机器学习可以通过打标签的训练数据集自动学习复杂的规则，比起手动编写规则更加精确和灵活。<br>机器学习主要的目标是正确的预测或识别新的不在训练集中的对象。<br>搜索引擎利用机器学习对你的输入进行自动补全，还可以对查询结果进行排序。搜索引擎还通过你点击的页面和在页面停留的时间改善查询结果。<br>电影推荐系统使用机器学习和你过去的观看历史预测你的喜好以及和你喜好相似的其他人群。<br>图像和语音识别由于机器学习获得了巨大的发展。目前的识别技术已经足够可靠和快速，广泛的应用在语音控制等方面。<br>其他的应用还有，邮件分类、自动驾驶、医学应用等。</p>
+<h2 id="Key-Concepts-in-Machine-Learning"><a href="#Key-Concepts-in-Machine-Learning" class="headerlink" title="Key Concepts in Machine Learning"></a>Key Concepts in Machine Learning</h2><p>机器学习可以分为两种类型。<br>第一种是监督学习，目标是预测和输入相关的输出变量。<br>如果输出是有限的可能，例如语音信号对应的单词，我们称这种监督学习为分类。<br>如果输出是实数，例如预测一辆车从0km/h加速到100km/h所需要的时间，我们称为回归。<br>监督学习需要打标的对象作为训练集，而通常标签是人工判断。<br>第二种是非监督学习，将数据分为集群或组。例如购物网站将用户分组，可以向不同组的用户推荐不同的商品，使得用户获得更好的体验。<br>另外一种重要的非监督学习类型是异常值检测，例如检测出对网站的攻击。<br>使用分类有三个基本步骤，第一步是将数据表示为计算机可以理解的东西（特征值表示）和选择分类方法。例如将图片表示为像素数组。第二步是确定评估方法，用来比较不同分类方法对特定问题的表现。第三步是迭代的选择参数并执行分类，使用评估方法寻找最优解。</p>
+<h2 id="Python-Tools-for-Machine-Learning"><a href="#Python-Tools-for-Machine-Learning" class="headerlink" title="Python Tools for Machine Learning"></a>Python Tools for Machine Learning</h2><p>Scikit-learn是我们用于机器学习最主要的库，它基于另外两个Python科学计算库，分别为Scipy和Numpy。<br>Scipy包含分布统计，方法优化，线性代数和数学方法。我们将使用Scipy的稀疏矩阵储存包含大量0的表。<br>Numpy包含许多基础数据结构，例如多维矩阵。<br>Pandas用于数据操作和分析，我们将使用DateFrame，不像Numpy一样，它的每一列可以是不同的数据类型。<br>Matplotlib是二维绘图工具。</p>
+<h2 id="An-Example-Machine-Learning-Problem"><a href="#An-Example-Machine-Learning-Problem" class="headerlink" title="An Example Machine Learning Problem"></a>An Example Machine Learning Problem</h2><p>我们准备构建一个简单的水果识别系统。<br>首先加载数据集</p>
+<pre><code>%matplotlib notebook
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+from sklearn.model_selection import train_test_split
+
+fruits = pd.read_csv(&apos;fruit_data_with_colors.txt&apos;, sep=&apos;\t&apos;)
+</code></pre><p>将数据集分成训练集和测试集，Scikit-learn提供了一个简单方法去分割数据集，这个方法随机挑选一定比例的数据子集作为训练集，75-25%是比较好的分割标准。</p>
+<pre><code>x = fruits[[&apos;mass&apos;, &apos;width&apos;, &apos;height&apos;]]
+y = fruits[[&apos;fruit_label&apos;]]
+x_train, x_test, y_train, y_test = train_test_split(x, y, random_state=0)
+</code></pre><p>不同的random_state值会分割成不同的随机数据集。</p>
+<h2 id="Examining-the-Data"><a href="#Examining-the-Data" class="headerlink" title="Examining the Data"></a>Examining the Data</h2><p>在训练之前，根据可视化的图例，我们可以知道每个特征值的取值范围，并发现异常值。通过观察不同类型对象在特征值空间表现的聚合和分离程度，我们可以大体了解机器学习预测的准确性。</p>
+<p>下面我们将使用特征对图例的可视化工具，画出所有特征对的散点图，显示特征值的相关性。沿对角线的直方图显示特征值的分布。</p>
+<pre><code>from matplotlib import cm
+cmap = cm.get_cmap(&apos;gnuplot&apos;)
+scatter = pd.plotting.scatter_matrix(x_train, c=y_train.fruit_label, marker=&apos;o&apos;, s=40, hist_kwds={&apos;bins&apos;:15}, figsize=(12, 12))
+</code></pre><p>我们可以构建三维空间的特征值散点图</p>
+<pre><code>from mpl_toolkits.mplot3d import Axes3D
+fig = plt.figure()
+ax = fig.add_subplot(111, projection=&apos;3d&apos;)
+ax.scatter(x_train[&apos;width&apos;], x_train[&apos;height&apos;], x_train[&apos;mass&apos;], c=y_train.fruit_label, marker=&apos;o&apos;, s=100)
+ax.set_xlabel(&apos;width&apos;)
+ax.set_ylabel(&apos;height&apos;)
+ax.set_zlabel(&apos;mass&apos;)
+plt.show()
+</code></pre><h2 id="K-Nearest-Neighbors-Classification"><a href="#K-Nearest-Neighbors-Classification" class="headerlink" title="K-Nearest Neighbors Classification"></a>K-Nearest Neighbors Classification</h2><p>又称为为K-NN，查找和预测对象距离最近的训练集中K个元素。更具一定规则决定预测对象的label。<br>k=1，过拟合。<br>k=N（the number of points），所有新对象的预测结果都是训练集中数量最多的类型。</p>
+<p>创建分类器对象</p>
+<pre><code>from sklearn.neighbors import KNeighborsClassifier
+knn = KNeighborsClassifier(n_neighbors=5)
+
+lookup_fruit_name = dict(zip(fruits.fruit_label, fruits.fruit_name))
+</code></pre><p>使用分类器fit方法训练数据集。</p>
+<pre><code>knn.fit(x_train, y_train.fruit_label)
+</code></pre><p>在测试集上计算精确度，使用score方法</p>
+<pre><code>knn.score(x_test, y_test.fruit_label)
+</code></pre><p>使用训练后的k-NN分类器模型去分类新的对象</p>
+<pre><code>fruit_prediction = knn.predict([[20, 4.3, 5.5]])
+lookup_fruit_name[fruit_prediction[0]]
+</code></pre><p>画出K-NN分类器的决策边界</p>
+<pre><code>plot_fruit_knn(x_train, y_train.fruit_label, 5, &apos;uniform&apos;)
+</code></pre><p>可以改变K值观察k对决策边界的影响。’uniform’参数，代表平等的对待所有的邻近结点，可以使用’distance’或者自定义方法。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://thathub.com/2019/07/07/bigdata/HBase_Versus_RDBMS/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -382,44 +580,200 @@
 <p>RDBMS适用于中小型的应用，如果需要扩展数据集或者并发读写，就会遇到巨大的性能问题和内在的分布式困难。<br>RDBMS的扩展需要涉及到打破Codd的规则和损失部分ACID限制，也就损失了那些使得RDBMS便利的特性。</p>
 <h3 id="RDBMS"><a href="#RDBMS" class="headerlink" title="RDBMS"></a>RDBMS</h3><p>ACID（数据库事务正确执行的四个基本要素的缩写）</p>
 <ul>
-<li>如果读的请求太多</li>
+<li><p>如果读的请求太多</p>
+<p>  添加Redis</p>
+</li>
+<li><p>如果写的请求过多</p>
+<p>  购买服务器垂直扩展</p>
+</li>
+<li><p>太多的JOIN</p>
+<p>  Denormalize数据减少JOIN，比如增加冗余字段</p>
+</li>
+<li><p>运算变慢</p>
+<p>  停止作任何服务器端的计算</p>
+</li>
+<li><p>一些查询依然很慢</p>
+<p>  预先实现一些复杂的查询</p>
+</li>
+<li><p>写入变慢</p>
+<p>  删除二级索引</p>
+</li>
 </ul>
-<p>添加Redis</p>
-<ul>
-<li>如果写的请求过多</li>
-</ul>
-<p>购买服务器垂直扩展</p>
-<ul>
-<li>太多的JOIN</li>
-</ul>
-<p>Denormalize数据减少JOIN，比如增加冗余字段</p>
-<ul>
-<li>运算变慢</li>
-</ul>
-<p>停止作任何服务器端的计算</p>
-<ul>
-<li>一些查询依然很慢</li>
-</ul>
-<p>预先实现一些复杂的查询</p>
-<ul>
-<li>写入变慢</li>
-</ul>
-<p>删除二级索引</p>
 <h3 id="HBase"><a href="#HBase" class="headerlink" title="HBase"></a>HBase</h3><ul>
-<li>没有真正的索引</li>
-</ul>
-<p>行和列按顺序存储，插入性能不受表的大小影响</p>
-<ul>
-<li>自动分区</li>
-</ul>
-<p>自动分成regions并distribute到可用结点</p>
-<ul>
+<li><p>没有真正的索引</p>
+<p>  行和列按顺序存储，插入性能不受表的大小影响</p>
+</li>
+<li><p>自动分区</p>
+<p>  自动分成regions并distribute到可用结点</p>
+</li>
 <li><p>容错能力</p>
 </li>
 <li><p>批量操作</p>
+<p>  MapReduce的集成允许对数据进行完全并行的分布式作业</p>
 </li>
 </ul>
-<p>MapReduce的集成允许对数据进行完全并行的分布式作业</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2019/07/07/bigdata/Comparison_with_Traditional_Databases/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/07/07/bigdata/Comparison_with_Traditional_Databases/" itemprop="url">Comparison with Traditional Databases</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-07T17:35:00+08:00">
+                2019-07-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/BigData/" itemprop="url" rel="index">
+                    <span itemprop="name">BigData</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/07/07/bigdata/Comparison_with_Traditional_Databases/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2019/07/07/bigdata/Comparison_with_Traditional_Databases/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<p>译自 Hadoop-The Definitive Guide, 4th Edition p476 </p>
+</blockquote>
+<h3 id="Schema-on-Read-Versus-Schema-on-Write"><a href="#Schema-on-Read-Versus-Schema-on-Write" class="headerlink" title="Schema on Read Versus Schema on Write"></a>Schema on Read Versus Schema on Write</h3><p>传统数据库在数据载入的时候会强制验证表的模式。<br>Hive只有在查询数据时才会验证。</p>
+<p>Schema on Read 在数据初始载入时非常快，只是复制和移动数据不需要按照数据库的格式进行解析序列化。因此我们可以将两类模式应用在同一组数据。</p>
+<p>Schema on Write 索引载入的数据使得查询更快，但是会耗费更长的时间载入</p>
+<h3 id="Updates-Transactions-and-Indexes"><a href="#Updates-Transactions-and-Indexes" class="headerlink" title="Updates, Transactions, and Indexes"></a>Updates, Transactions, and Indexes</h3><p>Hive不支持就地更新，所以所有的增删该储存在临时表，然后定期合并到表</p>
+<p>Hive支持分区级和表级锁</p>
+<p>Hive的index可以提升查询速度，目前有两种索引：compact and bitmap<br>compact存储每个值对应block的标号<br>bitmap适用于索引低基数列(例如性别或国家)</p>
+<h3 id="SQL-on-Hadoop-Alternatives"><a href="#SQL-on-Hadoop-Alternatives" class="headerlink" title="SQL-on-Hadoop Alternatives"></a>SQL-on-Hadoop Alternatives</h3><p>其他的SQL-on-Hadoop框架例如Impala、Presto、Drill、Spark SQL<br>Apache Phoenix 使用完全不同方法：将查询转换为HBase扫描，Metadata也存储在HBase。</p>
 
           
         
@@ -1940,376 +2294,6 @@ ssserver -c /etc/shadowsocks.json -d stop
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/12/05/Tools/vim/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jokers">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jokers's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/12/05/Tools/vim/" itemprop="url">VIM</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-05T16:00:00+08:00">
-                2018-12-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Tools/" itemprop="url" rel="index">
-                    <span itemprop="name">Tools</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/12/05/Tools/vim/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/12/05/Tools/vim/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="配色"><a href="#配色" class="headerlink" title="配色"></a>配色</h3><ul>
-<li><p>在~目录新建文件</p>
-<pre><code>$ vi ~/.vimrc
-</code></pre></li>
-<li><p>添加</p>
-<pre><code># 显示行号
-set nu
-# 设置配色
-colorscheme desert
-</code></pre></li>
-</ul>
-<h3 id="行号显示开启和关闭"><a href="#行号显示开启和关闭" class="headerlink" title="行号显示开启和关闭"></a>行号显示开启和关闭</h3><pre><code>:set nonumber
-:set number
-</code></pre><h3 id="选择-复制-粘贴-剪切"><a href="#选择-复制-粘贴-剪切" class="headerlink" title="选择 复制 粘贴 剪切"></a>选择 复制 粘贴 剪切</h3><ul>
-<li><p>按键v进入 visual 模式</p>
-<ul>
-<li>j/k/h/l —— 文本选择</li>
-<li>d —— 剪切</li>
-<li>y —— 复制</li>
-<li>p —— 粘贴</li>
-<li>^ —— 选中当前行，光标位置到行首（或者使用键盘的HOME键）</li>
-<li>$ —— 选中当前行，光标位置到行尾（或者使用键盘的END键）</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li><p>V 进入 Visual Line 模式</p>
-<ul>
-<li>j/k —— 文本选择</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li><p>Ctrl + V 进入 Visual Block 模式</p>
-<ul>
-<li>j/k/h/l —— 选中文本块</li>
-<li>Shift + i —— 块模式下的插入</li>
-<li>ESC —— 完成多行的插入</li>
-</ul>
-</li>
-</ul>
-<h3 id="回退-撤销"><a href="#回退-撤销" class="headerlink" title="回退 撤销"></a>回退 撤销</h3><ul>
-<li>u —— 撤销上一步的操作</li>
-<li>Ctrl+r —— 恢复上一步被撤销的操作</li>
-</ul>
-<h3 id="浏览位置移动"><a href="#浏览位置移动" class="headerlink" title="浏览位置移动"></a>浏览位置移动</h3><ul>
-<li>Ctrl-O —— 后退</li>
-<li>Ctrl-I —— 前进</li>
-</ul>
-<h3 id="差找"><a href="#差找" class="headerlink" title="差找"></a>差找</h3><blockquote>
-<blockquote>
-<p>在normal模式下按下/即可进入查找模式，输入要查找的字符串并按下回车。 Vim会跳转到第一个匹配。按下n查找下一个，按下N查找上一个。</p>
-</blockquote>
-</blockquote>
-<h3 id="取消高亮"><a href="#取消高亮" class="headerlink" title="取消高亮"></a>取消高亮</h3><pre><code>:nohl
-</code></pre>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/12/05/Tools/svn/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jokers">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jokers's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/12/05/Tools/svn/" itemprop="url">SVN</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-05T15:00:00+08:00">
-                2018-12-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Tools/" itemprop="url" rel="index">
-                    <span itemprop="name">Tools</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/12/05/Tools/svn/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/12/05/Tools/svn/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="Ignore-Directory"><a href="#Ignore-Directory" class="headerlink" title="Ignore Directory"></a>Ignore Directory</h3><ul>
-<li><p>vim ignore.txt</p>
-<pre><code>dirname
-</code></pre></li>
-<li><p>Ignore</p>
-<pre><code>svn propset svn:ignore -F ignore.txt .
-</code></pre></li>
-<li><p>If the directory is already “in” svn.</p>
-<pre><code>svn rm --keep-local dirname
-</code></pre></li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2360,7 +2344,7 @@ colorscheme desert
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-count">43</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2371,7 +2355,7 @@ colorscheme desert
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

@@ -101,7 +101,7 @@
 <meta property="og:site_name" content="Jokers&#39;s Blog">
 <meta property="og:description" content="HBase是分布式的面向列的数据存储系统，基于HDFS，提供Hadoop不具备的随即读写。它的的设计专注于在横向和纵向的表扩展，可以达到数十亿行，数百万列的规模，可以水平分区并在数千个结点自动复制。表的设计模式直接映射物理存储。 典型的RDMS是固定模式，面向行且具有复杂SQL查询的引擎，可以轻松建立索引，执行复杂的join和count、sum、sort、group等。MySQL，innodb最大">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-07-07T11:13:07.377Z">
+<meta property="og:updated_time" content="2019-07-07T15:32:18.665Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HBase Versus RDBMS">
 <meta name="twitter:description" content="HBase是分布式的面向列的数据存储系统，基于HDFS，提供Hadoop不具备的随即读写。它的的设计专注于在横向和纵向的表扩展，可以达到数十亿行，数百万列的规模，可以水平分区并在数千个结点自动复制。表的设计模式直接映射物理存储。 典型的RDMS是固定模式，面向行且具有复杂SQL查询的引擎，可以轻松建立索引，执行复杂的join和count、sum、sort、group等。MySQL，innodb最大">
@@ -377,44 +377,38 @@
 <p>RDBMS适用于中小型的应用，如果需要扩展数据集或者并发读写，就会遇到巨大的性能问题和内在的分布式困难。<br>RDBMS的扩展需要涉及到打破Codd的规则和损失部分ACID限制，也就损失了那些使得RDBMS便利的特性。</p>
 <h3 id="RDBMS"><a href="#RDBMS" class="headerlink" title="RDBMS"></a>RDBMS</h3><p>ACID（数据库事务正确执行的四个基本要素的缩写）</p>
 <ul>
-<li>如果读的请求太多</li>
+<li><p>如果读的请求太多</p>
+<p>  添加Redis</p>
+</li>
+<li><p>如果写的请求过多</p>
+<p>  购买服务器垂直扩展</p>
+</li>
+<li><p>太多的JOIN</p>
+<p>  Denormalize数据减少JOIN，比如增加冗余字段</p>
+</li>
+<li><p>运算变慢</p>
+<p>  停止作任何服务器端的计算</p>
+</li>
+<li><p>一些查询依然很慢</p>
+<p>  预先实现一些复杂的查询</p>
+</li>
+<li><p>写入变慢</p>
+<p>  删除二级索引</p>
+</li>
 </ul>
-<p>添加Redis</p>
-<ul>
-<li>如果写的请求过多</li>
-</ul>
-<p>购买服务器垂直扩展</p>
-<ul>
-<li>太多的JOIN</li>
-</ul>
-<p>Denormalize数据减少JOIN，比如增加冗余字段</p>
-<ul>
-<li>运算变慢</li>
-</ul>
-<p>停止作任何服务器端的计算</p>
-<ul>
-<li>一些查询依然很慢</li>
-</ul>
-<p>预先实现一些复杂的查询</p>
-<ul>
-<li>写入变慢</li>
-</ul>
-<p>删除二级索引</p>
 <h3 id="HBase"><a href="#HBase" class="headerlink" title="HBase"></a>HBase</h3><ul>
-<li>没有真正的索引</li>
-</ul>
-<p>行和列按顺序存储，插入性能不受表的大小影响</p>
-<ul>
-<li>自动分区</li>
-</ul>
-<p>自动分成regions并distribute到可用结点</p>
-<ul>
+<li><p>没有真正的索引</p>
+<p>  行和列按顺序存储，插入性能不受表的大小影响</p>
+</li>
+<li><p>自动分区</p>
+<p>  自动分成regions并distribute到可用结点</p>
+</li>
 <li><p>容错能力</p>
 </li>
 <li><p>批量操作</p>
+<p>  MapReduce的集成允许对数据进行完全并行的分布式作业</p>
 </li>
 </ul>
-<p>MapReduce的集成允许对数据进行完全并行的分布式作业</p>
 
       
     </div>
@@ -439,8 +433,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/07/07/bigdata/Stop_Worrying_about_Solr_vs_Elasticsearch_Decisions/" rel="next" title="停止担心关于Solr和Elasticsearch使用决策">
-                <i class="fa fa-chevron-left"></i> 停止担心关于Solr和Elasticsearch使用决策
+              <a href="/2019/07/07/bigdata/Comparison_with_Traditional_Databases/" rel="next" title="Comparison with Traditional Databases">
+                <i class="fa fa-chevron-left"></i> Comparison with Traditional Databases
               </a>
             
           </div>
@@ -448,6 +442,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/16/ML/applied_machine_learning_in_python_w1/" rel="prev" title="Applied Machine Learning in Python">
+                Applied Machine Learning in Python <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -531,7 +529,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-count">43</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -542,7 +540,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

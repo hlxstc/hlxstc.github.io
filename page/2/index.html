@@ -273,6 +273,376 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/12/05/Tools/vim/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/12/05/Tools/vim/" itemprop="url">VIM</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-05T16:00:00+08:00">
+                2018-12-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Tools/" itemprop="url" rel="index">
+                    <span itemprop="name">Tools</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/12/05/Tools/vim/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/12/05/Tools/vim/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="配色"><a href="#配色" class="headerlink" title="配色"></a>配色</h3><ul>
+<li><p>在~目录新建文件</p>
+<pre><code>$ vi ~/.vimrc
+</code></pre></li>
+<li><p>添加</p>
+<pre><code># 显示行号
+set nu
+# 设置配色
+colorscheme desert
+</code></pre></li>
+</ul>
+<h3 id="行号显示开启和关闭"><a href="#行号显示开启和关闭" class="headerlink" title="行号显示开启和关闭"></a>行号显示开启和关闭</h3><pre><code>:set nonumber
+:set number
+</code></pre><h3 id="选择-复制-粘贴-剪切"><a href="#选择-复制-粘贴-剪切" class="headerlink" title="选择 复制 粘贴 剪切"></a>选择 复制 粘贴 剪切</h3><ul>
+<li><p>按键v进入 visual 模式</p>
+<ul>
+<li>j/k/h/l —— 文本选择</li>
+<li>d —— 剪切</li>
+<li>y —— 复制</li>
+<li>p —— 粘贴</li>
+<li>^ —— 选中当前行，光标位置到行首（或者使用键盘的HOME键）</li>
+<li>$ —— 选中当前行，光标位置到行尾（或者使用键盘的END键）</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>V 进入 Visual Line 模式</p>
+<ul>
+<li>j/k —— 文本选择</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>Ctrl + V 进入 Visual Block 模式</p>
+<ul>
+<li>j/k/h/l —— 选中文本块</li>
+<li>Shift + i —— 块模式下的插入</li>
+<li>ESC —— 完成多行的插入</li>
+</ul>
+</li>
+</ul>
+<h3 id="回退-撤销"><a href="#回退-撤销" class="headerlink" title="回退 撤销"></a>回退 撤销</h3><ul>
+<li>u —— 撤销上一步的操作</li>
+<li>Ctrl+r —— 恢复上一步被撤销的操作</li>
+</ul>
+<h3 id="浏览位置移动"><a href="#浏览位置移动" class="headerlink" title="浏览位置移动"></a>浏览位置移动</h3><ul>
+<li>Ctrl-O —— 后退</li>
+<li>Ctrl-I —— 前进</li>
+</ul>
+<h3 id="差找"><a href="#差找" class="headerlink" title="差找"></a>差找</h3><blockquote>
+<blockquote>
+<p>在normal模式下按下/即可进入查找模式，输入要查找的字符串并按下回车。 Vim会跳转到第一个匹配。按下n查找下一个，按下N查找上一个。</p>
+</blockquote>
+</blockquote>
+<h3 id="取消高亮"><a href="#取消高亮" class="headerlink" title="取消高亮"></a>取消高亮</h3><pre><code>:nohl
+</code></pre>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/12/05/Tools/svn/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/12/05/Tools/svn/" itemprop="url">SVN</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-05T15:00:00+08:00">
+                2018-12-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Tools/" itemprop="url" rel="index">
+                    <span itemprop="name">Tools</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/12/05/Tools/svn/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/12/05/Tools/svn/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="Ignore-Directory"><a href="#Ignore-Directory" class="headerlink" title="Ignore Directory"></a>Ignore Directory</h3><ul>
+<li><p>vim ignore.txt</p>
+<pre><code>dirname
+</code></pre></li>
+<li><p>Ignore</p>
+<pre><code>svn propset svn:ignore -F ignore.txt .
+</code></pre></li>
+<li><p>If the directory is already “in” svn.</p>
+<pre><code>svn rm --keep-local dirname
+</code></pre></li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/11/16/ML/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -692,207 +1062,6 @@ int main(){
             n++;
     }
     printf(&quot;第n个整数在前n-1个数中出现的次数为：%d\n&quot;, n);
-    return 0;
-}
-</code></pre>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/11/05/data_structure/dataStructure_graph/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jokers">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jokers's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/11/05/data_structure/dataStructure_graph/" itemprop="url">数据结构--图</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-05T08:00:00+08:00">
-                2018-11-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Data-Structure/" itemprop="url" rel="index">
-                    <span itemprop="name">Data Structure</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/11/05/data_structure/dataStructure_graph/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/11/05/data_structure/dataStructure_graph/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="构建图及深度优先遍历"><a href="#构建图及深度优先遍历" class="headerlink" title="构建图及深度优先遍历"></a>构建图及深度优先遍历</h3><pre><code>#include &lt;stdio.h&gt;
-
-#define MAX 99
-
-typedef struct{
-    int n;
-    int arcs[MAX][MAX];
-}Graph;
-
-int visited[MAX];
-
-void DFS(Graph g, int i, int n){
-    visited[i] = 1;
-    printf(&quot;V%d-&gt;&quot;, i);
-    for(int j=0; j&lt;n; j++){
-        if(g.arcs[i][j]==1 &amp;&amp; visited[j]==0){
-            DFS(g, j, n);
-        }
-    }
-}
-
-int main(){
-    Graph g;
-    int n;
-    int i, j;
-    scanf(&quot;%d&quot;, &amp;n);
-    for(i=0; i&lt;n; i++){
-        for(j=0; j&lt;n; j++){
-            g.arcs[i][j] = 0;
-        }
-    }
-    while(true){
-        scanf(&quot;%d %d&quot;, &amp;i, &amp;j);
-        if(i==-1 &amp;&amp; j==-1)
-            break;
-        g.arcs[i][j] = 1;
-    }
-    for(i=0; i&lt;n; i++){
-        for(j=0; j&lt;n; j++){
-            printf(&quot;%d &quot;, g.arcs[i][j]);
-        }
-        printf(&quot;\n&quot;);
-    }
-    for(i=0; i&lt;n; i++){
-        if(!visited[i])
-            DFS(g, i, n);
-    }
     return 0;
 }
 </code></pre>
@@ -1440,6 +1609,207 @@ int main(){
         R[n].v = t;
     }
     selectSort(R, n);
+    return 0;
+}
+</code></pre>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/11/05/data_structure/dataStructure_graph/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/11/05/data_structure/dataStructure_graph/" itemprop="url">数据结构--图</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-05T08:00:00+08:00">
+                2018-11-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Data-Structure/" itemprop="url" rel="index">
+                    <span itemprop="name">Data Structure</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/11/05/data_structure/dataStructure_graph/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/11/05/data_structure/dataStructure_graph/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="构建图及深度优先遍历"><a href="#构建图及深度优先遍历" class="headerlink" title="构建图及深度优先遍历"></a>构建图及深度优先遍历</h3><pre><code>#include &lt;stdio.h&gt;
+
+#define MAX 99
+
+typedef struct{
+    int n;
+    int arcs[MAX][MAX];
+}Graph;
+
+int visited[MAX];
+
+void DFS(Graph g, int i, int n){
+    visited[i] = 1;
+    printf(&quot;V%d-&gt;&quot;, i);
+    for(int j=0; j&lt;n; j++){
+        if(g.arcs[i][j]==1 &amp;&amp; visited[j]==0){
+            DFS(g, j, n);
+        }
+    }
+}
+
+int main(){
+    Graph g;
+    int n;
+    int i, j;
+    scanf(&quot;%d&quot;, &amp;n);
+    for(i=0; i&lt;n; i++){
+        for(j=0; j&lt;n; j++){
+            g.arcs[i][j] = 0;
+        }
+    }
+    while(true){
+        scanf(&quot;%d %d&quot;, &amp;i, &amp;j);
+        if(i==-1 &amp;&amp; j==-1)
+            break;
+        g.arcs[i][j] = 1;
+    }
+    for(i=0; i&lt;n; i++){
+        for(j=0; j&lt;n; j++){
+            printf(&quot;%d &quot;, g.arcs[i][j]);
+        }
+        printf(&quot;\n&quot;);
+    }
+    for(i=0; i&lt;n; i++){
+        if(!visited[i])
+            DFS(g, i, n);
+    }
     return 0;
 }
 </code></pre>
@@ -2686,380 +3056,6 @@ void MergeSortDC(SeqList R, int low, int high){
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/09/20/Tools/ngrok/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jokers">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jokers's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/09/20/Tools/ngrok/" itemprop="url">ngrok</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-20T14:28:00+08:00">
-                2018-09-20
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Tools/" itemprop="url" rel="index">
-                    <span itemprop="name">Tools</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/09/20/Tools/ngrok/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/09/20/Tools/ngrok/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h3><p>The plan is to create a pair of executables (ngrok and ngrokd) that are connected with a self-signed SSL cert. Since the client and server executables are paired, you won’t be able to use any other ngrok to connect to this ngrokd, and vice versa.</p>
-<h3 id="DNS"><a href="#DNS" class="headerlink" title="DNS"></a>DNS</h3><p>Add two DNS records: one for the base domain and one for the wildcard domain. For example, if your base domain is domain.com, you’ll need a record for that and for *.domain.com.</p>
-<h3 id="Different-Operating-Systems"><a href="#Different-Operating-Systems" class="headerlink" title="Different Operating Systems"></a>Different Operating Systems</h3><p>If the OS on which you’ll be compiling ngrok (that’s the server section below) is different than the OS on which you’ll be running the client, then you will need to set the GOOS and GOARCH env variables. I run Linux everywhere, so I don’t know how to do that. Please Google it or see the discussion here. If you know how to do this and want to add GOOS/GOARCH instructions here, please let me know.</p>
-<h3 id="On-Server"><a href="#On-Server" class="headerlink" title="On Server"></a>On Server</h3><p>MAKE SURE YOU SET NGROK_DOMAIN BELOW. Set it to the base domain, not the wildcard domain.</p>
-<pre><code>NGROK_DOMAIN=&quot;my.domain.com&quot;
-git clone https://github.com/inconshreveable/ngrok.git
-cd ngrok
-
-openssl genrsa -out rootCA.key 2048
-openssl req -x509 -new -nodes -key rootCA.key -subj &quot;/CN=$NGROK_DOMAIN&quot; -days 5000 -out rootCA.pem
-openssl genrsa -out device.key 2048
-openssl req -new -key device.key -subj &quot;/CN=$NGROK_DOMAIN&quot; -out device.csr
-openssl x509 -req -in device.csr -CA rootCA.pem -CAkey rootCA.key -CAcreateserial -out device.crt -days 5000
-
-cp rootCA.pem assets/client/tls/ngrokroot.crt
-# make clean
-make release-server release-client
-</code></pre><p>Copy bin/ngrok to whatever computer you want to connect from. Then start the server:</p>
-<pre><code>bin/ngrokd -tlsKey=device.key -tlsCrt=device.crt -domain=&quot;$NGROK_DOMAIN&quot; -httpAddr=&quot;:8000&quot; -httpsAddr=&quot;:8001&quot;
-</code></pre><h3 id="On-Client"><a href="#On-Client" class="headerlink" title="On Client"></a>On Client</h3><p>MAKE SURE YOU SET NGROK_DOMAIN BELOW. Set it to the base domain, not the wildcard domain.</p>
-<pre><code>NGROK_DOMAIN=&quot;my.domain.com&quot;
-echo -e &quot;server_addr: $NGROK_DOMAIN:4443\ntrust_host_root_certs: false&quot; &gt; ngrok-config
-./ngrok -config=ngrok-config 80
-</code></pre><p>Or for SSH forwarding: ./ngrok -config=ngrok-config –proto=tcp 22</p>
-<h3 id="Define-a-fixed-TCP-listen-port"><a href="#Define-a-fixed-TCP-listen-port" class="headerlink" title="Define a fixed TCP listen port"></a>Define a fixed TCP listen port</h3><p>Set port number to the remote_port args. Be sure to pay attention to the format</p>
-<pre><code>tunnels:
-  mysql:
-    proto:
-      tcp:3306
-    remote_port: 36799
-</code></pre><h3 id="Run-ngrok-client-with-config"><a href="#Run-ngrok-client-with-config" class="headerlink" title="Run ngrok client with -config"></a>Run ngrok client with -config</h3><p>Create an ngrok configuration file, “debug.yml” with the following contents:</p>
-<pre><code>server_addr: ngrok.domain.com:4443
-trust_host_root_certs: false
-tunnels:
-  ssh:
-    proto:
-      http: 22
-    subdomain: 22
-  mysql:
-    proto:
-      tcp: 3306
-    remote_port: 36799
-</code></pre><p>Then run ngrok</p>
-<pre><code>./bin/ngrok -config=debug.yml -log=stdout start-all
-</code></pre>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/09/10/linux/chrome_install/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jokers">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jokers's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/09/10/linux/chrome_install/" itemprop="url">Linux 安装 Chrome</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-10T11:55:00+08:00">
-                2018-09-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/09/10/linux/chrome_install/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/09/10/linux/chrome_install/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="添加仓库来源"><a href="#添加仓库来源" class="headerlink" title="添加仓库来源"></a>添加仓库来源</h2><ul>
-<li><p>在  /etc/yum.repos.d/ 目录新建 repo file</p>
-<pre><code>vi /etc/yum.repos.d/google-chrome.repo
-</code></pre></li>
-<li><p>复制以下仓库信息</p>
-<pre><code>[google-chrome]
-name=google-chrome
-baseurl=http://dl.google.com/linux/chrome/rpm/stable/x86_64
-enabled=1
-gpgcheck=1
-gpgkey=https://dl-ssl.google.com/linux/linux_signing_key.pub
-</code></pre></li>
-<li><p>没有翻墙代理无法访问gpgkey怎么办</p>
-<pre><code># 找一台能翻墙的电脑下载 linux_signing_key.pub
-gpgkey=file:///dir/linux_signing_key.pub
-</code></pre></li>
-</ul>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><pre><code>yum install -y google-chrome-stable
-or
-yum install -y google-chrome-beta
-</code></pre><h2 id="踩到的坑"><a href="#踩到的坑" class="headerlink" title="踩到的坑"></a>踩到的坑</h2><p>测试运行 google-chrome -version 报错</p>
-<blockquote>
-<p>/usr/bin/google-chrome-stable: symbol lookup error: /lib64/libpango-1.0.so.0: undefined symbol: g_log_structured_standard</p>
-</blockquote>
-<p>解决</p>
-<pre><code>yum install pango-devel
-</code></pre>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -3110,7 +3106,7 @@ yum install -y google-chrome-beta
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-count">43</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -3121,7 +3117,7 @@ yum install -y google-chrome-beta
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
