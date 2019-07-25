@@ -273,6 +273,367 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2019/07/25/python-install/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/07/25/python-install/" itemprop="url">centos7安装python3</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-25T21:30:00+08:00">
+                2019-07-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Tools/" itemprop="url" rel="index">
+                    <span itemprop="name">Tools</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/07/25/python-install/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2019/07/25/python-install/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="安装Python3前的必要准备工作"><a href="#安装Python3前的必要准备工作" class="headerlink" title="安装Python3前的必要准备工作"></a>安装Python3前的必要准备工作</h2><p>今天在自己的外网服务器安装Pandas后,尝试导入,报错:</p>
+<pre><code>/usr/local/lib/python3.7/site-packages/pandas/io/common.py in &lt;module&gt;
+      7 from http.client import HTTPException  # noqa
+      8 from io import BytesIO
+----&gt; 9 import lzma
+     10 import mmap
+     11 import os
+
+/usr/local/lib/python3.7/lzma.py in &lt;module&gt;
+     25 import io
+     26 import os
+---&gt; 27 from _lzma import *
+     28 from _lzma import _encode_filter_properties, _decode_filter_properties
+     29 import _compression
+
+ModuleNotFoundError: No module named &apos;_lzma&apos;
+</code></pre><h3 id="解决方法一"><a href="#解决方法一" class="headerlink" title="解决方法一"></a>解决方法一</h3><p><a href="https://www.jianshu.com/p/198620bbc5a0" target="_blank" rel="noopener">https://www.jianshu.com/p/198620bbc5a0</a></p>
+<h3 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h3><p>根本原因在于安装Python3前，系统缺少必要的环境</p>
+<pre><code># 解决 _lzma 缺失提醒
+yum install xz-devel
+</code></pre><p>现摘抄<a href="https://segmentfault.com/a/1190000017313144" target="_blank" rel="noopener">https://segmentfault.com/a/1190000017313144</a>如下:</p>
+<pre><code># wget 用于下载源码包
+# gcc 和 make 用于编译
+yum install wget gcc make
+
+#make报错，Python 有个很重要的内建模块 zipimport 用于从 Zip 压缩包中导入模块
+#zipimport.ZipImportError: can&apos;t decompress data; zlib not available
+yum install zlib-devel
+
+#make install报错，
+#ModuleNotFoundError: No module named ‘_ctypes’
+yum install libffi-devel
+
+# 解决 import ssl 报错 No module named &apos;_ssl&apos;
+yum install openssl-devel
+
+# 解决 import bz2 报错
+yum install  bzip2-devel
+
+# 解决 import curses 报错
+yum install  ncurses-devel
+
+# 解决 import sqlite3 报错
+yum install sqlite-devel
+
+# 解决 _dbm _gdbm 缺失提醒
+yum install gdbm-devel
+
+# 解决 _lzma 缺失提醒
+yum install xz-devel
+
+# 解决 _tkinter 缺失提醒
+yum install tk-devel
+
+# 解决 readline 缺失提醒及方向键行为非预期的问题
+yum install readline-devel
+</code></pre><p>最后重新编译安抓Pytho3</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2019/07/18/ML/applied_machine_learning_in_python_w2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/07/18/ML/applied_machine_learning_in_python_w2/" itemprop="url">Applied Machine Learning in Python</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-18T22:30:00+08:00">
+                2019-07-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/machine-learning/" itemprop="url" rel="index">
+                    <span itemprop="name">machine learning</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/07/18/ML/applied_machine_learning_in_python_w2/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2019/07/18/ML/applied_machine_learning_in_python_w2/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Supervised-Machine-Learning"><a href="#Supervised-Machine-Learning" class="headerlink" title="Supervised Machine Learning"></a>Supervised Machine Learning</h2><h3 id="Overfitting-and-Underfitting"><a href="#Overfitting-and-Underfitting" class="headerlink" title="Overfitting and Underfitting"></a>Overfitting and Underfitting</h3>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://thathub.com/2019/07/16/ML/applied_machine_learning_in_python_w1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -471,6 +832,168 @@ lookup_fruit_name[fruit_prediction[0]]
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2019/07/07/bigdata/Comparison_with_Traditional_Databases/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/07/07/bigdata/Comparison_with_Traditional_Databases/" itemprop="url">Comparison with Traditional Databases</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-07T17:35:00+08:00">
+                2019-07-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/BigData/" itemprop="url" rel="index">
+                    <span itemprop="name">BigData</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/07/07/bigdata/Comparison_with_Traditional_Databases/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2019/07/07/bigdata/Comparison_with_Traditional_Databases/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<p>译自 Hadoop-The Definitive Guide, 4th Edition p476 </p>
+</blockquote>
+<h3 id="Schema-on-Read-Versus-Schema-on-Write"><a href="#Schema-on-Read-Versus-Schema-on-Write" class="headerlink" title="Schema on Read Versus Schema on Write"></a>Schema on Read Versus Schema on Write</h3><p>传统数据库在数据载入的时候会强制验证表的模式。<br>Hive只有在查询数据时才会验证。</p>
+<p>Schema on Read 在数据初始载入时非常快，只是复制和移动数据不需要按照数据库的格式进行解析序列化。因此我们可以将两类模式应用在同一组数据。</p>
+<p>Schema on Write 索引载入的数据使得查询更快，但是会耗费更长的时间载入</p>
+<h3 id="Updates-Transactions-and-Indexes"><a href="#Updates-Transactions-and-Indexes" class="headerlink" title="Updates, Transactions, and Indexes"></a>Updates, Transactions, and Indexes</h3><p>Hive不支持就地更新，所以所有的增删该储存在临时表，然后定期合并到表</p>
+<p>Hive支持分区级和表级锁</p>
+<p>Hive的index可以提升查询速度，目前有两种索引：compact and bitmap<br>compact存储每个值对应block的标号<br>bitmap适用于索引低基数列(例如性别或国家)</p>
+<h3 id="SQL-on-Hadoop-Alternatives"><a href="#SQL-on-Hadoop-Alternatives" class="headerlink" title="SQL-on-Hadoop Alternatives"></a>SQL-on-Hadoop Alternatives</h3><p>其他的SQL-on-Hadoop框架例如Impala、Presto、Drill、Spark SQL<br>Apache Phoenix 使用完全不同方法：将查询转换为HBase扫描，Metadata也存储在HBase。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://thathub.com/2019/07/07/bigdata/HBase_Versus_RDBMS/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -612,168 +1135,6 @@ lookup_fruit_name[fruit_prediction[0]]
 <p>  MapReduce的集成允许对数据进行完全并行的分布式作业</p>
 </li>
 </ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2019/07/07/bigdata/Comparison_with_Traditional_Databases/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jokers">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jokers's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/07/07/bigdata/Comparison_with_Traditional_Databases/" itemprop="url">Comparison with Traditional Databases</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-07T17:35:00+08:00">
-                2019-07-07
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/BigData/" itemprop="url" rel="index">
-                    <span itemprop="name">BigData</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/07/07/bigdata/Comparison_with_Traditional_Databases/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2019/07/07/bigdata/Comparison_with_Traditional_Databases/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <blockquote>
-<p>译自 Hadoop-The Definitive Guide, 4th Edition p476 </p>
-</blockquote>
-<h3 id="Schema-on-Read-Versus-Schema-on-Write"><a href="#Schema-on-Read-Versus-Schema-on-Write" class="headerlink" title="Schema on Read Versus Schema on Write"></a>Schema on Read Versus Schema on Write</h3><p>传统数据库在数据载入的时候会强制验证表的模式。<br>Hive只有在查询数据时才会验证。</p>
-<p>Schema on Read 在数据初始载入时非常快，只是复制和移动数据不需要按照数据库的格式进行解析序列化。因此我们可以将两类模式应用在同一组数据。</p>
-<p>Schema on Write 索引载入的数据使得查询更快，但是会耗费更长的时间载入</p>
-<h3 id="Updates-Transactions-and-Indexes"><a href="#Updates-Transactions-and-Indexes" class="headerlink" title="Updates, Transactions, and Indexes"></a>Updates, Transactions, and Indexes</h3><p>Hive不支持就地更新，所以所有的增删该储存在临时表，然后定期合并到表</p>
-<p>Hive支持分区级和表级锁</p>
-<p>Hive的index可以提升查询速度，目前有两种索引：compact and bitmap<br>compact存储每个值对应block的标号<br>bitmap适用于索引低基数列(例如性别或国家)</p>
-<h3 id="SQL-on-Hadoop-Alternatives"><a href="#SQL-on-Hadoop-Alternatives" class="headerlink" title="SQL-on-Hadoop Alternatives"></a>SQL-on-Hadoop Alternatives</h3><p>其他的SQL-on-Hadoop框架例如Impala、Presto、Drill、Spark SQL<br>Apache Phoenix 使用完全不同方法：将查询转换为HBase扫描，Metadata也存储在HBase。</p>
 
           
         
@@ -1894,406 +2255,6 @@ hdfs://localhost/user/tom/quangle.txt
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2019/01/10/spider/Appium_mumu/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jokers">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jokers's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/01/10/spider/Appium_mumu/" itemprop="url">Appium + mumu 手机自动化测试环境和爬虫</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-10T17:30:00+08:00">
-                2019-01-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Spider/" itemprop="url" rel="index">
-                    <span itemprop="name">Spider</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/01/10/spider/Appium_mumu/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2019/01/10/spider/Appium_mumu/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>不论是手机端自动化测试还是爬虫都需要用到Appium和手机模拟器，这里用的mumu，没有使用官方的AVD(Android Virtual Devices)或者Genymotion。<br>mumu安装很简单，就不再介绍了。<br>Appium是selenium的封装，并提供移动设备相关指令。Appium是跨平台的C/S应用。Appium可以通过NPM安装或下载桌面版。</p>
-<h2 id="安装SDK"><a href="#安装SDK" class="headerlink" title="安装SDK"></a>安装SDK</h2><ul>
-<li>下载SDK Manager，安装对应版本的SDK。</li>
-<li><p>platform-tools和tools路径添加环境变量,需要用到adb(Android Debug Bridge)命令行工具</p>
-<pre><code>&lt;!-- 测试环境变量是否配置成功 --&gt;
-adb devices
-</code></pre></li>
-</ul>
-<h2 id="adb连接mumu"><a href="#adb连接mumu" class="headerlink" title="adb连接mumu"></a>adb连接mumu</h2><ul>
-<li>查看mumu配置文件(emulator\nemu\vms\myandrovm_vbox86\myandrovm_vbox86.nemu)的ADB_PORT，确定端口号(默认7555)</li>
-<li><p>连接</p>
-<pre><code>adb connect 127.0.0.1:7555
-</code></pre></li>
-<li><p>查看deviceName</p>
-<pre><code>adb devices
-</code></pre></li>
-<li><p>mumu“设置”–&gt;”关于平板电脑”查看platformVersion</p>
-</li>
-<li><p>获取需要启动及控制的APP信息(appPackage–package name appActivity–launchable-activity name)，android-sdk\build-tools\28.0.3\aapt.exe</p>
-<pre><code>aapt dump badging yourAPP.apk
-</code></pre></li>
-</ul>
-<h2 id="Python实现示例，模拟打开APP"><a href="#Python实现示例，模拟打开APP" class="headerlink" title="Python实现示例，模拟打开APP"></a>Python实现示例，模拟打开APP</h2><pre><code>desired_caps = {
-            &apos;platformName&apos;: &apos;Android&apos;,
-            &apos;deviceName&apos;: &apos;127.0.0.1:7555&apos;,
-            &apos;platformVersion&apos;: &apos;6.0.1&apos;,
-            &apos;appPackage&apos;: &apos;com.lawyee.wenshuapp&apos;,
-            &apos;appActivity&apos;: &apos;com.lawyee.wenshuapp.ui.SplashActivity&apos;
-        }
-driver = webdriver.Remote(&apos;http://127.0.0.1:4723/wd/hub&apos;, desired_caps)
-</code></pre>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/12/12/Tools/tinyproxy/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jokers">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jokers's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/12/12/Tools/tinyproxy/" itemprop="url">Proxy server</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-12T18:00:00+08:00">
-                2018-12-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Tools/" itemprop="url" rel="index">
-                    <span itemprop="name">Tools</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/12/12/Tools/tinyproxy/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/12/12/Tools/tinyproxy/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Squid"><a href="#Squid" class="headerlink" title="Squid"></a>Squid</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><pre><code>yum install squid
-</code></pre><h3 id="配置-etc-squid-squid-conf"><a href="#配置-etc-squid-squid-conf" class="headerlink" title="配置 /etc/squid/squid.conf"></a>配置 /etc/squid/squid.conf</h3><pre><code># 允许所有主机访问，添加如下
-acl all src all
-http_access allow all
-
-# 隐藏真实IP，添加如下
-forwarded_for delete
-or
-forwarded_for off
-</code></pre><h3 id="启动，退出"><a href="#启动，退出" class="headerlink" title="启动，退出"></a>启动，退出</h3><pre><code>service squid start
-service squid stop
-service squid restart
-</code></pre><h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><pre><code>curl -x http://host:port -L http://www.baidu.com
-</code></pre><h3 id="Authentication"><a href="#Authentication" class="headerlink" title="Authentication"></a>Authentication</h3><ul>
-<li><p>INSTALL httpd-tools</p>
-<pre><code>yum -y install httpd-tools
-</code></pre></li>
-<li><p>CREATE A USERNAME/PASSWORD</p>
-<pre><code>touch /etc/squid/passwd &amp;&amp; chown squid /etc/squid/passwd
-htpasswd /etc/squid/passwd pxuser
-</code></pre></li>
-<li><p>CONFIG</p>
-<pre><code>注意配置添加的位置和顺序
-#
-# INSERT YOUR OWN RULE(S) HERE TO ALLOW ACCESS FROM YOUR CLIENTS
-#
-auth_param basic program /usr/lib64/squid/ncsa_auth /etc/squid/passwd
-auth_param basic children 5
-auth_param basic realm Squid proxy-caching web server
-auth_param basic credentialsttl 2 hours
-auth_param basic casesensitive off
-
-acl zcb proxy_auth REQUIRED
-http_access allow zcb
-</code></pre></li>
-<li><p>TEST</p>
-<pre><code>curl -x http://host:port --proxy-user username:pass -L http://www.baidu.com
-</code></pre></li>
-</ul>
-<h2 id="Tinyproxy"><a href="#Tinyproxy" class="headerlink" title="Tinyproxy"></a>Tinyproxy</h2><h2 id="Privoxy"><a href="#Privoxy" class="headerlink" title="Privoxy"></a>Privoxy</h2><h2 id="Shadowsocks"><a href="#Shadowsocks" class="headerlink" title="Shadowsocks"></a>Shadowsocks</h2><h3 id="server-安装"><a href="#server-安装" class="headerlink" title="server 安装"></a>server 安装</h3><pre><code>pip install shadowsocks
-</code></pre><h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><pre><code># 新建文件 /etc/shadowsocks.json
-
-{
-    &quot;server&quot;:&quot;0.0.0.0&quot;,
-    &quot;server_port&quot;:8888,
-    &quot;local_address&quot;: &quot;127.0.0.1&quot;,
-    &quot;local_port&quot;:1080,
-    &quot;password&quot;:&quot;mypassword&quot;,
-    &quot;timeout&quot;:300,
-    &quot;method&quot;:&quot;aes-256-cfb&quot;,
-    &quot;fast_open&quot;: false
-}
-</code></pre><h3 id="多用户配置，配置多个端口"><a href="#多用户配置，配置多个端口" class="headerlink" title="多用户配置，配置多个端口"></a>多用户配置，配置多个端口</h3><pre><code>&quot;port_password&quot;:
-{
-    &quot;20000&quot;: &quot;password0&quot;,
-    &quot;20001&quot;: &quot;password1&quot;,
-    &quot;20002&quot;: &quot;password2&quot;,
-}
-&quot;_comment&quot;:
-{
-    &quot;20000&quot;: &quot;userA&quot;,
-    &quot;20001&quot;: &quot;userB&quot;,
-    &quot;20002&quot;: &quot;userC&quot;,
-}
-</code></pre><h3 id="运行，退出"><a href="#运行，退出" class="headerlink" title="运行，退出"></a>运行，退出</h3><pre><code>ssserver -c /etc/shadowsocks.json -d start
-ssserver -c /etc/shadowsocks.json -d stop
-</code></pre>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2344,7 +2305,7 @@ ssserver -c /etc/shadowsocks.json -d stop
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">43</span>
+                <span class="site-state-item-count">44</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

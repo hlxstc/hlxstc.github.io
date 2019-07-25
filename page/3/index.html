@@ -273,6 +273,991 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/11/05/data_structure/dataStructure/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/11/05/data_structure/dataStructure/" itemprop="url">数据结构</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-05T07:00:00+08:00">
+                2018-11-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Data-Structure/" itemprop="url" rel="index">
+                    <span itemprop="name">Data Structure</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/11/05/data_structure/dataStructure/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/11/05/data_structure/dataStructure/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="线性表"><a href="#线性表" class="headerlink" title="线性表"></a>线性表</h2><h3 id="逻辑结构"><a href="#逻辑结构" class="headerlink" title="逻辑结构"></a>逻辑结构</h3><p>n个数据元素构成的有限序列。有且仅有一个开始结点a(1)，它没有直接前趋，仅有一直接后继。有且仅有一个终端点a(n)，它没有直接后继，仅有一个直接前趋。其余结点都仅有一个直接前趋和直接后继。<br>数据运算定义在逻辑结构，而具体实现在存储结构上。</p>
+<h3 id="线性表的顺序存储结构"><a href="#线性表的顺序存储结构" class="headerlink" title="线性表的顺序存储结构"></a>线性表的顺序存储结构</h3><p>把线性表的结点按逻辑次序依次存放在一组连续的存储单元里。简称顺序表。<br>高级语言中向量或一维数组采用顺序存储，可用来描述顺序表。</p>
+<pre><code># define ListSize 100
+typedef int DataType;
+typedef struct {
+    DataType data[ListSize];
+    int length;
+}SeqList;
+</code></pre><ul>
+<li><p>插入</p>
+<pre><code>void InsertList(SeqList * L, DataType x, int i){
+    if(i&lt;1 || i&gt;L-&gt;length+1)
+        Error(&quot;Position Error&quot;);
+    if(L-&gt;length&gt;=ListSize)
+        Error(&quot;Overflow&quot;);
+    for(int j=L-&gt;length; j&gt;=i; j--){
+        L-&gt;data[j] = L-&gt;data[j-1];
+    }
+    L[i-1] = x;
+    L-&gt;length ++;
+}
+</code></pre></li>
+<li><p>删除</p>
+<pre><code>void DeleteList(SeqList * L, int i){
+    if(i&lt;1 || i&gt;L-&gt;length-1){
+        Error(&quot;Position Error&quot;);
+    }
+    for(int j=i; j&lt;L-&gt;length; j++){
+        L-&gt;data[j-1] = L-&gt;data[j];
+    }
+    L-&gt;length --;
+}
+</code></pre></li>
+</ul>
+<h3 id="线性表的链式存储结构"><a href="#线性表的链式存储结构" class="headerlink" title="线性表的链式存储结构"></a>线性表的链式存储结构</h3><p>顺序存储结构的插入和删除操作会移动大量结点，为避免大量结点的移动，可使用链式存储结构。链式存储还可用于各种非线形的逻辑结构。<br>物理存储单元的地址可以不连续，单链表每个结点除了存储值以外还要存储后继结点的地址。<br>c语言描述如下：</p>
+<pre><code>typedef char DataType;
+typedef struct node{
+    DataType value;
+    struct node * next;
+}ListNode;
+typedef ListNode * LinkList;
+LinkList head;
+ListNode * p;
+</code></pre><p>ListNode * 和 LinkList 是同一个指针类型，命名不同的目的是概念上更明确。head表示单链表的头指针，p表示结点指针。<br>p的值是某一节点地址，程序执行过程中生成属于动态变量，通过标准函数生成，即：</p>
+<pre><code>p = (ListNode * )malloc(sizeof(ListNode))
+</code></pre><ul>
+<li><p>头插法创建单链表</p>
+<pre><code>LinkList CreateListF(){
+    LinkList head;
+    head = NULL;
+    ListNode * s;
+    char ch = getchar();
+    while(ch != &apos;\n&apos;){
+        s = (ListNode * )malloc(sieof(ListNode));
+        s -&gt; value = ch;
+        s -&gt; next = head;
+        head = s;
+        ch = getchar();
+    }
+    return head;
+}
+</code></pre></li>
+<li><p>尾插法创建单链表</p>
+<pre><code>LinkList CreateListT(){
+    LinkList head;
+    head = NULL;
+    LinkList tail;
+    tail = NULL;
+    ListNode * s;
+    char ch = getchar();
+    while(ch != &apos;\n&apos;){
+        s = (ListNode * )malloc(sieof(ListNode));
+        s -&gt; value = ch;
+        tail -&gt; next = s;
+        tail = s;
+        ch = getchar();
+        if(head == NULL)
+            head = s
+    }
+    if(r != NULL)
+        r -&gt; next = NULL;  //尾节点置空
+    return head;
+}
+</code></pre></li>
+<li><p>查找</p>
+<pre><code>//按位置查找
+ListNode * GetNode(LinkList head, int i){
+    int j = 0;
+    ListNode p = head;
+    while(j&lt;i &amp;&amp; p-&gt;next){
+        p = p-&gt;next;
+        j++;
+    }
+    if(j == i)
+        return p;
+    else
+        return NULL;
+}
+
+//按值查找
+ListNode * LocateNode(LinkList head, DataType key){
+    ListNode * p;
+    p = head-&gt;next;
+    while(p){
+        if(key == p-&gt;value)
+            return p;
+        p = p-&gt;next;
+    }
+    return NULL;
+}
+</code></pre></li>
+<li><p>插入</p>
+<pre><code>void InsertList(LinkList head, DataType x, int i){
+    ListNode * p = GetNode(head, i-1);
+    if(p == NULL)
+        Error(&quot;Position Error&quot;);
+    ListNode * s = (ListNode * )malloc(sizeof(ListNode));
+    s -&gt; value = x;
+    s -&gt; next = p -&gt; next;
+    p -&gt; next = s;
+}
+
+void DeleteList(LinkList head, int i){
+    ListNode * p = GetNode(head, i-1);
+    if(p == NULL || p-&gt;next==NULL)
+        Error(&quot;Position Error&quot;);
+    r = p-&gt;next;
+    p -&gt; next = r-&gt;next;
+    free(r);
+}
+</code></pre></li>
+</ul>
+<h2 id="栈和队列"><a href="#栈和队列" class="headerlink" title="栈和队列"></a>栈和队列</h2><p>逻辑结构与线性表相同，又称为运算受限的线性表。</p>
+<h3 id="栈"><a href="#栈" class="headerlink" title="栈"></a>栈</h3><p>顺序栈的定义</p>
+<pre><code># define StackSize 100
+typedef char DataType;
+typedef struct{
+    DataType data[StackSize];
+    int top; # 指示当前栈顶位置，又称栈顶指针
+}SeqStack;
+</code></pre><h3 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h3><h4 id="顺序队列"><a href="#顺序队列" class="headerlink" title="顺序队列"></a>顺序队列</h4><p>顺序队列，分别设置队头front指针和队尾rear指针。初值均为0。当插入元素时，插入rear所指位置，rear加1。当删除元素时，删除front所指位置，front加1。可见当front==rear时，队列为空。为防止假上溢现象，将向量空间想像为首尾相接的循环向量称为循环队列。<br>加1操作可描述为模运算</p>
+<pre><code>i = (i+1)%QueueSize;
+</code></pre><p>注意，循环队列front==rear时，可能是队列满<br>循环队列定义</p>
+<pre><code># define QueueSize 100
+typedef char DataType;
+typedef struct{
+    DataType data[QueueSize];
+    int front;
+    int rear;
+    int count; # 区分队列空或满
+} CirQueue;
+</code></pre><ul>
+<li><p>队列初始化</p>
+<pre><code>void InitQueue(CirQueue * Q){
+    Q-&gt;front = Q-&gt;rear = 0;
+    Q-&gt;count = 0;
+}
+</code></pre></li>
+</ul>
+<h3 id="栈和队列应用实例"><a href="#栈和队列应用实例" class="headerlink" title="栈和队列应用实例"></a>栈和队列应用实例</h3><ul>
+<li><p>十进制整数N转换为B进制数</p>
+<pre><code>void MultiBaseOutput(int N, int B){
+    SeqStack S;
+    int i;
+    while(N != 0){
+        push(&amp;S, N%B);
+        N = N/B #整除
+    }
+    while(!StackEmpty(S)){
+        i = pop(&amp;S);
+        printf(&quot;%d&quot;, i);
+    }
+}
+</code></pre></li>
+</ul>
+<p>时间复杂度为O(log(B)N)</p>
+<ul>
+<li>递归</li>
+</ul>
+<p>递归设计步骤：1、分解为类似原问题特性的子问题。2、保证有限次递归后满足终止条件</p>
+<h2 id="树"><a href="#树" class="headerlink" title="树"></a>树</h2><h3 id="树的基本概念"><a href="#树的基本概念" class="headerlink" title="树的基本概念"></a>树的基本概念</h3><ul>
+<li>树是一种非常重要的非线性结构</li>
+<li>一个结点拥有的子树称为该结点的度，树的度为结点最大度数。度为零的结点称为叶子结点。</li>
+<li>结点的层数从根算起，最大层数称为树的高度或深度</li>
+</ul>
+<h3 id="二叉树"><a href="#二叉树" class="headerlink" title="二叉树"></a>二叉树</h3><ul>
+<li>二叉树第i层的结点个数最多是2^(i-1)</li>
+<li>深度为k的二叉树至多有2^k-1个结点</li>
+<li>终端结点即度数为0的结点个数为n0，度数为2的结点个树是n2，有n0=n2+1</li>
+<li>满二叉树，深度位k且有2^k-1个结点</li>
+<li>完全二叉树，最底层的结点集中在左边</li>
+</ul>
+<h4 id="二叉树的链式存储"><a href="#二叉树的链式存储" class="headerlink" title="二叉树的链式存储"></a>二叉树的链式存储</h4><pre><code>typedef char DataType;
+typedef struct node{
+    DataType data;
+    struct node * left;
+    struct node * right;
+}BinTNode;
+typedef BinTNode * BinTree;
+</code></pre><h4 id="二叉树的遍历"><a href="#二叉树的遍历" class="headerlink" title="二叉树的遍历"></a>二叉树的遍历</h4><p>前序遍历，中序遍历，后序遍历</p>
+<pre><code># 中序遍历
+void Inorder(BinTree * T){
+    if(T){
+        Iorder(T-&gt;lchild);
+        print(&quot;%c&quot;, T-&gt;data)
+        Iorder(T-&gt;rchild);
+    }
+}
+</code></pre><h4 id="二叉树的构建"><a href="#二叉树的构建" class="headerlink" title="二叉树的构建"></a>二叉树的构建</h4><pre><code># 先序序列构建二叉树
+void createBinTree(BinTree T){
+    char c;
+    c = getchar();
+    if(c == &apos; &apos;){
+        T = NULL;
+    }else{
+        T = (BinTNode * )malloc(sizeof(BinTNode));
+        T -&gt; data = c;
+        createBinTree(T -&gt; lchild);
+        createBinTree(T -&gt; rchild);
+    }   
+}
+</code></pre><h4 id="层次遍历"><a href="#层次遍历" class="headerlink" title="层次遍历"></a>层次遍历</h4><h4 id="求叶子和结点个数"><a href="#求叶子和结点个数" class="headerlink" title="求叶子和结点个数"></a>求叶子和结点个数</h4><h2 id="图"><a href="#图" class="headerlink" title="图"></a>图</h2><h3 id="图的基本概念"><a href="#图的基本概念" class="headerlink" title="图的基本概念"></a>图的基本概念</h3><ul>
+<li>G = (V, E)</li>
+<li>有n(n-1)/2条边的图称为完全无向图</li>
+<li>有n(n-1)条边的图称为完全有向图</li>
+<li>无向图顶点v的度是关于该顶点边的数目，记为D(v)</li>
+<li>有向图为入度和出度</li>
+<li>边数 = (1/2)度数和</li>
+<li>无向图，若任意顶点连通，称G为连通图</li>
+</ul>
+<h3 id="图的存储结构"><a href="#图的存储结构" class="headerlink" title="图的存储结构"></a>图的存储结构</h3><ul>
+<li><p>邻接矩阵表示法</p>
+<pre><code># define MaxVertexNum 100
+typedef char VertexType;
+typedef int EdgeType;
+typedef struct{
+    VertexType vexs[MaxVertexNum];
+    EdgeType edges[MaxVertexNum][MaxVertexNum];
+    int n, e;
+}MGraph;
+</code></pre></li>
+<li><p>邻接矩阵无向图创建</p>
+<pre><code>void createMGraph(MGraph * g){
+    int i, j, k, w;
+    scanf(&quot;%d%d&quot;, &amp;g-&gt;n, &amp;g-&gt;e);
+    for(i=0; i&lt;g-&gt;n; i++){
+        g-&gt;vexs[i] = getchar();
+    }
+    for(i=0; i&lt;g-&gt;e; i++){
+        for(j=0; j&lt;g-&gt;e; j++){
+            g-&gt;edges[i][j] = 0;
+        }
+    }
+    for(k=0; k&lt;G-&gt;e; k++){
+        scanf(&quot;%d%d%d&quot;, &amp;i, &amp;j, &amp;w);
+        g-&gt;edges[i][j] = w;
+        g-&gt;edges[j][i] = w;
+    }
+}
+</code></pre></li>
+<li><p>邻接表表示法及其创建算法</p>
+<pre><code>typedef struct node{
+    int adjvex;
+    struct node * next;
+}EdgeNode;
+
+typedef struct vnode{
+    VertexType vertex;
+    EdgeNode * firstdege;
+}VertexNode;
+
+typedef VertexNode AdjList[MaxVertexNum];
+
+typedef struct{
+    AdjList adjList;
+    int n, e;
+}ALGraph;
+
+void createALGraph(ALGraph * G){
+    int i, j, k;
+    scanf(&quot;%d %d&quot;, &amp;G-&gt;n, &amp;G-&gt;e);
+    EdgeNode * s;
+    for(i=0; i&lt;G-&gt;n; i++){
+        G-&gt;adjList[i].vertex = getchar();
+        G-&gt;adjList[i].firstdege = NULL:
+    }
+    for(k=0; i&lt;G-&gt;e; k++){
+        scanf(&quot;%d %d&quot;, &amp;i, &amp;j);
+        s = (EdgeNode * )malloc(sizeof(EdgeNode));
+        s -&gt; adjvex = i;
+        s -&gt; next = G-&gt;adjList[j].firstdege;
+        G-&gt;adjList[j].firstdege = s;
+        s = (EdgeNode * )malloc(sizeof(EdgeNode));
+        s -&gt; adjvex = j;
+        s -&gt; next = G-&gt;adjList[i].firstdege;
+        G-&gt;adjList[i].firstdege = s;
+    }
+}
+</code></pre></li>
+</ul>
+<h3 id="图遍历"><a href="#图遍历" class="headerlink" title="图遍历"></a>图遍历</h3><ul>
+<li><p>深度优先遍历–邻接表</p>
+<pre><code>Boolean visited[MaxVertexNum];
+
+void DFSTraverse(ALGraph * G){
+    for(int i=0; i&lt;G-&gt;n; i++)
+        visited[i] = FALSE;
+    for(int j=0; j&lt;G-&gt;n; j++){
+        if(!visited[j])
+            DFS(G, j);
+    }
+}
+
+void DFS(ALGraph * G, int i){
+    printf(&quot;%c&quot;, G-&gt;adjList[i].vertex);
+    visited[i] = TRUE;
+    EdgeNode * p = G-&gt;adjList[i].firstdege;    
+    while(p){
+        if(!visited(p-&gt;adjvex)){
+            DFS(G, p-&gt;adjvex);
+        }
+        p = p-&gt;next;
+    }
+}
+</code></pre></li>
+<li><p>深度优先遍历–邻接矩阵</p>
+<pre><code>int visited[MaxVertexNum];
+void DFTraversal(MGraph * g){
+    int i;
+    for(i=0; i&lt;g-&gt;n; i++){
+        visited[i] = 0;
+    }
+    for(i=0; i&lt;g-&gt;n; i++){
+        if(visited[i] == 0){
+            DFS(g, i);
+        }
+    }
+}
+void DFS(MGraph * g, i){
+    int j;
+    printf(&quot;%c&quot;, g-&gt;vexs[i]);
+    visited[i] = 1;
+    for(j=1; j&lt;g-&gt;n, j++){
+        if(g-&gt;edges[i][j] != 0 &amp;&amp; visited[i] == 0){
+            DFS(g, j);
+        }
+    }
+}
+</code></pre></li>
+<li><p>广度优先遍历–邻接表</p>
+<pre><code>Boolean visited[MaxVertexNum];
+
+void DFSTraverse(ALGraph * G){
+    for(int i=0; i&lt;G-&gt;n; i++)
+        visited[i] = FALSE;
+    for(int j=0; j&lt;G-&gt;n; j++){
+        if(!visited[j])
+            DFS(G, j);
+    }
+}
+
+void DFS(ALGraph * G, int i){
+    printf(&quot;%c&quot;, G-&gt;adjList[i].vertex);
+    visited[i] = TRUE;
+    EnQueue(&amp;Q, i);
+    EdgeNode * p;
+    while(!QueueEmpty(&amp;Q)){
+        i = DeQueue(&amp;Q);
+        p = G-&gt;adjList[i].firstdege;
+        while(p){
+            if(!visited(p-&gt;adjvex)){
+                printf(&quot;%c&quot;, G-&gt;adjList[p-&gt;adjvex].vertex);
+                visited[p-&gt;adjvex] = TRUE;
+                EnQueue(&amp;Q, i);
+            }
+            p = p-&gt;next;
+        }
+    }
+}
+</code></pre></li>
+<li><p>广度优先遍历–邻接矩阵</p>
+<pre><code>int visited[MaxVertexNum];
+void DFTraversal(MGraph * g){
+    int i;
+    for(i=0; i&lt;g-&gt;n; i++){
+        visited[i] = 0;
+    }
+    for(i=0; i&lt;g-&gt;n; i++){
+        if(visited[i] == 0){
+            BFS(g, i);
+        }
+    }
+}
+void BFS(MGraph * g, i){
+    int j;
+    printf(&quot;%c&quot;, g-&gt;vexs[i]);
+    visited[i] = 1;
+    EnQueue(i); //队列，先进先出
+    while(!QueueEmpty()){
+        i = DeQueue();
+        for(j=1; j&lt;g-&gt;n, j++){
+            if(g-&gt;edges[i][j] != 0 &amp;&amp; visited[i] == 0){
+                printf(&quot;%c&quot;, g-&gt;vexs[j]);
+                EnQueue(j);
+            }
+        }
+    }
+}
+</code></pre></li>
+</ul>
+<h2 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h2><h3 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h3><ul>
+<li><p>直接插入排序</p>
+<pre><code># define n 100
+typedef struct{
+    int key;
+}RecType;
+
+typedef RecType SeqList[n+1];
+
+void insertSort(SeqList R){
+    int i, j, k;
+    // 循环
+    for(i=2; i&lt;=n; i++){
+        R[0].key = R[i].key;
+        for(j=i-1; j&gt;=0; j--){
+            if(R[j].key &lt;= R[i].key){
+                break;
+            }
+        }
+        if(j &lt; i-1){
+            for(k=i-1; k&gt;j; k--){
+                R[k+1].key = R[k].key;
+            }
+            R[j+1].key = R[0].key;
+        }
+    }
+}
+</code></pre></li>
+<li><p>希尔排序</p>
+</li>
+</ul>
+<h3 id="交换排序"><a href="#交换排序" class="headerlink" title="交换排序"></a>交换排序</h3><ul>
+<li><p>冒泡</p>
+<pre><code>void BubbleSort(SeqList R){
+    int i, j;
+    Boolean exchange;
+    for(i=1; i&lt;n; i++){
+        exchange = FALSE;
+        for(j=n; j&gt;i; j--){
+            if(R[j]&lt;R[j-1]){
+                R[0] = R[j-1];
+                R[j-1] = R[j];
+                R[j] = R[0];
+                exchange = TRUE;
+            }
+        }
+        if(!exchange)
+            break;
+    }
+}
+</code></pre></li>
+<li><p>快速排序</p>
+<pre><code>void QuickSort(SeqList R, int low, int high){
+    int pivotpos;
+    if(low &lt; high){
+        pivotpos = Partition(R, low, high);
+        QuickSort(R, low, pivotpos-1);
+        QuickSort(R, pivotpos+1, high)
+    }
+}
+
+void Partition(SeqList R, int i, int j){
+    RecType pivot = R[i];
+    while(i&lt;j){
+        while(i&lt;j &amp;&amp; R[j]&gt;=pivot){
+            j--;
+        }
+        if(i&lt;j){
+            R[i] = R[j];
+            i++;
+        }
+        while(i&lt;j &amp;&amp; R[i]&lt;=pivot){
+            i++;
+        }
+        if(i&lt;j){
+            R[j] = R[i];
+            j--;
+        }
+    }
+    R[i] = pivot;
+    return i;
+}
+</code></pre></li>
+</ul>
+<h3 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h3><ul>
+<li><p>直接选择排序</p>
+<pre><code>void selectSort(SeqList R){
+    int i, j, k;
+    for(i=1; i&lt;n; i++){
+        k = i;
+        for(j=i+1; j&lt;=n; j++){
+            if(R[j] &lt; R[k]){
+                k = j;
+            }
+        }
+        if(k != i){
+            R[0] = R[i];
+            R[i] = R[k];
+            R[k] = R[0];
+        }
+    }
+}
+</code></pre></li>
+<li><p>堆排序</p>
+<pre><code>void HeapSort(SeqList R){
+    int i;
+    BuidHeap(R);
+    for(i=n; i&gt;1; i--){
+        R[0] = R[1];
+        R[1] = R[i]
+        R[i] = R[0];
+        Heapify(R, 1, i-1);
+    }
+}
+
+void Heapify(SeqList R, int low, int high){
+    while(low &lt;= high){
+        tmp = 2*low;
+        if(R[low]&gt;=R[tmp] &amp;&amp; R[low]&gt;=R[tmp+1])
+            break;
+        if(tmp+1&lt;=high &amp;&amp; R[tmp]&lt;R[tmp+1])
+            tmp ++;
+        t = R[low];
+        R[low] = R[tmp];
+        R[tmp] = t;
+        low = tmp;
+    }
+}
+
+void BuidHeap(SeqList R){
+    for(int i=n/2; i&gt;=1; i--)
+        Heapify(R, i, n)
+}
+</code></pre></li>
+</ul>
+<h3 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h3><pre><code>void Merge(SeqList R, int low, int m, int high){
+    // R[low...m]和R[m+1...high]为有序序列
+    RecType * R1 = (RecType * )malloc((high-low+1)* sizeof(RecType));
+    int i = low;
+    int j = m+1;
+    int p = 0;
+    while(i&lt;=m &amp;&amp; j&lt;=high)
+        R1[p++] = (R[i]&lt;=R[j]):R[i++]?R[j++];
+    while(i&lt;=m)
+        R1[p++] = R[i++];
+    while(j&lt;=high)
+        R1[p++] = R[j++];
+    for(p=0,i=low; i&lt;=high; i++, p++){
+        R[i] = R1[p];   
+    }
+}
+
+// 自顶向下
+void MergeSortDC(SeqList R, int low, int high){
+    int mid;
+    if(low &lt; high){
+        mid = (low + high)/2;
+        MergeSortDC(R, low, mid);
+        MergeSortDC(R, mid+1, high);
+        Merge(R, low, mid, high);
+    }
+}
+</code></pre>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/10/21/computer_network/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/21/computer_network/" itemprop="url">计算机网络原理</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-21T09:00:00+08:00">
+                2018-10-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/基础知识/" itemprop="url" rel="index">
+                    <span itemprop="name">基础知识</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/10/21/computer_network/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/10/21/computer_network/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="第三章-传输层"><a href="#第三章-传输层" class="headerlink" title="第三章 传输层"></a>第三章 传输层</h2><h3 id="TCP拥塞控制"><a href="#TCP拥塞控制" class="headerlink" title="TCP拥塞控制"></a>TCP拥塞控制</h3><p>TCP拥塞控制不基于拥塞状态反馈（丢弃分组，警告位），是与网络层拥塞控制的区别。TCP拥塞控制通过超时和三次重复确认推断拥塞。拥塞控制算法有慢启动、拥塞避免、快速恢复和快速重传。涉及到发送端的一个变量拥塞窗口CongWin。在慢启动阶段，每接收到一个ACK，CongWin加一个MSS数值，在一个RTT后翻倍。CongWin超过初始阈值Threshold进入在拥塞避免阶段，每个RTT，ConWin加1。一旦推断拥塞，Threshold=CongWin/2，CongWin=1，进入慢启动。反映了加性增加和乘性减小。后期引入快送重传和快速恢复算法，快速重传就是发生三次重复确认，重传报文段。快速恢复区别对待超时和三次重复确认，对发生三次重复确认，只是从新的阈值开始进入拥塞避免阶段。</p>
+<h2 id="第四章-网络层"><a href="#第四章-网络层" class="headerlink" title="第四章 网络层"></a>第四章 网络层</h2><h3 id="网络层服务"><a href="#网络层服务" class="headerlink" title="网络层服务"></a>网络层服务</h3><ul>
+<li>转发</li>
+<li>路由选择<br>路由选择算法计算路由，将路由信息存储到路由转发表，转发分组时查询转发表并转发分组。</li>
+<li>连接建立</li>
+</ul>
+<h3 id="数据报网络和虚电路网络"><a href="#数据报网络和虚电路网络" class="headerlink" title="数据报网络和虚电路网络"></a>数据报网络和虚电路网络</h3><ul>
+<li>是否面向连接</li>
+<li>虚电路网络又分为永久型和交换型（更具需要临时建立）</li>
+<li>数据报网络和虚电路网络的主要区别是顺序控制、流量控制和差错控制是由网络完成还是端系统完成。</li>
+</ul>
+<h3 id="网络互联与网络互联设备"><a href="#网络互联与网络互联设备" class="headerlink" title="网络互联与网络互联设备"></a>网络互联与网络互联设备</h3><h4 id="异构网络互联的方式"><a href="#异构网络互联的方式" class="headerlink" title="异构网络互联的方式"></a>异构网络互联的方式</h4><ul>
+<li>协议转换</li>
+<li>构建虚拟互联网络，使用虚拟互联网络设备转发分组。<br>IP网络就是虚拟互联网络，Internet是最大的IP网络，网络层协议–IP，网络询址–IP地址，网络互联设备–路由器<h4 id="路由器"><a href="#路由器" class="headerlink" title="路由器"></a>路由器</h4></li>
+<li>每个输入端口都有路由转发表的副本和缓存功能</li>
+<li>输入端口到输出端口分组的转发，由交换结构完成<h4 id="交换结构的实现方式："><a href="#交换结构的实现方式：" class="headerlink" title="交换结构的实现方式："></a>交换结构的实现方式：</h4></li>
+<li>基于内存交换，性能低，便宜</li>
+<li>基于总线交换，无需处理器介入，总线具有独占特性</li>
+<li>基于网络交换，可以并行交换，但是对同一输出端口的交换是串行的<h4 id="路由转发转发原则"><a href="#路由转发转发原则" class="headerlink" title="路由转发转发原则"></a>路由转发转发原则</h4>路由转发时，有多条路由项匹配成功，选择网络前缀匹配成功最长的路由项，最长前缀匹配优先原则</li>
+</ul>
+<h3 id="网络层拥塞控制"><a href="#网络层拥塞控制" class="headerlink" title="网络层拥塞控制"></a>网络层拥塞控制</h3><h4 id="拥塞控制和流量控制的区别"><a href="#拥塞控制和流量控制的区别" class="headerlink" title="拥塞控制和流量控制的区别"></a>拥塞控制和流量控制的区别</h4><p>流量控制是发送方根据接受方的缓存和数据处理的能力调整数据发送速率和发送量。拥塞控制是根据网络通过能力或拥挤程度调节速率和发送量。</p>
+<h4 id="几种常用的网络层的拥塞控制措施"><a href="#几种常用的网络层的拥塞控制措施" class="headerlink" title="几种常用的网络层的拥塞控制措施"></a>几种常用的网络层的拥塞控制措施</h4><ul>
+<li>流量感知路由，拥塞预防措施</li>
+<li>准入控制，是否允许构建虚电路</li>
+<li>流量调节，通过抑制分组，直接告知发送方。背压，在发往发送方的路径中，每一跳都抑制输出，优点是快速缓解拥塞，缺点是每一跳都需要更大的缓存。</li>
+<li>负载脱落，选择丢弃数据包，丢弃哪些数据包取决于上层应用</li>
+</ul>
+<h3 id="Internet网络层"><a href="#Internet网络层" class="headerlink" title="Internet网络层"></a>Internet网络层</h3><h4 id="IP数据报分片与重组"><a href="#IP数据报分片与重组" class="headerlink" title="IP数据报分片与重组"></a>IP数据报分片与重组</h4><ul>
+<li>不同链路层协议MTU不同，因此需要对数据报进行分片。</li>
+<li>重组是，根据标识字段判断是否属于同一数据报，标志字段的MF判断是否最后一个分片，偏移字段表示顺序，长度字段判断是否有分片丢失。</li>
+</ul>
+<h4 id="IPv4编址，32位"><a href="#IPv4编址，32位" class="headerlink" title="IPv4编址，32位"></a>IPv4编址，32位</h4><p>基于IP子网的概念将IP地址划分为两部分，前缀即网络部分，后缀即主机部分。</p>
+<ul>
+<li>分类地址<br>  前缀长度    前缀<br>A   8         0XXXXXXXX<br>B   16        10XXXXXXXXXXXXXXXX<br>C   24        110XXXXXXXXXXXXXXXXXXXXXXXX<br>D             1110XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX<br>E             11110XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</li>
+<li>无类地址<br>只有给出子网地址、子往前缀或子网掩码才能准确描述子网规模<br>给定子网内某地址，与子网掩码做按位与运算获得子网地址，与子网掩码的反码按位或运算可得直接广播地址<br>子网的可用IP地址总数要减去子网地址和广播地址<h4 id="路由聚合"><a href="#路由聚合" class="headerlink" title="路由聚合"></a>路由聚合</h4>路由聚合技术缩减路由表项，有效提高查询效率<h4 id="动态主机配置协议DHCP"><a href="#动态主机配置协议DHCP" class="headerlink" title="动态主机配置协议DHCP"></a>动态主机配置协议DHCP</h4>动态分配IP地址，应用层实现，传输层使用UDP<h5 id="分配过程"><a href="#分配过程" class="headerlink" title="分配过程"></a>分配过程</h5></li>
+<li>DHCP发现，目的IP，255.255.255.255，源IP，0.0.0.0</li>
+<li>DHCP服务器提供，广播发送</li>
+<li>DHCP请求，广播发送，因为可能存在多个DHCP服务器</li>
+<li>DHCP确认<h4 id="网络地址转换NAT"><a href="#网络地址转换NAT" class="headerlink" title="网络地址转换NAT"></a>网络地址转换NAT</h4></li>
+<li>NAT通过替换进出内部似有网络的IP数据包的IP地址和端口号，实现使用私有地址的主机与互联网通信。NAT运行在边缘路由器，维护NAT转换表。</li>
+<li>私有地址主机如果希望被动接受外网主机访问，需要NAT穿透<h4 id="ICMP，网络控制报文协议"><a href="#ICMP，网络控制报文协议" class="headerlink" title="ICMP，网络控制报文协议"></a>ICMP，网络控制报文协议</h4>封装在IP数据报中，实现主机和路由器之间的差错报告和网络探测。分为差错报告报文和询问报文两大类。Ping，Traceroute<h4 id="IPv4到IPv6的迁移"><a href="#IPv4到IPv6的迁移" class="headerlink" title="IPv4到IPv6的迁移"></a>IPv4到IPv6的迁移</h4></li>
+<li>双协议栈，同时支持两种协议，使用DNS查询返回地址区分服务端支持的协议</li>
+<li>隧道，客户服务器都使用IPv6但中间路由器不支持怎么办，在进入隧道前的最后一个IPv6路由器上封装称IPv4数据报，目的地址是隧道出口第一个IPv6路由器。<h4 id="路由选择算法"><a href="#路由选择算法" class="headerlink" title="路由选择算法"></a>路由选择算法</h4></li>
+<li>全局式路由选择算法，LS（链路状态）</li>
+<li>分布式路由选择算法，DV（距离向量）</li>
+<li>层次化路由选择<h4 id="Internet路由选择协议"><a href="#Internet路由选择协议" class="headerlink" title="Internet路由选择协议"></a>Internet路由选择协议</h4></li>
+<li>RIP(路由信息协议)<br>内部外观协议，DV</li>
+<li>OSPF(开放式最短路径优先协议)<br>内部外观协议，LS</li>
+<li>BGP(边界网关协议)<br>外部网关协议，DV</li>
+</ul>
+<h2 id="第五章-数据链路层与局域网"><a href="#第五章-数据链路层与局域网" class="headerlink" title="第五章 数据链路层与局域网"></a>第五章 数据链路层与局域网</h2><h3 id="差错控制"><a href="#差错控制" class="headerlink" title="差错控制"></a>差错控制</h3><h4 id="噪声分类"><a href="#噪声分类" class="headerlink" title="噪声分类"></a>噪声分类</h4><ul>
+<li>随机噪声引起差错</li>
+<li>冲击噪声引起突发差错</li>
+</ul>
+<h4 id="差错控制基本方式"><a href="#差错控制基本方式" class="headerlink" title="差错控制基本方式"></a>差错控制基本方式</h4><ul>
+<li>检错重发，停等协议和滑动窗口协议</li>
+<li>前向纠错FEC</li>
+<li>反馈校验，将发送端的数据再发回去</li>
+<li>检错丢弃，允许一定差错存在</li>
+</ul>
+<h4 id="差错编码"><a href="#差错编码" class="headerlink" title="差错编码"></a>差错编码</h4><p>信息位后附加冗余位，信息位与冗余码符合一定关系式</p>
+<h4 id="检错和纠错能力"><a href="#检错和纠错能力" class="headerlink" title="检错和纠错能力"></a>检错和纠错能力</h4><h4 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h4><ul>
+<li>奇偶校验码</li>
+<li>汉明码<br>信息位k 校验位r<br>2^r &gt;= k+r+1</li>
+<li>CRC</li>
+</ul>
+<h3 id="多路访问控制协议"><a href="#多路访问控制协议" class="headerlink" title="多路访问控制协议"></a>多路访问控制协议</h3><p>链路信道分为单播和广播信道，广播信道被所有结点共享，必须采用MAC控制结点信息发送</p>
+<h4 id="信道划分MAC协议"><a href="#信道划分MAC协议" class="headerlink" title="信道划分MAC协议"></a>信道划分MAC协议</h4><h5 id="多路复用技术"><a href="#多路复用技术" class="headerlink" title="多路复用技术"></a>多路复用技术</h5><ul>
+<li>频分多路复用</li>
+<li>时分多路复用<br>同步时分多路复用。异步时分多路复用又称统计时分多路复用，大多用于现代计算机广域传输。</li>
+<li>波分多路复用<br>在光纤通信上的频分多路复用</li>
+<li>码分多路复用<h4 id="随机访问MAC协议"><a href="#随机访问MAC协议" class="headerlink" title="随机访问MAC协议"></a>随机访问MAC协议</h4></li>
+<li>纯ALOHA协议<br>无线信道共享接入，任一站点有发送信息的需要立即发送，监听一段时间，没有接收站的回应则表示发送成功，否则等待随机时间后重发。</li>
+<li>时隙ALOHA协议<br>信道时间划分离散的时隙，每个时隙等于发送一帧所需要的时间，在每个时隙开始阶段发送，出现冲突后下一个时隙以概率P重发该帧</li>
+<li>CSMA，载波监听多路访问协议<br>利用载波监听装置在数据发送之前监听其它站点是否在发送数据。又分为非坚持CSMA（信道忙等待随机时间再监听），1-坚持CSMA（信道忙继续监听直到空闲立即发送数据），P-坚持CSMA（分割时隙，信道空闲以概率P在时隙开始时间发送）</li>
+<li>CSMA/CD，带冲突检测的载波监听多路访问协议<br>发送数据的同时，监听信道，一旦发生冲突立即停止发送，并发出冲突强化信号，使得所有站点都知道冲突发生。L是数据帧最小长度，R是传输速率，D是两站最远距离，V是传播速度，则L/R&gt;=2D/V。<h4 id="受控接入MAC"><a href="#受控接入MAC" class="headerlink" title="受控接入MAC"></a>受控接入MAC</h4></li>
+<li>集中式控制<br>轮叫轮询，传递轮询。主机一旦故障，网络瘫痪</li>
+<li>分散式控制<br>令牌环网<h4 id="受控接入MAC协议"><a href="#受控接入MAC协议" class="headerlink" title="受控接入MAC协议"></a>受控接入MAC协议</h4></li>
+</ul>
+<h3 id="局域网"><a href="#局域网" class="headerlink" title="局域网"></a>局域网</h3><h4 id="数据链路层寻址"><a href="#数据链路层寻址" class="headerlink" title="数据链路层寻址"></a>数据链路层寻址</h4><h5 id="MAC地址"><a href="#MAC地址" class="headerlink" title="MAC地址"></a>MAC地址</h5><ul>
+<li>交换机接口没有MAC地址</li>
+<li>帧的转发由交换机查找交换表转发相应端口，如果目的MAC地址是接收端口则丢弃。</li>
+<li>MAC地址是6个字节，第一个字节的倒数第二位是G/L位，为1时表示本地管理，位0时表示全球管理。</li>
+<li>广播MAC地址全为1<h5 id="ARP，地址解析协议"><a href="#ARP，地址解析协议" class="headerlink" title="ARP，地址解析协议"></a>ARP，地址解析协议</h5></li>
+<li>每台主机有ARP高速缓存，存储MAC地址和IP地址的映射关系。</li>
+<li>每个主机和路由器都有ARP模块，通过广播ARP查询报文可以得到IP地址对应MAC地址</li>
+<li>如果主机和目的主机不在同一个子网，ARP解析默认网关MAC地址，作为目的MAC地址</li>
+<li>ARP查询分组是广播帧发送，响应分组是单播帧<h5 id="ARP与DNS的区别"><a href="#ARP与DNS的区别" class="headerlink" title="ARP与DNS的区别"></a>ARP与DNS的区别</h5></li>
+<li>ARP是IP地址与MAC地址的映射关系，DNS是域名和IP地址的映射关系</li>
+<li>ARP是为子网内主机解析IP地址，DNS是为整个互联网解析主机域名</li>
+<li>DNS是在域名服务器间查询，ARP是在局域网内广播ARP查询<h4 id="以太网"><a href="#以太网" class="headerlink" title="以太网"></a>以太网</h4>802.3协议，第一个广泛部署的告诉局域网,CSMA/CD，曼策斯特编码，提供无连接不可靠服务</li>
+<li>10Base-5 经典的同轴电缆总线型以太网</li>
+<li>10Base-T 非屏蔽双绞线UTP</li>
+<li>100Base-T 快速以太网</li>
+<li>100Base-TX 5类UTP</li>
+<li>100Base-T4 3、4、5类UTP</li>
+<li>100Base-TF 光缆</li>
+<li>1000Base-SX/LX 千兆以太网，光纤传输介质</li>
+<li>1000Base-T 5类UTP</li>
+<li>万兆以太网 扩展了传输速率和距离，开始应用于城域网和广域网<h4 id="交换机"><a href="#交换机" class="headerlink" title="交换机"></a>交换机</h4></li>
+<li>交换机就是多端口的网桥。依据目的MAC地址，选择性的转发端口，这就是转发与过滤功能</li>
+<li>交换机的选择性转发，实现了冲突域的分割。10M以太网，10个用户使用，若使用交换机连接，交换机的总容量相当于100M</li>
+<li>交换机的交换表是通过逆向学习逐步构建的</li>
+<li>交换机是一种即插即用的设备，采用专用的交换结构芯片，其转发速率比软件转发的网桥快得多</li>
+<li>交换机的优点，消除冲突、支持异质链路和网络管理（可以检测到异常适配器并切断<h4 id="虚拟局域网-VLAN"><a href="#虚拟局域网-VLAN" class="headerlink" title="虚拟局域网 VLAN"></a>虚拟局域网 VLAN</h4>为限制广播域的规模，抑制广播风暴，可以使用路由器分割子网，或则构建虚拟局域网，基于交换机的逻辑分割，通过软件方式实现<h5 id="主要方法"><a href="#主要方法" class="headerlink" title="主要方法"></a>主要方法</h5></li>
+<li>基于交换机的端口</li>
+<li>基于MAC地址划分</li>
+<li>基于上层协议类型或地址划分，有利于组成基于应用的VLAN</li>
+</ul>
+<h2 id="物理层"><a href="#物理层" class="headerlink" title="物理层"></a>物理层</h2><h2 id="无线网"><a href="#无线网" class="headerlink" title="无线网"></a>无线网</h2><h2 id="网络安全"><a href="#网络安全" class="headerlink" title="网络安全"></a>网络安全</h2>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/09/20/Tools/ngrok/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2166,576 +3151,6 @@ $ spark-shell
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/06/10/scala-HelloWorld/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jokers">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jokers's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/06/10/scala-HelloWorld/" itemprop="url">Scala 基本语法</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-10T17:46:35+08:00">
-                2018-06-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Scala/" itemprop="url" rel="index">
-                    <span itemprop="name">Scala</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/06/10/scala-HelloWorld/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/06/10/scala-HelloWorld/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="函数和方法"><a href="#函数和方法" class="headerlink" title="函数和方法"></a>函数和方法</h4><pre><code>scala&gt; class C {
-     |   var acc = 0
-     |   def minc = { acc += 1 }
-     |   val finc = { () =&gt; acc += 1 }
-     | }
-defined class C
-
-scala&gt; val c = new C
-c: C = C@1af1bd6
-
-scala&gt; c.minc // calls c.minc()
-
-scala&gt; c.finc // returns the function as a value:
-res2: () =&gt; Unit = &lt;function0&gt;
-</code></pre><h4 id="abstract-class"><a href="#abstract-class" class="headerlink" title="abstract class"></a>abstract class</h4><ul>
-<li><p>不能实例化抽象类</p>
-<pre><code>scala&gt; abstract class Shape{
-|   def getArea():Int
-| }
-defined class Shape
-</code></pre></li>
-</ul>
-<h4 id="Traits"><a href="#Traits" class="headerlink" title="Traits"></a>Traits</h4><pre><code>trait Car {
-  val brand: String
-}
-
-trait Shiny {
-  val shineRefraction: Int
-}
-class BMW extends Car {
-  val brand = &quot;BMW&quot;
-}
-
-class BMW extends Car with Shiny {
-  val brand = &quot;BMW&quot;
-  val shineRefraction = 12
-}
-</code></pre><ul>
-<li><p>优先使用特质。一个类扩展多个特质是很方便的，但却只能扩展一个抽象类。</p>
-</li>
-<li><p>如果你需要构造函数参数，使用抽象类。因为抽象类可以定义带参数的构造函数，而特质不行。例如，你不能说trait t(i: Int) {}，参数i是非法的。</p>
-</li>
-</ul>
-<h4 id="Object"><a href="#Object" class="headerlink" title="Object"></a>Object</h4><p>Scala classes cannot have static variables or methods. Instead a Scala class can have what is called a singleton object, or sometime a companion object.</p>
-<pre><code>scala&gt; class Bar(foo: String)
-defined class Bar
-
-scala&gt; object Bar{
-     |   def apply(foo: String) = new Bar(foo)
-     | }
-</code></pre><h4 id="apply-方法，语法糖"><a href="#apply-方法，语法糖" class="headerlink" title="apply 方法，语法糖"></a>apply 方法，语法糖</h4><pre><code>scala&gt; class Foo{}
-defined class Foo
-
-scala&gt; object FooMaker{}
-defined object FooMaker
-
-scala&gt; object FooMaker{
-     |   def apply() = new Foo
-     | }
-defined object FooMaker
-
-scala&gt; val newFoo = FooMaker()
-newFoo: Foo = Foo@229cb4d8
-</code></pre><h4 id="函数即对象"><a href="#函数即对象" class="headerlink" title="函数即对象"></a>函数即对象</h4><p>函数是Function*特质的示例，并且定义了apply语法糖</p>
-<pre><code>scala&gt; object addOne extends Function1[Int, Int]{
-     |   def apply(m: Int): Int = m + 1
-     | }
-defined object addOne
-
-scala&gt; addOne(1)
-res0: Int = 2
-</code></pre><h4 id="case-class"><a href="#case-class" class="headerlink" title="case class"></a>case class</h4><p>It makes only sense to define case classes if pattern matching is used to decompose data structures.</p>
-<ul>
-<li><p>实例化可以不加关键词new</p>
-</li>
-<li><p>toString更漂亮</p>
-</li>
-<li><p>默认实现equals和hashCode</p>
-</li>
-<li><p>默认序列化</p>
-</li>
-</ul>
-<h4 id="模式匹配"><a href="#模式匹配" class="headerlink" title="模式匹配"></a>模式匹配</h4><ul>
-<li><p>基本用法</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">scala&gt; val times = 1</span><br><span class="line">times: Int = 1</span><br><span class="line"></span><br><span class="line">scala&gt; times match&#123;</span><br><span class="line">     |   case 1 =&gt; &quot;one&quot;</span><br><span class="line">     |   case 2 =&gt; &quot;two&quot;</span><br><span class="line">     |   case _ =&gt; &quot;other&quot;</span><br><span class="line">     | &#125;</span><br><span class="line">res2: String = one</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>带if守卫</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">scala&gt; val score = 70</span><br><span class="line">score: Int = 70</span><br><span class="line"></span><br><span class="line">scala&gt; score match&#123;</span><br><span class="line">     |   case s if (score &gt;= 90) =&gt; &quot;优秀&quot;</span><br><span class="line">     |   case s if (score &gt;= 70) =&gt; &quot;良好&quot;</span><br><span class="line">     |   case s if (score &gt;= 60) =&gt; &quot;及格&quot;</span><br><span class="line">     |   case _ =&gt; &quot;不及格&quot;</span><br><span class="line">     | &#125;</span><br><span class="line">res5: String = 良好</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>类型的模式匹配</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">try&#123;</span><br><span class="line">    something</span><br><span class="line">&#125;catch&#123;</span><br><span class="line">    case e: IllegalArgumentException=&gt; do something</span><br><span class="line">    case e: FileNotFoundException=&gt; do something</span><br><span class="line">    case e: IOException =&gt; do something</span><br><span class="line">    case _: Exception =&gt; do something</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>case class的模式匹配</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">class Customer</span><br><span class="line">case class PersonalUser(name:String) extends Customer</span><br><span class="line">case class EnterpriseUser(name:String) extends Customer</span><br><span class="line">case class VipUser(name:String) extends Customer</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">def service(c:Customer):Unit=&#123;</span><br><span class="line">    c match&#123;</span><br><span class="line">      case EnterpriseUser(_)=&gt;print(&quot;Enterprise&quot;)</span><br><span class="line">      case PersonalUser(_)=&gt;print(&quot;Personal&quot;)</span><br><span class="line">      case VipUser(_)=&gt;print(&quot;Vip&quot;)</span><br><span class="line">      case _ =&gt;print(&quot;None&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Option的模式匹配</p>
-<p>  Some and None are both children of Option</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">def toInt(in: String): Option[Int] = &#123;</span><br><span class="line">    try &#123;</span><br><span class="line">        Some(Integer.parseInt(in.trim))</span><br><span class="line">    &#125; catch &#123;</span><br><span class="line">        case e: NumberFormatException =&gt; None</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">toInt(someString) match &#123;</span><br><span class="line">    case Some(i) =&gt; println(i)</span><br><span class="line">    case None =&gt; println(&quot;That didn&apos;t work.&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/05/24/bigdata/install-hive/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jokers">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jokers's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/24/bigdata/install-hive/" itemprop="url">Hive2安装</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-24T11:00:00+08:00">
-                2018-05-24
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/BigData/" itemprop="url" rel="index">
-                    <span itemprop="name">BigData</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/05/24/bigdata/install-hive/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/05/24/bigdata/install-hive/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h2><p>适应版本Hadoop已安装，hdfs和yarn可以成功运行</p>
-<h2 id="解压缩"><a href="#解压缩" class="headerlink" title="解压缩"></a>解压缩</h2><pre><code>$ sudo mv apache-hive-2.3.3-bin.tar.gz /usr/local/
-$ cd /usr/local/
-$ sudo tar -zxvf apache-hive-2.3.3-bin.tar.gz
-$ sudo mv apache-hive-2.3.3-bin hive
-$ sudo chown -R hadoop:hadoop hive
-</code></pre><h2 id="配置环境变量"><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a>配置环境变量</h2><pre><code>$ vim ~/.bashrc
-export HIVE_HOME=/usr/local/hive
-export PATH=$PATH:$HIVE_HOME/bin
-export CLASSPATH=$CLASSPATH:/usr/local/hadoop/lib/*:.
-export CLASSPATH=$CLASSPATH:/usr/local/hive/lib/*:.
-
-$ source ~/.bashrc
-</code></pre><h2 id="Hive配置"><a href="#Hive配置" class="headerlink" title="Hive配置"></a>Hive配置</h2><pre><code>$ cp conf/hive-env.sh.template conf/hive-env.sh
-$ vim conf/hive-env.sh
-HADOOP_HOME=/usr/local/hadoop
-export HIVE_CONF_DIR=/usr/local/hive/conf
-
-$ cd /usr/local/hive
-$ cp conf/hive-default.xml.template conf/hive-site.xml
-$ vim conf/hive-size.xml
-</code></pre><ul>
-<li><p>system:java.io.tmpir &amp; system:user.name</p>
-<pre><code>&lt;property&gt;
-    &lt;name&gt;system:java.io.tmpdir&lt;/name&gt;
-    &lt;value&gt;/usr/local/hive/tmp&lt;/value&gt;
-&lt;/property&gt;
-&lt;property&gt;
-    &lt;name&gt;system:user.name&lt;/name&gt;
-    &lt;value&gt;jokers&lt;/value&gt;
-&lt;/property&gt;
-</code></pre></li>
-<li><p>mysql连接配置</p>
-<pre><code>&lt;property&gt;
-    &lt;name&gt;javax.jdo.option.ConnectionDriverName&lt;/name&gt;
-    &lt;value&gt;com.mysql.jdbc.Driver&lt;/value&gt;
-    &lt;description&gt;Driver class name for a JDBC metastore&lt;/description&gt;
-&lt;/property&gt;
-
-&lt;property&gt;
-    &lt;name&gt;javax.jdo.option.ConnectionURL&lt;/name&gt;
-    &lt;value&gt;jdbc:mysql://xx.xxx.xx.xx:3306/hive?createDatabaseIfNotExist=true&lt;/value&gt;
-    &lt;description&gt;JDBC connect string for a JDBC metastore&lt;/description&gt;
-&lt;/property&gt;
-
-&lt;property&gt;
-    &lt;name&gt;javax.jdo.option.ConnectionUserName&lt;/name&gt;
-    &lt;value&gt;hive&lt;/value&gt;
-    &lt;description&gt;Username to use against metastore database&lt;/description&gt;
-&lt;/property&gt;
-
-&lt;property&gt;
-    &lt;name&gt;javax.jdo.option.ConnectionPassword&lt;/name&gt;
-    &lt;value&gt;hive&lt;/value&gt;
-    &lt;description&gt;password to use against metastore database&lt;/description&gt;
-&lt;/property&gt;
-</code></pre></li>
-</ul>
-<ul>
-<li><p>hive的存储仓库位置，观察配置默认值</p>
-<pre><code>&lt;property&gt;
-    &lt;name&gt;hive.metastore.warehouse.dir&lt;/name&gt;
-    &lt;value&gt;/user/hive/warehouse&lt;/value&gt;
-    &lt;description&gt;location of default database for the warehouse&lt;/description&gt;
-&lt;/property&gt;
-
-&lt;property&gt;
-    &lt;name&gt;hive.exec.scratchdir&lt;/name&gt;
-    &lt;value&gt;/tmp/hive&lt;/value&gt;
-    &lt;description&gt;HDFS root scratch dir for Hive jobs which gets created with write all (733) permission. For each connecting user, an HDFS scratch dir: ${hive.exec.scratchdir}/&lt;username&gt;is created, with ${hive.scratch.dir.permission}.&lt;/description&gt;
-&lt;/property&gt;
-
-&lt;property&gt;
-    &lt;name&gt;hive.querylog.location&lt;/name&gt;
-    &lt;value&gt;${system:java.io.tmpdir}/${system:user.name}&lt;/value&gt;
-    &lt;description&gt;Location of Hive run time structured log file&lt;/description&gt;
-&lt;/property&gt;
-</code></pre></li>
-<li><p>使用Hadoop建立Hive仓库</p>
-<pre><code>$ $HADOOP_HOME/bin/hadoop fs -mkdir /tmp/hive
-$ $HADOOP_HOME/bin/hadoop fs -mkdir /user/hive/warehouse
-$ $HADOOP_HOME/bin/hadoop fs -chmod g+w /tmp/hive
-$ $HADOOP_HOME/bin/hadoop fs -chmod g+w /user/hive/warehouse
-</code></pre></li>
-<li><p>下载mysql-connector-java.jar</p>
-<pre><code>$ sudo yum install mysql-connector-java.noarch
-$ cp /usr/share/java/mysql-connector-java.jar $HIVE_HOME/lib/mysql-connector-java.jar
-</code></pre></li>
-</ul>
-<ul>
-<li><p>Hive初始化mysql数据库</p>
-<pre><code>$ schematool --dbType mysql --initSchema
-</code></pre></li>
-<li><p>启动Hive</p>
-<pre><code>$ hive
-</code></pre></li>
-</ul>
-<h2 id="MySQL数据导入hive"><a href="#MySQL数据导入hive" class="headerlink" title="MySQL数据导入hive"></a>MySQL数据导入hive</h2><ul>
-<li><p>安装Sqoop</p>
-</li>
-<li><p>配置mysqldump(如果使用–direct)</p>
-<pre><code>ln -fs /user/local/mysql/bin/mysqldump /usr/bin
-</code></pre></li>
-<li><p>给Hadoop添加环境变量</p>
-<pre><code>$ vim /usr/local/hadoop/etc/hadoop/hadoop-env.sh
-export HADOOP_CLASSPATH=$HADOOP_CLASSPATH:/usr/local/hive/conf/
-export HADOOP_CLASSPATH=$HADOOP_CLASSPATH:/usr/local/hive/lib/
-# 不能这样写/usr/local/hive/conf/* /usr/local/hive/lib/*
-</code></pre></li>
-<li><p>导入示例</p>
-<pre><code>sqoop import --connect jdbc:mysql://xx.xx.x.x:3306/databases --table table --username hive --password hive --direct --fields-terminated-by &apos;|&apos;  --warehouse-dir /user/hive/warehouse  --hive-import
-</code></pre></li>
-</ul>
-<h2 id="远程链接hiveserver2"><a href="#远程链接hiveserver2" class="headerlink" title="远程链接hiveserver2"></a>远程链接hiveserver2</h2><ul>
-<li><p>配置hive-site.xml</p>
-<pre><code>&lt;property&gt;
-    &lt;name&gt;hive.server2.thrift.client.user&lt;/name&gt;
-    &lt;value&gt;username&lt;/value&gt;
-    &lt;description&gt;Username to use against thrift client&lt;/description&gt;
-&lt;/property&gt;
-&lt;property&gt;
-    &lt;name&gt;hive.server2.thrift.client.password&lt;/name&gt;
-    &lt;value&gt;password&lt;/value&gt;
-    &lt;description&gt;Password to use against thrift client&lt;/description&gt;
-&lt;/property&gt;
-&lt;property&gt;
-    &lt;name&gt;hive.server2.transport.mode&lt;/name&gt;
-    &lt;value&gt;binary&lt;/value&gt;
-    &lt;description&gt;
-        Expects one of [binary, http].
-        Transport mode of HiveServer2.
-    &lt;/description&gt;
-&lt;/property&gt;
-&lt;property&gt;
-    &lt;name&gt;hive.server2.thrift.port&lt;/name&gt;
-    &lt;value&gt;10000&lt;/value&gt;
-    &lt;description&gt;Port number of HiveServer2 Thrift interface when hive.server2.transport.mode is &apos;binary&apos;.&lt;/description&gt;
-&lt;/property&gt;
-&lt;property&gt;
-    &lt;name&gt;hive.server2.thrift.bind.host&lt;/name&gt;
-    &lt;value&gt;0.0.0.0&lt;/value&gt;
-    &lt;description&gt;Bind host on which to run the HiveServer2 Thrift service.&lt;/description&gt;
-&lt;/property&gt;
-</code></pre></li>
-<li><p>配置hadoop下的core-site.xml</p>
-<pre><code>&lt;property&gt;
-    &lt;name&gt;hadoop.proxyuser.hadoop.hosts&lt;/name&gt;
-    &lt;!--value&gt;master&lt;/value--&gt;
-    &lt;value&gt;*&lt;/value&gt;
-&lt;/property&gt;
-
-&lt;property&gt;
-    &lt;name&gt;hadoop.proxyuser.hadoop.groups&lt;/name&gt;
-    &lt;!--value&gt;hadoop&lt;/value--&gt;
-    &lt;value&gt;*&lt;/value&gt;
-&lt;/property&gt;
-</code></pre></li>
-<li><p>启动hive服务,客户端可以使用beeline命令行，也可使用sql developer客户端工具，需要下载hive jdbc驱动</p>
-<pre><code>nohup hiveserver2 &gt;hive.log 2&gt;&amp;1 &amp;
-</code></pre></li>
-</ul>
-<h2 id="error解决"><a href="#error解决" class="headerlink" title="error解决"></a>error解决</h2><pre><code>hive.HiveConfig: Could not load org.apache.hadoop.hive.conf.HiveConf. Make sure HIVE_CONF_DIR is set correctly
-
-$ vim ~/.bashrc
-export HADOOP_CLASSPATH=$HADOOP_CLASSPATH:/usr/local/hive/lib/*
-$ source ~/.bashrc
-</code></pre>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2786,7 +3201,7 @@ $ source ~/.bashrc
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">43</span>
+                <span class="site-state-item-count">44</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

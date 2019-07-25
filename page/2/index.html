@@ -273,6 +273,406 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2019/01/10/spider/Appium_mumu/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/10/spider/Appium_mumu/" itemprop="url">Appium + mumu 手机自动化测试环境和爬虫</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-10T17:30:00+08:00">
+                2019-01-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Spider/" itemprop="url" rel="index">
+                    <span itemprop="name">Spider</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/01/10/spider/Appium_mumu/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2019/01/10/spider/Appium_mumu/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>不论是手机端自动化测试还是爬虫都需要用到Appium和手机模拟器，这里用的mumu，没有使用官方的AVD(Android Virtual Devices)或者Genymotion。<br>mumu安装很简单，就不再介绍了。<br>Appium是selenium的封装，并提供移动设备相关指令。Appium是跨平台的C/S应用。Appium可以通过NPM安装或下载桌面版。</p>
+<h2 id="安装SDK"><a href="#安装SDK" class="headerlink" title="安装SDK"></a>安装SDK</h2><ul>
+<li>下载SDK Manager，安装对应版本的SDK。</li>
+<li><p>platform-tools和tools路径添加环境变量,需要用到adb(Android Debug Bridge)命令行工具</p>
+<pre><code>&lt;!-- 测试环境变量是否配置成功 --&gt;
+adb devices
+</code></pre></li>
+</ul>
+<h2 id="adb连接mumu"><a href="#adb连接mumu" class="headerlink" title="adb连接mumu"></a>adb连接mumu</h2><ul>
+<li>查看mumu配置文件(emulator\nemu\vms\myandrovm_vbox86\myandrovm_vbox86.nemu)的ADB_PORT，确定端口号(默认7555)</li>
+<li><p>连接</p>
+<pre><code>adb connect 127.0.0.1:7555
+</code></pre></li>
+<li><p>查看deviceName</p>
+<pre><code>adb devices
+</code></pre></li>
+<li><p>mumu“设置”–&gt;”关于平板电脑”查看platformVersion</p>
+</li>
+<li><p>获取需要启动及控制的APP信息(appPackage–package name appActivity–launchable-activity name)，android-sdk\build-tools\28.0.3\aapt.exe</p>
+<pre><code>aapt dump badging yourAPP.apk
+</code></pre></li>
+</ul>
+<h2 id="Python实现示例，模拟打开APP"><a href="#Python实现示例，模拟打开APP" class="headerlink" title="Python实现示例，模拟打开APP"></a>Python实现示例，模拟打开APP</h2><pre><code>desired_caps = {
+            &apos;platformName&apos;: &apos;Android&apos;,
+            &apos;deviceName&apos;: &apos;127.0.0.1:7555&apos;,
+            &apos;platformVersion&apos;: &apos;6.0.1&apos;,
+            &apos;appPackage&apos;: &apos;com.lawyee.wenshuapp&apos;,
+            &apos;appActivity&apos;: &apos;com.lawyee.wenshuapp.ui.SplashActivity&apos;
+        }
+driver = webdriver.Remote(&apos;http://127.0.0.1:4723/wd/hub&apos;, desired_caps)
+</code></pre>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/12/12/Tools/tinyproxy/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/12/12/Tools/tinyproxy/" itemprop="url">Proxy server</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-12T18:00:00+08:00">
+                2018-12-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Tools/" itemprop="url" rel="index">
+                    <span itemprop="name">Tools</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/12/12/Tools/tinyproxy/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/12/12/Tools/tinyproxy/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Squid"><a href="#Squid" class="headerlink" title="Squid"></a>Squid</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><pre><code>yum install squid
+</code></pre><h3 id="配置-etc-squid-squid-conf"><a href="#配置-etc-squid-squid-conf" class="headerlink" title="配置 /etc/squid/squid.conf"></a>配置 /etc/squid/squid.conf</h3><pre><code># 允许所有主机访问，添加如下
+acl all src all
+http_access allow all
+
+# 隐藏真实IP，添加如下
+forwarded_for delete
+or
+forwarded_for off
+</code></pre><h3 id="启动，退出"><a href="#启动，退出" class="headerlink" title="启动，退出"></a>启动，退出</h3><pre><code>service squid start
+service squid stop
+service squid restart
+</code></pre><h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><pre><code>curl -x http://host:port -L http://www.baidu.com
+</code></pre><h3 id="Authentication"><a href="#Authentication" class="headerlink" title="Authentication"></a>Authentication</h3><ul>
+<li><p>INSTALL httpd-tools</p>
+<pre><code>yum -y install httpd-tools
+</code></pre></li>
+<li><p>CREATE A USERNAME/PASSWORD</p>
+<pre><code>touch /etc/squid/passwd &amp;&amp; chown squid /etc/squid/passwd
+htpasswd /etc/squid/passwd pxuser
+</code></pre></li>
+<li><p>CONFIG</p>
+<pre><code>注意配置添加的位置和顺序
+#
+# INSERT YOUR OWN RULE(S) HERE TO ALLOW ACCESS FROM YOUR CLIENTS
+#
+auth_param basic program /usr/lib64/squid/ncsa_auth /etc/squid/passwd
+auth_param basic children 5
+auth_param basic realm Squid proxy-caching web server
+auth_param basic credentialsttl 2 hours
+auth_param basic casesensitive off
+
+acl zcb proxy_auth REQUIRED
+http_access allow zcb
+</code></pre></li>
+<li><p>TEST</p>
+<pre><code>curl -x http://host:port --proxy-user username:pass -L http://www.baidu.com
+</code></pre></li>
+</ul>
+<h2 id="Tinyproxy"><a href="#Tinyproxy" class="headerlink" title="Tinyproxy"></a>Tinyproxy</h2><h2 id="Privoxy"><a href="#Privoxy" class="headerlink" title="Privoxy"></a>Privoxy</h2><h2 id="Shadowsocks"><a href="#Shadowsocks" class="headerlink" title="Shadowsocks"></a>Shadowsocks</h2><h3 id="server-安装"><a href="#server-安装" class="headerlink" title="server 安装"></a>server 安装</h3><pre><code>pip install shadowsocks
+</code></pre><h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><pre><code># 新建文件 /etc/shadowsocks.json
+
+{
+    &quot;server&quot;:&quot;0.0.0.0&quot;,
+    &quot;server_port&quot;:8888,
+    &quot;local_address&quot;: &quot;127.0.0.1&quot;,
+    &quot;local_port&quot;:1080,
+    &quot;password&quot;:&quot;mypassword&quot;,
+    &quot;timeout&quot;:300,
+    &quot;method&quot;:&quot;aes-256-cfb&quot;,
+    &quot;fast_open&quot;: false
+}
+</code></pre><h3 id="多用户配置，配置多个端口"><a href="#多用户配置，配置多个端口" class="headerlink" title="多用户配置，配置多个端口"></a>多用户配置，配置多个端口</h3><pre><code>&quot;port_password&quot;:
+{
+    &quot;20000&quot;: &quot;password0&quot;,
+    &quot;20001&quot;: &quot;password1&quot;,
+    &quot;20002&quot;: &quot;password2&quot;,
+}
+&quot;_comment&quot;:
+{
+    &quot;20000&quot;: &quot;userA&quot;,
+    &quot;20001&quot;: &quot;userB&quot;,
+    &quot;20002&quot;: &quot;userC&quot;,
+}
+</code></pre><h3 id="运行，退出"><a href="#运行，退出" class="headerlink" title="运行，退出"></a>运行，退出</h3><pre><code>ssserver -c /etc/shadowsocks.json -d start
+ssserver -c /etc/shadowsocks.json -d stop
+</code></pre>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/12/05/Tools/vim/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1112,274 +1512,6 @@ int main(){
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/11/05/data_structure/dataStructure_tree/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jokers">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jokers's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/11/05/data_structure/dataStructure_tree/" itemprop="url">数据结构--二叉树</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-05T08:00:00+08:00">
-                2018-11-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Data-Structure/" itemprop="url" rel="index">
-                    <span itemprop="name">Data Structure</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/11/05/data_structure/dataStructure_tree/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/11/05/data_structure/dataStructure_tree/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="前序序列构建二叉树"><a href="#前序序列构建二叉树" class="headerlink" title="前序序列构建二叉树"></a>前序序列构建二叉树</h3><pre><code>#include &lt;stdio.h&gt;
-
-#define MAX 100
-
-typedef struct Node{
-    char data;
-    struct Node \*lChild;
-    struct Node \*rChild;
-}BinTNode;
-
-typedef BintNode \*BinTree;
-
-int mkTree(BinTree bt, char \*str, int i){
-    bt-&gt;lChild = NULL;
-    bt-&gt;rChild = NULL;
-    bt-&gt;data = str[i];
-    printf(&quot;%c\n&quot;, bt-&gt;data);
-    if(i&lt;strlen(str)-1 &amp;&amp; str[i+1]!=&apos;.&apos;){
-        bt-&gt;lchild = (BinTNode \*)malloc(sizeof(BinTNode));
-        i = mkTree(bt-&gt;lchild, str, i+1);
-    }
-    i++;
-    if(i&lt;strlen(str)-1 &amp;&amp; str[i+1]!=&apos;.&apos;){
-        bt-&gt;rchild = (BinTNode \*)malloc(sizeof(BinTNode));
-        i = mkTree(bt-&gt;rchild, str, i+1);
-    }
-    return i;
-}
-
-&lt;!-- 前序遍历 --&gt;
-void preSort(BintTree bt){
-    if(bt){
-        printf(&quot;%c-&gt;&quot;, bt-&gt;data);
-        preSort(bt-&gt;lchild);
-        preSort(bt-&gt;rchild);
-    }
-}
-
-int main(){
-    BintTree bt = (BinTNode \*)malloc(sizeof(BinTNode));
-    char str[MAX];
-    scanf(&quot;%s&quot;, str);
-    printf(&quot;%s&quot;, str);
-    mkTree(bt, str, 0);
-    preSort(bt);
-    return 0;
-}
-</code></pre><h3 id="中后序列构建二叉树"><a href="#中后序列构建二叉树" class="headerlink" title="中后序列构建二叉树"></a>中后序列构建二叉树</h3><pre><code>#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-#include &lt;string.h&gt;
-
-typedef struct Node{
-    char data;
-    struct Node \*lchild;
-    struct Node \*rchild;
-}BinTNode;
-
-typedef BinTNode \*BinTree;
-
-#define MAX 100
-
-void mkBinTree(BinTree bt, char \*inter, int ii, int ij, char \*post, int pi, int pj){
-    bt-&gt;lchild = NULL;
-    bt-&gt;rchild = NULL;
-    bt-&gt;data = post[pj];
-    int n = 0;
-    for(int i=ii; i&lt;=ij; i++){
-        if(post[pj] == inter[i]){
-            n = i-ii;
-            if(i&gt;ii){
-                bt-&gt;lchild = (BinTNode \*)malloc(sizeof(BinTNode));
-                mkBinTree(bt-&gt;lchild, inter, ii, i-1, post, pi, pi+n-1);
-            }
-            if(i&lt;ij){
-                bt-&gt;rchild = (BinTNode \*)malloc(sizeof(BinTNode));
-                mkBinTree(bt-&gt;rchild, inter, i+1, ij, post, pi+n, pj-1);
-            }
-        }
-    }
-}
-
-void preOrder(BinTree bt){
-    if(bt){
-        printf(&quot;%c&quot;, bt-&gt;data);
-        preOrder(bt-&gt;lchild);
-        preOrder(bt-&gt;rchild);
-    }
-}
-
-int btDepth(BinTree bt){
-    if(bt == NULL)
-        return 0;
-    int ldepth = 0;
-    int rdepth = 0;
-    ldepth = btDepth(bt-&gt;lchild);
-    rdepth = btDepth(bt-&gt;rchild);
-    if(ldepth&gt;rdepth)
-        return ldepth+1;
-    else
-        return rdepth+1;
-}
-
-int main(){
-    BinTree bt = (BinTNode \*)malloc(sizeof(BinTNode));
-    char inter[MAX];//前序序列
-    char post[MAX];//后序序列
-    scanf(&quot;%s&quot;, inter);
-    scanf(&quot;%s&quot;, post);
-    mkBinTree(bt, inter, 0, strlen(inter)-1, post, 0, strlen(post)-1);
-    preOrder(bt);
-    printf(&quot;\n&quot;);
-    int depth;
-    depth = btDepth(bt);
-    printf(&quot;%d\n&quot;, depth);
-    return 0;
-}
-</code></pre>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/11/05/data_structure/dataStructure_order/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1609,6 +1741,274 @@ int main(){
         R[n].v = t;
     }
     selectSort(R, n);
+    return 0;
+}
+</code></pre>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/11/05/data_structure/dataStructure_tree/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/11/05/data_structure/dataStructure_tree/" itemprop="url">数据结构--二叉树</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-05T08:00:00+08:00">
+                2018-11-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Data-Structure/" itemprop="url" rel="index">
+                    <span itemprop="name">Data Structure</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/11/05/data_structure/dataStructure_tree/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/11/05/data_structure/dataStructure_tree/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="前序序列构建二叉树"><a href="#前序序列构建二叉树" class="headerlink" title="前序序列构建二叉树"></a>前序序列构建二叉树</h3><pre><code>#include &lt;stdio.h&gt;
+
+#define MAX 100
+
+typedef struct Node{
+    char data;
+    struct Node \*lChild;
+    struct Node \*rChild;
+}BinTNode;
+
+typedef BintNode \*BinTree;
+
+int mkTree(BinTree bt, char \*str, int i){
+    bt-&gt;lChild = NULL;
+    bt-&gt;rChild = NULL;
+    bt-&gt;data = str[i];
+    printf(&quot;%c\n&quot;, bt-&gt;data);
+    if(i&lt;strlen(str)-1 &amp;&amp; str[i+1]!=&apos;.&apos;){
+        bt-&gt;lchild = (BinTNode \*)malloc(sizeof(BinTNode));
+        i = mkTree(bt-&gt;lchild, str, i+1);
+    }
+    i++;
+    if(i&lt;strlen(str)-1 &amp;&amp; str[i+1]!=&apos;.&apos;){
+        bt-&gt;rchild = (BinTNode \*)malloc(sizeof(BinTNode));
+        i = mkTree(bt-&gt;rchild, str, i+1);
+    }
+    return i;
+}
+
+&lt;!-- 前序遍历 --&gt;
+void preSort(BintTree bt){
+    if(bt){
+        printf(&quot;%c-&gt;&quot;, bt-&gt;data);
+        preSort(bt-&gt;lchild);
+        preSort(bt-&gt;rchild);
+    }
+}
+
+int main(){
+    BintTree bt = (BinTNode \*)malloc(sizeof(BinTNode));
+    char str[MAX];
+    scanf(&quot;%s&quot;, str);
+    printf(&quot;%s&quot;, str);
+    mkTree(bt, str, 0);
+    preSort(bt);
+    return 0;
+}
+</code></pre><h3 id="中后序列构建二叉树"><a href="#中后序列构建二叉树" class="headerlink" title="中后序列构建二叉树"></a>中后序列构建二叉树</h3><pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+
+typedef struct Node{
+    char data;
+    struct Node \*lchild;
+    struct Node \*rchild;
+}BinTNode;
+
+typedef BinTNode \*BinTree;
+
+#define MAX 100
+
+void mkBinTree(BinTree bt, char \*inter, int ii, int ij, char \*post, int pi, int pj){
+    bt-&gt;lchild = NULL;
+    bt-&gt;rchild = NULL;
+    bt-&gt;data = post[pj];
+    int n = 0;
+    for(int i=ii; i&lt;=ij; i++){
+        if(post[pj] == inter[i]){
+            n = i-ii;
+            if(i&gt;ii){
+                bt-&gt;lchild = (BinTNode \*)malloc(sizeof(BinTNode));
+                mkBinTree(bt-&gt;lchild, inter, ii, i-1, post, pi, pi+n-1);
+            }
+            if(i&lt;ij){
+                bt-&gt;rchild = (BinTNode \*)malloc(sizeof(BinTNode));
+                mkBinTree(bt-&gt;rchild, inter, i+1, ij, post, pi+n, pj-1);
+            }
+        }
+    }
+}
+
+void preOrder(BinTree bt){
+    if(bt){
+        printf(&quot;%c&quot;, bt-&gt;data);
+        preOrder(bt-&gt;lchild);
+        preOrder(bt-&gt;rchild);
+    }
+}
+
+int btDepth(BinTree bt){
+    if(bt == NULL)
+        return 0;
+    int ldepth = 0;
+    int rdepth = 0;
+    ldepth = btDepth(bt-&gt;lchild);
+    rdepth = btDepth(bt-&gt;rchild);
+    if(ldepth&gt;rdepth)
+        return ldepth+1;
+    else
+        return rdepth+1;
+}
+
+int main(){
+    BinTree bt = (BinTNode \*)malloc(sizeof(BinTNode));
+    char inter[MAX];//前序序列
+    char post[MAX];//后序序列
+    scanf(&quot;%s&quot;, inter);
+    scanf(&quot;%s&quot;, post);
+    mkBinTree(bt, inter, 0, strlen(inter)-1, post, 0, strlen(post)-1);
+    preOrder(bt);
+    printf(&quot;\n&quot;);
+    int depth;
+    depth = btDepth(bt);
+    printf(&quot;%d\n&quot;, depth);
     return 0;
 }
 </code></pre>
@@ -2071,991 +2471,6 @@ int main(){
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/11/05/data_structure/dataStructure/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jokers">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jokers's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/11/05/data_structure/dataStructure/" itemprop="url">数据结构</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-05T07:00:00+08:00">
-                2018-11-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Data-Structure/" itemprop="url" rel="index">
-                    <span itemprop="name">Data Structure</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/11/05/data_structure/dataStructure/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/11/05/data_structure/dataStructure/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="线性表"><a href="#线性表" class="headerlink" title="线性表"></a>线性表</h2><h3 id="逻辑结构"><a href="#逻辑结构" class="headerlink" title="逻辑结构"></a>逻辑结构</h3><p>n个数据元素构成的有限序列。有且仅有一个开始结点a(1)，它没有直接前趋，仅有一直接后继。有且仅有一个终端点a(n)，它没有直接后继，仅有一个直接前趋。其余结点都仅有一个直接前趋和直接后继。<br>数据运算定义在逻辑结构，而具体实现在存储结构上。</p>
-<h3 id="线性表的顺序存储结构"><a href="#线性表的顺序存储结构" class="headerlink" title="线性表的顺序存储结构"></a>线性表的顺序存储结构</h3><p>把线性表的结点按逻辑次序依次存放在一组连续的存储单元里。简称顺序表。<br>高级语言中向量或一维数组采用顺序存储，可用来描述顺序表。</p>
-<pre><code># define ListSize 100
-typedef int DataType;
-typedef struct {
-    DataType data[ListSize];
-    int length;
-}SeqList;
-</code></pre><ul>
-<li><p>插入</p>
-<pre><code>void InsertList(SeqList * L, DataType x, int i){
-    if(i&lt;1 || i&gt;L-&gt;length+1)
-        Error(&quot;Position Error&quot;);
-    if(L-&gt;length&gt;=ListSize)
-        Error(&quot;Overflow&quot;);
-    for(int j=L-&gt;length; j&gt;=i; j--){
-        L-&gt;data[j] = L-&gt;data[j-1];
-    }
-    L[i-1] = x;
-    L-&gt;length ++;
-}
-</code></pre></li>
-<li><p>删除</p>
-<pre><code>void DeleteList(SeqList * L, int i){
-    if(i&lt;1 || i&gt;L-&gt;length-1){
-        Error(&quot;Position Error&quot;);
-    }
-    for(int j=i; j&lt;L-&gt;length; j++){
-        L-&gt;data[j-1] = L-&gt;data[j];
-    }
-    L-&gt;length --;
-}
-</code></pre></li>
-</ul>
-<h3 id="线性表的链式存储结构"><a href="#线性表的链式存储结构" class="headerlink" title="线性表的链式存储结构"></a>线性表的链式存储结构</h3><p>顺序存储结构的插入和删除操作会移动大量结点，为避免大量结点的移动，可使用链式存储结构。链式存储还可用于各种非线形的逻辑结构。<br>物理存储单元的地址可以不连续，单链表每个结点除了存储值以外还要存储后继结点的地址。<br>c语言描述如下：</p>
-<pre><code>typedef char DataType;
-typedef struct node{
-    DataType value;
-    struct node * next;
-}ListNode;
-typedef ListNode * LinkList;
-LinkList head;
-ListNode * p;
-</code></pre><p>ListNode * 和 LinkList 是同一个指针类型，命名不同的目的是概念上更明确。head表示单链表的头指针，p表示结点指针。<br>p的值是某一节点地址，程序执行过程中生成属于动态变量，通过标准函数生成，即：</p>
-<pre><code>p = (ListNode * )malloc(sizeof(ListNode))
-</code></pre><ul>
-<li><p>头插法创建单链表</p>
-<pre><code>LinkList CreateListF(){
-    LinkList head;
-    head = NULL;
-    ListNode * s;
-    char ch = getchar();
-    while(ch != &apos;\n&apos;){
-        s = (ListNode * )malloc(sieof(ListNode));
-        s -&gt; value = ch;
-        s -&gt; next = head;
-        head = s;
-        ch = getchar();
-    }
-    return head;
-}
-</code></pre></li>
-<li><p>尾插法创建单链表</p>
-<pre><code>LinkList CreateListT(){
-    LinkList head;
-    head = NULL;
-    LinkList tail;
-    tail = NULL;
-    ListNode * s;
-    char ch = getchar();
-    while(ch != &apos;\n&apos;){
-        s = (ListNode * )malloc(sieof(ListNode));
-        s -&gt; value = ch;
-        tail -&gt; next = s;
-        tail = s;
-        ch = getchar();
-        if(head == NULL)
-            head = s
-    }
-    if(r != NULL)
-        r -&gt; next = NULL;  //尾节点置空
-    return head;
-}
-</code></pre></li>
-<li><p>查找</p>
-<pre><code>//按位置查找
-ListNode * GetNode(LinkList head, int i){
-    int j = 0;
-    ListNode p = head;
-    while(j&lt;i &amp;&amp; p-&gt;next){
-        p = p-&gt;next;
-        j++;
-    }
-    if(j == i)
-        return p;
-    else
-        return NULL;
-}
-
-//按值查找
-ListNode * LocateNode(LinkList head, DataType key){
-    ListNode * p;
-    p = head-&gt;next;
-    while(p){
-        if(key == p-&gt;value)
-            return p;
-        p = p-&gt;next;
-    }
-    return NULL;
-}
-</code></pre></li>
-<li><p>插入</p>
-<pre><code>void InsertList(LinkList head, DataType x, int i){
-    ListNode * p = GetNode(head, i-1);
-    if(p == NULL)
-        Error(&quot;Position Error&quot;);
-    ListNode * s = (ListNode * )malloc(sizeof(ListNode));
-    s -&gt; value = x;
-    s -&gt; next = p -&gt; next;
-    p -&gt; next = s;
-}
-
-void DeleteList(LinkList head, int i){
-    ListNode * p = GetNode(head, i-1);
-    if(p == NULL || p-&gt;next==NULL)
-        Error(&quot;Position Error&quot;);
-    r = p-&gt;next;
-    p -&gt; next = r-&gt;next;
-    free(r);
-}
-</code></pre></li>
-</ul>
-<h2 id="栈和队列"><a href="#栈和队列" class="headerlink" title="栈和队列"></a>栈和队列</h2><p>逻辑结构与线性表相同，又称为运算受限的线性表。</p>
-<h3 id="栈"><a href="#栈" class="headerlink" title="栈"></a>栈</h3><p>顺序栈的定义</p>
-<pre><code># define StackSize 100
-typedef char DataType;
-typedef struct{
-    DataType data[StackSize];
-    int top; # 指示当前栈顶位置，又称栈顶指针
-}SeqStack;
-</code></pre><h3 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h3><h4 id="顺序队列"><a href="#顺序队列" class="headerlink" title="顺序队列"></a>顺序队列</h4><p>顺序队列，分别设置队头front指针和队尾rear指针。初值均为0。当插入元素时，插入rear所指位置，rear加1。当删除元素时，删除front所指位置，front加1。可见当front==rear时，队列为空。为防止假上溢现象，将向量空间想像为首尾相接的循环向量称为循环队列。<br>加1操作可描述为模运算</p>
-<pre><code>i = (i+1)%QueueSize;
-</code></pre><p>注意，循环队列front==rear时，可能是队列满<br>循环队列定义</p>
-<pre><code># define QueueSize 100
-typedef char DataType;
-typedef struct{
-    DataType data[QueueSize];
-    int front;
-    int rear;
-    int count; # 区分队列空或满
-} CirQueue;
-</code></pre><ul>
-<li><p>队列初始化</p>
-<pre><code>void InitQueue(CirQueue * Q){
-    Q-&gt;front = Q-&gt;rear = 0;
-    Q-&gt;count = 0;
-}
-</code></pre></li>
-</ul>
-<h3 id="栈和队列应用实例"><a href="#栈和队列应用实例" class="headerlink" title="栈和队列应用实例"></a>栈和队列应用实例</h3><ul>
-<li><p>十进制整数N转换为B进制数</p>
-<pre><code>void MultiBaseOutput(int N, int B){
-    SeqStack S;
-    int i;
-    while(N != 0){
-        push(&amp;S, N%B);
-        N = N/B #整除
-    }
-    while(!StackEmpty(S)){
-        i = pop(&amp;S);
-        printf(&quot;%d&quot;, i);
-    }
-}
-</code></pre></li>
-</ul>
-<p>时间复杂度为O(log(B)N)</p>
-<ul>
-<li>递归</li>
-</ul>
-<p>递归设计步骤：1、分解为类似原问题特性的子问题。2、保证有限次递归后满足终止条件</p>
-<h2 id="树"><a href="#树" class="headerlink" title="树"></a>树</h2><h3 id="树的基本概念"><a href="#树的基本概念" class="headerlink" title="树的基本概念"></a>树的基本概念</h3><ul>
-<li>树是一种非常重要的非线性结构</li>
-<li>一个结点拥有的子树称为该结点的度，树的度为结点最大度数。度为零的结点称为叶子结点。</li>
-<li>结点的层数从根算起，最大层数称为树的高度或深度</li>
-</ul>
-<h3 id="二叉树"><a href="#二叉树" class="headerlink" title="二叉树"></a>二叉树</h3><ul>
-<li>二叉树第i层的结点个数最多是2^(i-1)</li>
-<li>深度为k的二叉树至多有2^k-1个结点</li>
-<li>终端结点即度数为0的结点个数为n0，度数为2的结点个树是n2，有n0=n2+1</li>
-<li>满二叉树，深度位k且有2^k-1个结点</li>
-<li>完全二叉树，最底层的结点集中在左边</li>
-</ul>
-<h4 id="二叉树的链式存储"><a href="#二叉树的链式存储" class="headerlink" title="二叉树的链式存储"></a>二叉树的链式存储</h4><pre><code>typedef char DataType;
-typedef struct node{
-    DataType data;
-    struct node * left;
-    struct node * right;
-}BinTNode;
-typedef BinTNode * BinTree;
-</code></pre><h4 id="二叉树的遍历"><a href="#二叉树的遍历" class="headerlink" title="二叉树的遍历"></a>二叉树的遍历</h4><p>前序遍历，中序遍历，后序遍历</p>
-<pre><code># 中序遍历
-void Inorder(BinTree * T){
-    if(T){
-        Iorder(T-&gt;lchild);
-        print(&quot;%c&quot;, T-&gt;data)
-        Iorder(T-&gt;rchild);
-    }
-}
-</code></pre><h4 id="二叉树的构建"><a href="#二叉树的构建" class="headerlink" title="二叉树的构建"></a>二叉树的构建</h4><pre><code># 先序序列构建二叉树
-void createBinTree(BinTree T){
-    char c;
-    c = getchar();
-    if(c == &apos; &apos;){
-        T = NULL;
-    }else{
-        T = (BinTNode * )malloc(sizeof(BinTNode));
-        T -&gt; data = c;
-        createBinTree(T -&gt; lchild);
-        createBinTree(T -&gt; rchild);
-    }   
-}
-</code></pre><h4 id="层次遍历"><a href="#层次遍历" class="headerlink" title="层次遍历"></a>层次遍历</h4><h4 id="求叶子和结点个数"><a href="#求叶子和结点个数" class="headerlink" title="求叶子和结点个数"></a>求叶子和结点个数</h4><h2 id="图"><a href="#图" class="headerlink" title="图"></a>图</h2><h3 id="图的基本概念"><a href="#图的基本概念" class="headerlink" title="图的基本概念"></a>图的基本概念</h3><ul>
-<li>G = (V, E)</li>
-<li>有n(n-1)/2条边的图称为完全无向图</li>
-<li>有n(n-1)条边的图称为完全有向图</li>
-<li>无向图顶点v的度是关于该顶点边的数目，记为D(v)</li>
-<li>有向图为入度和出度</li>
-<li>边数 = (1/2)度数和</li>
-<li>无向图，若任意顶点连通，称G为连通图</li>
-</ul>
-<h3 id="图的存储结构"><a href="#图的存储结构" class="headerlink" title="图的存储结构"></a>图的存储结构</h3><ul>
-<li><p>邻接矩阵表示法</p>
-<pre><code># define MaxVertexNum 100
-typedef char VertexType;
-typedef int EdgeType;
-typedef struct{
-    VertexType vexs[MaxVertexNum];
-    EdgeType edges[MaxVertexNum][MaxVertexNum];
-    int n, e;
-}MGraph;
-</code></pre></li>
-<li><p>邻接矩阵无向图创建</p>
-<pre><code>void createMGraph(MGraph * g){
-    int i, j, k, w;
-    scanf(&quot;%d%d&quot;, &amp;g-&gt;n, &amp;g-&gt;e);
-    for(i=0; i&lt;g-&gt;n; i++){
-        g-&gt;vexs[i] = getchar();
-    }
-    for(i=0; i&lt;g-&gt;e; i++){
-        for(j=0; j&lt;g-&gt;e; j++){
-            g-&gt;edges[i][j] = 0;
-        }
-    }
-    for(k=0; k&lt;G-&gt;e; k++){
-        scanf(&quot;%d%d%d&quot;, &amp;i, &amp;j, &amp;w);
-        g-&gt;edges[i][j] = w;
-        g-&gt;edges[j][i] = w;
-    }
-}
-</code></pre></li>
-<li><p>邻接表表示法及其创建算法</p>
-<pre><code>typedef struct node{
-    int adjvex;
-    struct node * next;
-}EdgeNode;
-
-typedef struct vnode{
-    VertexType vertex;
-    EdgeNode * firstdege;
-}VertexNode;
-
-typedef VertexNode AdjList[MaxVertexNum];
-
-typedef struct{
-    AdjList adjList;
-    int n, e;
-}ALGraph;
-
-void createALGraph(ALGraph * G){
-    int i, j, k;
-    scanf(&quot;%d %d&quot;, &amp;G-&gt;n, &amp;G-&gt;e);
-    EdgeNode * s;
-    for(i=0; i&lt;G-&gt;n; i++){
-        G-&gt;adjList[i].vertex = getchar();
-        G-&gt;adjList[i].firstdege = NULL:
-    }
-    for(k=0; i&lt;G-&gt;e; k++){
-        scanf(&quot;%d %d&quot;, &amp;i, &amp;j);
-        s = (EdgeNode * )malloc(sizeof(EdgeNode));
-        s -&gt; adjvex = i;
-        s -&gt; next = G-&gt;adjList[j].firstdege;
-        G-&gt;adjList[j].firstdege = s;
-        s = (EdgeNode * )malloc(sizeof(EdgeNode));
-        s -&gt; adjvex = j;
-        s -&gt; next = G-&gt;adjList[i].firstdege;
-        G-&gt;adjList[i].firstdege = s;
-    }
-}
-</code></pre></li>
-</ul>
-<h3 id="图遍历"><a href="#图遍历" class="headerlink" title="图遍历"></a>图遍历</h3><ul>
-<li><p>深度优先遍历–邻接表</p>
-<pre><code>Boolean visited[MaxVertexNum];
-
-void DFSTraverse(ALGraph * G){
-    for(int i=0; i&lt;G-&gt;n; i++)
-        visited[i] = FALSE;
-    for(int j=0; j&lt;G-&gt;n; j++){
-        if(!visited[j])
-            DFS(G, j);
-    }
-}
-
-void DFS(ALGraph * G, int i){
-    printf(&quot;%c&quot;, G-&gt;adjList[i].vertex);
-    visited[i] = TRUE;
-    EdgeNode * p = G-&gt;adjList[i].firstdege;    
-    while(p){
-        if(!visited(p-&gt;adjvex)){
-            DFS(G, p-&gt;adjvex);
-        }
-        p = p-&gt;next;
-    }
-}
-</code></pre></li>
-<li><p>深度优先遍历–邻接矩阵</p>
-<pre><code>int visited[MaxVertexNum];
-void DFTraversal(MGraph * g){
-    int i;
-    for(i=0; i&lt;g-&gt;n; i++){
-        visited[i] = 0;
-    }
-    for(i=0; i&lt;g-&gt;n; i++){
-        if(visited[i] == 0){
-            DFS(g, i);
-        }
-    }
-}
-void DFS(MGraph * g, i){
-    int j;
-    printf(&quot;%c&quot;, g-&gt;vexs[i]);
-    visited[i] = 1;
-    for(j=1; j&lt;g-&gt;n, j++){
-        if(g-&gt;edges[i][j] != 0 &amp;&amp; visited[i] == 0){
-            DFS(g, j);
-        }
-    }
-}
-</code></pre></li>
-<li><p>广度优先遍历–邻接表</p>
-<pre><code>Boolean visited[MaxVertexNum];
-
-void DFSTraverse(ALGraph * G){
-    for(int i=0; i&lt;G-&gt;n; i++)
-        visited[i] = FALSE;
-    for(int j=0; j&lt;G-&gt;n; j++){
-        if(!visited[j])
-            DFS(G, j);
-    }
-}
-
-void DFS(ALGraph * G, int i){
-    printf(&quot;%c&quot;, G-&gt;adjList[i].vertex);
-    visited[i] = TRUE;
-    EnQueue(&amp;Q, i);
-    EdgeNode * p;
-    while(!QueueEmpty(&amp;Q)){
-        i = DeQueue(&amp;Q);
-        p = G-&gt;adjList[i].firstdege;
-        while(p){
-            if(!visited(p-&gt;adjvex)){
-                printf(&quot;%c&quot;, G-&gt;adjList[p-&gt;adjvex].vertex);
-                visited[p-&gt;adjvex] = TRUE;
-                EnQueue(&amp;Q, i);
-            }
-            p = p-&gt;next;
-        }
-    }
-}
-</code></pre></li>
-<li><p>广度优先遍历–邻接矩阵</p>
-<pre><code>int visited[MaxVertexNum];
-void DFTraversal(MGraph * g){
-    int i;
-    for(i=0; i&lt;g-&gt;n; i++){
-        visited[i] = 0;
-    }
-    for(i=0; i&lt;g-&gt;n; i++){
-        if(visited[i] == 0){
-            BFS(g, i);
-        }
-    }
-}
-void BFS(MGraph * g, i){
-    int j;
-    printf(&quot;%c&quot;, g-&gt;vexs[i]);
-    visited[i] = 1;
-    EnQueue(i); //队列，先进先出
-    while(!QueueEmpty()){
-        i = DeQueue();
-        for(j=1; j&lt;g-&gt;n, j++){
-            if(g-&gt;edges[i][j] != 0 &amp;&amp; visited[i] == 0){
-                printf(&quot;%c&quot;, g-&gt;vexs[j]);
-                EnQueue(j);
-            }
-        }
-    }
-}
-</code></pre></li>
-</ul>
-<h2 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h2><h3 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h3><ul>
-<li><p>直接插入排序</p>
-<pre><code># define n 100
-typedef struct{
-    int key;
-}RecType;
-
-typedef RecType SeqList[n+1];
-
-void insertSort(SeqList R){
-    int i, j, k;
-    // 循环
-    for(i=2; i&lt;=n; i++){
-        R[0].key = R[i].key;
-        for(j=i-1; j&gt;=0; j--){
-            if(R[j].key &lt;= R[i].key){
-                break;
-            }
-        }
-        if(j &lt; i-1){
-            for(k=i-1; k&gt;j; k--){
-                R[k+1].key = R[k].key;
-            }
-            R[j+1].key = R[0].key;
-        }
-    }
-}
-</code></pre></li>
-<li><p>希尔排序</p>
-</li>
-</ul>
-<h3 id="交换排序"><a href="#交换排序" class="headerlink" title="交换排序"></a>交换排序</h3><ul>
-<li><p>冒泡</p>
-<pre><code>void BubbleSort(SeqList R){
-    int i, j;
-    Boolean exchange;
-    for(i=1; i&lt;n; i++){
-        exchange = FALSE;
-        for(j=n; j&gt;i; j--){
-            if(R[j]&lt;R[j-1]){
-                R[0] = R[j-1];
-                R[j-1] = R[j];
-                R[j] = R[0];
-                exchange = TRUE;
-            }
-        }
-        if(!exchange)
-            break;
-    }
-}
-</code></pre></li>
-<li><p>快速排序</p>
-<pre><code>void QuickSort(SeqList R, int low, int high){
-    int pivotpos;
-    if(low &lt; high){
-        pivotpos = Partition(R, low, high);
-        QuickSort(R, low, pivotpos-1);
-        QuickSort(R, pivotpos+1, high)
-    }
-}
-
-void Partition(SeqList R, int i, int j){
-    RecType pivot = R[i];
-    while(i&lt;j){
-        while(i&lt;j &amp;&amp; R[j]&gt;=pivot){
-            j--;
-        }
-        if(i&lt;j){
-            R[i] = R[j];
-            i++;
-        }
-        while(i&lt;j &amp;&amp; R[i]&lt;=pivot){
-            i++;
-        }
-        if(i&lt;j){
-            R[j] = R[i];
-            j--;
-        }
-    }
-    R[i] = pivot;
-    return i;
-}
-</code></pre></li>
-</ul>
-<h3 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h3><ul>
-<li><p>直接选择排序</p>
-<pre><code>void selectSort(SeqList R){
-    int i, j, k;
-    for(i=1; i&lt;n; i++){
-        k = i;
-        for(j=i+1; j&lt;=n; j++){
-            if(R[j] &lt; R[k]){
-                k = j;
-            }
-        }
-        if(k != i){
-            R[0] = R[i];
-            R[i] = R[k];
-            R[k] = R[0];
-        }
-    }
-}
-</code></pre></li>
-<li><p>堆排序</p>
-<pre><code>void HeapSort(SeqList R){
-    int i;
-    BuidHeap(R);
-    for(i=n; i&gt;1; i--){
-        R[0] = R[1];
-        R[1] = R[i]
-        R[i] = R[0];
-        Heapify(R, 1, i-1);
-    }
-}
-
-void Heapify(SeqList R, int low, int high){
-    while(low &lt;= high){
-        tmp = 2*low;
-        if(R[low]&gt;=R[tmp] &amp;&amp; R[low]&gt;=R[tmp+1])
-            break;
-        if(tmp+1&lt;=high &amp;&amp; R[tmp]&lt;R[tmp+1])
-            tmp ++;
-        t = R[low];
-        R[low] = R[tmp];
-        R[tmp] = t;
-        low = tmp;
-    }
-}
-
-void BuidHeap(SeqList R){
-    for(int i=n/2; i&gt;=1; i--)
-        Heapify(R, i, n)
-}
-</code></pre></li>
-</ul>
-<h3 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h3><pre><code>void Merge(SeqList R, int low, int m, int high){
-    // R[low...m]和R[m+1...high]为有序序列
-    RecType * R1 = (RecType * )malloc((high-low+1)* sizeof(RecType));
-    int i = low;
-    int j = m+1;
-    int p = 0;
-    while(i&lt;=m &amp;&amp; j&lt;=high)
-        R1[p++] = (R[i]&lt;=R[j]):R[i++]?R[j++];
-    while(i&lt;=m)
-        R1[p++] = R[i++];
-    while(j&lt;=high)
-        R1[p++] = R[j++];
-    for(p=0,i=low; i&lt;=high; i++, p++){
-        R[i] = R1[p];   
-    }
-}
-
-// 自顶向下
-void MergeSortDC(SeqList R, int low, int high){
-    int mid;
-    if(low &lt; high){
-        mid = (low + high)/2;
-        MergeSortDC(R, low, mid);
-        MergeSortDC(R, mid+1, high);
-        Merge(R, low, mid, high);
-    }
-}
-</code></pre>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/10/21/computer_network/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jokers">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jokers's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/10/21/computer_network/" itemprop="url">计算机网络原理</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-21T09:00:00+08:00">
-                2018-10-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/基础知识/" itemprop="url" rel="index">
-                    <span itemprop="name">基础知识</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/10/21/computer_network/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/10/21/computer_network/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="第三章-传输层"><a href="#第三章-传输层" class="headerlink" title="第三章 传输层"></a>第三章 传输层</h2><h3 id="TCP拥塞控制"><a href="#TCP拥塞控制" class="headerlink" title="TCP拥塞控制"></a>TCP拥塞控制</h3><p>TCP拥塞控制不基于拥塞状态反馈（丢弃分组，警告位），是与网络层拥塞控制的区别。TCP拥塞控制通过超时和三次重复确认推断拥塞。拥塞控制算法有慢启动、拥塞避免、快速恢复和快速重传。涉及到发送端的一个变量拥塞窗口CongWin。在慢启动阶段，每接收到一个ACK，CongWin加一个MSS数值，在一个RTT后翻倍。CongWin超过初始阈值Threshold进入在拥塞避免阶段，每个RTT，ConWin加1。一旦推断拥塞，Threshold=CongWin/2，CongWin=1，进入慢启动。反映了加性增加和乘性减小。后期引入快送重传和快速恢复算法，快速重传就是发生三次重复确认，重传报文段。快速恢复区别对待超时和三次重复确认，对发生三次重复确认，只是从新的阈值开始进入拥塞避免阶段。</p>
-<h2 id="第四章-网络层"><a href="#第四章-网络层" class="headerlink" title="第四章 网络层"></a>第四章 网络层</h2><h3 id="网络层服务"><a href="#网络层服务" class="headerlink" title="网络层服务"></a>网络层服务</h3><ul>
-<li>转发</li>
-<li>路由选择<br>路由选择算法计算路由，将路由信息存储到路由转发表，转发分组时查询转发表并转发分组。</li>
-<li>连接建立</li>
-</ul>
-<h3 id="数据报网络和虚电路网络"><a href="#数据报网络和虚电路网络" class="headerlink" title="数据报网络和虚电路网络"></a>数据报网络和虚电路网络</h3><ul>
-<li>是否面向连接</li>
-<li>虚电路网络又分为永久型和交换型（更具需要临时建立）</li>
-<li>数据报网络和虚电路网络的主要区别是顺序控制、流量控制和差错控制是由网络完成还是端系统完成。</li>
-</ul>
-<h3 id="网络互联与网络互联设备"><a href="#网络互联与网络互联设备" class="headerlink" title="网络互联与网络互联设备"></a>网络互联与网络互联设备</h3><h4 id="异构网络互联的方式"><a href="#异构网络互联的方式" class="headerlink" title="异构网络互联的方式"></a>异构网络互联的方式</h4><ul>
-<li>协议转换</li>
-<li>构建虚拟互联网络，使用虚拟互联网络设备转发分组。<br>IP网络就是虚拟互联网络，Internet是最大的IP网络，网络层协议–IP，网络询址–IP地址，网络互联设备–路由器<h4 id="路由器"><a href="#路由器" class="headerlink" title="路由器"></a>路由器</h4></li>
-<li>每个输入端口都有路由转发表的副本和缓存功能</li>
-<li>输入端口到输出端口分组的转发，由交换结构完成<h4 id="交换结构的实现方式："><a href="#交换结构的实现方式：" class="headerlink" title="交换结构的实现方式："></a>交换结构的实现方式：</h4></li>
-<li>基于内存交换，性能低，便宜</li>
-<li>基于总线交换，无需处理器介入，总线具有独占特性</li>
-<li>基于网络交换，可以并行交换，但是对同一输出端口的交换是串行的<h4 id="路由转发转发原则"><a href="#路由转发转发原则" class="headerlink" title="路由转发转发原则"></a>路由转发转发原则</h4>路由转发时，有多条路由项匹配成功，选择网络前缀匹配成功最长的路由项，最长前缀匹配优先原则</li>
-</ul>
-<h3 id="网络层拥塞控制"><a href="#网络层拥塞控制" class="headerlink" title="网络层拥塞控制"></a>网络层拥塞控制</h3><h4 id="拥塞控制和流量控制的区别"><a href="#拥塞控制和流量控制的区别" class="headerlink" title="拥塞控制和流量控制的区别"></a>拥塞控制和流量控制的区别</h4><p>流量控制是发送方根据接受方的缓存和数据处理的能力调整数据发送速率和发送量。拥塞控制是根据网络通过能力或拥挤程度调节速率和发送量。</p>
-<h4 id="几种常用的网络层的拥塞控制措施"><a href="#几种常用的网络层的拥塞控制措施" class="headerlink" title="几种常用的网络层的拥塞控制措施"></a>几种常用的网络层的拥塞控制措施</h4><ul>
-<li>流量感知路由，拥塞预防措施</li>
-<li>准入控制，是否允许构建虚电路</li>
-<li>流量调节，通过抑制分组，直接告知发送方。背压，在发往发送方的路径中，每一跳都抑制输出，优点是快速缓解拥塞，缺点是每一跳都需要更大的缓存。</li>
-<li>负载脱落，选择丢弃数据包，丢弃哪些数据包取决于上层应用</li>
-</ul>
-<h3 id="Internet网络层"><a href="#Internet网络层" class="headerlink" title="Internet网络层"></a>Internet网络层</h3><h4 id="IP数据报分片与重组"><a href="#IP数据报分片与重组" class="headerlink" title="IP数据报分片与重组"></a>IP数据报分片与重组</h4><ul>
-<li>不同链路层协议MTU不同，因此需要对数据报进行分片。</li>
-<li>重组是，根据标识字段判断是否属于同一数据报，标志字段的MF判断是否最后一个分片，偏移字段表示顺序，长度字段判断是否有分片丢失。</li>
-</ul>
-<h4 id="IPv4编址，32位"><a href="#IPv4编址，32位" class="headerlink" title="IPv4编址，32位"></a>IPv4编址，32位</h4><p>基于IP子网的概念将IP地址划分为两部分，前缀即网络部分，后缀即主机部分。</p>
-<ul>
-<li>分类地址<br>  前缀长度    前缀<br>A   8         0XXXXXXXX<br>B   16        10XXXXXXXXXXXXXXXX<br>C   24        110XXXXXXXXXXXXXXXXXXXXXXXX<br>D             1110XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX<br>E             11110XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</li>
-<li>无类地址<br>只有给出子网地址、子往前缀或子网掩码才能准确描述子网规模<br>给定子网内某地址，与子网掩码做按位与运算获得子网地址，与子网掩码的反码按位或运算可得直接广播地址<br>子网的可用IP地址总数要减去子网地址和广播地址<h4 id="路由聚合"><a href="#路由聚合" class="headerlink" title="路由聚合"></a>路由聚合</h4>路由聚合技术缩减路由表项，有效提高查询效率<h4 id="动态主机配置协议DHCP"><a href="#动态主机配置协议DHCP" class="headerlink" title="动态主机配置协议DHCP"></a>动态主机配置协议DHCP</h4>动态分配IP地址，应用层实现，传输层使用UDP<h5 id="分配过程"><a href="#分配过程" class="headerlink" title="分配过程"></a>分配过程</h5></li>
-<li>DHCP发现，目的IP，255.255.255.255，源IP，0.0.0.0</li>
-<li>DHCP服务器提供，广播发送</li>
-<li>DHCP请求，广播发送，因为可能存在多个DHCP服务器</li>
-<li>DHCP确认<h4 id="网络地址转换NAT"><a href="#网络地址转换NAT" class="headerlink" title="网络地址转换NAT"></a>网络地址转换NAT</h4></li>
-<li>NAT通过替换进出内部似有网络的IP数据包的IP地址和端口号，实现使用私有地址的主机与互联网通信。NAT运行在边缘路由器，维护NAT转换表。</li>
-<li>私有地址主机如果希望被动接受外网主机访问，需要NAT穿透<h4 id="ICMP，网络控制报文协议"><a href="#ICMP，网络控制报文协议" class="headerlink" title="ICMP，网络控制报文协议"></a>ICMP，网络控制报文协议</h4>封装在IP数据报中，实现主机和路由器之间的差错报告和网络探测。分为差错报告报文和询问报文两大类。Ping，Traceroute<h4 id="IPv4到IPv6的迁移"><a href="#IPv4到IPv6的迁移" class="headerlink" title="IPv4到IPv6的迁移"></a>IPv4到IPv6的迁移</h4></li>
-<li>双协议栈，同时支持两种协议，使用DNS查询返回地址区分服务端支持的协议</li>
-<li>隧道，客户服务器都使用IPv6但中间路由器不支持怎么办，在进入隧道前的最后一个IPv6路由器上封装称IPv4数据报，目的地址是隧道出口第一个IPv6路由器。<h4 id="路由选择算法"><a href="#路由选择算法" class="headerlink" title="路由选择算法"></a>路由选择算法</h4></li>
-<li>全局式路由选择算法，LS（链路状态）</li>
-<li>分布式路由选择算法，DV（距离向量）</li>
-<li>层次化路由选择<h4 id="Internet路由选择协议"><a href="#Internet路由选择协议" class="headerlink" title="Internet路由选择协议"></a>Internet路由选择协议</h4></li>
-<li>RIP(路由信息协议)<br>内部外观协议，DV</li>
-<li>OSPF(开放式最短路径优先协议)<br>内部外观协议，LS</li>
-<li>BGP(边界网关协议)<br>外部网关协议，DV</li>
-</ul>
-<h2 id="第五章-数据链路层与局域网"><a href="#第五章-数据链路层与局域网" class="headerlink" title="第五章 数据链路层与局域网"></a>第五章 数据链路层与局域网</h2><h3 id="差错控制"><a href="#差错控制" class="headerlink" title="差错控制"></a>差错控制</h3><h4 id="噪声分类"><a href="#噪声分类" class="headerlink" title="噪声分类"></a>噪声分类</h4><ul>
-<li>随机噪声引起差错</li>
-<li>冲击噪声引起突发差错</li>
-</ul>
-<h4 id="差错控制基本方式"><a href="#差错控制基本方式" class="headerlink" title="差错控制基本方式"></a>差错控制基本方式</h4><ul>
-<li>检错重发，停等协议和滑动窗口协议</li>
-<li>前向纠错FEC</li>
-<li>反馈校验，将发送端的数据再发回去</li>
-<li>检错丢弃，允许一定差错存在</li>
-</ul>
-<h4 id="差错编码"><a href="#差错编码" class="headerlink" title="差错编码"></a>差错编码</h4><p>信息位后附加冗余位，信息位与冗余码符合一定关系式</p>
-<h4 id="检错和纠错能力"><a href="#检错和纠错能力" class="headerlink" title="检错和纠错能力"></a>检错和纠错能力</h4><h4 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h4><ul>
-<li>奇偶校验码</li>
-<li>汉明码<br>信息位k 校验位r<br>2^r &gt;= k+r+1</li>
-<li>CRC</li>
-</ul>
-<h3 id="多路访问控制协议"><a href="#多路访问控制协议" class="headerlink" title="多路访问控制协议"></a>多路访问控制协议</h3><p>链路信道分为单播和广播信道，广播信道被所有结点共享，必须采用MAC控制结点信息发送</p>
-<h4 id="信道划分MAC协议"><a href="#信道划分MAC协议" class="headerlink" title="信道划分MAC协议"></a>信道划分MAC协议</h4><h5 id="多路复用技术"><a href="#多路复用技术" class="headerlink" title="多路复用技术"></a>多路复用技术</h5><ul>
-<li>频分多路复用</li>
-<li>时分多路复用<br>同步时分多路复用。异步时分多路复用又称统计时分多路复用，大多用于现代计算机广域传输。</li>
-<li>波分多路复用<br>在光纤通信上的频分多路复用</li>
-<li>码分多路复用<h4 id="随机访问MAC协议"><a href="#随机访问MAC协议" class="headerlink" title="随机访问MAC协议"></a>随机访问MAC协议</h4></li>
-<li>纯ALOHA协议<br>无线信道共享接入，任一站点有发送信息的需要立即发送，监听一段时间，没有接收站的回应则表示发送成功，否则等待随机时间后重发。</li>
-<li>时隙ALOHA协议<br>信道时间划分离散的时隙，每个时隙等于发送一帧所需要的时间，在每个时隙开始阶段发送，出现冲突后下一个时隙以概率P重发该帧</li>
-<li>CSMA，载波监听多路访问协议<br>利用载波监听装置在数据发送之前监听其它站点是否在发送数据。又分为非坚持CSMA（信道忙等待随机时间再监听），1-坚持CSMA（信道忙继续监听直到空闲立即发送数据），P-坚持CSMA（分割时隙，信道空闲以概率P在时隙开始时间发送）</li>
-<li>CSMA/CD，带冲突检测的载波监听多路访问协议<br>发送数据的同时，监听信道，一旦发生冲突立即停止发送，并发出冲突强化信号，使得所有站点都知道冲突发生。L是数据帧最小长度，R是传输速率，D是两站最远距离，V是传播速度，则L/R&gt;=2D/V。<h4 id="受控接入MAC"><a href="#受控接入MAC" class="headerlink" title="受控接入MAC"></a>受控接入MAC</h4></li>
-<li>集中式控制<br>轮叫轮询，传递轮询。主机一旦故障，网络瘫痪</li>
-<li>分散式控制<br>令牌环网<h4 id="受控接入MAC协议"><a href="#受控接入MAC协议" class="headerlink" title="受控接入MAC协议"></a>受控接入MAC协议</h4></li>
-</ul>
-<h3 id="局域网"><a href="#局域网" class="headerlink" title="局域网"></a>局域网</h3><h4 id="数据链路层寻址"><a href="#数据链路层寻址" class="headerlink" title="数据链路层寻址"></a>数据链路层寻址</h4><h5 id="MAC地址"><a href="#MAC地址" class="headerlink" title="MAC地址"></a>MAC地址</h5><ul>
-<li>交换机接口没有MAC地址</li>
-<li>帧的转发由交换机查找交换表转发相应端口，如果目的MAC地址是接收端口则丢弃。</li>
-<li>MAC地址是6个字节，第一个字节的倒数第二位是G/L位，为1时表示本地管理，位0时表示全球管理。</li>
-<li>广播MAC地址全为1<h5 id="ARP，地址解析协议"><a href="#ARP，地址解析协议" class="headerlink" title="ARP，地址解析协议"></a>ARP，地址解析协议</h5></li>
-<li>每台主机有ARP高速缓存，存储MAC地址和IP地址的映射关系。</li>
-<li>每个主机和路由器都有ARP模块，通过广播ARP查询报文可以得到IP地址对应MAC地址</li>
-<li>如果主机和目的主机不在同一个子网，ARP解析默认网关MAC地址，作为目的MAC地址</li>
-<li>ARP查询分组是广播帧发送，响应分组是单播帧<h5 id="ARP与DNS的区别"><a href="#ARP与DNS的区别" class="headerlink" title="ARP与DNS的区别"></a>ARP与DNS的区别</h5></li>
-<li>ARP是IP地址与MAC地址的映射关系，DNS是域名和IP地址的映射关系</li>
-<li>ARP是为子网内主机解析IP地址，DNS是为整个互联网解析主机域名</li>
-<li>DNS是在域名服务器间查询，ARP是在局域网内广播ARP查询<h4 id="以太网"><a href="#以太网" class="headerlink" title="以太网"></a>以太网</h4>802.3协议，第一个广泛部署的告诉局域网,CSMA/CD，曼策斯特编码，提供无连接不可靠服务</li>
-<li>10Base-5 经典的同轴电缆总线型以太网</li>
-<li>10Base-T 非屏蔽双绞线UTP</li>
-<li>100Base-T 快速以太网</li>
-<li>100Base-TX 5类UTP</li>
-<li>100Base-T4 3、4、5类UTP</li>
-<li>100Base-TF 光缆</li>
-<li>1000Base-SX/LX 千兆以太网，光纤传输介质</li>
-<li>1000Base-T 5类UTP</li>
-<li>万兆以太网 扩展了传输速率和距离，开始应用于城域网和广域网<h4 id="交换机"><a href="#交换机" class="headerlink" title="交换机"></a>交换机</h4></li>
-<li>交换机就是多端口的网桥。依据目的MAC地址，选择性的转发端口，这就是转发与过滤功能</li>
-<li>交换机的选择性转发，实现了冲突域的分割。10M以太网，10个用户使用，若使用交换机连接，交换机的总容量相当于100M</li>
-<li>交换机的交换表是通过逆向学习逐步构建的</li>
-<li>交换机是一种即插即用的设备，采用专用的交换结构芯片，其转发速率比软件转发的网桥快得多</li>
-<li>交换机的优点，消除冲突、支持异质链路和网络管理（可以检测到异常适配器并切断<h4 id="虚拟局域网-VLAN"><a href="#虚拟局域网-VLAN" class="headerlink" title="虚拟局域网 VLAN"></a>虚拟局域网 VLAN</h4>为限制广播域的规模，抑制广播风暴，可以使用路由器分割子网，或则构建虚拟局域网，基于交换机的逻辑分割，通过软件方式实现<h5 id="主要方法"><a href="#主要方法" class="headerlink" title="主要方法"></a>主要方法</h5></li>
-<li>基于交换机的端口</li>
-<li>基于MAC地址划分</li>
-<li>基于上层协议类型或地址划分，有利于组成基于应用的VLAN</li>
-</ul>
-<h2 id="物理层"><a href="#物理层" class="headerlink" title="物理层"></a>物理层</h2><h2 id="无线网"><a href="#无线网" class="headerlink" title="无线网"></a>无线网</h2><h2 id="网络安全"><a href="#网络安全" class="headerlink" title="网络安全"></a>网络安全</h2>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -3106,7 +2521,7 @@ void MergeSortDC(SeqList R, int low, int high){
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">43</span>
+                <span class="site-state-item-count">44</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
