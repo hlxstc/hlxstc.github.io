@@ -1716,7 +1716,7 @@ int main(){
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/11/05/data_structure/dataStructure_tree/">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/11/05/data_structure/dataStructure_order/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jokers">
@@ -1735,7 +1735,7 @@ int main(){
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/11/05/data_structure/dataStructure_tree/" itemprop="url">数据结构--二叉树</a></h1>
+                <a class="post-title-link" href="/2018/11/05/data_structure/dataStructure_order/" itemprop="url">数据结构--排序</a></h1>
         
 
         <div class="post-meta">
@@ -1788,9 +1788,9 @@ int main(){
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/11/05/data_structure/dataStructure_tree/#comments" itemprop="discussionUrl">
+                <a href="/2018/11/05/data_structure/dataStructure_order/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/11/05/data_structure/dataStructure_tree/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2018/11/05/data_structure/dataStructure_order/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -1820,120 +1820,131 @@ int main(){
       
         
           
-            <h3 id="前序序列构建二叉树"><a href="#前序序列构建二叉树" class="headerlink" title="前序序列构建二叉树"></a>前序序列构建二叉树</h3><pre><code>#include &lt;stdio.h&gt;
+            <h3 id="直接插入排序"><a href="#直接插入排序" class="headerlink" title="直接插入排序"></a>直接插入排序</h3><pre><code>#include &lt;stdio.h&gt;
 
-#define MAX 100
+#define MAX 1000
 
-typedef struct Node{
-    char data;
-    struct Node \*lChild;
-    struct Node \*rChild;
-}BinTNode;
+typedef struct{
+    int key;
+}Node;
 
-typedef BintNode \*BinTree;
+typedef Node SeqList[MAX+1];
 
-int mkTree(BinTree bt, char \*str, int i){
-    bt-&gt;lChild = NULL;
-    bt-&gt;rChild = NULL;
-    bt-&gt;data = str[i];
-    printf(&quot;%c\n&quot;, bt-&gt;data);
-    if(i&lt;strlen(str)-1 &amp;&amp; str[i+1]!=&apos;.&apos;){
-        bt-&gt;lchild = (BinTNode \*)malloc(sizeof(BinTNode));
-        i = mkTree(bt-&gt;lchild, str, i+1);
-    }
-    i++;
-    if(i&lt;strlen(str)-1 &amp;&amp; str[i+1]!=&apos;.&apos;){
-        bt-&gt;rchild = (BinTNode \*)malloc(sizeof(BinTNode));
-        i = mkTree(bt-&gt;rchild, str, i+1);
-    }
-    return i;
-}
-
-&lt;!-- 前序遍历 --&gt;
-void preSort(BintTree bt){
-    if(bt){
-        printf(&quot;%c-&gt;&quot;, bt-&gt;data);
-        preSort(bt-&gt;lchild);
-        preSort(bt-&gt;rchild);
+void insertSort(SeqList R, int n){
+    for(int i=2; i&lt;=n ; i++){
+        R[0].key = R[i].key;
+        int j;
+        for(j=i-1; j&gt;=0; j--){
+            if(R[j].key &lt;= R[i].key)
+                break;
+        }
+        if(j &lt; i-1){
+            for(int k=i-1; k&gt;j; k--){
+                R[k+1].key = R[k].key;
+            }
+            R[j+1].key = R[0].key;
+        }
     }
 }
 
 int main(){
-    BintTree bt = (BinTNode \*)malloc(sizeof(BinTNode));
-    char str[MAX];
-    scanf(&quot;%s&quot;, str);
-    printf(&quot;%s&quot;, str);
-    mkTree(bt, str, 0);
-    preSort(bt);
+    SeqList R;
+    int t;
+    int n = 0;
+    while (1==1) {
+        scanf(&quot;%d&quot;, &amp;t);
+        if(t == -9999)
+            break;
+        n++;
+        R[n].key = t;
+    }
+    insertSort(R, n);
+    for(int i=1; i&lt;=n; i++){
+        printf(&quot;%d-&gt;&quot;, R[i].key);
+    }
+    printf(&quot;\n&quot;);
     return 0;
 }
-</code></pre><h3 id="中后序列构建二叉树"><a href="#中后序列构建二叉树" class="headerlink" title="中后序列构建二叉树"></a>中后序列构建二叉树</h3><pre><code>#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-#include &lt;string.h&gt;
+</code></pre><h3 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h3><pre><code>#include &lt;stdio.h&gt;
 
-typedef struct Node{
-    char data;
-    struct Node \*lchild;
-    struct Node \*rchild;
-}BinTNode;
+#define MAX 1000
 
-typedef BinTNode \*BinTree;
+typedef struct{
+    int v;
+}Seq;
 
-#define MAX 100
+typedef Seq seqList[MAX+1]
 
-void mkBinTree(BinTree bt, char \*inter, int ii, int ij, char \*post, int pi, int pj){
-    bt-&gt;lchild = NULL;
-    bt-&gt;rchild = NULL;
-    bt-&gt;data = post[pj];
-    int n = 0;
-    for(int i=ii; i&lt;=ij; i++){
-        if(post[pj] == inter[i]){
-            n = i-ii;
-            if(i&gt;ii){
-                bt-&gt;lchild = (BinTNode \*)malloc(sizeof(BinTNode));
-                mkBinTree(bt-&gt;lchild, inter, ii, i-1, post, pi, pi+n-1);
+int bubbleSort(seqList R, int n){
+    for(int i=2; i&lt;=n; i++){
+        int flag = 0;
+        for(int j=n; i&gt;=i; j--){
+            if(R[j].v &lt; R[j-1].v){
+                R[0].v = R[j-1].v;
+                R[j-1].v = R[j].v;
+                R[j].v = R[0].v;
+                flag = 1;
             }
-            if(i&lt;ij){
-                bt-&gt;rchild = (BinTNode \*)malloc(sizeof(BinTNode));
-                mkBinTree(bt-&gt;rchild, inter, i+1, ij, post, pi+n, pj-1);
+        }
+        if(flag == 0){
+            break;
+        }
+    }
+    return 0;
+}
+
+int main(){
+    seqList R;
+    int t;
+    int n = 0;
+    while(true){
+        scanf(&apos;%d&apos;, &amp;t);
+        if(t == -9999)
+            break;
+        n++;
+        R[n].v = t;
+    }
+    bubbleSort(R, n);
+}
+</code></pre><h3 id="直接选择排序"><a href="#直接选择排序" class="headerlink" title="直接选择排序"></a>直接选择排序</h3><pre><code>#include &lt;stdio&gt;
+
+#define MAX 1000
+
+typedef struct{
+    int v;
+}seq;
+
+typedef seq seqList[MAX+1];
+
+void selectSort(seqList R, n){
+    for(int i=1, i&lt;n; i++){
+        int t = i;
+        for(int j=i+1; j&lt;=n; j++){
+            if(R[j].v &lt; t){
+                t = j;
+            }
+            if(t != i){
+                R[0].v = R[i].v;
+                R[i].v = R[t].v;
+                R[t].v = R[0].v;
             }
         }
     }
 }
 
-void preOrder(BinTree bt){
-    if(bt){
-        printf(&quot;%c&quot;, bt-&gt;data);
-        preOrder(bt-&gt;lchild);
-        preOrder(bt-&gt;rchild);
-    }
-}
-
-int btDepth(BinTree bt){
-    if(bt == NULL)
-        return 0;
-    int ldepth = 0;
-    int rdepth = 0;
-    ldepth = btDepth(bt-&gt;lchild);
-    rdepth = btDepth(bt-&gt;rchild);
-    if(ldepth&gt;rdepth)
-        return ldepth+1;
-    else
-        return rdepth+1;
-}
-
 int main(){
-    BinTree bt = (BinTNode \*)malloc(sizeof(BinTNode));
-    char inter[MAX];//前序序列
-    char post[MAX];//后序序列
-    scanf(&quot;%s&quot;, inter);
-    scanf(&quot;%s&quot;, post);
-    mkBinTree(bt, inter, 0, strlen(inter)-1, post, 0, strlen(post)-1);
-    preOrder(bt);
-    printf(&quot;\n&quot;);
-    int depth;
-    depth = btDepth(bt);
-    printf(&quot;%d\n&quot;, depth);
+    seqList R;
+    int n = 0;
+    int t = 0;
+    while(true){
+        scanf(&apos;%d&apos;, &amp;t);
+        if(t == -9999){
+            break;
+        }
+        n++；
+        R[n].v = t;
+    }
+    selectSort(R, n);
     return 0;
 }
 </code></pre>
@@ -2185,7 +2196,7 @@ int main(){
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/11/05/data_structure/dataStructure_order/">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/11/05/data_structure/dataStructure_tree/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jokers">
@@ -2204,7 +2215,7 @@ int main(){
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/11/05/data_structure/dataStructure_order/" itemprop="url">数据结构--排序</a></h1>
+                <a class="post-title-link" href="/2018/11/05/data_structure/dataStructure_tree/" itemprop="url">数据结构--二叉树</a></h1>
         
 
         <div class="post-meta">
@@ -2257,9 +2268,9 @@ int main(){
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/11/05/data_structure/dataStructure_order/#comments" itemprop="discussionUrl">
+                <a href="/2018/11/05/data_structure/dataStructure_tree/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/11/05/data_structure/dataStructure_order/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2018/11/05/data_structure/dataStructure_tree/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -2289,131 +2300,120 @@ int main(){
       
         
           
-            <h3 id="直接插入排序"><a href="#直接插入排序" class="headerlink" title="直接插入排序"></a>直接插入排序</h3><pre><code>#include &lt;stdio.h&gt;
+            <h3 id="前序序列构建二叉树"><a href="#前序序列构建二叉树" class="headerlink" title="前序序列构建二叉树"></a>前序序列构建二叉树</h3><pre><code>#include &lt;stdio.h&gt;
 
-#define MAX 1000
+#define MAX 100
 
-typedef struct{
-    int key;
-}Node;
+typedef struct Node{
+    char data;
+    struct Node \*lChild;
+    struct Node \*rChild;
+}BinTNode;
 
-typedef Node SeqList[MAX+1];
+typedef BintNode \*BinTree;
 
-void insertSort(SeqList R, int n){
-    for(int i=2; i&lt;=n ; i++){
-        R[0].key = R[i].key;
-        int j;
-        for(j=i-1; j&gt;=0; j--){
-            if(R[j].key &lt;= R[i].key)
-                break;
-        }
-        if(j &lt; i-1){
-            for(int k=i-1; k&gt;j; k--){
-                R[k+1].key = R[k].key;
-            }
-            R[j+1].key = R[0].key;
-        }
+int mkTree(BinTree bt, char \*str, int i){
+    bt-&gt;lChild = NULL;
+    bt-&gt;rChild = NULL;
+    bt-&gt;data = str[i];
+    printf(&quot;%c\n&quot;, bt-&gt;data);
+    if(i&lt;strlen(str)-1 &amp;&amp; str[i+1]!=&apos;.&apos;){
+        bt-&gt;lchild = (BinTNode \*)malloc(sizeof(BinTNode));
+        i = mkTree(bt-&gt;lchild, str, i+1);
+    }
+    i++;
+    if(i&lt;strlen(str)-1 &amp;&amp; str[i+1]!=&apos;.&apos;){
+        bt-&gt;rchild = (BinTNode \*)malloc(sizeof(BinTNode));
+        i = mkTree(bt-&gt;rchild, str, i+1);
+    }
+    return i;
+}
+
+&lt;!-- 前序遍历 --&gt;
+void preSort(BintTree bt){
+    if(bt){
+        printf(&quot;%c-&gt;&quot;, bt-&gt;data);
+        preSort(bt-&gt;lchild);
+        preSort(bt-&gt;rchild);
     }
 }
 
 int main(){
-    SeqList R;
-    int t;
+    BintTree bt = (BinTNode \*)malloc(sizeof(BinTNode));
+    char str[MAX];
+    scanf(&quot;%s&quot;, str);
+    printf(&quot;%s&quot;, str);
+    mkTree(bt, str, 0);
+    preSort(bt);
+    return 0;
+}
+</code></pre><h3 id="中后序列构建二叉树"><a href="#中后序列构建二叉树" class="headerlink" title="中后序列构建二叉树"></a>中后序列构建二叉树</h3><pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+
+typedef struct Node{
+    char data;
+    struct Node \*lchild;
+    struct Node \*rchild;
+}BinTNode;
+
+typedef BinTNode \*BinTree;
+
+#define MAX 100
+
+void mkBinTree(BinTree bt, char \*inter, int ii, int ij, char \*post, int pi, int pj){
+    bt-&gt;lchild = NULL;
+    bt-&gt;rchild = NULL;
+    bt-&gt;data = post[pj];
     int n = 0;
-    while (1==1) {
-        scanf(&quot;%d&quot;, &amp;t);
-        if(t == -9999)
-            break;
-        n++;
-        R[n].key = t;
+    for(int i=ii; i&lt;=ij; i++){
+        if(post[pj] == inter[i]){
+            n = i-ii;
+            if(i&gt;ii){
+                bt-&gt;lchild = (BinTNode \*)malloc(sizeof(BinTNode));
+                mkBinTree(bt-&gt;lchild, inter, ii, i-1, post, pi, pi+n-1);
+            }
+            if(i&lt;ij){
+                bt-&gt;rchild = (BinTNode \*)malloc(sizeof(BinTNode));
+                mkBinTree(bt-&gt;rchild, inter, i+1, ij, post, pi+n, pj-1);
+            }
+        }
     }
-    insertSort(R, n);
-    for(int i=1; i&lt;=n; i++){
-        printf(&quot;%d-&gt;&quot;, R[i].key);
+}
+
+void preOrder(BinTree bt){
+    if(bt){
+        printf(&quot;%c&quot;, bt-&gt;data);
+        preOrder(bt-&gt;lchild);
+        preOrder(bt-&gt;rchild);
     }
+}
+
+int btDepth(BinTree bt){
+    if(bt == NULL)
+        return 0;
+    int ldepth = 0;
+    int rdepth = 0;
+    ldepth = btDepth(bt-&gt;lchild);
+    rdepth = btDepth(bt-&gt;rchild);
+    if(ldepth&gt;rdepth)
+        return ldepth+1;
+    else
+        return rdepth+1;
+}
+
+int main(){
+    BinTree bt = (BinTNode \*)malloc(sizeof(BinTNode));
+    char inter[MAX];//前序序列
+    char post[MAX];//后序序列
+    scanf(&quot;%s&quot;, inter);
+    scanf(&quot;%s&quot;, post);
+    mkBinTree(bt, inter, 0, strlen(inter)-1, post, 0, strlen(post)-1);
+    preOrder(bt);
     printf(&quot;\n&quot;);
-    return 0;
-}
-</code></pre><h3 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h3><pre><code>#include &lt;stdio.h&gt;
-
-#define MAX 1000
-
-typedef struct{
-    int v;
-}Seq;
-
-typedef Seq seqList[MAX+1]
-
-int bubbleSort(seqList R, int n){
-    for(int i=2; i&lt;=n; i++){
-        int flag = 0;
-        for(int j=n; i&gt;=i; j--){
-            if(R[j].v &lt; R[j-1].v){
-                R[0].v = R[j-1].v;
-                R[j-1].v = R[j].v;
-                R[j].v = R[0].v;
-                flag = 1;
-            }
-        }
-        if(flag == 0){
-            break;
-        }
-    }
-    return 0;
-}
-
-int main(){
-    seqList R;
-    int t;
-    int n = 0;
-    while(true){
-        scanf(&apos;%d&apos;, &amp;t);
-        if(t == -9999)
-            break;
-        n++;
-        R[n].v = t;
-    }
-    bubbleSort(R, n);
-}
-</code></pre><h3 id="直接选择排序"><a href="#直接选择排序" class="headerlink" title="直接选择排序"></a>直接选择排序</h3><pre><code>#include &lt;stdio&gt;
-
-#define MAX 1000
-
-typedef struct{
-    int v;
-}seq;
-
-typedef seq seqList[MAX+1];
-
-void selectSort(seqList R, n){
-    for(int i=1, i&lt;n; i++){
-        int t = i;
-        for(int j=i+1; j&lt;=n; j++){
-            if(R[j].v &lt; t){
-                t = j;
-            }
-            if(t != i){
-                R[0].v = R[i].v;
-                R[i].v = R[t].v;
-                R[t].v = R[0].v;
-            }
-        }
-    }
-}
-
-int main(){
-    seqList R;
-    int n = 0;
-    int t = 0;
-    while(true){
-        scanf(&apos;%d&apos;, &amp;t);
-        if(t == -9999){
-            break;
-        }
-        n++；
-        R[n].v = t;
-    }
-    selectSort(R, n);
+    int depth;
+    depth = btDepth(bt);
+    printf(&quot;%d\n&quot;, depth);
     return 0;
 }
 </code></pre>
