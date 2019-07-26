@@ -1716,6 +1716,274 @@ int main(){
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/11/05/data_structure/dataStructure_tree/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/11/05/data_structure/dataStructure_tree/" itemprop="url">数据结构--二叉树</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-05T08:00:00+08:00">
+                2018-11-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Data-Structure/" itemprop="url" rel="index">
+                    <span itemprop="name">Data Structure</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/11/05/data_structure/dataStructure_tree/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/11/05/data_structure/dataStructure_tree/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="前序序列构建二叉树"><a href="#前序序列构建二叉树" class="headerlink" title="前序序列构建二叉树"></a>前序序列构建二叉树</h3><pre><code>#include &lt;stdio.h&gt;
+
+#define MAX 100
+
+typedef struct Node{
+    char data;
+    struct Node \*lChild;
+    struct Node \*rChild;
+}BinTNode;
+
+typedef BintNode \*BinTree;
+
+int mkTree(BinTree bt, char \*str, int i){
+    bt-&gt;lChild = NULL;
+    bt-&gt;rChild = NULL;
+    bt-&gt;data = str[i];
+    printf(&quot;%c\n&quot;, bt-&gt;data);
+    if(i&lt;strlen(str)-1 &amp;&amp; str[i+1]!=&apos;.&apos;){
+        bt-&gt;lchild = (BinTNode \*)malloc(sizeof(BinTNode));
+        i = mkTree(bt-&gt;lchild, str, i+1);
+    }
+    i++;
+    if(i&lt;strlen(str)-1 &amp;&amp; str[i+1]!=&apos;.&apos;){
+        bt-&gt;rchild = (BinTNode \*)malloc(sizeof(BinTNode));
+        i = mkTree(bt-&gt;rchild, str, i+1);
+    }
+    return i;
+}
+
+&lt;!-- 前序遍历 --&gt;
+void preSort(BintTree bt){
+    if(bt){
+        printf(&quot;%c-&gt;&quot;, bt-&gt;data);
+        preSort(bt-&gt;lchild);
+        preSort(bt-&gt;rchild);
+    }
+}
+
+int main(){
+    BintTree bt = (BinTNode \*)malloc(sizeof(BinTNode));
+    char str[MAX];
+    scanf(&quot;%s&quot;, str);
+    printf(&quot;%s&quot;, str);
+    mkTree(bt, str, 0);
+    preSort(bt);
+    return 0;
+}
+</code></pre><h3 id="中后序列构建二叉树"><a href="#中后序列构建二叉树" class="headerlink" title="中后序列构建二叉树"></a>中后序列构建二叉树</h3><pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+
+typedef struct Node{
+    char data;
+    struct Node \*lchild;
+    struct Node \*rchild;
+}BinTNode;
+
+typedef BinTNode \*BinTree;
+
+#define MAX 100
+
+void mkBinTree(BinTree bt, char \*inter, int ii, int ij, char \*post, int pi, int pj){
+    bt-&gt;lchild = NULL;
+    bt-&gt;rchild = NULL;
+    bt-&gt;data = post[pj];
+    int n = 0;
+    for(int i=ii; i&lt;=ij; i++){
+        if(post[pj] == inter[i]){
+            n = i-ii;
+            if(i&gt;ii){
+                bt-&gt;lchild = (BinTNode \*)malloc(sizeof(BinTNode));
+                mkBinTree(bt-&gt;lchild, inter, ii, i-1, post, pi, pi+n-1);
+            }
+            if(i&lt;ij){
+                bt-&gt;rchild = (BinTNode \*)malloc(sizeof(BinTNode));
+                mkBinTree(bt-&gt;rchild, inter, i+1, ij, post, pi+n, pj-1);
+            }
+        }
+    }
+}
+
+void preOrder(BinTree bt){
+    if(bt){
+        printf(&quot;%c&quot;, bt-&gt;data);
+        preOrder(bt-&gt;lchild);
+        preOrder(bt-&gt;rchild);
+    }
+}
+
+int btDepth(BinTree bt){
+    if(bt == NULL)
+        return 0;
+    int ldepth = 0;
+    int rdepth = 0;
+    ldepth = btDepth(bt-&gt;lchild);
+    rdepth = btDepth(bt-&gt;rchild);
+    if(ldepth&gt;rdepth)
+        return ldepth+1;
+    else
+        return rdepth+1;
+}
+
+int main(){
+    BinTree bt = (BinTNode \*)malloc(sizeof(BinTNode));
+    char inter[MAX];//前序序列
+    char post[MAX];//后序序列
+    scanf(&quot;%s&quot;, inter);
+    scanf(&quot;%s&quot;, post);
+    mkBinTree(bt, inter, 0, strlen(inter)-1, post, 0, strlen(post)-1);
+    preOrder(bt);
+    printf(&quot;\n&quot;);
+    int depth;
+    depth = btDepth(bt);
+    printf(&quot;%d\n&quot;, depth);
+    return 0;
+}
+</code></pre>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/11/05/data_structure/dataStructure_order/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2146,274 +2414,6 @@ int main(){
         if(!visited[i])
             DFS(g, i, n);
     }
-    return 0;
-}
-</code></pre>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/11/05/data_structure/dataStructure_tree/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jokers">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jokers's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/11/05/data_structure/dataStructure_tree/" itemprop="url">数据结构--二叉树</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-05T08:00:00+08:00">
-                2018-11-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Data-Structure/" itemprop="url" rel="index">
-                    <span itemprop="name">Data Structure</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/11/05/data_structure/dataStructure_tree/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/11/05/data_structure/dataStructure_tree/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="前序序列构建二叉树"><a href="#前序序列构建二叉树" class="headerlink" title="前序序列构建二叉树"></a>前序序列构建二叉树</h3><pre><code>#include &lt;stdio.h&gt;
-
-#define MAX 100
-
-typedef struct Node{
-    char data;
-    struct Node \*lChild;
-    struct Node \*rChild;
-}BinTNode;
-
-typedef BintNode \*BinTree;
-
-int mkTree(BinTree bt, char \*str, int i){
-    bt-&gt;lChild = NULL;
-    bt-&gt;rChild = NULL;
-    bt-&gt;data = str[i];
-    printf(&quot;%c\n&quot;, bt-&gt;data);
-    if(i&lt;strlen(str)-1 &amp;&amp; str[i+1]!=&apos;.&apos;){
-        bt-&gt;lchild = (BinTNode \*)malloc(sizeof(BinTNode));
-        i = mkTree(bt-&gt;lchild, str, i+1);
-    }
-    i++;
-    if(i&lt;strlen(str)-1 &amp;&amp; str[i+1]!=&apos;.&apos;){
-        bt-&gt;rchild = (BinTNode \*)malloc(sizeof(BinTNode));
-        i = mkTree(bt-&gt;rchild, str, i+1);
-    }
-    return i;
-}
-
-&lt;!-- 前序遍历 --&gt;
-void preSort(BintTree bt){
-    if(bt){
-        printf(&quot;%c-&gt;&quot;, bt-&gt;data);
-        preSort(bt-&gt;lchild);
-        preSort(bt-&gt;rchild);
-    }
-}
-
-int main(){
-    BintTree bt = (BinTNode \*)malloc(sizeof(BinTNode));
-    char str[MAX];
-    scanf(&quot;%s&quot;, str);
-    printf(&quot;%s&quot;, str);
-    mkTree(bt, str, 0);
-    preSort(bt);
-    return 0;
-}
-</code></pre><h3 id="中后序列构建二叉树"><a href="#中后序列构建二叉树" class="headerlink" title="中后序列构建二叉树"></a>中后序列构建二叉树</h3><pre><code>#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-#include &lt;string.h&gt;
-
-typedef struct Node{
-    char data;
-    struct Node \*lchild;
-    struct Node \*rchild;
-}BinTNode;
-
-typedef BinTNode \*BinTree;
-
-#define MAX 100
-
-void mkBinTree(BinTree bt, char \*inter, int ii, int ij, char \*post, int pi, int pj){
-    bt-&gt;lchild = NULL;
-    bt-&gt;rchild = NULL;
-    bt-&gt;data = post[pj];
-    int n = 0;
-    for(int i=ii; i&lt;=ij; i++){
-        if(post[pj] == inter[i]){
-            n = i-ii;
-            if(i&gt;ii){
-                bt-&gt;lchild = (BinTNode \*)malloc(sizeof(BinTNode));
-                mkBinTree(bt-&gt;lchild, inter, ii, i-1, post, pi, pi+n-1);
-            }
-            if(i&lt;ij){
-                bt-&gt;rchild = (BinTNode \*)malloc(sizeof(BinTNode));
-                mkBinTree(bt-&gt;rchild, inter, i+1, ij, post, pi+n, pj-1);
-            }
-        }
-    }
-}
-
-void preOrder(BinTree bt){
-    if(bt){
-        printf(&quot;%c&quot;, bt-&gt;data);
-        preOrder(bt-&gt;lchild);
-        preOrder(bt-&gt;rchild);
-    }
-}
-
-int btDepth(BinTree bt){
-    if(bt == NULL)
-        return 0;
-    int ldepth = 0;
-    int rdepth = 0;
-    ldepth = btDepth(bt-&gt;lchild);
-    rdepth = btDepth(bt-&gt;rchild);
-    if(ldepth&gt;rdepth)
-        return ldepth+1;
-    else
-        return rdepth+1;
-}
-
-int main(){
-    BinTree bt = (BinTNode \*)malloc(sizeof(BinTNode));
-    char inter[MAX];//前序序列
-    char post[MAX];//后序序列
-    scanf(&quot;%s&quot;, inter);
-    scanf(&quot;%s&quot;, post);
-    mkBinTree(bt, inter, 0, strlen(inter)-1, post, 0, strlen(post)-1);
-    preOrder(bt);
-    printf(&quot;\n&quot;);
-    int depth;
-    depth = btDepth(bt);
-    printf(&quot;%d\n&quot;, depth);
     return 0;
 }
 </code></pre>

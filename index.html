@@ -380,6 +380,8 @@
             <h2 id="数据准备"><a href="#数据准备" class="headerlink" title="数据准备"></a>数据准备</h2><p>采集huobi、Binance、OKEx分钟数据</p>
 <h3 id="OKEx"><a href="#OKEx" class="headerlink" title="OKEx"></a>OKEx</h3><ul>
 <li>不论何种周期的candle data都只能采集到最近2000条左右的数据</li>
+<li>虽然吐槽一下OKEx的小气，不过客服是真不错的，金融加入互联网基因总会让人感觉舒服些</li>
+<li>(说句无关的)传统金融圈子又小又排外，国外混个学历回来就自命不凡，赚的不过是信息闭塞的钱</li>
 </ul>
 <h3 id="huobi"><a href="#huobi" class="headerlink" title="huobi"></a>huobi</h3><ul>
 <li>huobi的采集历史数据要用到WebSocket</li>
@@ -1010,6 +1012,168 @@ lookup_fruit_name[fruit_prediction[0]]
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2019/07/07/bigdata/Comparison_with_Traditional_Databases/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/07/07/bigdata/Comparison_with_Traditional_Databases/" itemprop="url">Comparison with Traditional Databases</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-07T17:35:00+08:00">
+                2019-07-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/BigData/" itemprop="url" rel="index">
+                    <span itemprop="name">BigData</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/07/07/bigdata/Comparison_with_Traditional_Databases/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2019/07/07/bigdata/Comparison_with_Traditional_Databases/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<p>译自 Hadoop-The Definitive Guide, 4th Edition p476 </p>
+</blockquote>
+<h3 id="Schema-on-Read-Versus-Schema-on-Write"><a href="#Schema-on-Read-Versus-Schema-on-Write" class="headerlink" title="Schema on Read Versus Schema on Write"></a>Schema on Read Versus Schema on Write</h3><p>传统数据库在数据载入的时候会强制验证表的模式。<br>Hive只有在查询数据时才会验证。</p>
+<p>Schema on Read 在数据初始载入时非常快，只是复制和移动数据不需要按照数据库的格式进行解析序列化。因此我们可以将两类模式应用在同一组数据。</p>
+<p>Schema on Write 索引载入的数据使得查询更快，但是会耗费更长的时间载入</p>
+<h3 id="Updates-Transactions-and-Indexes"><a href="#Updates-Transactions-and-Indexes" class="headerlink" title="Updates, Transactions, and Indexes"></a>Updates, Transactions, and Indexes</h3><p>Hive不支持就地更新，所以所有的增删该储存在临时表，然后定期合并到表</p>
+<p>Hive支持分区级和表级锁</p>
+<p>Hive的index可以提升查询速度，目前有两种索引：compact and bitmap<br>compact存储每个值对应block的标号<br>bitmap适用于索引低基数列(例如性别或国家)</p>
+<h3 id="SQL-on-Hadoop-Alternatives"><a href="#SQL-on-Hadoop-Alternatives" class="headerlink" title="SQL-on-Hadoop Alternatives"></a>SQL-on-Hadoop Alternatives</h3><p>其他的SQL-on-Hadoop框架例如Impala、Presto、Drill、Spark SQL<br>Apache Phoenix 使用完全不同方法：将查询转换为HBase扫描，Metadata也存储在HBase。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://thathub.com/2019/07/07/bigdata/HBase_Versus_RDBMS/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1151,168 +1315,6 @@ lookup_fruit_name[fruit_prediction[0]]
 <p>  MapReduce的集成允许对数据进行完全并行的分布式作业</p>
 </li>
 </ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2019/07/07/bigdata/Comparison_with_Traditional_Databases/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jokers">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jokers's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/07/07/bigdata/Comparison_with_Traditional_Databases/" itemprop="url">Comparison with Traditional Databases</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-07T17:35:00+08:00">
-                2019-07-07
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/BigData/" itemprop="url" rel="index">
-                    <span itemprop="name">BigData</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/07/07/bigdata/Comparison_with_Traditional_Databases/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2019/07/07/bigdata/Comparison_with_Traditional_Databases/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <blockquote>
-<p>译自 Hadoop-The Definitive Guide, 4th Edition p476 </p>
-</blockquote>
-<h3 id="Schema-on-Read-Versus-Schema-on-Write"><a href="#Schema-on-Read-Versus-Schema-on-Write" class="headerlink" title="Schema on Read Versus Schema on Write"></a>Schema on Read Versus Schema on Write</h3><p>传统数据库在数据载入的时候会强制验证表的模式。<br>Hive只有在查询数据时才会验证。</p>
-<p>Schema on Read 在数据初始载入时非常快，只是复制和移动数据不需要按照数据库的格式进行解析序列化。因此我们可以将两类模式应用在同一组数据。</p>
-<p>Schema on Write 索引载入的数据使得查询更快，但是会耗费更长的时间载入</p>
-<h3 id="Updates-Transactions-and-Indexes"><a href="#Updates-Transactions-and-Indexes" class="headerlink" title="Updates, Transactions, and Indexes"></a>Updates, Transactions, and Indexes</h3><p>Hive不支持就地更新，所以所有的增删该储存在临时表，然后定期合并到表</p>
-<p>Hive支持分区级和表级锁</p>
-<p>Hive的index可以提升查询速度，目前有两种索引：compact and bitmap<br>compact存储每个值对应block的标号<br>bitmap适用于索引低基数列(例如性别或国家)</p>
-<h3 id="SQL-on-Hadoop-Alternatives"><a href="#SQL-on-Hadoop-Alternatives" class="headerlink" title="SQL-on-Hadoop Alternatives"></a>SQL-on-Hadoop Alternatives</h3><p>其他的SQL-on-Hadoop框架例如Impala、Presto、Drill、Spark SQL<br>Apache Phoenix 使用完全不同方法：将查询转换为HBase扫描，Metadata也存储在HBase。</p>
 
           
         
