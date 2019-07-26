@@ -94,17 +94,20 @@
 
 
 
-<meta name="description" content="前提适应版本Hadoop已安装，hdfs和yarn可以成功运行 解压缩$ sudo mv apache-hive-2.3.3-bin.tar.gz /usr/local/ $ cd /usr/local/ $ sudo tar -zxvf apache-hive-2.3.3-bin.tar.gz $ sudo mv apache-hive-2.3.3-bin hive $ sudo chown -">
+<meta name="description" content="数据准备采集huobi、Binance、OKEx分钟数据 OKEx 不论何种周期的candle data都只能采集到最近2000条左右的数据  huobi huobi的采集历史数据要用到WebSocket 要频繁的PING，否则服务器会断开连接 不能保证每次请求的及时的响应和数据完整性 每次300条，我从2000开始往下试，这个真的是干货 循环逻辑写的好，以上问题都不是问题。嗯！  Binance">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hive2安装">
-<meta property="og:url" content="http://thathub.com/2018/05/24/bigdata/install-hive/index.html">
+<meta property="og:title" content="简单的Arbitrage">
+<meta property="og:url" content="http://thathub.com/2019/07/26/quant/arbitrage/index.html">
 <meta property="og:site_name" content="Jokers&#39;s Blog">
-<meta property="og:description" content="前提适应版本Hadoop已安装，hdfs和yarn可以成功运行 解压缩$ sudo mv apache-hive-2.3.3-bin.tar.gz /usr/local/ $ cd /usr/local/ $ sudo tar -zxvf apache-hive-2.3.3-bin.tar.gz $ sudo mv apache-hive-2.3.3-bin hive $ sudo chown -">
+<meta property="og:description" content="数据准备采集huobi、Binance、OKEx分钟数据 OKEx 不论何种周期的candle data都只能采集到最近2000条左右的数据  huobi huobi的采集历史数据要用到WebSocket 要频繁的PING，否则服务器会断开连接 不能保证每次请求的及时的响应和数据完整性 每次300条，我从2000开始往下试，这个真的是干货 循环逻辑写的好，以上问题都不是问题。嗯！  Binance">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-04-23T03:45:27.976Z">
+<meta property="og:image" content="http://thathub.com/2019/07/26/quant/arbitrage/arbitrage/line.png">
+<meta property="og:image" content="http://thathub.com/2019/07/26/quant/arbitrage/arbitrage/hist.png">
+<meta property="og:updated_time" content="2019-07-26T04:18:50.228Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hive2安装">
-<meta name="twitter:description" content="前提适应版本Hadoop已安装，hdfs和yarn可以成功运行 解压缩$ sudo mv apache-hive-2.3.3-bin.tar.gz /usr/local/ $ cd /usr/local/ $ sudo tar -zxvf apache-hive-2.3.3-bin.tar.gz $ sudo mv apache-hive-2.3.3-bin hive $ sudo chown -">
+<meta name="twitter:title" content="简单的Arbitrage">
+<meta name="twitter:description" content="数据准备采集huobi、Binance、OKEx分钟数据 OKEx 不论何种周期的candle data都只能采集到最近2000条左右的数据  huobi huobi的采集历史数据要用到WebSocket 要频繁的PING，否则服务器会断开连接 不能保证每次请求的及时的响应和数据完整性 每次300条，我从2000开始往下试，这个真的是干货 循环逻辑写的好，以上问题都不是问题。嗯！  Binance">
+<meta name="twitter:image" content="http://thathub.com/2019/07/26/quant/arbitrage/arbitrage/line.png">
 
 
 
@@ -133,13 +136,13 @@
 
 
 
-  <link rel="canonical" href="http://thathub.com/2018/05/24/bigdata/install-hive/"/>
+  <link rel="canonical" href="http://thathub.com/2019/07/26/quant/arbitrage/"/>
 
 
 
 
 
-  <title>Hive2安装 | Jokers's Blog</title>
+  <title>简单的Arbitrage | Jokers's Blog</title>
   
 
 
@@ -272,7 +275,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/05/24/bigdata/install-hive/">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2019/07/26/quant/arbitrage/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jokers">
@@ -289,7 +292,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Hive2安装</h1>
+          <h1 class="post-title" itemprop="name headline">简单的Arbitrage</h1>
         
 
         <div class="post-meta">
@@ -301,8 +304,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-24T11:00:00+08:00">
-                2018-05-24
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-26T11:00:00+08:00">
+                2019-07-26
               </time>
             
 
@@ -324,8 +327,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/BigData/" itemprop="url" rel="index">
-                    <span itemprop="name">BigData</span>
+                  <a href="/categories/quant/" itemprop="url" rel="index">
+                    <span itemprop="name">quant</span>
                   </a>
                 </span>
 
@@ -342,9 +345,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/05/24/bigdata/install-hive/#comments" itemprop="discussionUrl">
+                <a href="/2019/07/26/quant/arbitrage/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/05/24/bigdata/install-hive/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2019/07/26/quant/arbitrage/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -372,173 +375,33 @@
       
 
       
-        <h2 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h2><p>适应版本Hadoop已安装，hdfs和yarn可以成功运行</p>
-<h2 id="解压缩"><a href="#解压缩" class="headerlink" title="解压缩"></a>解压缩</h2><pre><code>$ sudo mv apache-hive-2.3.3-bin.tar.gz /usr/local/
-$ cd /usr/local/
-$ sudo tar -zxvf apache-hive-2.3.3-bin.tar.gz
-$ sudo mv apache-hive-2.3.3-bin hive
-$ sudo chown -R hadoop:hadoop hive
-</code></pre><h2 id="配置环境变量"><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a>配置环境变量</h2><pre><code>$ vim ~/.bashrc
-export HIVE_HOME=/usr/local/hive
-export PATH=$PATH:$HIVE_HOME/bin
-export CLASSPATH=$CLASSPATH:/usr/local/hadoop/lib/*:.
-export CLASSPATH=$CLASSPATH:/usr/local/hive/lib/*:.
-
-$ source ~/.bashrc
-</code></pre><h2 id="Hive配置"><a href="#Hive配置" class="headerlink" title="Hive配置"></a>Hive配置</h2><pre><code>$ cp conf/hive-env.sh.template conf/hive-env.sh
-$ vim conf/hive-env.sh
-HADOOP_HOME=/usr/local/hadoop
-export HIVE_CONF_DIR=/usr/local/hive/conf
-
-$ cd /usr/local/hive
-$ cp conf/hive-default.xml.template conf/hive-site.xml
-$ vim conf/hive-size.xml
-</code></pre><ul>
-<li><p>system:java.io.tmpir &amp; system:user.name</p>
-<pre><code>&lt;property&gt;
-    &lt;name&gt;system:java.io.tmpdir&lt;/name&gt;
-    &lt;value&gt;/usr/local/hive/tmp&lt;/value&gt;
-&lt;/property&gt;
-&lt;property&gt;
-    &lt;name&gt;system:user.name&lt;/name&gt;
-    &lt;value&gt;jokers&lt;/value&gt;
-&lt;/property&gt;
-</code></pre></li>
-<li><p>mysql连接配置</p>
-<pre><code>&lt;property&gt;
-    &lt;name&gt;javax.jdo.option.ConnectionDriverName&lt;/name&gt;
-    &lt;value&gt;com.mysql.jdbc.Driver&lt;/value&gt;
-    &lt;description&gt;Driver class name for a JDBC metastore&lt;/description&gt;
-&lt;/property&gt;
-
-&lt;property&gt;
-    &lt;name&gt;javax.jdo.option.ConnectionURL&lt;/name&gt;
-    &lt;value&gt;jdbc:mysql://xx.xxx.xx.xx:3306/hive?createDatabaseIfNotExist=true&lt;/value&gt;
-    &lt;description&gt;JDBC connect string for a JDBC metastore&lt;/description&gt;
-&lt;/property&gt;
-
-&lt;property&gt;
-    &lt;name&gt;javax.jdo.option.ConnectionUserName&lt;/name&gt;
-    &lt;value&gt;hive&lt;/value&gt;
-    &lt;description&gt;Username to use against metastore database&lt;/description&gt;
-&lt;/property&gt;
-
-&lt;property&gt;
-    &lt;name&gt;javax.jdo.option.ConnectionPassword&lt;/name&gt;
-    &lt;value&gt;hive&lt;/value&gt;
-    &lt;description&gt;password to use against metastore database&lt;/description&gt;
-&lt;/property&gt;
-</code></pre></li>
+        <h2 id="数据准备"><a href="#数据准备" class="headerlink" title="数据准备"></a>数据准备</h2><p>采集huobi、Binance、OKEx分钟数据</p>
+<h3 id="OKEx"><a href="#OKEx" class="headerlink" title="OKEx"></a>OKEx</h3><ul>
+<li>不论何种周期的candle data都只能采集到最近2000条左右的数据</li>
 </ul>
-<ul>
-<li><p>hive的存储仓库位置，观察配置默认值</p>
-<pre><code>&lt;property&gt;
-    &lt;name&gt;hive.metastore.warehouse.dir&lt;/name&gt;
-    &lt;value&gt;/user/hive/warehouse&lt;/value&gt;
-    &lt;description&gt;location of default database for the warehouse&lt;/description&gt;
-&lt;/property&gt;
-
-&lt;property&gt;
-    &lt;name&gt;hive.exec.scratchdir&lt;/name&gt;
-    &lt;value&gt;/tmp/hive&lt;/value&gt;
-    &lt;description&gt;HDFS root scratch dir for Hive jobs which gets created with write all (733) permission. For each connecting user, an HDFS scratch dir: ${hive.exec.scratchdir}/&lt;username&gt;is created, with ${hive.scratch.dir.permission}.&lt;/description&gt;
-&lt;/property&gt;
-
-&lt;property&gt;
-    &lt;name&gt;hive.querylog.location&lt;/name&gt;
-    &lt;value&gt;${system:java.io.tmpdir}/${system:user.name}&lt;/value&gt;
-    &lt;description&gt;Location of Hive run time structured log file&lt;/description&gt;
-&lt;/property&gt;
-</code></pre></li>
-<li><p>使用Hadoop建立Hive仓库</p>
-<pre><code>$ $HADOOP_HOME/bin/hadoop fs -mkdir /tmp/hive
-$ $HADOOP_HOME/bin/hadoop fs -mkdir /user/hive/warehouse
-$ $HADOOP_HOME/bin/hadoop fs -chmod g+w /tmp/hive
-$ $HADOOP_HOME/bin/hadoop fs -chmod g+w /user/hive/warehouse
-</code></pre></li>
-<li><p>下载mysql-connector-java.jar</p>
-<pre><code>$ sudo yum install mysql-connector-java.noarch
-$ cp /usr/share/java/mysql-connector-java.jar $HIVE_HOME/lib/mysql-connector-java.jar
-</code></pre></li>
+<h3 id="huobi"><a href="#huobi" class="headerlink" title="huobi"></a>huobi</h3><ul>
+<li>huobi的采集历史数据要用到WebSocket</li>
+<li>要频繁的PING，否则服务器会断开连接</li>
+<li>不能保证每次请求的及时的响应和数据完整性</li>
+<li>每次300条，我从2000开始往下试，这个真的是干货</li>
+<li>循环逻辑写的好，以上问题都不是问题。嗯！</li>
 </ul>
-<ul>
-<li><p>Hive初始化mysql数据库</p>
-<pre><code>$ schematool --dbType mysql --initSchema
-</code></pre></li>
-<li><p>启动Hive</p>
-<pre><code>$ hive
-</code></pre></li>
+<h3 id="Binance"><a href="#Binance" class="headerlink" title="Binance"></a>Binance</h3><ul>
+<li>夸一下币安的接口，难怪用户规模增长快呢。</li>
+<li>请求的时间戳和返回时间戳是毫秒级的13位数字，Python要处理一下</li>
+<li>每分钟有请求次数限制，历史数据接口好像是每分钟1200次</li>
 </ul>
-<h2 id="MySQL数据导入hive"><a href="#MySQL数据导入hive" class="headerlink" title="MySQL数据导入hive"></a>MySQL数据导入hive</h2><ul>
-<li><p>安装Sqoop</p>
-</li>
-<li><p>配置mysqldump(如果使用–direct)</p>
-<pre><code>ln -fs /user/local/mysql/bin/mysqldump /usr/bin
-</code></pre></li>
-<li><p>给Hadoop添加环境变量</p>
-<pre><code>$ vim /usr/local/hadoop/etc/hadoop/hadoop-env.sh
-export HADOOP_CLASSPATH=$HADOOP_CLASSPATH:/usr/local/hive/conf/
-export HADOOP_CLASSPATH=$HADOOP_CLASSPATH:/usr/local/hive/lib/
-# 不能这样写/usr/local/hive/conf/* /usr/local/hive/lib/*
-</code></pre></li>
-<li><p>导入示例</p>
-<pre><code>sqoop import --connect jdbc:mysql://xx.xx.x.x:3306/databases --table table --username hive --password hive --direct --fields-terminated-by &apos;|&apos;  --warehouse-dir /user/hive/warehouse  --hive-import
-</code></pre></li>
+<h3 id="数据存储"><a href="#数据存储" class="headerlink" title="数据存储"></a>数据存储</h3><ul>
+<li>每个平台分配一个Collection</li>
+<li>别忘了给加唯一索引，不然会很崩溃</li>
+<li>别问我为什么选MongoDB，可以看看我之前的blog</li>
 </ul>
-<h2 id="远程链接hiveserver2"><a href="#远程链接hiveserver2" class="headerlink" title="远程链接hiveserver2"></a>远程链接hiveserver2</h2><ul>
-<li><p>配置hive-site.xml</p>
-<pre><code>&lt;property&gt;
-    &lt;name&gt;hive.server2.thrift.client.user&lt;/name&gt;
-    &lt;value&gt;username&lt;/value&gt;
-    &lt;description&gt;Username to use against thrift client&lt;/description&gt;
-&lt;/property&gt;
-&lt;property&gt;
-    &lt;name&gt;hive.server2.thrift.client.password&lt;/name&gt;
-    &lt;value&gt;password&lt;/value&gt;
-    &lt;description&gt;Password to use against thrift client&lt;/description&gt;
-&lt;/property&gt;
-&lt;property&gt;
-    &lt;name&gt;hive.server2.transport.mode&lt;/name&gt;
-    &lt;value&gt;binary&lt;/value&gt;
-    &lt;description&gt;
-        Expects one of [binary, http].
-        Transport mode of HiveServer2.
-    &lt;/description&gt;
-&lt;/property&gt;
-&lt;property&gt;
-    &lt;name&gt;hive.server2.thrift.port&lt;/name&gt;
-    &lt;value&gt;10000&lt;/value&gt;
-    &lt;description&gt;Port number of HiveServer2 Thrift interface when hive.server2.transport.mode is &apos;binary&apos;.&lt;/description&gt;
-&lt;/property&gt;
-&lt;property&gt;
-    &lt;name&gt;hive.server2.thrift.bind.host&lt;/name&gt;
-    &lt;value&gt;0.0.0.0&lt;/value&gt;
-    &lt;description&gt;Bind host on which to run the HiveServer2 Thrift service.&lt;/description&gt;
-&lt;/property&gt;
-</code></pre></li>
-<li><p>配置hadoop下的core-site.xml</p>
-<pre><code>&lt;property&gt;
-    &lt;name&gt;hadoop.proxyuser.hadoop.hosts&lt;/name&gt;
-    &lt;!--value&gt;master&lt;/value--&gt;
-    &lt;value&gt;*&lt;/value&gt;
-&lt;/property&gt;
+<h2 id="看图说话"><a href="#看图说话" class="headerlink" title="看图说话"></a>看图说话</h2><ul>
+<li>就选一天的数据看看吧，没什么代表性，仅供参考</li>
+</ul>
+<p><img src="arbitrage/line.png" alt="avatar"></p>
+<p><img src="arbitrage/hist.png" alt="avatar"></p>
 
-&lt;property&gt;
-    &lt;name&gt;hadoop.proxyuser.hadoop.groups&lt;/name&gt;
-    &lt;!--value&gt;hadoop&lt;/value--&gt;
-    &lt;value&gt;*&lt;/value&gt;
-&lt;/property&gt;
-</code></pre></li>
-<li><p>启动hive服务,客户端可以使用beeline命令行，也可使用sql developer客户端工具，需要下载hive jdbc驱动</p>
-<pre><code>nohup hiveserver2 &gt;hive.log 2&gt;&amp;1 &amp;
-</code></pre></li>
-</ul>
-<h2 id="error解决"><a href="#error解决" class="headerlink" title="error解决"></a>error解决</h2><pre><code>hive.HiveConfig: Could not load org.apache.hadoop.hive.conf.HiveConf. Make sure HIVE_CONF_DIR is set correctly
-
-$ vim ~/.bashrc
-export HADOOP_CLASSPATH=$HADOOP_CLASSPATH:/usr/local/hive/lib/*
-$ source ~/.bashrc
-</code></pre>
       
     </div>
     
@@ -562,8 +425,8 @@ $ source ~/.bashrc
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/05/18/mysql-io/" rel="next" title="MySQL5.7数据导入导出">
-                <i class="fa fa-chevron-left"></i> MySQL5.7数据导入导出
+              <a href="/2019/07/25/python-install/" rel="next" title="Python3安装的坑">
+                <i class="fa fa-chevron-left"></i> Python3安装的坑
               </a>
             
           </div>
@@ -571,10 +434,6 @@ $ source ~/.bashrc
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/06/10/scala-HelloWorld/" rel="prev" title="Scala 基本语法">
-                Scala 基本语法 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -715,7 +574,7 @@ $ source ~/.bashrc
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前提"><span class="nav-number">1.</span> <span class="nav-text">前提</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解压缩"><span class="nav-number">2.</span> <span class="nav-text">解压缩</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置环境变量"><span class="nav-number">3.</span> <span class="nav-text">配置环境变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hive配置"><span class="nav-number">4.</span> <span class="nav-text">Hive配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL数据导入hive"><span class="nav-number">5.</span> <span class="nav-text">MySQL数据导入hive</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#远程链接hiveserver2"><span class="nav-number">6.</span> <span class="nav-text">远程链接hiveserver2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#error解决"><span class="nav-number">7.</span> <span class="nav-text">error解决</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据准备"><span class="nav-number">1.</span> <span class="nav-text">数据准备</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#OKEx"><span class="nav-number">1.1.</span> <span class="nav-text">OKEx</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#huobi"><span class="nav-number">1.2.</span> <span class="nav-text">huobi</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Binance"><span class="nav-number">1.3.</span> <span class="nav-text">Binance</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据存储"><span class="nav-number">1.4.</span> <span class="nav-text">数据存储</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#看图说话"><span class="nav-number">2.</span> <span class="nav-text">看图说话</span></a></li></ol></div>
             
 
           </div>
@@ -858,9 +717,9 @@ $ source ~/.bashrc
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://thathub.com/2018/05/24/bigdata/install-hive/';
-          this.page.identifier = '2018/05/24/bigdata/install-hive/';
-          this.page.title = 'Hive2安装';
+          this.page.url = 'http://thathub.com/2019/07/26/quant/arbitrage/';
+          this.page.identifier = '2019/07/26/quant/arbitrage/';
+          this.page.title = '简单的Arbitrage';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://thathub-com.disqus.com.disqus.com/embed.js';

@@ -273,6 +273,210 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2019/01/31/bigdata/hadoop_guide/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/31/bigdata/hadoop_guide/" itemprop="url">hadoop2指南</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-31T11:30:00+08:00">
+                2019-01-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/BigData/" itemprop="url" rel="index">
+                    <span itemprop="name">BigData</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/01/31/bigdata/hadoop_guide/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2019/01/31/bigdata/hadoop_guide/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Hadoop-Fundamentals"><a href="#Hadoop-Fundamentals" class="headerlink" title="Hadoop Fundamentals"></a>Hadoop Fundamentals</h2><h3 id="Chapter-1-Meet-Hadoop"><a href="#Chapter-1-Meet-Hadoop" class="headerlink" title="Chapter 1. Meet Hadoop"></a>Chapter 1. Meet Hadoop</h3><p>Hadoop通常指大型的生态系统，不仅仅是HDFS和MapReduce，属于分布式计算和大规模数据处理<br>例如，HBase，key-value存储方式，使用HDFS作为底层存储<br>yarn，Hadoop中新处理模型的推动者，它是一个集群资源管理系统，它允许分布式程序（不仅仅是MapReduce）在Hadoop集群处理数据<br>Hive，大数据集合低延迟的SQL交互查询<br>Spark，许多算法，例如机器学习算法，本质上是在数据集上的迭代计算，而MapReduce并不支持迭代数据持久化到内存，需要每次在磁盘载入，而Spark不需要<br>Solr，可在Hadoop集群上运行，索引文档存储在HDFS并提供查询服务<br>MapReduce有助于理解一些通用概念，例如输入格式概念和数据集的分片等<br>MapReduce等Hadoop处理模型都是随着数据量线性扩展的，而功能函数（例如Map和Reduce）可以在分区并行工作，因此假设据数量翻倍，而集群节点数量也翻倍，那么计算时间是不变的</p>
+<h3 id="Chapter-2-MapReduce"><a href="#Chapter-2-MapReduce" class="headerlink" title="Chapter 2. MapReduce"></a>Chapter 2. MapReduce</h3><h4 id="A-Weather-Dataset"><a href="#A-Weather-Dataset" class="headerlink" title="A Weather Dataset"></a>A Weather Dataset</h4><p>我们以计算历年记录的最高温度为例，传统方法会逐行读取并比较获得最高温度。为了提高运行速度，可以使用并行处理。<br>1.我们可以使用不同的进程运行不同年份的记录，但是不同年份的数据量不同，计算时间取决于最大的文件。因此最好的办法是把输入的数据分割成大小相等的块再分别处理。<br>2.因为数据被分割成大小相等的块，每个数据块都会计算出不同年份的最大温度，最终我们还要找到每年的最大温度。<br>3.仍然会受限于单台计算机的处理能力，可以使用多台计算机，那么主要问题在与协调性和可靠性，哪台计算机执行全局的任务，如何处理失败的进程。<br>以上方法虽然可行但是繁杂，所以我们可以借助类似Hadoop的框架。</p>
+<h4 id="Analyzing-the-Data-with-Hadoop"><a href="#Analyzing-the-Data-with-Hadoop" class="headerlink" title="Analyzing the Data with Hadoop"></a>Analyzing the Data with Hadoop</h4><p>MapReduce将操作分为两个阶段，map阶段和reduce阶段，每个阶段都是key-value对作为输入和输出，同时需要编写map和reduce方法。<br>map阶段的输入是NCDC原始的行数据，key是每行相对应文本开始位置的偏移值，不过可以忽略。map方法只是数据准备，只需要在每行数据中提取出年份和温度。<br>可视化map的工作<br>输入数据：<br>0067011990999991950051507004…9999999N9+00001+99999999999…<br>0043011990999991950051512004…9999999N9+00221+99999999999…<br>0043011990999991950051518004…9999999N9-00111+99999999999…<br>0043012650999991949032412004…0500001N9+01111+99999999999…<br>0043012650999991949032418004…0500001N9+00781+99999999999…<br>呈现给map方法的key-value对：<br>(0, 0067011990999991950051507004…9999999N9+00001+99999999999…)<br>(106, 0043011990999991950051512004…9999999N9+00221+99999999999…)<br>(212, 0043011990999991950051518004…9999999N9-00111+99999999999…)<br>(318, 0043012650999991949032412004…0500001N9+01111+99999999999…)<br>(424, 0043012650999991949032418004…0500001N9+00781+99999999999…)<br>map提取年份和温度，并输出：<br>(1950, 0)<br>(1950, 22)<br>(1950, -11)<br>(1949, 111)<br>(1949, 78)<br>MapReduce框架通过key聚合排序map的输出，再传输给reduce，所以reduce的输入为：<br>(1949, [111, 78])<br>(1950, [0, 22, −11])<br>reduce遍历list并找出最大温度：<br>(1949, 111)<br>(1950, 22)</p>
+<h4 id="Scaling-Out"><a href="#Scaling-Out" class="headerlink" title="Scaling Out"></a>Scaling Out</h4><p>将数据储存在分布式文件系统，使用Hadoop的资源管理系统（YARN），可使得每台机器持有一部分数据进行MapReduce计算。</p>
+<h5 id="Data-Flow"><a href="#Data-Flow" class="headerlink" title="Data Flow"></a>Data Flow</h5><p>YARN分配任务到集群节点，如果一个任务失败，会被自动分配到其它节点。Hadoop将输入数据分片并创建map任务将分片作为输入数据。<br>分片越小，负载均衡越好，因为一个运行速度快的机器可以处理更多的分片。<br>但是如果分片太小，分片的管理和map任务的创建会耗费太多的时间。分片大小最好等于HDFS的block，默认是128M。数据存在于执行map任务的节点，执行效率更高，因为节省了宝贵的集群间的带宽资源。<br>一个block大小的分片是可以保证存储在同一个节点的，这就是为什么最优分片大小是block size。假设分片大小是两个block size，执行map任务的节点可能没有恰好存储两个block，这就需要在节点间传输数据。<br>reduce任务数量可以自定义，map的输出需要通过网络传输合并传递给运行reduce的节点，reduce的输出通常存储在HDFS。<br>当有多个reduce时，map分割输出，相同的key必须在同一个分割，用户可以自定义分割，但是默认分割方法挺好的，</p>
+<h5 id="Combiner-Functions"><a href="#Combiner-Functions" class="headerlink" title="Combiner Functions"></a>Combiner Functions</h5><p>许多MapReduce任务受限于集群的可用带宽，所以研究如何最小化map和reduce间传递的数据变得很重要。combiner方法允许用户指定并作用于map的输出，最后形成reduce的输入。因为combiner方法是优化方法，hadoop不保证可以运行几次combiner。<br>第一个map输出：<br>(1950, 0)<br>(1950, 20)<br>(1950, 10)<br>第二个输出：<br>(1950, 25)<br>(1950, 15)<br>reduce输入：<br>(1950, [0, 20, 10, 25, 15])<br>reduce输出：<br>(1950, 25)<br>我们可以使用combiner方法，类似于reduce，找到每个map输出的最大值：<br>(1950, [20, 25])<br>可表示为：<br>max(0, 20, 10, 25, 15) = max(max(0, 20, 10), max(25, 15)) = max(20, 25) = 25<br>但是，如果计算平均值，不能使用mean作为combiner，因为：<br>mean(0, 20, 10, 25, 15) = 14<br>但是：<br>mean(mean(0, 20, 10), mean(25, 15)) = mean(10, 20) = 15<br>综上，combiner可以减少传输数据的数量，值得考虑是否可以用combiner。</p>
+<h3 id="Chapter-3-The-Hadoop-Distributed-Filesystem"><a href="#Chapter-3-The-Hadoop-Distributed-Filesystem" class="headerlink" title="Chapter 3. The Hadoop Distributed Filesystem"></a>Chapter 3. The Hadoop Distributed Filesystem</h3><h4 id="The-Design-of-HDFS"><a href="#The-Design-of-HDFS" class="headerlink" title="The Design of HDFS"></a>The Design of HDFS</h4><p>HDFS is a filesystem designed for storing very large files with streaming data access<br>patterns, running on clusters of commodity hardware.</p>
+<p>Very large files<br>文件大小数百M，G，T，P</p>
+<p>Streaming data access<br>HDFS建立在最有效的数据处理模式下，一次写入，多次读取的模式。因此读取整个数据集的时间比读取第一条数据的延迟时间更重要。</p>
+<p>Commodity hardware<br>Hadoop不需要昂贵，高可靠性的硬件。</p>
+<p>Low-latency data access<br>HDFS对几十毫秒内的低延迟访问表现不好，因为它主要优化方向是高吞吐量，势必造成高延迟。HBase是当前达到低延迟的选择。</p>
+<p>Lots of small files<br>namenode将文件系统元数据放在内存，而每个文件，目录，block占用大约150比特。假设有100万的文件，每个文件是一个block，需要300M内存。</p>
+<p>Multiple writers, arbitrary file modifications<br>目前仅支持单用户在文件末尾append</p>
+<h4 id="HDFS-Concepts"><a href="#HDFS-Concepts" class="headerlink" title="HDFS Concepts"></a>HDFS Concepts</h4><h5 id="Blocks"><a href="#Blocks" class="headerlink" title="Blocks"></a>Blocks</h5><p>每个block默认128M，文件被拆分成block大小，不足block大小的文件虽然是一个block，但是仅占用实际大小的空间。<br>block带给分布式系统好处：</p>
+<ol>
+<li>文件大小可以大于单个结点的磁盘</li>
+<li>简化储存子系统</li>
+<li>适合复制，增加了系统容错能力，默认复制到3个结点</li>
+</ol>
+<h5 id="Namenodes-and-Datanodes"><a href="#Namenodes-and-Datanodes" class="headerlink" title="Namenodes and Datanodes"></a>Namenodes and Datanodes</h5><p>HDFS集群是master−worke模式，一个namenode（master）和一些datanode（workers）。namenode管理文件系统命名空间。它包含文件系统树和所有文件及目录的元数据，这些数据持久化在本地磁盘，两个文件分别是namespace image和edit log。namenode不持久化block的位置，因为每次系统启动都会通过datanode重建位置信息。<br>客户端访问namenode和datanode，对用户来说是透明的。<br>datanode存储检索block并周期性的向namenode报告blocks的存储情况。<br>没有namenode，HDFS将无法工作。namenode故障将使得文件系统的文件丢失，为了避免这种情况，Hadoop提供了两种机制：<br>第一种是备份文件系统元数据，备份是同步的和原子的，通常的配置是写入本地磁盘和原称NFS mount。<br>第二种是运行secondary namenode，周期性的合并namespace image及edit log。secondary namenode常运行在单独的机器，因为它需要大量的CPU和内存执行merge。如果主namenode挂了，总会出现数据丢失，在这种情况通常从NFS复制一份namenode的元数据到ssecondary namenode并将其作为namenode使用。</p>
+<h5 id="Block-Caching"><a href="#Block-Caching" class="headerlink" title="Block Caching"></a>Block Caching</h5><p>通常datanode从disk读block，但是对高频访问的block可以明确缓存到datanode的内存，可以增加读的效率。应用通过添加缓存指令到缓存池来指导namenode缓存文件。</p>
+<h5 id="HDFS-Federation"><a href="#HDFS-Federation" class="headerlink" title="HDFS Federation"></a>HDFS Federation</h5><p>每个文件和块的引用是保存在namenode的内存中的，我们可以添加namenode去扩展，每个namenode管理一部分的namespace，相互对立，不影响其它namenode的可用性</p>
+<h5 id="HDFS-High-Availability"><a href="#HDFS-High-Availability" class="headerlink" title="HDFS High Availability"></a>HDFS High Availability</h5><p>secondary namenode元数据并使用辅助namenode防止数据丢失，不能获得高可用的系统。<br>如果namenode挂掉，新的namenode需要载入namespace image到内存，重现edit log，接收所有datanode上报的block映射关系，才能正常运行。在大型集群，需要耗费30分钟甚至更长的时间。<br>Hadoop 2添加高可用性（HA）支持，使用一对namenode（active-standby），active namenode挂掉，standby可以很快提供服务。<br>架构需要做一些改动：</p>
+<ul>
+<li>namenode必须使用高可用性共享存储来共享编辑日志</li>
+<li>datanode必须向所以namenode发送block的映射信息</li>
+<li>客户端需要配置处理故障转移，对用户透明</li>
+</ul>
+<h4 id="The-Command-Line-Interface"><a href="#The-Command-Line-Interface" class="headerlink" title="The Command-Line Interface"></a>The Command-Line Interface</h4><p>首先安装一个伪分布式的Hadoop，配置文件中的fs.defaultFS设置为hdfs://localhost/，使用HDFS作为Hadoop的文件系统。<br>dfs.replication设置为1（默认3），不对blocks进行复制。<br>获得帮助信息</p>
+<pre><code>hadoop fs -help 
+</code></pre><p>从本地文件系统复制文件到HDFS</p>
+<pre><code>% hadoop fs -copyFromLocal input/docs/quangle.txt \
+hdfs://localhost/user/tom/quangle.txt
+</code></pre><p>我们可以省略schema和host，使用定义在core-site.xml中的值</p>
+<pre><code>% hadoop fs -copyFromLocal input/docs/quangle.txt /user/tom/quangle.txt
+</code></pre><p>创建文件夹以及列出所有的文件</p>
+<pre><code>% hadoop fs -mkdir books
+% hadoop fs -ls .
+</code></pre><h4 id="Hadoop-Filesystems"><a href="#Hadoop-Filesystems" class="headerlink" title="Hadoop Filesystems"></a>Hadoop Filesystems</h4><p>Hadoop有许多种Filesystems</p>
+<h5 id="Interfaces"><a href="#Interfaces" class="headerlink" title="Interfaces"></a>Interfaces</h5><p>接口有Java的Native API<br>有HTTP REST API，通过HTTP访问HDFS有两种方式：<br>1、直接访问namenode，然后重定向到datanode<br>2、使用代理服务器，代理负责访问namenode和重定向到datanode，这中方式可以允许更严格的防火墙和带宽限制策略<br>HTTP接口速度比Native慢</p>
+<h4 id="Parallel-Copying-with-distcp"><a href="#Parallel-Copying-with-distcp" class="headerlink" title="Parallel Copying with distcp"></a>Parallel Copying with distcp</h4><p>并行复制数据，可以有效代替 hadoop fs -cp<br>复制一个文件</p>
+<pre><code>% hadoop distcp file1 file2
+</code></pre><p>复制目录</p>
+<pre><code>% hadoop distcp dir1 dir2
+</code></pre><p>如果dir2不存在，则新建dir2并且把dir1的数据拷贝到dir2。如果dir2存在,则dir1会复制到dir2/dir1。<br>使用 -overwrite 选项可以避免改变目录结构。<br>使用 -update 选项只同步更新。</p>
+<pre><code>% hadoop distcp -update dir1 dir2
+</code></pre><p>distcp使用MapReduce任务实现，并行的maps执行复制，没有reduce。多达20个maps执行复制，可以通过 -m 参数指定数量。<br>distcp通常用于两个集群间传递数据</p>
+<pre><code>% hadoop distcp -update -delete -p hdfs://namenode1/foo hdfs://namenode2/foo
+</code></pre><p>–delete 删除namenode1不存在的文件，-p 保存文件参数，例如，block大小、权限等。<br>如果两个集群HDFS版本不同，可以使用webhdfs协议</p>
+<pre><code>% hadoop distcp webhdfs://namenode1:50070/foo webhdfs://namenode2:50070/foo
+</code></pre><h5 id="Keeping-an-HDFS-Cluster-Balanced"><a href="#Keeping-an-HDFS-Cluster-Balanced" class="headerlink" title="Keeping an HDFS Cluster Balanced"></a>Keeping an HDFS Cluster Balanced</h5><p>为保证集群中每个结点的blocks数量平衡，建议使用默认的20个map执行distcp，因为如果只有一个map，那么所有复制的block都会在运行map的node建立一个副本。</p>
+<h3 id="Chapter-4-YARN"><a href="#Chapter-4-YARN" class="headerlink" title="Chapter 4. YARN"></a>Chapter 4. YARN</h3><p>YARN是在Hadoop2引入的，改善MapReduce的实现，并且支持其他分布式计算框架。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://thathub.com/2019/01/10/spider/Appium_mumu/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1512,6 +1716,274 @@ int main(){
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/11/05/data_structure/dataStructure_tree/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/11/05/data_structure/dataStructure_tree/" itemprop="url">数据结构--二叉树</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-05T08:00:00+08:00">
+                2018-11-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Data-Structure/" itemprop="url" rel="index">
+                    <span itemprop="name">Data Structure</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/11/05/data_structure/dataStructure_tree/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/11/05/data_structure/dataStructure_tree/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="前序序列构建二叉树"><a href="#前序序列构建二叉树" class="headerlink" title="前序序列构建二叉树"></a>前序序列构建二叉树</h3><pre><code>#include &lt;stdio.h&gt;
+
+#define MAX 100
+
+typedef struct Node{
+    char data;
+    struct Node \*lChild;
+    struct Node \*rChild;
+}BinTNode;
+
+typedef BintNode \*BinTree;
+
+int mkTree(BinTree bt, char \*str, int i){
+    bt-&gt;lChild = NULL;
+    bt-&gt;rChild = NULL;
+    bt-&gt;data = str[i];
+    printf(&quot;%c\n&quot;, bt-&gt;data);
+    if(i&lt;strlen(str)-1 &amp;&amp; str[i+1]!=&apos;.&apos;){
+        bt-&gt;lchild = (BinTNode \*)malloc(sizeof(BinTNode));
+        i = mkTree(bt-&gt;lchild, str, i+1);
+    }
+    i++;
+    if(i&lt;strlen(str)-1 &amp;&amp; str[i+1]!=&apos;.&apos;){
+        bt-&gt;rchild = (BinTNode \*)malloc(sizeof(BinTNode));
+        i = mkTree(bt-&gt;rchild, str, i+1);
+    }
+    return i;
+}
+
+&lt;!-- 前序遍历 --&gt;
+void preSort(BintTree bt){
+    if(bt){
+        printf(&quot;%c-&gt;&quot;, bt-&gt;data);
+        preSort(bt-&gt;lchild);
+        preSort(bt-&gt;rchild);
+    }
+}
+
+int main(){
+    BintTree bt = (BinTNode \*)malloc(sizeof(BinTNode));
+    char str[MAX];
+    scanf(&quot;%s&quot;, str);
+    printf(&quot;%s&quot;, str);
+    mkTree(bt, str, 0);
+    preSort(bt);
+    return 0;
+}
+</code></pre><h3 id="中后序列构建二叉树"><a href="#中后序列构建二叉树" class="headerlink" title="中后序列构建二叉树"></a>中后序列构建二叉树</h3><pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+
+typedef struct Node{
+    char data;
+    struct Node \*lchild;
+    struct Node \*rchild;
+}BinTNode;
+
+typedef BinTNode \*BinTree;
+
+#define MAX 100
+
+void mkBinTree(BinTree bt, char \*inter, int ii, int ij, char \*post, int pi, int pj){
+    bt-&gt;lchild = NULL;
+    bt-&gt;rchild = NULL;
+    bt-&gt;data = post[pj];
+    int n = 0;
+    for(int i=ii; i&lt;=ij; i++){
+        if(post[pj] == inter[i]){
+            n = i-ii;
+            if(i&gt;ii){
+                bt-&gt;lchild = (BinTNode \*)malloc(sizeof(BinTNode));
+                mkBinTree(bt-&gt;lchild, inter, ii, i-1, post, pi, pi+n-1);
+            }
+            if(i&lt;ij){
+                bt-&gt;rchild = (BinTNode \*)malloc(sizeof(BinTNode));
+                mkBinTree(bt-&gt;rchild, inter, i+1, ij, post, pi+n, pj-1);
+            }
+        }
+    }
+}
+
+void preOrder(BinTree bt){
+    if(bt){
+        printf(&quot;%c&quot;, bt-&gt;data);
+        preOrder(bt-&gt;lchild);
+        preOrder(bt-&gt;rchild);
+    }
+}
+
+int btDepth(BinTree bt){
+    if(bt == NULL)
+        return 0;
+    int ldepth = 0;
+    int rdepth = 0;
+    ldepth = btDepth(bt-&gt;lchild);
+    rdepth = btDepth(bt-&gt;rchild);
+    if(ldepth&gt;rdepth)
+        return ldepth+1;
+    else
+        return rdepth+1;
+}
+
+int main(){
+    BinTree bt = (BinTNode \*)malloc(sizeof(BinTNode));
+    char inter[MAX];//前序序列
+    char post[MAX];//后序序列
+    scanf(&quot;%s&quot;, inter);
+    scanf(&quot;%s&quot;, post);
+    mkBinTree(bt, inter, 0, strlen(inter)-1, post, 0, strlen(post)-1);
+    preOrder(bt);
+    printf(&quot;\n&quot;);
+    int depth;
+    depth = btDepth(bt);
+    printf(&quot;%d\n&quot;, depth);
+    return 0;
+}
+</code></pre>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/11/05/data_structure/dataStructure_graph/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1979,998 +2451,6 @@ int main(){
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/11/05/data_structure/dataStructure_tree/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jokers">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jokers's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/11/05/data_structure/dataStructure_tree/" itemprop="url">数据结构--二叉树</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-05T08:00:00+08:00">
-                2018-11-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Data-Structure/" itemprop="url" rel="index">
-                    <span itemprop="name">Data Structure</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/11/05/data_structure/dataStructure_tree/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/11/05/data_structure/dataStructure_tree/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="前序序列构建二叉树"><a href="#前序序列构建二叉树" class="headerlink" title="前序序列构建二叉树"></a>前序序列构建二叉树</h3><pre><code>#include &lt;stdio.h&gt;
-
-#define MAX 100
-
-typedef struct Node{
-    char data;
-    struct Node \*lChild;
-    struct Node \*rChild;
-}BinTNode;
-
-typedef BintNode \*BinTree;
-
-int mkTree(BinTree bt, char \*str, int i){
-    bt-&gt;lChild = NULL;
-    bt-&gt;rChild = NULL;
-    bt-&gt;data = str[i];
-    printf(&quot;%c\n&quot;, bt-&gt;data);
-    if(i&lt;strlen(str)-1 &amp;&amp; str[i+1]!=&apos;.&apos;){
-        bt-&gt;lchild = (BinTNode \*)malloc(sizeof(BinTNode));
-        i = mkTree(bt-&gt;lchild, str, i+1);
-    }
-    i++;
-    if(i&lt;strlen(str)-1 &amp;&amp; str[i+1]!=&apos;.&apos;){
-        bt-&gt;rchild = (BinTNode \*)malloc(sizeof(BinTNode));
-        i = mkTree(bt-&gt;rchild, str, i+1);
-    }
-    return i;
-}
-
-&lt;!-- 前序遍历 --&gt;
-void preSort(BintTree bt){
-    if(bt){
-        printf(&quot;%c-&gt;&quot;, bt-&gt;data);
-        preSort(bt-&gt;lchild);
-        preSort(bt-&gt;rchild);
-    }
-}
-
-int main(){
-    BintTree bt = (BinTNode \*)malloc(sizeof(BinTNode));
-    char str[MAX];
-    scanf(&quot;%s&quot;, str);
-    printf(&quot;%s&quot;, str);
-    mkTree(bt, str, 0);
-    preSort(bt);
-    return 0;
-}
-</code></pre><h3 id="中后序列构建二叉树"><a href="#中后序列构建二叉树" class="headerlink" title="中后序列构建二叉树"></a>中后序列构建二叉树</h3><pre><code>#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-#include &lt;string.h&gt;
-
-typedef struct Node{
-    char data;
-    struct Node \*lchild;
-    struct Node \*rchild;
-}BinTNode;
-
-typedef BinTNode \*BinTree;
-
-#define MAX 100
-
-void mkBinTree(BinTree bt, char \*inter, int ii, int ij, char \*post, int pi, int pj){
-    bt-&gt;lchild = NULL;
-    bt-&gt;rchild = NULL;
-    bt-&gt;data = post[pj];
-    int n = 0;
-    for(int i=ii; i&lt;=ij; i++){
-        if(post[pj] == inter[i]){
-            n = i-ii;
-            if(i&gt;ii){
-                bt-&gt;lchild = (BinTNode \*)malloc(sizeof(BinTNode));
-                mkBinTree(bt-&gt;lchild, inter, ii, i-1, post, pi, pi+n-1);
-            }
-            if(i&lt;ij){
-                bt-&gt;rchild = (BinTNode \*)malloc(sizeof(BinTNode));
-                mkBinTree(bt-&gt;rchild, inter, i+1, ij, post, pi+n, pj-1);
-            }
-        }
-    }
-}
-
-void preOrder(BinTree bt){
-    if(bt){
-        printf(&quot;%c&quot;, bt-&gt;data);
-        preOrder(bt-&gt;lchild);
-        preOrder(bt-&gt;rchild);
-    }
-}
-
-int btDepth(BinTree bt){
-    if(bt == NULL)
-        return 0;
-    int ldepth = 0;
-    int rdepth = 0;
-    ldepth = btDepth(bt-&gt;lchild);
-    rdepth = btDepth(bt-&gt;rchild);
-    if(ldepth&gt;rdepth)
-        return ldepth+1;
-    else
-        return rdepth+1;
-}
-
-int main(){
-    BinTree bt = (BinTNode \*)malloc(sizeof(BinTNode));
-    char inter[MAX];//前序序列
-    char post[MAX];//后序序列
-    scanf(&quot;%s&quot;, inter);
-    scanf(&quot;%s&quot;, post);
-    mkBinTree(bt, inter, 0, strlen(inter)-1, post, 0, strlen(post)-1);
-    preOrder(bt);
-    printf(&quot;\n&quot;);
-    int depth;
-    depth = btDepth(bt);
-    printf(&quot;%d\n&quot;, depth);
-    return 0;
-}
-</code></pre>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/11/05/data_structure/dataStructure/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jokers">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jokers's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/11/05/data_structure/dataStructure/" itemprop="url">数据结构</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-05T07:00:00+08:00">
-                2018-11-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Data-Structure/" itemprop="url" rel="index">
-                    <span itemprop="name">Data Structure</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/11/05/data_structure/dataStructure/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/11/05/data_structure/dataStructure/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="线性表"><a href="#线性表" class="headerlink" title="线性表"></a>线性表</h2><h3 id="逻辑结构"><a href="#逻辑结构" class="headerlink" title="逻辑结构"></a>逻辑结构</h3><p>n个数据元素构成的有限序列。有且仅有一个开始结点a(1)，它没有直接前趋，仅有一直接后继。有且仅有一个终端点a(n)，它没有直接后继，仅有一个直接前趋。其余结点都仅有一个直接前趋和直接后继。<br>数据运算定义在逻辑结构，而具体实现在存储结构上。</p>
-<h3 id="线性表的顺序存储结构"><a href="#线性表的顺序存储结构" class="headerlink" title="线性表的顺序存储结构"></a>线性表的顺序存储结构</h3><p>把线性表的结点按逻辑次序依次存放在一组连续的存储单元里。简称顺序表。<br>高级语言中向量或一维数组采用顺序存储，可用来描述顺序表。</p>
-<pre><code># define ListSize 100
-typedef int DataType;
-typedef struct {
-    DataType data[ListSize];
-    int length;
-}SeqList;
-</code></pre><ul>
-<li><p>插入</p>
-<pre><code>void InsertList(SeqList * L, DataType x, int i){
-    if(i&lt;1 || i&gt;L-&gt;length+1)
-        Error(&quot;Position Error&quot;);
-    if(L-&gt;length&gt;=ListSize)
-        Error(&quot;Overflow&quot;);
-    for(int j=L-&gt;length; j&gt;=i; j--){
-        L-&gt;data[j] = L-&gt;data[j-1];
-    }
-    L[i-1] = x;
-    L-&gt;length ++;
-}
-</code></pre></li>
-<li><p>删除</p>
-<pre><code>void DeleteList(SeqList * L, int i){
-    if(i&lt;1 || i&gt;L-&gt;length-1){
-        Error(&quot;Position Error&quot;);
-    }
-    for(int j=i; j&lt;L-&gt;length; j++){
-        L-&gt;data[j-1] = L-&gt;data[j];
-    }
-    L-&gt;length --;
-}
-</code></pre></li>
-</ul>
-<h3 id="线性表的链式存储结构"><a href="#线性表的链式存储结构" class="headerlink" title="线性表的链式存储结构"></a>线性表的链式存储结构</h3><p>顺序存储结构的插入和删除操作会移动大量结点，为避免大量结点的移动，可使用链式存储结构。链式存储还可用于各种非线形的逻辑结构。<br>物理存储单元的地址可以不连续，单链表每个结点除了存储值以外还要存储后继结点的地址。<br>c语言描述如下：</p>
-<pre><code>typedef char DataType;
-typedef struct node{
-    DataType value;
-    struct node * next;
-}ListNode;
-typedef ListNode * LinkList;
-LinkList head;
-ListNode * p;
-</code></pre><p>ListNode * 和 LinkList 是同一个指针类型，命名不同的目的是概念上更明确。head表示单链表的头指针，p表示结点指针。<br>p的值是某一节点地址，程序执行过程中生成属于动态变量，通过标准函数生成，即：</p>
-<pre><code>p = (ListNode * )malloc(sizeof(ListNode))
-</code></pre><ul>
-<li><p>头插法创建单链表</p>
-<pre><code>LinkList CreateListF(){
-    LinkList head;
-    head = NULL;
-    ListNode * s;
-    char ch = getchar();
-    while(ch != &apos;\n&apos;){
-        s = (ListNode * )malloc(sieof(ListNode));
-        s -&gt; value = ch;
-        s -&gt; next = head;
-        head = s;
-        ch = getchar();
-    }
-    return head;
-}
-</code></pre></li>
-<li><p>尾插法创建单链表</p>
-<pre><code>LinkList CreateListT(){
-    LinkList head;
-    head = NULL;
-    LinkList tail;
-    tail = NULL;
-    ListNode * s;
-    char ch = getchar();
-    while(ch != &apos;\n&apos;){
-        s = (ListNode * )malloc(sieof(ListNode));
-        s -&gt; value = ch;
-        tail -&gt; next = s;
-        tail = s;
-        ch = getchar();
-        if(head == NULL)
-            head = s
-    }
-    if(r != NULL)
-        r -&gt; next = NULL;  //尾节点置空
-    return head;
-}
-</code></pre></li>
-<li><p>查找</p>
-<pre><code>//按位置查找
-ListNode * GetNode(LinkList head, int i){
-    int j = 0;
-    ListNode p = head;
-    while(j&lt;i &amp;&amp; p-&gt;next){
-        p = p-&gt;next;
-        j++;
-    }
-    if(j == i)
-        return p;
-    else
-        return NULL;
-}
-
-//按值查找
-ListNode * LocateNode(LinkList head, DataType key){
-    ListNode * p;
-    p = head-&gt;next;
-    while(p){
-        if(key == p-&gt;value)
-            return p;
-        p = p-&gt;next;
-    }
-    return NULL;
-}
-</code></pre></li>
-<li><p>插入</p>
-<pre><code>void InsertList(LinkList head, DataType x, int i){
-    ListNode * p = GetNode(head, i-1);
-    if(p == NULL)
-        Error(&quot;Position Error&quot;);
-    ListNode * s = (ListNode * )malloc(sizeof(ListNode));
-    s -&gt; value = x;
-    s -&gt; next = p -&gt; next;
-    p -&gt; next = s;
-}
-
-void DeleteList(LinkList head, int i){
-    ListNode * p = GetNode(head, i-1);
-    if(p == NULL || p-&gt;next==NULL)
-        Error(&quot;Position Error&quot;);
-    r = p-&gt;next;
-    p -&gt; next = r-&gt;next;
-    free(r);
-}
-</code></pre></li>
-</ul>
-<h2 id="栈和队列"><a href="#栈和队列" class="headerlink" title="栈和队列"></a>栈和队列</h2><p>逻辑结构与线性表相同，又称为运算受限的线性表。</p>
-<h3 id="栈"><a href="#栈" class="headerlink" title="栈"></a>栈</h3><p>顺序栈的定义</p>
-<pre><code># define StackSize 100
-typedef char DataType;
-typedef struct{
-    DataType data[StackSize];
-    int top; # 指示当前栈顶位置，又称栈顶指针
-}SeqStack;
-</code></pre><h3 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h3><h4 id="顺序队列"><a href="#顺序队列" class="headerlink" title="顺序队列"></a>顺序队列</h4><p>顺序队列，分别设置队头front指针和队尾rear指针。初值均为0。当插入元素时，插入rear所指位置，rear加1。当删除元素时，删除front所指位置，front加1。可见当front==rear时，队列为空。为防止假上溢现象，将向量空间想像为首尾相接的循环向量称为循环队列。<br>加1操作可描述为模运算</p>
-<pre><code>i = (i+1)%QueueSize;
-</code></pre><p>注意，循环队列front==rear时，可能是队列满<br>循环队列定义</p>
-<pre><code># define QueueSize 100
-typedef char DataType;
-typedef struct{
-    DataType data[QueueSize];
-    int front;
-    int rear;
-    int count; # 区分队列空或满
-} CirQueue;
-</code></pre><ul>
-<li><p>队列初始化</p>
-<pre><code>void InitQueue(CirQueue * Q){
-    Q-&gt;front = Q-&gt;rear = 0;
-    Q-&gt;count = 0;
-}
-</code></pre></li>
-</ul>
-<h3 id="栈和队列应用实例"><a href="#栈和队列应用实例" class="headerlink" title="栈和队列应用实例"></a>栈和队列应用实例</h3><ul>
-<li><p>十进制整数N转换为B进制数</p>
-<pre><code>void MultiBaseOutput(int N, int B){
-    SeqStack S;
-    int i;
-    while(N != 0){
-        push(&amp;S, N%B);
-        N = N/B #整除
-    }
-    while(!StackEmpty(S)){
-        i = pop(&amp;S);
-        printf(&quot;%d&quot;, i);
-    }
-}
-</code></pre></li>
-</ul>
-<p>时间复杂度为O(log(B)N)</p>
-<ul>
-<li>递归</li>
-</ul>
-<p>递归设计步骤：1、分解为类似原问题特性的子问题。2、保证有限次递归后满足终止条件</p>
-<h2 id="树"><a href="#树" class="headerlink" title="树"></a>树</h2><h3 id="树的基本概念"><a href="#树的基本概念" class="headerlink" title="树的基本概念"></a>树的基本概念</h3><ul>
-<li>树是一种非常重要的非线性结构</li>
-<li>一个结点拥有的子树称为该结点的度，树的度为结点最大度数。度为零的结点称为叶子结点。</li>
-<li>结点的层数从根算起，最大层数称为树的高度或深度</li>
-</ul>
-<h3 id="二叉树"><a href="#二叉树" class="headerlink" title="二叉树"></a>二叉树</h3><ul>
-<li>二叉树第i层的结点个数最多是2^(i-1)</li>
-<li>深度为k的二叉树至多有2^k-1个结点</li>
-<li>终端结点即度数为0的结点个数为n0，度数为2的结点个树是n2，有n0=n2+1</li>
-<li>满二叉树，深度位k且有2^k-1个结点</li>
-<li>完全二叉树，最底层的结点集中在左边</li>
-</ul>
-<h4 id="二叉树的链式存储"><a href="#二叉树的链式存储" class="headerlink" title="二叉树的链式存储"></a>二叉树的链式存储</h4><pre><code>typedef char DataType;
-typedef struct node{
-    DataType data;
-    struct node * left;
-    struct node * right;
-}BinTNode;
-typedef BinTNode * BinTree;
-</code></pre><h4 id="二叉树的遍历"><a href="#二叉树的遍历" class="headerlink" title="二叉树的遍历"></a>二叉树的遍历</h4><p>前序遍历，中序遍历，后序遍历</p>
-<pre><code># 中序遍历
-void Inorder(BinTree * T){
-    if(T){
-        Iorder(T-&gt;lchild);
-        print(&quot;%c&quot;, T-&gt;data)
-        Iorder(T-&gt;rchild);
-    }
-}
-</code></pre><h4 id="二叉树的构建"><a href="#二叉树的构建" class="headerlink" title="二叉树的构建"></a>二叉树的构建</h4><pre><code># 先序序列构建二叉树
-void createBinTree(BinTree T){
-    char c;
-    c = getchar();
-    if(c == &apos; &apos;){
-        T = NULL;
-    }else{
-        T = (BinTNode * )malloc(sizeof(BinTNode));
-        T -&gt; data = c;
-        createBinTree(T -&gt; lchild);
-        createBinTree(T -&gt; rchild);
-    }   
-}
-</code></pre><h4 id="层次遍历"><a href="#层次遍历" class="headerlink" title="层次遍历"></a>层次遍历</h4><h4 id="求叶子和结点个数"><a href="#求叶子和结点个数" class="headerlink" title="求叶子和结点个数"></a>求叶子和结点个数</h4><h2 id="图"><a href="#图" class="headerlink" title="图"></a>图</h2><h3 id="图的基本概念"><a href="#图的基本概念" class="headerlink" title="图的基本概念"></a>图的基本概念</h3><ul>
-<li>G = (V, E)</li>
-<li>有n(n-1)/2条边的图称为完全无向图</li>
-<li>有n(n-1)条边的图称为完全有向图</li>
-<li>无向图顶点v的度是关于该顶点边的数目，记为D(v)</li>
-<li>有向图为入度和出度</li>
-<li>边数 = (1/2)度数和</li>
-<li>无向图，若任意顶点连通，称G为连通图</li>
-</ul>
-<h3 id="图的存储结构"><a href="#图的存储结构" class="headerlink" title="图的存储结构"></a>图的存储结构</h3><ul>
-<li><p>邻接矩阵表示法</p>
-<pre><code># define MaxVertexNum 100
-typedef char VertexType;
-typedef int EdgeType;
-typedef struct{
-    VertexType vexs[MaxVertexNum];
-    EdgeType edges[MaxVertexNum][MaxVertexNum];
-    int n, e;
-}MGraph;
-</code></pre></li>
-<li><p>邻接矩阵无向图创建</p>
-<pre><code>void createMGraph(MGraph * g){
-    int i, j, k, w;
-    scanf(&quot;%d%d&quot;, &amp;g-&gt;n, &amp;g-&gt;e);
-    for(i=0; i&lt;g-&gt;n; i++){
-        g-&gt;vexs[i] = getchar();
-    }
-    for(i=0; i&lt;g-&gt;e; i++){
-        for(j=0; j&lt;g-&gt;e; j++){
-            g-&gt;edges[i][j] = 0;
-        }
-    }
-    for(k=0; k&lt;G-&gt;e; k++){
-        scanf(&quot;%d%d%d&quot;, &amp;i, &amp;j, &amp;w);
-        g-&gt;edges[i][j] = w;
-        g-&gt;edges[j][i] = w;
-    }
-}
-</code></pre></li>
-<li><p>邻接表表示法及其创建算法</p>
-<pre><code>typedef struct node{
-    int adjvex;
-    struct node * next;
-}EdgeNode;
-
-typedef struct vnode{
-    VertexType vertex;
-    EdgeNode * firstdege;
-}VertexNode;
-
-typedef VertexNode AdjList[MaxVertexNum];
-
-typedef struct{
-    AdjList adjList;
-    int n, e;
-}ALGraph;
-
-void createALGraph(ALGraph * G){
-    int i, j, k;
-    scanf(&quot;%d %d&quot;, &amp;G-&gt;n, &amp;G-&gt;e);
-    EdgeNode * s;
-    for(i=0; i&lt;G-&gt;n; i++){
-        G-&gt;adjList[i].vertex = getchar();
-        G-&gt;adjList[i].firstdege = NULL:
-    }
-    for(k=0; i&lt;G-&gt;e; k++){
-        scanf(&quot;%d %d&quot;, &amp;i, &amp;j);
-        s = (EdgeNode * )malloc(sizeof(EdgeNode));
-        s -&gt; adjvex = i;
-        s -&gt; next = G-&gt;adjList[j].firstdege;
-        G-&gt;adjList[j].firstdege = s;
-        s = (EdgeNode * )malloc(sizeof(EdgeNode));
-        s -&gt; adjvex = j;
-        s -&gt; next = G-&gt;adjList[i].firstdege;
-        G-&gt;adjList[i].firstdege = s;
-    }
-}
-</code></pre></li>
-</ul>
-<h3 id="图遍历"><a href="#图遍历" class="headerlink" title="图遍历"></a>图遍历</h3><ul>
-<li><p>深度优先遍历–邻接表</p>
-<pre><code>Boolean visited[MaxVertexNum];
-
-void DFSTraverse(ALGraph * G){
-    for(int i=0; i&lt;G-&gt;n; i++)
-        visited[i] = FALSE;
-    for(int j=0; j&lt;G-&gt;n; j++){
-        if(!visited[j])
-            DFS(G, j);
-    }
-}
-
-void DFS(ALGraph * G, int i){
-    printf(&quot;%c&quot;, G-&gt;adjList[i].vertex);
-    visited[i] = TRUE;
-    EdgeNode * p = G-&gt;adjList[i].firstdege;    
-    while(p){
-        if(!visited(p-&gt;adjvex)){
-            DFS(G, p-&gt;adjvex);
-        }
-        p = p-&gt;next;
-    }
-}
-</code></pre></li>
-<li><p>深度优先遍历–邻接矩阵</p>
-<pre><code>int visited[MaxVertexNum];
-void DFTraversal(MGraph * g){
-    int i;
-    for(i=0; i&lt;g-&gt;n; i++){
-        visited[i] = 0;
-    }
-    for(i=0; i&lt;g-&gt;n; i++){
-        if(visited[i] == 0){
-            DFS(g, i);
-        }
-    }
-}
-void DFS(MGraph * g, i){
-    int j;
-    printf(&quot;%c&quot;, g-&gt;vexs[i]);
-    visited[i] = 1;
-    for(j=1; j&lt;g-&gt;n, j++){
-        if(g-&gt;edges[i][j] != 0 &amp;&amp; visited[i] == 0){
-            DFS(g, j);
-        }
-    }
-}
-</code></pre></li>
-<li><p>广度优先遍历–邻接表</p>
-<pre><code>Boolean visited[MaxVertexNum];
-
-void DFSTraverse(ALGraph * G){
-    for(int i=0; i&lt;G-&gt;n; i++)
-        visited[i] = FALSE;
-    for(int j=0; j&lt;G-&gt;n; j++){
-        if(!visited[j])
-            DFS(G, j);
-    }
-}
-
-void DFS(ALGraph * G, int i){
-    printf(&quot;%c&quot;, G-&gt;adjList[i].vertex);
-    visited[i] = TRUE;
-    EnQueue(&amp;Q, i);
-    EdgeNode * p;
-    while(!QueueEmpty(&amp;Q)){
-        i = DeQueue(&amp;Q);
-        p = G-&gt;adjList[i].firstdege;
-        while(p){
-            if(!visited(p-&gt;adjvex)){
-                printf(&quot;%c&quot;, G-&gt;adjList[p-&gt;adjvex].vertex);
-                visited[p-&gt;adjvex] = TRUE;
-                EnQueue(&amp;Q, i);
-            }
-            p = p-&gt;next;
-        }
-    }
-}
-</code></pre></li>
-<li><p>广度优先遍历–邻接矩阵</p>
-<pre><code>int visited[MaxVertexNum];
-void DFTraversal(MGraph * g){
-    int i;
-    for(i=0; i&lt;g-&gt;n; i++){
-        visited[i] = 0;
-    }
-    for(i=0; i&lt;g-&gt;n; i++){
-        if(visited[i] == 0){
-            BFS(g, i);
-        }
-    }
-}
-void BFS(MGraph * g, i){
-    int j;
-    printf(&quot;%c&quot;, g-&gt;vexs[i]);
-    visited[i] = 1;
-    EnQueue(i); //队列，先进先出
-    while(!QueueEmpty()){
-        i = DeQueue();
-        for(j=1; j&lt;g-&gt;n, j++){
-            if(g-&gt;edges[i][j] != 0 &amp;&amp; visited[i] == 0){
-                printf(&quot;%c&quot;, g-&gt;vexs[j]);
-                EnQueue(j);
-            }
-        }
-    }
-}
-</code></pre></li>
-</ul>
-<h2 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h2><h3 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h3><ul>
-<li><p>直接插入排序</p>
-<pre><code># define n 100
-typedef struct{
-    int key;
-}RecType;
-
-typedef RecType SeqList[n+1];
-
-void insertSort(SeqList R){
-    int i, j, k;
-    // 循环
-    for(i=2; i&lt;=n; i++){
-        R[0].key = R[i].key;
-        for(j=i-1; j&gt;=0; j--){
-            if(R[j].key &lt;= R[i].key){
-                break;
-            }
-        }
-        if(j &lt; i-1){
-            for(k=i-1; k&gt;j; k--){
-                R[k+1].key = R[k].key;
-            }
-            R[j+1].key = R[0].key;
-        }
-    }
-}
-</code></pre></li>
-<li><p>希尔排序</p>
-</li>
-</ul>
-<h3 id="交换排序"><a href="#交换排序" class="headerlink" title="交换排序"></a>交换排序</h3><ul>
-<li><p>冒泡</p>
-<pre><code>void BubbleSort(SeqList R){
-    int i, j;
-    Boolean exchange;
-    for(i=1; i&lt;n; i++){
-        exchange = FALSE;
-        for(j=n; j&gt;i; j--){
-            if(R[j]&lt;R[j-1]){
-                R[0] = R[j-1];
-                R[j-1] = R[j];
-                R[j] = R[0];
-                exchange = TRUE;
-            }
-        }
-        if(!exchange)
-            break;
-    }
-}
-</code></pre></li>
-<li><p>快速排序</p>
-<pre><code>void QuickSort(SeqList R, int low, int high){
-    int pivotpos;
-    if(low &lt; high){
-        pivotpos = Partition(R, low, high);
-        QuickSort(R, low, pivotpos-1);
-        QuickSort(R, pivotpos+1, high)
-    }
-}
-
-void Partition(SeqList R, int i, int j){
-    RecType pivot = R[i];
-    while(i&lt;j){
-        while(i&lt;j &amp;&amp; R[j]&gt;=pivot){
-            j--;
-        }
-        if(i&lt;j){
-            R[i] = R[j];
-            i++;
-        }
-        while(i&lt;j &amp;&amp; R[i]&lt;=pivot){
-            i++;
-        }
-        if(i&lt;j){
-            R[j] = R[i];
-            j--;
-        }
-    }
-    R[i] = pivot;
-    return i;
-}
-</code></pre></li>
-</ul>
-<h3 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h3><ul>
-<li><p>直接选择排序</p>
-<pre><code>void selectSort(SeqList R){
-    int i, j, k;
-    for(i=1; i&lt;n; i++){
-        k = i;
-        for(j=i+1; j&lt;=n; j++){
-            if(R[j] &lt; R[k]){
-                k = j;
-            }
-        }
-        if(k != i){
-            R[0] = R[i];
-            R[i] = R[k];
-            R[k] = R[0];
-        }
-    }
-}
-</code></pre></li>
-<li><p>堆排序</p>
-<pre><code>void HeapSort(SeqList R){
-    int i;
-    BuidHeap(R);
-    for(i=n; i&gt;1; i--){
-        R[0] = R[1];
-        R[1] = R[i]
-        R[i] = R[0];
-        Heapify(R, 1, i-1);
-    }
-}
-
-void Heapify(SeqList R, int low, int high){
-    while(low &lt;= high){
-        tmp = 2*low;
-        if(R[low]&gt;=R[tmp] &amp;&amp; R[low]&gt;=R[tmp+1])
-            break;
-        if(tmp+1&lt;=high &amp;&amp; R[tmp]&lt;R[tmp+1])
-            tmp ++;
-        t = R[low];
-        R[low] = R[tmp];
-        R[tmp] = t;
-        low = tmp;
-    }
-}
-
-void BuidHeap(SeqList R){
-    for(int i=n/2; i&gt;=1; i--)
-        Heapify(R, i, n)
-}
-</code></pre></li>
-</ul>
-<h3 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h3><pre><code>void Merge(SeqList R, int low, int m, int high){
-    // R[low...m]和R[m+1...high]为有序序列
-    RecType * R1 = (RecType * )malloc((high-low+1)* sizeof(RecType));
-    int i = low;
-    int j = m+1;
-    int p = 0;
-    while(i&lt;=m &amp;&amp; j&lt;=high)
-        R1[p++] = (R[i]&lt;=R[j]):R[i++]?R[j++];
-    while(i&lt;=m)
-        R1[p++] = R[i++];
-    while(j&lt;=high)
-        R1[p++] = R[j++];
-    for(p=0,i=low; i&lt;=high; i++, p++){
-        R[i] = R1[p];   
-    }
-}
-
-// 自顶向下
-void MergeSortDC(SeqList R, int low, int high){
-    int mid;
-    if(low &lt; high){
-        mid = (low + high)/2;
-        MergeSortDC(R, low, mid);
-        MergeSortDC(R, mid+1, high);
-        Merge(R, low, mid, high);
-    }
-}
-</code></pre>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -3021,7 +2501,7 @@ void MergeSortDC(SeqList R, int low, int high){
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">44</span>
+                <span class="site-state-item-count">45</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -3032,7 +2512,7 @@ void MergeSortDC(SeqList R, int low, int high){
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

@@ -273,6 +273,184 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2019/07/26/quant/arbitrage/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/07/26/quant/arbitrage/" itemprop="url">简单的Arbitrage</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-26T11:00:00+08:00">
+                2019-07-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/quant/" itemprop="url" rel="index">
+                    <span itemprop="name">quant</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/07/26/quant/arbitrage/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2019/07/26/quant/arbitrage/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="数据准备"><a href="#数据准备" class="headerlink" title="数据准备"></a>数据准备</h2><p>采集huobi、Binance、OKEx分钟数据</p>
+<h3 id="OKEx"><a href="#OKEx" class="headerlink" title="OKEx"></a>OKEx</h3><ul>
+<li>不论何种周期的candle data都只能采集到最近2000条左右的数据</li>
+</ul>
+<h3 id="huobi"><a href="#huobi" class="headerlink" title="huobi"></a>huobi</h3><ul>
+<li>huobi的采集历史数据要用到WebSocket</li>
+<li>要频繁的PING，否则服务器会断开连接</li>
+<li>不能保证每次请求的及时的响应和数据完整性</li>
+<li>每次300条，我从2000开始往下试，这个真的是干货</li>
+<li>循环逻辑写的好，以上问题都不是问题。嗯！</li>
+</ul>
+<h3 id="Binance"><a href="#Binance" class="headerlink" title="Binance"></a>Binance</h3><ul>
+<li>夸一下币安的接口，难怪用户规模增长快呢。</li>
+<li>请求的时间戳和返回时间戳是毫秒级的13位数字，Python要处理一下</li>
+<li>每分钟有请求次数限制，历史数据接口好像是每分钟1200次</li>
+</ul>
+<h3 id="数据存储"><a href="#数据存储" class="headerlink" title="数据存储"></a>数据存储</h3><ul>
+<li>每个平台分配一个Collection</li>
+<li>别忘了给加唯一索引，不然会很崩溃</li>
+<li>别问我为什么选MongoDB，可以看看我之前的blog</li>
+</ul>
+<h2 id="看图说话"><a href="#看图说话" class="headerlink" title="看图说话"></a>看图说话</h2><ul>
+<li>就选一天的数据看看吧，没什么代表性，仅供参考</li>
+</ul>
+<p><img src="arbitrage/line.png" alt="avatar"></p>
+<p><img src="arbitrage/hist.png" alt="avatar"></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://thathub.com/2019/07/25/python-install/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -832,168 +1010,6 @@ lookup_fruit_name[fruit_prediction[0]]
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2019/07/07/bigdata/Comparison_with_Traditional_Databases/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jokers">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jokers's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/07/07/bigdata/Comparison_with_Traditional_Databases/" itemprop="url">Comparison with Traditional Databases</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-07T17:35:00+08:00">
-                2019-07-07
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/BigData/" itemprop="url" rel="index">
-                    <span itemprop="name">BigData</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/07/07/bigdata/Comparison_with_Traditional_Databases/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2019/07/07/bigdata/Comparison_with_Traditional_Databases/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <blockquote>
-<p>译自 Hadoop-The Definitive Guide, 4th Edition p476 </p>
-</blockquote>
-<h3 id="Schema-on-Read-Versus-Schema-on-Write"><a href="#Schema-on-Read-Versus-Schema-on-Write" class="headerlink" title="Schema on Read Versus Schema on Write"></a>Schema on Read Versus Schema on Write</h3><p>传统数据库在数据载入的时候会强制验证表的模式。<br>Hive只有在查询数据时才会验证。</p>
-<p>Schema on Read 在数据初始载入时非常快，只是复制和移动数据不需要按照数据库的格式进行解析序列化。因此我们可以将两类模式应用在同一组数据。</p>
-<p>Schema on Write 索引载入的数据使得查询更快，但是会耗费更长的时间载入</p>
-<h3 id="Updates-Transactions-and-Indexes"><a href="#Updates-Transactions-and-Indexes" class="headerlink" title="Updates, Transactions, and Indexes"></a>Updates, Transactions, and Indexes</h3><p>Hive不支持就地更新，所以所有的增删该储存在临时表，然后定期合并到表</p>
-<p>Hive支持分区级和表级锁</p>
-<p>Hive的index可以提升查询速度，目前有两种索引：compact and bitmap<br>compact存储每个值对应block的标号<br>bitmap适用于索引低基数列(例如性别或国家)</p>
-<h3 id="SQL-on-Hadoop-Alternatives"><a href="#SQL-on-Hadoop-Alternatives" class="headerlink" title="SQL-on-Hadoop Alternatives"></a>SQL-on-Hadoop Alternatives</h3><p>其他的SQL-on-Hadoop框架例如Impala、Presto、Drill、Spark SQL<br>Apache Phoenix 使用完全不同方法：将查询转换为HBase扫描，Metadata也存储在HBase。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://thathub.com/2019/07/07/bigdata/HBase_Versus_RDBMS/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1135,6 +1151,168 @@ lookup_fruit_name[fruit_prediction[0]]
 <p>  MapReduce的集成允许对数据进行完全并行的分布式作业</p>
 </li>
 </ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2019/07/07/bigdata/Comparison_with_Traditional_Databases/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/07/07/bigdata/Comparison_with_Traditional_Databases/" itemprop="url">Comparison with Traditional Databases</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-07T17:35:00+08:00">
+                2019-07-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/BigData/" itemprop="url" rel="index">
+                    <span itemprop="name">BigData</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/07/07/bigdata/Comparison_with_Traditional_Databases/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2019/07/07/bigdata/Comparison_with_Traditional_Databases/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<p>译自 Hadoop-The Definitive Guide, 4th Edition p476 </p>
+</blockquote>
+<h3 id="Schema-on-Read-Versus-Schema-on-Write"><a href="#Schema-on-Read-Versus-Schema-on-Write" class="headerlink" title="Schema on Read Versus Schema on Write"></a>Schema on Read Versus Schema on Write</h3><p>传统数据库在数据载入的时候会强制验证表的模式。<br>Hive只有在查询数据时才会验证。</p>
+<p>Schema on Read 在数据初始载入时非常快，只是复制和移动数据不需要按照数据库的格式进行解析序列化。因此我们可以将两类模式应用在同一组数据。</p>
+<p>Schema on Write 索引载入的数据使得查询更快，但是会耗费更长的时间载入</p>
+<h3 id="Updates-Transactions-and-Indexes"><a href="#Updates-Transactions-and-Indexes" class="headerlink" title="Updates, Transactions, and Indexes"></a>Updates, Transactions, and Indexes</h3><p>Hive不支持就地更新，所以所有的增删该储存在临时表，然后定期合并到表</p>
+<p>Hive支持分区级和表级锁</p>
+<p>Hive的index可以提升查询速度，目前有两种索引：compact and bitmap<br>compact存储每个值对应block的标号<br>bitmap适用于索引低基数列(例如性别或国家)</p>
+<h3 id="SQL-on-Hadoop-Alternatives"><a href="#SQL-on-Hadoop-Alternatives" class="headerlink" title="SQL-on-Hadoop Alternatives"></a>SQL-on-Hadoop Alternatives</h3><p>其他的SQL-on-Hadoop框架例如Impala、Presto、Drill、Spark SQL<br>Apache Phoenix 使用完全不同方法：将查询转换为HBase扫描，Metadata也存储在HBase。</p>
 
           
         
@@ -2051,210 +2229,6 @@ db.users.find({&quot;id_num&quot; : {&quot;$not&quot; : {&quot;$mod&quot; : [5, 
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2019/01/31/bigdata/hadoop_guide/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jokers">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jokers's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/01/31/bigdata/hadoop_guide/" itemprop="url">hadoop2指南</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-31T11:30:00+08:00">
-                2019-01-31
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/BigData/" itemprop="url" rel="index">
-                    <span itemprop="name">BigData</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/01/31/bigdata/hadoop_guide/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2019/01/31/bigdata/hadoop_guide/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Hadoop-Fundamentals"><a href="#Hadoop-Fundamentals" class="headerlink" title="Hadoop Fundamentals"></a>Hadoop Fundamentals</h2><h3 id="Chapter-1-Meet-Hadoop"><a href="#Chapter-1-Meet-Hadoop" class="headerlink" title="Chapter 1. Meet Hadoop"></a>Chapter 1. Meet Hadoop</h3><p>Hadoop通常指大型的生态系统，不仅仅是HDFS和MapReduce，属于分布式计算和大规模数据处理<br>例如，HBase，key-value存储方式，使用HDFS作为底层存储<br>yarn，Hadoop中新处理模型的推动者，它是一个集群资源管理系统，它允许分布式程序（不仅仅是MapReduce）在Hadoop集群处理数据<br>Hive，大数据集合低延迟的SQL交互查询<br>Spark，许多算法，例如机器学习算法，本质上是在数据集上的迭代计算，而MapReduce并不支持迭代数据持久化到内存，需要每次在磁盘载入，而Spark不需要<br>Solr，可在Hadoop集群上运行，索引文档存储在HDFS并提供查询服务<br>MapReduce有助于理解一些通用概念，例如输入格式概念和数据集的分片等<br>MapReduce等Hadoop处理模型都是随着数据量线性扩展的，而功能函数（例如Map和Reduce）可以在分区并行工作，因此假设据数量翻倍，而集群节点数量也翻倍，那么计算时间是不变的</p>
-<h3 id="Chapter-2-MapReduce"><a href="#Chapter-2-MapReduce" class="headerlink" title="Chapter 2. MapReduce"></a>Chapter 2. MapReduce</h3><h4 id="A-Weather-Dataset"><a href="#A-Weather-Dataset" class="headerlink" title="A Weather Dataset"></a>A Weather Dataset</h4><p>我们以计算历年记录的最高温度为例，传统方法会逐行读取并比较获得最高温度。为了提高运行速度，可以使用并行处理。<br>1.我们可以使用不同的进程运行不同年份的记录，但是不同年份的数据量不同，计算时间取决于最大的文件。因此最好的办法是把输入的数据分割成大小相等的块再分别处理。<br>2.因为数据被分割成大小相等的块，每个数据块都会计算出不同年份的最大温度，最终我们还要找到每年的最大温度。<br>3.仍然会受限于单台计算机的处理能力，可以使用多台计算机，那么主要问题在与协调性和可靠性，哪台计算机执行全局的任务，如何处理失败的进程。<br>以上方法虽然可行但是繁杂，所以我们可以借助类似Hadoop的框架。</p>
-<h4 id="Analyzing-the-Data-with-Hadoop"><a href="#Analyzing-the-Data-with-Hadoop" class="headerlink" title="Analyzing the Data with Hadoop"></a>Analyzing the Data with Hadoop</h4><p>MapReduce将操作分为两个阶段，map阶段和reduce阶段，每个阶段都是key-value对作为输入和输出，同时需要编写map和reduce方法。<br>map阶段的输入是NCDC原始的行数据，key是每行相对应文本开始位置的偏移值，不过可以忽略。map方法只是数据准备，只需要在每行数据中提取出年份和温度。<br>可视化map的工作<br>输入数据：<br>0067011990999991950051507004…9999999N9+00001+99999999999…<br>0043011990999991950051512004…9999999N9+00221+99999999999…<br>0043011990999991950051518004…9999999N9-00111+99999999999…<br>0043012650999991949032412004…0500001N9+01111+99999999999…<br>0043012650999991949032418004…0500001N9+00781+99999999999…<br>呈现给map方法的key-value对：<br>(0, 0067011990999991950051507004…9999999N9+00001+99999999999…)<br>(106, 0043011990999991950051512004…9999999N9+00221+99999999999…)<br>(212, 0043011990999991950051518004…9999999N9-00111+99999999999…)<br>(318, 0043012650999991949032412004…0500001N9+01111+99999999999…)<br>(424, 0043012650999991949032418004…0500001N9+00781+99999999999…)<br>map提取年份和温度，并输出：<br>(1950, 0)<br>(1950, 22)<br>(1950, -11)<br>(1949, 111)<br>(1949, 78)<br>MapReduce框架通过key聚合排序map的输出，再传输给reduce，所以reduce的输入为：<br>(1949, [111, 78])<br>(1950, [0, 22, −11])<br>reduce遍历list并找出最大温度：<br>(1949, 111)<br>(1950, 22)</p>
-<h4 id="Scaling-Out"><a href="#Scaling-Out" class="headerlink" title="Scaling Out"></a>Scaling Out</h4><p>将数据储存在分布式文件系统，使用Hadoop的资源管理系统（YARN），可使得每台机器持有一部分数据进行MapReduce计算。</p>
-<h5 id="Data-Flow"><a href="#Data-Flow" class="headerlink" title="Data Flow"></a>Data Flow</h5><p>YARN分配任务到集群节点，如果一个任务失败，会被自动分配到其它节点。Hadoop将输入数据分片并创建map任务将分片作为输入数据。<br>分片越小，负载均衡越好，因为一个运行速度快的机器可以处理更多的分片。<br>但是如果分片太小，分片的管理和map任务的创建会耗费太多的时间。分片大小最好等于HDFS的block，默认是128M。数据存在于执行map任务的节点，执行效率更高，因为节省了宝贵的集群间的带宽资源。<br>一个block大小的分片是可以保证存储在同一个节点的，这就是为什么最优分片大小是block size。假设分片大小是两个block size，执行map任务的节点可能没有恰好存储两个block，这就需要在节点间传输数据。<br>reduce任务数量可以自定义，map的输出需要通过网络传输合并传递给运行reduce的节点，reduce的输出通常存储在HDFS。<br>当有多个reduce时，map分割输出，相同的key必须在同一个分割，用户可以自定义分割，但是默认分割方法挺好的，</p>
-<h5 id="Combiner-Functions"><a href="#Combiner-Functions" class="headerlink" title="Combiner Functions"></a>Combiner Functions</h5><p>许多MapReduce任务受限于集群的可用带宽，所以研究如何最小化map和reduce间传递的数据变得很重要。combiner方法允许用户指定并作用于map的输出，最后形成reduce的输入。因为combiner方法是优化方法，hadoop不保证可以运行几次combiner。<br>第一个map输出：<br>(1950, 0)<br>(1950, 20)<br>(1950, 10)<br>第二个输出：<br>(1950, 25)<br>(1950, 15)<br>reduce输入：<br>(1950, [0, 20, 10, 25, 15])<br>reduce输出：<br>(1950, 25)<br>我们可以使用combiner方法，类似于reduce，找到每个map输出的最大值：<br>(1950, [20, 25])<br>可表示为：<br>max(0, 20, 10, 25, 15) = max(max(0, 20, 10), max(25, 15)) = max(20, 25) = 25<br>但是，如果计算平均值，不能使用mean作为combiner，因为：<br>mean(0, 20, 10, 25, 15) = 14<br>但是：<br>mean(mean(0, 20, 10), mean(25, 15)) = mean(10, 20) = 15<br>综上，combiner可以减少传输数据的数量，值得考虑是否可以用combiner。</p>
-<h3 id="Chapter-3-The-Hadoop-Distributed-Filesystem"><a href="#Chapter-3-The-Hadoop-Distributed-Filesystem" class="headerlink" title="Chapter 3. The Hadoop Distributed Filesystem"></a>Chapter 3. The Hadoop Distributed Filesystem</h3><h4 id="The-Design-of-HDFS"><a href="#The-Design-of-HDFS" class="headerlink" title="The Design of HDFS"></a>The Design of HDFS</h4><p>HDFS is a filesystem designed for storing very large files with streaming data access<br>patterns, running on clusters of commodity hardware.</p>
-<p>Very large files<br>文件大小数百M，G，T，P</p>
-<p>Streaming data access<br>HDFS建立在最有效的数据处理模式下，一次写入，多次读取的模式。因此读取整个数据集的时间比读取第一条数据的延迟时间更重要。</p>
-<p>Commodity hardware<br>Hadoop不需要昂贵，高可靠性的硬件。</p>
-<p>Low-latency data access<br>HDFS对几十毫秒内的低延迟访问表现不好，因为它主要优化方向是高吞吐量，势必造成高延迟。HBase是当前达到低延迟的选择。</p>
-<p>Lots of small files<br>namenode将文件系统元数据放在内存，而每个文件，目录，block占用大约150比特。假设有100万的文件，每个文件是一个block，需要300M内存。</p>
-<p>Multiple writers, arbitrary file modifications<br>目前仅支持单用户在文件末尾append</p>
-<h4 id="HDFS-Concepts"><a href="#HDFS-Concepts" class="headerlink" title="HDFS Concepts"></a>HDFS Concepts</h4><h5 id="Blocks"><a href="#Blocks" class="headerlink" title="Blocks"></a>Blocks</h5><p>每个block默认128M，文件被拆分成block大小，不足block大小的文件虽然是一个block，但是仅占用实际大小的空间。<br>block带给分布式系统好处：</p>
-<ol>
-<li>文件大小可以大于单个结点的磁盘</li>
-<li>简化储存子系统</li>
-<li>适合复制，增加了系统容错能力，默认复制到3个结点</li>
-</ol>
-<h5 id="Namenodes-and-Datanodes"><a href="#Namenodes-and-Datanodes" class="headerlink" title="Namenodes and Datanodes"></a>Namenodes and Datanodes</h5><p>HDFS集群是master−worke模式，一个namenode（master）和一些datanode（workers）。namenode管理文件系统命名空间。它包含文件系统树和所有文件及目录的元数据，这些数据持久化在本地磁盘，两个文件分别是namespace image和edit log。namenode不持久化block的位置，因为每次系统启动都会通过datanode重建位置信息。<br>客户端访问namenode和datanode，对用户来说是透明的。<br>datanode存储检索block并周期性的向namenode报告blocks的存储情况。<br>没有namenode，HDFS将无法工作。namenode故障将使得文件系统的文件丢失，为了避免这种情况，Hadoop提供了两种机制：<br>第一种是备份文件系统元数据，备份是同步的和原子的，通常的配置是写入本地磁盘和原称NFS mount。<br>第二种是运行secondary namenode，周期性的合并namespace image及edit log。secondary namenode常运行在单独的机器，因为它需要大量的CPU和内存执行merge。如果主namenode挂了，总会出现数据丢失，在这种情况通常从NFS复制一份namenode的元数据到ssecondary namenode并将其作为namenode使用。</p>
-<h5 id="Block-Caching"><a href="#Block-Caching" class="headerlink" title="Block Caching"></a>Block Caching</h5><p>通常datanode从disk读block，但是对高频访问的block可以明确缓存到datanode的内存，可以增加读的效率。应用通过添加缓存指令到缓存池来指导namenode缓存文件。</p>
-<h5 id="HDFS-Federation"><a href="#HDFS-Federation" class="headerlink" title="HDFS Federation"></a>HDFS Federation</h5><p>每个文件和块的引用是保存在namenode的内存中的，我们可以添加namenode去扩展，每个namenode管理一部分的namespace，相互对立，不影响其它namenode的可用性</p>
-<h5 id="HDFS-High-Availability"><a href="#HDFS-High-Availability" class="headerlink" title="HDFS High Availability"></a>HDFS High Availability</h5><p>secondary namenode元数据并使用辅助namenode防止数据丢失，不能获得高可用的系统。<br>如果namenode挂掉，新的namenode需要载入namespace image到内存，重现edit log，接收所有datanode上报的block映射关系，才能正常运行。在大型集群，需要耗费30分钟甚至更长的时间。<br>Hadoop 2添加高可用性（HA）支持，使用一对namenode（active-standby），active namenode挂掉，standby可以很快提供服务。<br>架构需要做一些改动：</p>
-<ul>
-<li>namenode必须使用高可用性共享存储来共享编辑日志</li>
-<li>datanode必须向所以namenode发送block的映射信息</li>
-<li>客户端需要配置处理故障转移，对用户透明</li>
-</ul>
-<h4 id="The-Command-Line-Interface"><a href="#The-Command-Line-Interface" class="headerlink" title="The Command-Line Interface"></a>The Command-Line Interface</h4><p>首先安装一个伪分布式的Hadoop，配置文件中的fs.defaultFS设置为hdfs://localhost/，使用HDFS作为Hadoop的文件系统。<br>dfs.replication设置为1（默认3），不对blocks进行复制。<br>获得帮助信息</p>
-<pre><code>hadoop fs -help 
-</code></pre><p>从本地文件系统复制文件到HDFS</p>
-<pre><code>% hadoop fs -copyFromLocal input/docs/quangle.txt \
-hdfs://localhost/user/tom/quangle.txt
-</code></pre><p>我们可以省略schema和host，使用定义在core-site.xml中的值</p>
-<pre><code>% hadoop fs -copyFromLocal input/docs/quangle.txt /user/tom/quangle.txt
-</code></pre><p>创建文件夹以及列出所有的文件</p>
-<pre><code>% hadoop fs -mkdir books
-% hadoop fs -ls .
-</code></pre><h4 id="Hadoop-Filesystems"><a href="#Hadoop-Filesystems" class="headerlink" title="Hadoop Filesystems"></a>Hadoop Filesystems</h4><p>Hadoop有许多种Filesystems</p>
-<h5 id="Interfaces"><a href="#Interfaces" class="headerlink" title="Interfaces"></a>Interfaces</h5><p>接口有Java的Native API<br>有HTTP REST API，通过HTTP访问HDFS有两种方式：<br>1、直接访问namenode，然后重定向到datanode<br>2、使用代理服务器，代理负责访问namenode和重定向到datanode，这中方式可以允许更严格的防火墙和带宽限制策略<br>HTTP接口速度比Native慢</p>
-<h4 id="Parallel-Copying-with-distcp"><a href="#Parallel-Copying-with-distcp" class="headerlink" title="Parallel Copying with distcp"></a>Parallel Copying with distcp</h4><p>并行复制数据，可以有效代替 hadoop fs -cp<br>复制一个文件</p>
-<pre><code>% hadoop distcp file1 file2
-</code></pre><p>复制目录</p>
-<pre><code>% hadoop distcp dir1 dir2
-</code></pre><p>如果dir2不存在，则新建dir2并且把dir1的数据拷贝到dir2。如果dir2存在,则dir1会复制到dir2/dir1。<br>使用 -overwrite 选项可以避免改变目录结构。<br>使用 -update 选项只同步更新。</p>
-<pre><code>% hadoop distcp -update dir1 dir2
-</code></pre><p>distcp使用MapReduce任务实现，并行的maps执行复制，没有reduce。多达20个maps执行复制，可以通过 -m 参数指定数量。<br>distcp通常用于两个集群间传递数据</p>
-<pre><code>% hadoop distcp -update -delete -p hdfs://namenode1/foo hdfs://namenode2/foo
-</code></pre><p>–delete 删除namenode1不存在的文件，-p 保存文件参数，例如，block大小、权限等。<br>如果两个集群HDFS版本不同，可以使用webhdfs协议</p>
-<pre><code>% hadoop distcp webhdfs://namenode1:50070/foo webhdfs://namenode2:50070/foo
-</code></pre><h5 id="Keeping-an-HDFS-Cluster-Balanced"><a href="#Keeping-an-HDFS-Cluster-Balanced" class="headerlink" title="Keeping an HDFS Cluster Balanced"></a>Keeping an HDFS Cluster Balanced</h5><p>为保证集群中每个结点的blocks数量平衡，建议使用默认的20个map执行distcp，因为如果只有一个map，那么所有复制的block都会在运行map的node建立一个副本。</p>
-<h3 id="Chapter-4-YARN"><a href="#Chapter-4-YARN" class="headerlink" title="Chapter 4. YARN"></a>Chapter 4. YARN</h3><p>YARN是在Hadoop2引入的，改善MapReduce的实现，并且支持其他分布式计算框架。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2305,7 +2279,7 @@ hdfs://localhost/user/tom/quangle.txt
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">44</span>
+                <span class="site-state-item-count">45</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2316,7 +2290,7 @@ hdfs://localhost/user/tom/quangle.txt
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
