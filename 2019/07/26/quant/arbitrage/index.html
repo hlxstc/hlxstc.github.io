@@ -94,19 +94,19 @@
 
 
 
-<meta name="description" content="数据准备采集huobi、Binance、OKEx分钟数据 OKEx 不论何种周期的candle data都只能采集到最近2000条左右的数据 虽然吐槽一下OKEx的小气，不过客服是真不错的，金融加入互联网基因总会让人感觉舒服些 (说句无关的)传统金融圈子又小又排外，赚的不过是信息闭塞的钱 有合约  huobi huobi的采集历史数据要用到WebSocket 要频繁的PING，否则服务器会断开连接">
+<meta name="description" content="数据准备采集huobi、Binance、OKEx分钟数据 OKEx 不论何种周期的candle data都只能采集到最近2000条左右的数据 虽然吐槽一下OKEx的小气，不过客服是真不错的，金融加入互联网基因总会让人感觉舒服些 接口Bug有点多，例如对手价下单会报价格错误，常见Bug需要处理一下 (说句无关的)传统金融圈子又小又排外，赚的不过是信息闭塞的钱 有合约  huobi huobi的采集历">
 <meta property="og:type" content="article">
 <meta property="og:title" content="简单的Arbitrage">
 <meta property="og:url" content="http://thathub.com/2019/07/26/quant/arbitrage/index.html">
 <meta property="og:site_name" content="Jokers&#39;s Blog">
-<meta property="og:description" content="数据准备采集huobi、Binance、OKEx分钟数据 OKEx 不论何种周期的candle data都只能采集到最近2000条左右的数据 虽然吐槽一下OKEx的小气，不过客服是真不错的，金融加入互联网基因总会让人感觉舒服些 (说句无关的)传统金融圈子又小又排外，赚的不过是信息闭塞的钱 有合约  huobi huobi的采集历史数据要用到WebSocket 要频繁的PING，否则服务器会断开连接">
+<meta property="og:description" content="数据准备采集huobi、Binance、OKEx分钟数据 OKEx 不论何种周期的candle data都只能采集到最近2000条左右的数据 虽然吐槽一下OKEx的小气，不过客服是真不错的，金融加入互联网基因总会让人感觉舒服些 接口Bug有点多，例如对手价下单会报价格错误，常见Bug需要处理一下 (说句无关的)传统金融圈子又小又排外，赚的不过是信息闭塞的钱 有合约  huobi huobi的采集历">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://thathub.com/images/line.png">
 <meta property="og:image" content="http://thathub.com/images/hist.png">
-<meta property="og:updated_time" content="2019-07-27T07:10:13.857Z">
+<meta property="og:updated_time" content="2019-08-02T01:45:14.280Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="简单的Arbitrage">
-<meta name="twitter:description" content="数据准备采集huobi、Binance、OKEx分钟数据 OKEx 不论何种周期的candle data都只能采集到最近2000条左右的数据 虽然吐槽一下OKEx的小气，不过客服是真不错的，金融加入互联网基因总会让人感觉舒服些 (说句无关的)传统金融圈子又小又排外，赚的不过是信息闭塞的钱 有合约  huobi huobi的采集历史数据要用到WebSocket 要频繁的PING，否则服务器会断开连接">
+<meta name="twitter:description" content="数据准备采集huobi、Binance、OKEx分钟数据 OKEx 不论何种周期的candle data都只能采集到最近2000条左右的数据 虽然吐槽一下OKEx的小气，不过客服是真不错的，金融加入互联网基因总会让人感觉舒服些 接口Bug有点多，例如对手价下单会报价格错误，常见Bug需要处理一下 (说句无关的)传统金融圈子又小又排外，赚的不过是信息闭塞的钱 有合约  huobi huobi的采集历">
 <meta name="twitter:image" content="http://thathub.com/images/line.png">
 
 
@@ -379,6 +379,7 @@
 <h3 id="OKEx"><a href="#OKEx" class="headerlink" title="OKEx"></a>OKEx</h3><ul>
 <li>不论何种周期的candle data都只能采集到最近2000条左右的数据</li>
 <li>虽然吐槽一下OKEx的小气，不过客服是真不错的，金融加入互联网基因总会让人感觉舒服些</li>
+<li>接口Bug有点多，例如对手价下单会报价格错误，常见Bug需要处理一下</li>
 <li>(说句无关的)传统金融圈子又小又排外，赚的不过是信息闭塞的钱</li>
 <li>有合约</li>
 </ul>
@@ -394,7 +395,6 @@
 <li>夸一下币安的接口，难怪用户规模增长快呢。</li>
 <li>请求的时间戳和返回时间戳是毫秒级的13位数字，Python要处理一下</li>
 <li>每分钟有请求次数限制，历史数据接口好像是每分钟1200次</li>
-<li>马上要推出合约</li>
 </ul>
 <h3 id="数据存储"><a href="#数据存储" class="headerlink" title="数据存储"></a>数据存储</h3><ul>
 <li>每个平台分配一个Collection</li>
@@ -406,6 +406,11 @@
 </ul>
 <p><img src="/images/line.png" alt="avatar"></p>
 <p><img src="/images/hist.png" alt="avatar"></p>
+<h2 id="套利"><a href="#套利" class="headerlink" title="套利"></a>套利</h2><p>最终我选择huobi和OKEx合约作套利</p>
+<ul>
+<li>划重点</li>
+</ul>
+<p>下单速度是关键，OKEx的服务器在香港。我最初用洛杉矶的VPS下单，OKEx的滑点吃掉了我绝大多数利润。<br>我在腾讯云买了一个香港云服务器，现在有秒杀活动，还是划算的。</p>
 
       
     </div>
@@ -579,7 +584,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据准备"><span class="nav-number">1.</span> <span class="nav-text">数据准备</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#OKEx"><span class="nav-number">1.1.</span> <span class="nav-text">OKEx</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#huobi"><span class="nav-number">1.2.</span> <span class="nav-text">huobi</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Binance"><span class="nav-number">1.3.</span> <span class="nav-text">Binance</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据存储"><span class="nav-number">1.4.</span> <span class="nav-text">数据存储</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#看图说话"><span class="nav-number">2.</span> <span class="nav-text">看图说话</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据准备"><span class="nav-number">1.</span> <span class="nav-text">数据准备</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#OKEx"><span class="nav-number">1.1.</span> <span class="nav-text">OKEx</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#huobi"><span class="nav-number">1.2.</span> <span class="nav-text">huobi</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Binance"><span class="nav-number">1.3.</span> <span class="nav-text">Binance</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据存储"><span class="nav-number">1.4.</span> <span class="nav-text">数据存储</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#看图说话"><span class="nav-number">2.</span> <span class="nav-text">看图说话</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#套利"><span class="nav-number">3.</span> <span class="nav-text">套利</span></a></li></ol></div>
             
 
           </div>

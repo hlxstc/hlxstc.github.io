@@ -381,6 +381,7 @@
 <h3 id="OKEx"><a href="#OKEx" class="headerlink" title="OKEx"></a>OKEx</h3><ul>
 <li>不论何种周期的candle data都只能采集到最近2000条左右的数据</li>
 <li>虽然吐槽一下OKEx的小气，不过客服是真不错的，金融加入互联网基因总会让人感觉舒服些</li>
+<li>接口Bug有点多，例如对手价下单会报价格错误，常见Bug需要处理一下</li>
 <li>(说句无关的)传统金融圈子又小又排外，赚的不过是信息闭塞的钱</li>
 <li>有合约</li>
 </ul>
@@ -396,7 +397,6 @@
 <li>夸一下币安的接口，难怪用户规模增长快呢。</li>
 <li>请求的时间戳和返回时间戳是毫秒级的13位数字，Python要处理一下</li>
 <li>每分钟有请求次数限制，历史数据接口好像是每分钟1200次</li>
-<li>马上要推出合约</li>
 </ul>
 <h3 id="数据存储"><a href="#数据存储" class="headerlink" title="数据存储"></a>数据存储</h3><ul>
 <li>每个平台分配一个Collection</li>
@@ -408,6 +408,11 @@
 </ul>
 <p><img src="/images/line.png" alt="avatar"></p>
 <p><img src="/images/hist.png" alt="avatar"></p>
+<h2 id="套利"><a href="#套利" class="headerlink" title="套利"></a>套利</h2><p>最终我选择huobi和OKEx合约作套利</p>
+<ul>
+<li>划重点</li>
+</ul>
+<p>下单速度是关键，OKEx的服务器在香港。我最初用洛杉矶的VPS下单，OKEx的滑点吃掉了我绝大多数利润。<br>我在腾讯云买了一个香港云服务器，现在有秒杀活动，还是划算的。</p>
 
           
         
