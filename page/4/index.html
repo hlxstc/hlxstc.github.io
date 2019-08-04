@@ -273,6 +273,194 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/08/06/spider/spider_court/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/06/spider/spider_court/" itemprop="url">中国裁判文书网反爬机制更新</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-06T10:00:00+08:00">
+                2018-08-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Spider/" itemprop="url" rel="index">
+                    <span itemprop="name">Spider</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/08/06/spider/spider_court/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/08/06/spider/spider_court/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="关于更新"><a href="#关于更新" class="headerlink" title="关于更新"></a>关于更新</h3><p>2019年1月12日，更新一次反爬机制。这里做记录，仅作为以后参考。</p>
+<ol>
+<li>又改了，没心情看改的什么。</li>
+<li>反编译了手机APP,直接请求接口。</li>
+<li>需要获得Token,Token会过期。</li>
+<li>也封IP，没有web端变态。</li>
+<li>变态的是每种查询条件只给20条。</li>
+<li>所以，拼条件吧。</li>
+</ol>
+<h3 id="关于更新-1"><a href="#关于更新-1" class="headerlink" title="关于更新"></a>关于更新</h3><p>2018年12月16日，更新一次反爬机制。这里做记录，仅作为以后参考。</p>
+<ol>
+<li>终于放大招了，开始封IP了，并且非常容易触发被封，我已经每30s访问一次了，依然绕不过。</li>
+<li>验证码改了，不规则的四位英文及数字，不像以前即使输入正确也要提交十几次才能通过。现在是如果被封IP，还是会弹验证码，但是验证成功也没用，还是会弹验证码，这个验证码有啥用呢。</li>
+<li>number不清楚，好像又得传了。</li>
+<li>买代理吧，</li>
+</ol>
+<h3 id="关于更新-2"><a href="#关于更新-2" class="headerlink" title="关于更新"></a>关于更新</h3><p>2018年11月29日，更新一次反爬机制。这里做记录，仅作为以后参考。</p>
+<ol>
+<li>在获取列表时，number不再是必传参数。</li>
+</ol>
+<h3 id="关于更新-3"><a href="#关于更新-3" class="headerlink" title="关于更新"></a>关于更新</h3><p>2018年8月18日，更新一次反爬机制。这里做记录，仅作为以后参考。</p>
+<ol>
+<li>在列表页获取详情页链接过程中，DocID作了加密，只要做一次解密DocID即可。</li>
+<li>AES双向对称加密，重点在与获取分发的密钥。</li>
+</ol>
+<h3 id="关于更新-4"><a href="#关于更新-4" class="headerlink" title="关于更新"></a>关于更新</h3><p>2018年8月15日，更新一次反爬机制。这里做记录，仅作为以后参考。</p>
+<ol>
+<li>vl5x的计算，计算vl5x的函数有修改。</li>
+</ol>
+<h3 id="关于更新-5"><a href="#关于更新-5" class="headerlink" title="关于更新"></a>关于更新</h3><p>2018年8月6日，更新一次反爬机制。这里做记录，仅作为以后参考。</p>
+<ol>
+<li><p>vl5x的计算，计算vl5x的函数相关函数又添加了一些。排查时最简单的方法就是用浏览器请求，拿到vjkl5，用现有解码的js函数执行得到结果和浏览器form里的vl5x进行比较。</p>
+</li>
+<li><p>在100页以内请求列表页过于频繁会跳验证码，想要成功验证，需要多次请求，一般十次以内。</p>
+</li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/07/27/spider/Scrapy/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2265,186 +2453,6 @@ du -h  --max-depth=1
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/02/05/mysql-install/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jokers">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jokers's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/05/mysql-install/" itemprop="url">Fedora27安装Mariadb10.2</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-05T11:06:35+08:00">
-                2018-02-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/DataBase/" itemprop="url" rel="index">
-                    <span itemprop="name">DataBase</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/02/05/mysql-install/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/02/05/mysql-install/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><p><a href="https://downloads.mariadb.org/mariadb/10.2.10/" target="_blank" rel="noopener">下载编译好的linux版本</a></p>
-<ul>
-<li>截至今天，Mariadb还未发布Fedora27的yum版本，Fedora26版本实测会产生系统崩溃。</li>
-<li>Centos7的yum版本，修改配置文件改变数据存储位置后，不能正常启动，试了很多方法都没能成功。</li>
-</ul>
-<h2 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h2><p><a href="https://mariadb.com/kb/en/library/mysqld-configuration-files-and-groups/" target="_blank" rel="noopener">需要手动建立配置文件</a></p>
-<ul>
-<li>安装好的Mariadb会自动识别/etc/my.cnf</li>
-<li>修改socket路径</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># The MariaDB server</span><br><span class="line">[mysqld]</span><br><span class="line">port            = 3306</span><br><span class="line">#socket         = /var/lib/mysql/mysql.sock</span><br><span class="line">socket          = /home/data/mysql/mysql.sock</span><br></pre></td></tr></table></figure>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">groupadd mysql</span><br><span class="line">useradd -g mysql mysql</span><br><span class="line">cd /usr/local</span><br><span class="line">tar -zxvpf /path-to/mariadb-VERSION-OS.tar.gz</span><br><span class="line">ln -s mariadb-VERSION-OS mysql</span><br><span class="line">cd mysql</span><br><span class="line">./scripts/mysql_install_db --user=mysql</span><br><span class="line">chown -R root .</span><br><span class="line">chown -R mysql data</span><br></pre></td></tr></table></figure>
-<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">./bin/mysqld_safe --user=mysql &amp;</span><br><span class="line">or</span><br><span class="line">./bin/mysqld_safe --defaults-file=~/.my.cnf --user=mysql &amp;</span><br></pre></td></tr></table></figure>
-<h2 id="自启动-推荐"><a href="#自启动-推荐" class="headerlink" title="自启动(推荐)"></a>自启动(推荐)</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp support-files/mysql.server /etc/init.d/mysql.server</span><br></pre></td></tr></table></figure>
-<ul>
-<li>修改mysql.server,改变数据存储位置</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">datadir=/home/data/mysql</span><br></pre></td></tr></table></figure>
-<ul>
-<li>复制data</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo cp -R /usr/local/mysql/data/* /home/data/mysql</span><br><span class="line">$ sudo chown -R mysql:mysql /home/data/mysql</span><br></pre></td></tr></table></figure>
-<ul>
-<li>启动方式</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/init.d/mysql.server start</span><br></pre></td></tr></table></figure>
-<h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ /usr/local/mysql/bin/mysqladmin -u root password &apos;password&apos;</span><br><span class="line">$ /usr/local/mysql/bin/mysql -uroot -p</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MariaDB [(none)]&gt; GRANT ALL PRIVILEGES ON *.* TO &apos;ai&apos;@&apos;%&apos; IDENTIFIED BY &apos;mypassword&apos;</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2495,7 +2503,7 @@ du -h  --max-depth=1
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-count">47</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

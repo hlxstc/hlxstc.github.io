@@ -273,6 +273,390 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2019/04/01/bigdata/mongondb/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/04/01/bigdata/mongondb/" itemprop="url">MongoDB</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-01T17:00:00+08:00">
+                2019-04-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/BigData/" itemprop="url" rel="index">
+                    <span itemprop="name">BigData</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/04/01/bigdata/mongondb/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2019/04/01/bigdata/mongondb/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><ul>
+<li>MongoDB 是一个面向文档（document-oriented）的数据库。</li>
+<li>不再有预定义模式（predefined schema）：文档的键（key）和值（value）不再是固定的类型和大小。</li>
+<li>MongoDB 能自动处理跨集群的数据和负载，自动重新分配文档，以及将用户请求路由到正确的机器上。</li>
+<li>MongoDB 并不具备一些在关系型数据库中很普遍的功能，如连接（join）和复杂的多行事务（multirow transaction）。省略这些功能是出于架构上的考虑（为了得到更好的扩展性），因为在分布式系统中这两个功能难以高效地实现。</li>
+<li>MongoDB 把尽可能多的内存用作缓存（cache），试图为每次查询自动选择正确的索引。</li>
+</ul>
+<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><h3 id="文档–-gt-行"><a href="#文档–-gt-行" class="headerlink" title="文档–&gt;行"></a>文档–&gt;行</h3><ul>
+<li>是键值对的一个有序集</li>
+</ul>
+<h3 id="集合–-gt-表"><a href="#集合–-gt-表" class="headerlink" title="集合–&gt;表"></a>集合–&gt;表</h3><ul>
+<li>组织集合的一种惯例是使用“.”分隔不同命名空间的子集合。</li>
+</ul>
+<h3 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h3><ul>
+<li>多个文档组成集合，而多个集合可以组成数据库。</li>
+<li>MongoDB 的一个实例可以拥有多个相互独立的数据库（database），每一个数据库都拥有自己的集合。</li>
+<li>按照经验，我们将有关一个应用程序的所有数据都存储在同一个数据库中。</li>
+<li>把数据库名添加到集合名前，得到集合的完全限定名，即命名空间（namespace）。</li>
+</ul>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><pre><code>sudo yum install mongodb mongodb-server
+</code></pre><ul>
+<li><p>mongod 还会启动一个非常基本的 HTTP 服务器，监听数字比主端口号高 1000 的端口，也就是 28017 端口。这意味着，通过浏览器访问 <a href="http://localhost:28017，能获取数据库的管理信息。" target="_blank" rel="noopener">http://localhost:28017，能获取数据库的管理信息。</a></p>
+</li>
+<li><p>启动配置</p>
+<pre><code>sudo vim /etc/mongod.conf
+&lt;!-- 配置后台启动 --&gt;
+fork = true
+</code></pre></li>
+<li><p>启动<br>使用 -f 或 –config 标记，告知服务器使用配置文件</p>
+<pre><code>mongod --config /etc/mongod.conf
+mongod -f /etc/mongod.conf
+</code></pre></li>
+</ul>
+<h3 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h3><p>MongoDB的文档类似于JSON。JSON只有 null 、布尔、数字、字符串、数组和对象这几种数据类型。没有日期类型。仅有一种数字类型，不能区分浮点数和整数，不能区分32位和64位。没有正则或函数等。MongoDB添加了一些其他类型。</p>
+<ul>
+<li><p>null</p>
+</li>
+<li><p>布尔型 true false</p>
+</li>
+<li><p>数值<br>默认64位浮点型。整型可用NumberInt(4字节带符号整数),NumberLong(8字节带符号整数)。</p>
+</li>
+<li><p>字符串</p>
+</li>
+<li><p>日期<br>日期被存储为自新纪元以来经过的毫秒数,不存储时区</p>
+</li>
+<li><p>正则<br>语法也与 JavaScript 的正则表达式语法相同</p>
+<pre><code>{&quot;x&quot; : /foobar/i}
+</code></pre></li>
+<li><p>数组<br>数组可包含不同数据类型的元素。</p>
+<pre><code>{&quot;things&quot; : [&quot;pie&quot;, 3.14]}
+</code></pre><blockquote>
+<p>MongoDB 可以查询出 “things” 数组中包含 3.14这个元素的所有文档。要是经常使用这个查询,可以对 “things” 创建索引来提高性能。</p>
+<p>MongoDB 可以使用原子更新对数组内容进行修改,比如深入数组内部将 pie 改为<br>  pi。</p>
+</blockquote>
+</li>
+<li><p>内嵌文档</p>
+<pre><code>{&quot;x&quot; : {&quot;foo&quot; : &quot;bar&quot;}}
+</code></pre></li>
+<li><p>ObjectId<br>不同的机器都能用全局唯一的同种方法方便地生成它。在多个服务器上同步自动增加主键值既费力又费时。所以能够在分片环境中生成唯一的标示符非常重要。12字节。</p>
+<pre><code>0 1 2 3  4 5 6  7 8  9 10 11
+时间戳    机器    PID  计数器
+
+{&quot;x&quot; : ObjectId()}
+</code></pre></li>
+<li><p>自动生成的_id</p>
+<blockquote>
+<p> 如果插入文档时没有 “_ id” 键, 系统 会自动帮你创建一个。 可以由MongoDB 服务器来做这件事,但通常会在客户端由驱动程序完成。这一做法非常好地体现了 MongoDB 的哲学:能交给客户端驱动程序来做的事情就不要交给服务器来做。</p>
+</blockquote>
+</li>
+<li><p>二进制数据</p>
+</li>
+<li><p>代码<br>查询和文档中可以包括任意 JavaScript 代码</p>
+<pre><code>{&quot;x&quot; : function() { /* ... * / }}
+</code></pre></li>
+</ul>
+<h3 id="shell"><a href="#shell" class="headerlink" title="shell"></a>shell</h3><pre><code>mongo some-host:30000/myDB
+&lt;!-- 启动时不连接任何数据库 --&gt;
+mongo --nodb
+conn = new Mongo(&quot;some-host:30000&quot;)
+db = conn.getDB(&quot;myDB&quot;)
+</code></pre><ul>
+<li><p>mongo 是一个简化的 JavaScript shell,可以通过查看 JavaScript 的在线文档得到大量帮助。对于 MongoDB 特有的功能,shell 内置了帮助文档,可以使用 help命令查看</p>
+<pre><code>help
+</code></pre></li>
+<li><p>执行脚本</p>
+<pre><code>&lt;!-- 命令行执行 --&gt;
+mongo script1.js script2.js script3.js
+&lt;!-- 交互执行 --&gt;
+load(&quot;script1.js&quot;)
+</code></pre></li>
+<li><p>如果某些脚本会被频繁加载，可以将它们添加到 .mongorc.js 文件中。这个文件会在启动 shell 时自动运行。</p>
+</li>
+<li><p>.mongorc.js 最常见的用途之一是移除那些比较“危险”的 shell 辅助函数。可以在这里集中重写这些方法，比如为dropDatabase 或者 deleteIndexes 等辅助函数添加 no 选项，或者取消它们的定义。</p>
+<pre><code>var no = function() {
+    print(&quot;Not on my watch.&quot;);
+};
+// 禁止删除数据库
+db.dropDatabase = DB.prototype.dropDatabase = no;
+// 禁止删除集合
+DBCollection.prototype.drop = no;
+// 禁止删除索引
+DBCollection.prototype.dropIndex = no;
+</code></pre></li>
+<li><p>在启动 shell 时指定 –norc 参数，就可以禁止加载 .mongorc.js。</p>
+</li>
+<li><p>定制shell提示</p>
+<pre><code>prompt = function() {
+    return (new Date())+&quot;&gt; &quot;;
+};
+
+prompt = function() {
+    if (typeof db == &apos;undefined&apos;) {
+        return &apos;(nodb)&gt; &apos;;
+    }
+    // 检查最后的数据库操作
+    try {
+        db.runCommand({getLastError:1});
+    }
+    catch (e) {
+        print(e);
+    }
+    return db+&quot;&gt; &quot;;
+};
+</code></pre></li>
+<li><p>配置编辑器</p>
+<pre><code>EDITOR=&quot;/usr/bin/emacs&quot;
+</code></pre></li>
+<li><p>编辑变量</p>
+<pre><code>var wap = db.books.findOne({title: &quot;War and Peace&quot;})
+edit wap
+</code></pre></li>
+</ul>
+<h3 id="客户端常用命令"><a href="#客户端常用命令" class="headerlink" title="客户端常用命令"></a>客户端常用命令</h3><ul>
+<li><p>查看db当前指向的数据库</p>
+<pre><code>&gt; db
+test
+</code></pre></li>
+<li><p>切换数据库</p>
+<pre><code>&gt; use foobar
+switched to db foobar
+</code></pre></li>
+</ul>
+<h2 id="创建、更新和删除文档"><a href="#创建、更新和删除文档" class="headerlink" title="创建、更新和删除文档"></a>创建、更新和删除文档</h2><h3 id="插入"><a href="#插入" class="headerlink" title="插入"></a>插入</h3><pre><code>db.foo.insert({&quot;bar&quot; : &quot;baz&quot;})
+&lt;!-- 批量插入 --&gt;
+db.foo.batchInsert([{&quot;_ id&quot; : 0}, {&quot;_ id&quot; : 1}, {&quot;_ id&quot; : 2}])
+&lt;!-- 忽略错误并且继续执行添加 continueOnError --&gt;
+</code></pre><h3 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h3><pre><code>db.foo.remove()
+&lt;!-- 删除 mailing.list 集合中所有 &quot;opt-out&quot; 为true 的人 --&gt;
+db.mailing.list.remove({&quot;opt-out&quot; : true})
+&lt;!-- drop 直接删除集合会更快 --&gt;
+db.tester.drop()
+</code></pre><h3 id="更新"><a href="#更新" class="headerlink" title="更新"></a>更新</h3><ul>
+<li><p>文档替换</p>
+<pre><code>db.people.update({&quot;_ id&quot; : ObjectId(&quot;4b2b9f67a1f631733d917a7c&quot;)}, joe)
+</code></pre></li>
+<li><p>使用原子性的修改器，指定对文档中的某些字段进行更新。</p>
+</li>
+<li><p>要有人访问页面，就增加计数器。</p>
+<pre><code>db.analytics.update({&quot;url&quot; : &quot;www.example.com&quot;}, {&quot;$inc&quot; : {&quot;pageviews&quot; : 1}})、
+</code></pre></li>
+<li><p>“$set” 用来指定一个字段的值。如果这个字段不存在，则创建它。</p>
+</li>
+<li><p>$unset 删除键</p>
+<pre><code>db.users.update({&quot;name&quot; : &quot;joe&quot;}, {&quot;$unset&quot; : {&quot;favorite book&quot; : 1}})
+</code></pre></li>
+<li><p>增加、修改或删除键时，应该使用 $ 修改器。</p>
+</li>
+<li><p>“$inc” 修改器用来增加已有键的值，或者该键不存在那就创建一个。</p>
+</li>
+<li><p>“$push” 会向已有的数组末尾加入一个元素，要是没有就创建一个新的数组。</p>
+</li>
+<li><p>使用 “$each” 子操作符，可以通过一次 “$push” 操作添加多个值。</p>
+</li>
+<li><p>可以将 “$slice” 和 “$push” 组合在一起<br>使用，这样就可以保证数组不会超出设定好的最大长度</p>
+</li>
+<li><p>可以在清理元素之前使用 “$sort”，只要向数组中添加子对象就需要清理：</p>
+<pre><code>db.movies.find({&quot;genre&quot; : &quot;horror&quot;},{&quot;$push&quot; : {&quot;top10&quot; : {&quot;$each&quot; : [{&quot;name&quot; : &quot;Nightmare on Elm Street&quot;, &quot;rating&quot; : 6.6},{&quot;name&quot; : &quot;Saw&quot;, &quot;rating&quot; : 4.3}],&quot;$slice&quot; : -10,&quot;$sort&quot; : {&quot;rating&quot; : -1}}}})
+</code></pre></li>
+<li><p>不能只将 “$slice” 或者 “$sort” 与 “$push” 配合使用，且必须使用 “$each”。</p>
+</li>
+<li><p>将数组作为set使用</p>
+<pre><code>db.users.update({&quot;_ id&quot; : ObjectId(&quot;4b2d75476cc613d5ee930164&quot;)},{&quot;$addToSet&quot; : {&quot;emails&quot; : &quot;joe@gmail.com&quot;}})
+</code></pre></li>
+<li><p>{“$pop”:{“key”:1}} 从数组末尾删除一个元素，{“$pop”:{“key”:-1}} 则从头部删除。需要基于特定条件来删除元素，”$pull”。</p>
+<pre><code>db.lists.update({}, {&quot;$pull&quot; : {&quot;todo&quot; : &quot;laundry&quot;}})
+</code></pre></li>
+<li><p>MongoDB 提供了定位操作符 “$”，用来定位查询文档已经匹配的数组元素，并进行更新。</p>
+</li>
+</ul>
+<h3 id="upsert"><a href="#upsert" class="headerlink" title="upsert"></a>upsert</h3><ul>
+<li><p>使用 upsert，既可以避免竞态问题，又可以缩减代码量（update 的第 3 个参数表示这是个 upsert）</p>
+<pre><code>db.analytics.update({&quot;url&quot; : &quot;/blog&quot;}, {&quot;$inc&quot; : {&quot;pageviews&quot; : 1}}, true)
+</code></pre></li>
+<li><p>“$setOnInsert” 只会在文档插入时设置字段的值。</p>
+</li>
+<li><p>save 是一个 shell 函数，如果文档不存在，它会自动创建文档；如果文档存在，它就更新这个文档。</p>
+</li>
+<li><p>要更新所有匹配的文档，可以将 update 的第 4 个参数设置为 true。</p>
+</li>
+<li><p>运行 getLastError 命令（可以理<br>解为“返回最后一次操作的相关信息”）。键 “n” 的值就是被更新文档的数量。</p>
+</li>
+<li><p>调用 getLastError 仅能获得关于更新的有限信息，并不能返回被更新的文档。可以通过 findAndModify 命令得到被更新的文档。这对于操作队列以及执行其他需要进行原子性取值和赋值的操作来说，十分方便。</p>
+</li>
+</ul>
+<h2 id="查询"><a href="#查询" class="headerlink" title="查询"></a>查询</h2><h3 id="find"><a href="#find" class="headerlink" title="find"></a>find</h3><ul>
+<li><p>指定需要返回的键</p>
+<pre><code>db.users.find({}, {&quot;username&quot; : 1, &quot;email&quot; : 1})
+&lt;!-- 剔除 --&gt;
+db.users.find({}, {&quot;fatal_weakness&quot; : 0})
+</code></pre></li>
+<li><p>“$lt”、”$lte”、”$gt” 和 “$gte” 就是全部的比较操作符，分别对应 &lt;、&lt;=、&gt; 和 &gt;=</p>
+</li>
+<li><p>“$ne”表示“不相等”</p>
+<pre><code>db.users.find({&quot;username&quot; : {&quot;$ne&quot; : &quot;joe&quot;}})
+</code></pre></li>
+<li><p>or</p>
+<pre><code>db.raffle.find({&quot;ticket_no&quot; : {&quot;$in&quot; : [725, 542, 390]}})
+db.raffle.find({&quot;ticket_no&quot; : {&quot;$nin&quot; : [725, 542, 390]}})
+db.raffle.find({&quot;$or&quot; : [{&quot;ticket_no&quot; : 725}, {&quot;winner&quot; : true}]})
+</code></pre></li>
+<li><p>not<br>“$mod” 会将查询的值除以第一个给定值，若余数等于第二个给定值则匹配成功</p>
+<pre><code>db.users.find({&quot;id_num&quot; : {&quot;$mod&quot; : [5, 1]}})
+db.users.find({&quot;id_num&quot; : {&quot;$not&quot; : {&quot;$mod&quot; : [5, 1]}}})
+</code></pre></li>
+<li><p>条件语句<br>注意，查询优化器不会对 “$and” 进行优化，这与其他操作符不同。</p>
+<pre><code>db.users.find({&quot;$and&quot; : [{&quot;x&quot; : {&quot;$lt&quot; : 1}}, {&quot;x&quot; : 4}]})
+</code></pre></li>
+</ul>
+<h2 id="mongoimport"><a href="#mongoimport" class="headerlink" title="mongoimport"></a>mongoimport</h2><p>支持JSON，CSV，TSV，CSV格式delimiter仅支持”,”和”\t”</p>
+<ul>
+<li>–fields 指定字段名字和类型</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://thathub.com/2019/02/26/bigdata/hadoop_sqoop/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1877,7 +2261,7 @@ int main(){
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/11/05/data_structure/dataStructure_order/">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/11/05/data_structure/dataStructure_tree/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jokers">
@@ -1896,7 +2280,7 @@ int main(){
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/11/05/data_structure/dataStructure_order/" itemprop="url">数据结构--排序</a></h1>
+                <a class="post-title-link" href="/2018/11/05/data_structure/dataStructure_tree/" itemprop="url">数据结构--二叉树</a></h1>
         
 
         <div class="post-meta">
@@ -1949,9 +2333,9 @@ int main(){
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/11/05/data_structure/dataStructure_order/#comments" itemprop="discussionUrl">
+                <a href="/2018/11/05/data_structure/dataStructure_tree/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/11/05/data_structure/dataStructure_order/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2018/11/05/data_structure/dataStructure_tree/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -1981,332 +2365,120 @@ int main(){
       
         
           
-            <h3 id="直接插入排序"><a href="#直接插入排序" class="headerlink" title="直接插入排序"></a>直接插入排序</h3><pre><code>#include &lt;stdio.h&gt;
+            <h3 id="前序序列构建二叉树"><a href="#前序序列构建二叉树" class="headerlink" title="前序序列构建二叉树"></a>前序序列构建二叉树</h3><pre><code>#include &lt;stdio.h&gt;
 
-#define MAX 1000
+#define MAX 100
 
-typedef struct{
-    int key;
-}Node;
+typedef struct Node{
+    char data;
+    struct Node \*lChild;
+    struct Node \*rChild;
+}BinTNode;
 
-typedef Node SeqList[MAX+1];
+typedef BintNode \*BinTree;
 
-void insertSort(SeqList R, int n){
-    for(int i=2; i&lt;=n ; i++){
-        R[0].key = R[i].key;
-        int j;
-        for(j=i-1; j&gt;=0; j--){
-            if(R[j].key &lt;= R[i].key)
-                break;
-        }
-        if(j &lt; i-1){
-            for(int k=i-1; k&gt;j; k--){
-                R[k+1].key = R[k].key;
-            }
-            R[j+1].key = R[0].key;
-        }
+int mkTree(BinTree bt, char \*str, int i){
+    bt-&gt;lChild = NULL;
+    bt-&gt;rChild = NULL;
+    bt-&gt;data = str[i];
+    printf(&quot;%c\n&quot;, bt-&gt;data);
+    if(i&lt;strlen(str)-1 &amp;&amp; str[i+1]!=&apos;.&apos;){
+        bt-&gt;lchild = (BinTNode \*)malloc(sizeof(BinTNode));
+        i = mkTree(bt-&gt;lchild, str, i+1);
+    }
+    i++;
+    if(i&lt;strlen(str)-1 &amp;&amp; str[i+1]!=&apos;.&apos;){
+        bt-&gt;rchild = (BinTNode \*)malloc(sizeof(BinTNode));
+        i = mkTree(bt-&gt;rchild, str, i+1);
+    }
+    return i;
+}
+
+&lt;!-- 前序遍历 --&gt;
+void preSort(BintTree bt){
+    if(bt){
+        printf(&quot;%c-&gt;&quot;, bt-&gt;data);
+        preSort(bt-&gt;lchild);
+        preSort(bt-&gt;rchild);
     }
 }
 
 int main(){
-    SeqList R;
-    int t;
+    BintTree bt = (BinTNode \*)malloc(sizeof(BinTNode));
+    char str[MAX];
+    scanf(&quot;%s&quot;, str);
+    printf(&quot;%s&quot;, str);
+    mkTree(bt, str, 0);
+    preSort(bt);
+    return 0;
+}
+</code></pre><h3 id="中后序列构建二叉树"><a href="#中后序列构建二叉树" class="headerlink" title="中后序列构建二叉树"></a>中后序列构建二叉树</h3><pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+
+typedef struct Node{
+    char data;
+    struct Node \*lchild;
+    struct Node \*rchild;
+}BinTNode;
+
+typedef BinTNode \*BinTree;
+
+#define MAX 100
+
+void mkBinTree(BinTree bt, char \*inter, int ii, int ij, char \*post, int pi, int pj){
+    bt-&gt;lchild = NULL;
+    bt-&gt;rchild = NULL;
+    bt-&gt;data = post[pj];
     int n = 0;
-    while (1==1) {
-        scanf(&quot;%d&quot;, &amp;t);
-        if(t == -9999)
-            break;
-        n++;
-        R[n].key = t;
+    for(int i=ii; i&lt;=ij; i++){
+        if(post[pj] == inter[i]){
+            n = i-ii;
+            if(i&gt;ii){
+                bt-&gt;lchild = (BinTNode \*)malloc(sizeof(BinTNode));
+                mkBinTree(bt-&gt;lchild, inter, ii, i-1, post, pi, pi+n-1);
+            }
+            if(i&lt;ij){
+                bt-&gt;rchild = (BinTNode \*)malloc(sizeof(BinTNode));
+                mkBinTree(bt-&gt;rchild, inter, i+1, ij, post, pi+n, pj-1);
+            }
+        }
     }
-    insertSort(R, n);
-    for(int i=1; i&lt;=n; i++){
-        printf(&quot;%d-&gt;&quot;, R[i].key);
+}
+
+void preOrder(BinTree bt){
+    if(bt){
+        printf(&quot;%c&quot;, bt-&gt;data);
+        preOrder(bt-&gt;lchild);
+        preOrder(bt-&gt;rchild);
     }
+}
+
+int btDepth(BinTree bt){
+    if(bt == NULL)
+        return 0;
+    int ldepth = 0;
+    int rdepth = 0;
+    ldepth = btDepth(bt-&gt;lchild);
+    rdepth = btDepth(bt-&gt;rchild);
+    if(ldepth&gt;rdepth)
+        return ldepth+1;
+    else
+        return rdepth+1;
+}
+
+int main(){
+    BinTree bt = (BinTNode \*)malloc(sizeof(BinTNode));
+    char inter[MAX];//前序序列
+    char post[MAX];//后序序列
+    scanf(&quot;%s&quot;, inter);
+    scanf(&quot;%s&quot;, post);
+    mkBinTree(bt, inter, 0, strlen(inter)-1, post, 0, strlen(post)-1);
+    preOrder(bt);
     printf(&quot;\n&quot;);
-    return 0;
-}
-</code></pre><h3 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h3><pre><code>#include &lt;stdio.h&gt;
-
-#define MAX 1000
-
-typedef struct{
-    int v;
-}Seq;
-
-typedef Seq seqList[MAX+1]
-
-int bubbleSort(seqList R, int n){
-    for(int i=2; i&lt;=n; i++){
-        int flag = 0;
-        for(int j=n; i&gt;=i; j--){
-            if(R[j].v &lt; R[j-1].v){
-                R[0].v = R[j-1].v;
-                R[j-1].v = R[j].v;
-                R[j].v = R[0].v;
-                flag = 1;
-            }
-        }
-        if(flag == 0){
-            break;
-        }
-    }
-    return 0;
-}
-
-int main(){
-    seqList R;
-    int t;
-    int n = 0;
-    while(true){
-        scanf(&apos;%d&apos;, &amp;t);
-        if(t == -9999)
-            break;
-        n++;
-        R[n].v = t;
-    }
-    bubbleSort(R, n);
-}
-</code></pre><h3 id="直接选择排序"><a href="#直接选择排序" class="headerlink" title="直接选择排序"></a>直接选择排序</h3><pre><code>#include &lt;stdio&gt;
-
-#define MAX 1000
-
-typedef struct{
-    int v;
-}seq;
-
-typedef seq seqList[MAX+1];
-
-void selectSort(seqList R, n){
-    for(int i=1, i&lt;n; i++){
-        int t = i;
-        for(int j=i+1; j&lt;=n; j++){
-            if(R[j].v &lt; t){
-                t = j;
-            }
-            if(t != i){
-                R[0].v = R[i].v;
-                R[i].v = R[t].v;
-                R[t].v = R[0].v;
-            }
-        }
-    }
-}
-
-int main(){
-    seqList R;
-    int n = 0;
-    int t = 0;
-    while(true){
-        scanf(&apos;%d&apos;, &amp;t);
-        if(t == -9999){
-            break;
-        }
-        n++；
-        R[n].v = t;
-    }
-    selectSort(R, n);
-    return 0;
-}
-</code></pre>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/11/05/data_structure/dataStructure_graph/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jokers">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jokers's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/11/05/data_structure/dataStructure_graph/" itemprop="url">数据结构--图</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-05T08:00:00+08:00">
-                2018-11-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Data-Structure/" itemprop="url" rel="index">
-                    <span itemprop="name">Data Structure</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/11/05/data_structure/dataStructure_graph/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/11/05/data_structure/dataStructure_graph/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="构建图及深度优先遍历"><a href="#构建图及深度优先遍历" class="headerlink" title="构建图及深度优先遍历"></a>构建图及深度优先遍历</h3><pre><code>#include &lt;stdio.h&gt;
-
-#define MAX 99
-
-typedef struct{
-    int n;
-    int arcs[MAX][MAX];
-}Graph;
-
-int visited[MAX];
-
-void DFS(Graph g, int i, int n){
-    visited[i] = 1;
-    printf(&quot;V%d-&gt;&quot;, i);
-    for(int j=0; j&lt;n; j++){
-        if(g.arcs[i][j]==1 &amp;&amp; visited[j]==0){
-            DFS(g, j, n);
-        }
-    }
-}
-
-int main(){
-    Graph g;
-    int n;
-    int i, j;
-    scanf(&quot;%d&quot;, &amp;n);
-    for(i=0; i&lt;n; i++){
-        for(j=0; j&lt;n; j++){
-            g.arcs[i][j] = 0;
-        }
-    }
-    while(true){
-        scanf(&quot;%d %d&quot;, &amp;i, &amp;j);
-        if(i==-1 &amp;&amp; j==-1)
-            break;
-        g.arcs[i][j] = 1;
-    }
-    for(i=0; i&lt;n; i++){
-        for(j=0; j&lt;n; j++){
-            printf(&quot;%d &quot;, g.arcs[i][j]);
-        }
-        printf(&quot;\n&quot;);
-    }
-    for(i=0; i&lt;n; i++){
-        if(!visited[i])
-            DFS(g, i, n);
-    }
+    int depth;
+    depth = btDepth(bt);
+    printf(&quot;%d\n&quot;, depth);
     return 0;
 }
 </code></pre>
@@ -2394,7 +2566,7 @@ int main(){
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-count">47</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
