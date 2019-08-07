@@ -101,7 +101,7 @@
 <meta property="og:site_name" content="Jokers&#39;s Blog">
 <meta property="og:description" content="简介 MongoDB 是一个面向文档（document-oriented）的数据库。 不再有预定义模式（predefined schema）：文档的键（key）和值（value）不再是固定的类型和大小。 MongoDB 能自动处理跨集群的数据和负载，自动重新分配文档，以及将用户请求路由到正确的机器上。 MongoDB 并不具备一些在关系型数据库中很普遍的功能，如连接（join）和复杂的多行事务（m">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-06-07T16:38:45.907Z">
+<meta property="og:updated_time" content="2019-08-06T05:35:35.248Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MongoDB">
 <meta name="twitter:description" content="简介 MongoDB 是一个面向文档（document-oriented）的数据库。 不再有预定义模式（predefined schema）：文档的键（key）和值（value）不再是固定的类型和大小。 MongoDB 能自动处理跨集群的数据和负载，自动重新分配文档，以及将用户请求路由到正确的机器上。 MongoDB 并不具备一些在关系型数据库中很普遍的功能，如连接（join）和复杂的多行事务（m">
@@ -600,9 +600,30 @@ db.users.find({&quot;id_num&quot; : {&quot;$not&quot; : {&quot;$mod&quot; : [5, 
 <pre><code>db.users.find({&quot;$and&quot; : [{&quot;x&quot; : {&quot;$lt&quot; : 1}}, {&quot;x&quot; : 4}]})
 </code></pre></li>
 </ul>
+<h2 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h2><h3 id="唯一索引"><a href="#唯一索引" class="headerlink" title="唯一索引"></a>唯一索引</h3><ul>
+<li><p>复合唯一索引创建</p>
+<pre><code>db.users.ensureIndex({&quot;username&quot; : 1, &quot;age&quot; : 1}, {&quot;unique&quot; : true})
+</code></pre></li>
+<li><p>在已存在集合创建唯一索引，去除重复值</p>
+<pre><code>db.people.ensureIndex({&quot;username&quot; : 1}, {&quot;unique&quot; : true, &quot;dropDups&quot; : true})
+</code></pre></li>
+</ul>
+<h3 id="稀疏索引"><a href="#稀疏索引" class="headerlink" title="稀疏索引"></a>稀疏索引</h3><p>唯一索引会把null当作一个值，稀疏索引可以避免这种情况</p>
+<pre><code>db.foo.ensureIndex({&quot;email&quot; : 1}, {&quot;unique&quot; : true, &quot;sparse&quot; : true})
+</code></pre><h3 id="索引管理"><a href="#索引管理" class="headerlink" title="索引管理"></a>索引管理</h3><ul>
+<li><p>查看指定集合的索引信息</p>
+<pre><code>db.foo.getIndexes()
+</code></pre></li>
+</ul>
 <h2 id="mongoimport"><a href="#mongoimport" class="headerlink" title="mongoimport"></a>mongoimport</h2><p>支持JSON，CSV，TSV，CSV格式delimiter仅支持”,”和”\t”</p>
 <ul>
-<li>–fields 指定字段名字和类型</li>
+<li><p>–fields 指定字段名字和类型</p>
+</li>
+<li><p>示例</p>
+<pre><code>&lt;!-- --upsert insert or update objects that already exist --&gt;
+&lt;!-- --jsonArray load a json array, not one item per line. --&gt;
+mongoimport --db db --collection foo --file f.json
+</code></pre></li>
 </ul>
 
       
@@ -724,7 +745,7 @@ db.users.find({&quot;id_num&quot; : {&quot;$not&quot; : {&quot;$mod&quot; : [5, 
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">47</span>
+                <span class="site-state-item-count">48</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -781,7 +802,7 @@ db.users.find({&quot;id_num&quot; : {&quot;$not&quot; : {&quot;$mod&quot; : [5, 
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本概念"><span class="nav-number">2.</span> <span class="nav-text">基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#文档–-gt-行"><span class="nav-number">2.1.</span> <span class="nav-text">文档–&gt;行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#集合–-gt-表"><span class="nav-number">2.2.</span> <span class="nav-text">集合–&gt;表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据库"><span class="nav-number">2.3.</span> <span class="nav-text">数据库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装"><span class="nav-number">2.4.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据类型"><span class="nav-number">2.5.</span> <span class="nav-text">数据类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#shell"><span class="nav-number">2.6.</span> <span class="nav-text">shell</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#客户端常用命令"><span class="nav-number">2.7.</span> <span class="nav-text">客户端常用命令</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建、更新和删除文档"><span class="nav-number">3.</span> <span class="nav-text">创建、更新和删除文档</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#插入"><span class="nav-number">3.1.</span> <span class="nav-text">插入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除"><span class="nav-number">3.2.</span> <span class="nav-text">删除</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#更新"><span class="nav-number">3.3.</span> <span class="nav-text">更新</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#upsert"><span class="nav-number">3.4.</span> <span class="nav-text">upsert</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查询"><span class="nav-number">4.</span> <span class="nav-text">查询</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#find"><span class="nav-number">4.1.</span> <span class="nav-text">find</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mongoimport"><span class="nav-number">5.</span> <span class="nav-text">mongoimport</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本概念"><span class="nav-number">2.</span> <span class="nav-text">基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#文档–-gt-行"><span class="nav-number">2.1.</span> <span class="nav-text">文档–&gt;行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#集合–-gt-表"><span class="nav-number">2.2.</span> <span class="nav-text">集合–&gt;表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据库"><span class="nav-number">2.3.</span> <span class="nav-text">数据库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装"><span class="nav-number">2.4.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据类型"><span class="nav-number">2.5.</span> <span class="nav-text">数据类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#shell"><span class="nav-number">2.6.</span> <span class="nav-text">shell</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#客户端常用命令"><span class="nav-number">2.7.</span> <span class="nav-text">客户端常用命令</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建、更新和删除文档"><span class="nav-number">3.</span> <span class="nav-text">创建、更新和删除文档</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#插入"><span class="nav-number">3.1.</span> <span class="nav-text">插入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除"><span class="nav-number">3.2.</span> <span class="nav-text">删除</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#更新"><span class="nav-number">3.3.</span> <span class="nav-text">更新</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#upsert"><span class="nav-number">3.4.</span> <span class="nav-text">upsert</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查询"><span class="nav-number">4.</span> <span class="nav-text">查询</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#find"><span class="nav-number">4.1.</span> <span class="nav-text">find</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#索引"><span class="nav-number">5.</span> <span class="nav-text">索引</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#唯一索引"><span class="nav-number">5.1.</span> <span class="nav-text">唯一索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#稀疏索引"><span class="nav-number">5.2.</span> <span class="nav-text">稀疏索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#索引管理"><span class="nav-number">5.3.</span> <span class="nav-text">索引管理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mongoimport"><span class="nav-number">6.</span> <span class="nav-text">mongoimport</span></a></li></ol></div>
             
 
           </div>
