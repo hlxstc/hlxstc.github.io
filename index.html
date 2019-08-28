@@ -273,6 +273,172 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2019/08/28/quant/options_platform/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jokers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jokers's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/28/quant/options_platform/" itemprop="url">期权交易系统</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-28T16:30:00+08:00">
+                2019-08-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/quant/" itemprop="url" rel="index">
+                    <span itemprop="name">quant</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/08/28/quant/options_platform/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2019/08/28/quant/options_platform/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="数字货币相关的期权交易系统"><a href="#数字货币相关的期权交易系统" class="headerlink" title="数字货币相关的期权交易系统"></a>数字货币相关的期权交易系统</h2><p>在国内进行期权交易门坎是比较高的，目前在数字货币相关的交易平台中，一些头部交易平台已经提供合约交易，但是提供期权交易平台的非常少，有兴趣的可以在deribit尝试一下。</p>
+<h2 id="期权交易系统的简单实现"><a href="#期权交易系统的简单实现" class="headerlink" title="期权交易系统的简单实现"></a>期权交易系统的简单实现</h2><ol>
+<li>平台要提供数字货币(例如ETH)充提币功能</li>
+<li>假设将ETH作为资产标的，采集主流交易平台BTC的现货美元价格作为参考价，去除最大值和最小值，剩余取平均</li>
+<li>平台生成不同到期日、不同资产标的、不同行权价、认购或认沽期权</li>
+<li>买卖双方进行零和交易，平台撮合交易并收取手续费</li>
+<li>到期后，买方选择是否行权</li>
+</ol>
+<p><img src="/images/期权流程图_lynn.png" alt="avatar"></p>
+<p><img src="/images/期权_lynn.png" alt="avatar"></p>
+<h2 id="程序模拟实现"><a href="#程序模拟实现" class="headerlink" title="程序模拟实现"></a>程序模拟实现</h2><p>系统实现的核心是撮合交易，买单和卖单按下单价格和时间排序，买家和卖家子线程更新订单列表要保证线程安全。</p>
+<h3 id="模拟交易样例"><a href="#模拟交易样例" class="headerlink" title="模拟交易样例"></a>模拟交易样例</h3><p>认购期权：ETH-28AUG19-180，ETH作为资产标的，行权价格是$180。<br>买卖双方初始余额都是1000个ETH，平台初始是0个ETH。<br>买卖双方各随机下单一千次，每次撮合成交，平台收取0.0004个ETH。<br>期权到期，ETH现价是$200，买方行权。<br>平台无实物交割，买方从卖方赚取现价和行权价之间的价差。</p>
+<p><img src="/images/期权交易模拟.png" alt="avatar"></p>
+<p>买方最终余额是1199.9804个ETH，卖方最终余额是796.4004个ETH，平台最终余额是3.6192个ETH。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://thathub.com/2019/08/07/quant/atr_ma/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1845,177 +2011,6 @@ lookup_fruit_name[fruit_prediction[0]]
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2019/07/07/bigdata/Stop_Worrying_about_Solr_vs_Elasticsearch_Decisions/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jokers">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jokers's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/07/07/bigdata/Stop_Worrying_about_Solr_vs_Elasticsearch_Decisions/" itemprop="url">停止担心关于Solr和Elasticsearch使用决策</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-07T10:00:00+08:00">
-                2019-07-07
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/BigData/" itemprop="url" rel="index">
-                    <span itemprop="name">BigData</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/07/07/bigdata/Stop_Worrying_about_Solr_vs_Elasticsearch_Decisions/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2019/07/07/bigdata/Stop_Worrying_about_Solr_vs_Elasticsearch_Decisions/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>RE:<a href="https://opensourceconnections.com/blog/2019/02/28/stop-worrying-solr-elasticsearch/" target="_blank" rel="noopener">Stop Worrying about Solr vs Elasticsearch Decisions</a></p>
-<p>有人说Luncene是引擎，Solr和Elasticsearch是车，选择Solr还是ES就像选车。但实际上选择搜索引擎不是选车，它们只是一堆原始的零件、车轮和一个引擎，需要你去组装它。</p>
-<p>人们究竟如何使用Solr和ES：</p>
-<ol>
-<li><p>工程师的配置技巧是决定搜索引擎好坏关键性因素。ES可参考官方配置说明，翻译版在我的博客(<a href="http://thathub.com/2018/04/23/bigdata/elastcsearch-config/">http://thathub.com/2018/04/23/bigdata/elastcsearch-config/</a>)</p>
-</li>
-<li><p>写插件，扩展搜索引擎的功能</p>
-</li>
-<li><p>花费更多的时间在实验上，而不是特定的搜索引擎</p>
-</li>
-</ol>
-<p>我们究竟要比较什么</p>
-<p>我们更因该关注的是社区而不是功能。</p>
-<ul>
-<li><p>solr来自于Apache Software Foundation (ASF)。ASF希望个人和团体去定义产品的发展方向。Solr使得开发者有更多的机会去深入研究源码。</p>
-</li>
-<li><p>ES是由公司一个公司去主导的。虽然开发者没有主导权，但是对很多人来说，最需要的是”just work”。</p>
-</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2066,7 +2061,7 @@ lookup_fruit_name[fruit_prediction[0]]
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">48</span>
+                <span class="site-state-item-count">49</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

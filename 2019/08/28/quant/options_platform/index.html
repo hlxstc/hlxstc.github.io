@@ -94,17 +94,21 @@
 
 
 
-<meta name="description" content="Reindex 新建一个 index ，复制原 index 的 mappings 和 settings 设置新 index 的 refresh_interval 为-1， number_of_replicas 为 0， reindex 效率更高 PUT /twitter/_settings {     &amp;quot;index&amp;quot; : {         &amp;quot;number_of_re">
+<meta name="description" content="数字货币相关的期权交易系统在国内进行期权交易门坎是比较高的，目前在数字货币相关的交易平台中，一些头部交易平台已经提供合约交易，但是提供期权交易平台的非常少，有兴趣的可以在deribit尝试一下。 期权交易系统的简单实现 平台要提供数字货币(例如ETH)充提币功能 假设将ETH作为资产标的，采集主流交易平台BTC的现货美元价格作为参考价，去除最大值和最小值，剩余取平均 平台生成不同到期日、不同资产标">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Elasticsearch常用操作">
-<meta property="og:url" content="http://thathub.com/2018/08/14/bigdata/elastcsearch-command/index.html">
+<meta property="og:title" content="期权交易系统">
+<meta property="og:url" content="http://thathub.com/2019/08/28/quant/options_platform/index.html">
 <meta property="og:site_name" content="Jokers&#39;s Blog">
-<meta property="og:description" content="Reindex 新建一个 index ，复制原 index 的 mappings 和 settings 设置新 index 的 refresh_interval 为-1， number_of_replicas 为 0， reindex 效率更高 PUT /twitter/_settings {     &amp;quot;index&amp;quot; : {         &amp;quot;number_of_re">
+<meta property="og:description" content="数字货币相关的期权交易系统在国内进行期权交易门坎是比较高的，目前在数字货币相关的交易平台中，一些头部交易平台已经提供合约交易，但是提供期权交易平台的非常少，有兴趣的可以在deribit尝试一下。 期权交易系统的简单实现 平台要提供数字货币(例如ETH)充提币功能 假设将ETH作为资产标的，采集主流交易平台BTC的现货美元价格作为参考价，去除最大值和最小值，剩余取平均 平台生成不同到期日、不同资产标">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-04-23T03:42:27.176Z">
+<meta property="og:image" content="http://thathub.com/images/期权流程图_lynn.png">
+<meta property="og:image" content="http://thathub.com/images/期权_lynn.png">
+<meta property="og:image" content="http://thathub.com/images/期权交易模拟.png">
+<meta property="og:updated_time" content="2019-08-28T09:24:28.356Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Elasticsearch常用操作">
-<meta name="twitter:description" content="Reindex 新建一个 index ，复制原 index 的 mappings 和 settings 设置新 index 的 refresh_interval 为-1， number_of_replicas 为 0， reindex 效率更高 PUT /twitter/_settings {     &amp;quot;index&amp;quot; : {         &amp;quot;number_of_re">
+<meta name="twitter:title" content="期权交易系统">
+<meta name="twitter:description" content="数字货币相关的期权交易系统在国内进行期权交易门坎是比较高的，目前在数字货币相关的交易平台中，一些头部交易平台已经提供合约交易，但是提供期权交易平台的非常少，有兴趣的可以在deribit尝试一下。 期权交易系统的简单实现 平台要提供数字货币(例如ETH)充提币功能 假设将ETH作为资产标的，采集主流交易平台BTC的现货美元价格作为参考价，去除最大值和最小值，剩余取平均 平台生成不同到期日、不同资产标">
+<meta name="twitter:image" content="http://thathub.com/images/期权流程图_lynn.png">
 
 
 
@@ -133,13 +137,13 @@
 
 
 
-  <link rel="canonical" href="http://thathub.com/2018/08/14/bigdata/elastcsearch-command/"/>
+  <link rel="canonical" href="http://thathub.com/2019/08/28/quant/options_platform/"/>
 
 
 
 
 
-  <title>Elasticsearch常用操作 | Jokers's Blog</title>
+  <title>期权交易系统 | Jokers's Blog</title>
   
 
 
@@ -272,7 +276,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://thathub.com/2018/08/14/bigdata/elastcsearch-command/">
+    <link itemprop="mainEntityOfPage" href="http://thathub.com/2019/08/28/quant/options_platform/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jokers">
@@ -289,7 +293,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Elasticsearch常用操作</h1>
+          <h1 class="post-title" itemprop="name headline">期权交易系统</h1>
         
 
         <div class="post-meta">
@@ -301,8 +305,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-14T15:36:00+08:00">
-                2018-08-14
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-28T16:30:00+08:00">
+                2019-08-28
               </time>
             
 
@@ -324,8 +328,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/BigData/" itemprop="url" rel="index">
-                    <span itemprop="name">BigData</span>
+                  <a href="/categories/quant/" itemprop="url" rel="index">
+                    <span itemprop="name">quant</span>
                   </a>
                 </span>
 
@@ -342,9 +346,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/08/14/bigdata/elastcsearch-command/#comments" itemprop="discussionUrl">
+                <a href="/2019/08/28/quant/options_platform/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/08/14/bigdata/elastcsearch-command/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2019/08/28/quant/options_platform/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -372,188 +376,20 @@
       
 
       
-        <h2 id="Reindex"><a href="#Reindex" class="headerlink" title="Reindex"></a>Reindex</h2><ol>
-<li>新建一个 index ，复制原 index 的 mappings 和 settings</li>
-<li><p>设置新 index 的 refresh_interval 为-1， number_of_replicas 为 0， reindex 效率更高</p>
-<pre><code>PUT /twitter/_settings
-{
-    &quot;index&quot; : {
-        &quot;number_of_replicas&quot; : 0
-    }
-}
-
-PUT /twitter/_settings
-{
-    &quot;index&quot; : {
-        &quot;refresh_interval&quot; : &quot;-1&quot;
-    }
-}
-</code></pre></li>
-<li><p>reindex api</p>
-<ul>
-<li><p>Just leaving out version_type (as above) or setting it to internal will cause Elasticsearch to blindly dump documents into the target, overwriting any that happen to have the same type and id:</p>
-<pre><code>POST _reindex
-{
-    &quot;source&quot;: {
-        &quot;index&quot;: &quot;twitter&quot;
-    },
-    &quot;dest&quot;: {
-        &quot;index&quot;: &quot;new_twitter&quot;,
-        &quot;version_type&quot;: &quot;internal&quot;
-    }
-}
-</code></pre></li>
-<li><p>Setting version_type to external will cause Elasticsearch to preserve the version from the source, create any documents that are missing, and update any documents that have an older version in the destination index than they do in the source index</p>
-<pre><code>POST _reindex
-{
-    &quot;source&quot;: {
-        &quot;index&quot;: &quot;twitter&quot;
-    },
-    &quot;dest&quot;: {
-        &quot;index&quot;: &quot;new_twitter&quot;,
-        &quot;version_type&quot;: &quot;external&quot;
-    }
-}
-</code></pre></li>
-<li><p>Settings op_type to create will cause _reindex to only create missing documents in the target index. All existing documents will cause a version conflic</p>
-<pre><code>POST _reindex
-{
-    &quot;source&quot;: {
-        &quot;index&quot;: &quot;twitter&quot;
-    },
-    &quot;dest&quot;: {
-        &quot;index&quot;: &quot;new_twitter&quot;,
-        &quot;op_type&quot;: &quot;create&quot;
-    }
-}
-</code></pre></li>
-<li><p>By default version conflicts abort the _reindex process but you can just count them by settings “conflicts”: “proceed” in the request body</p>
-<pre><code>POST _reindex
-{
-    &quot;conflicts&quot;: &quot;proceed&quot;,
-    &quot;source&quot;: {
-        &quot;index&quot;: &quot;twitter&quot;
-    },
-    &quot;dest&quot;: {
-        &quot;index&quot;: &quot;new_twitter&quot;,
-        &quot;op_type&quot;: &quot;create&quot;
-    }
-}
-</code></pre></li>
-<li><p>如果某个字段设置了 completion suggest ,重建索引时或则索引数据时因相应字段为空会报错</p>
-<pre><code># value must have a length &gt; 0
-# elasticsearch completion field does not support null values
-
-POST _reindex
-{
-    &quot;source&quot;: {
-        &quot;index&quot;: &quot;twitter&quot;
-    },
-    &quot;dest&quot;: {
-        &quot;index&quot;: &quot;new_twitter&quot;
-    }
-}
-&quot;script&quot;: {
-    &quot;source&quot;: &quot;if (ctx._source.name == null || ctx._source.name == &apos;&apos;) {ctx._source.tmname=&apos; &apos;}&quot;,
-    &quot;lang&quot;: &quot;painless&quot;
-}
-</code></pre></li>
-<li><p>kibana 30s 后返回 timeout ，在请求后跟参数 ?wait_for_completion=true</p>
-</li>
-</ul>
-</li>
-<li><p>重新设置 refresh_interval 和 number_of_replicas</p>
-</li>
-<li>等待 index 状态 变为 green</li>
-<li>添加 aliases</li>
+        <h2 id="数字货币相关的期权交易系统"><a href="#数字货币相关的期权交易系统" class="headerlink" title="数字货币相关的期权交易系统"></a>数字货币相关的期权交易系统</h2><p>在国内进行期权交易门坎是比较高的，目前在数字货币相关的交易平台中，一些头部交易平台已经提供合约交易，但是提供期权交易平台的非常少，有兴趣的可以在deribit尝试一下。</p>
+<h2 id="期权交易系统的简单实现"><a href="#期权交易系统的简单实现" class="headerlink" title="期权交易系统的简单实现"></a>期权交易系统的简单实现</h2><ol>
+<li>平台要提供数字货币(例如ETH)充提币功能</li>
+<li>假设将ETH作为资产标的，采集主流交易平台BTC的现货美元价格作为参考价，去除最大值和最小值，剩余取平均</li>
+<li>平台生成不同到期日、不同资产标的、不同行权价、认购或认沽期权</li>
+<li>买卖双方进行零和交易，平台撮合交易并收取手续费</li>
+<li>到期后，买方选择是否行权</li>
 </ol>
-<h2 id="Reindex-task"><a href="#Reindex-task" class="headerlink" title="Reindex task"></a>Reindex task</h2><ul>
-<li><p>获取正在运行的 reindex</p>
-<pre><code>GET _tasks?detailed=true&amp;actions=*reindex
-</code></pre></li>
-<li><p>查看单个 task</p>
-<pre><code>GET /_tasks/taskId:1
-</code></pre></li>
-<li><p>删除某个 task</p>
-<pre><code>POST _tasks/task_id:1/_cancel
-</code></pre></li>
-</ul>
-<h2 id="null-value"><a href="#null-value" class="headerlink" title="null_value"></a>null_value</h2><p>null 值不能被索引和查询， null_value 可以明确的替换 null 值</p>
-<pre><code>PUT my_index
-{
-    &quot;mappings&quot;: {
-        &quot;_doc&quot;: {
-          &quot;properties&quot;: {
-            &quot;status_code&quot;: {
-              &quot;type&quot;:       &quot;keyword&quot;,
-              &quot;null_value&quot;: &quot;NULL&quot;
-            }
-          }
-        }
-    }
-}
-</code></pre><ul>
-<li>The null_value needs to be the same datatype as the field. For instance, a long field cannot have a string null_value.</li>
-<li>The null_value only influences how data is indexed, it doesn’t modify the _source document.</li>
-</ul>
-<h2 id="Completion-Suggester"><a href="#Completion-Suggester" class="headerlink" title="Completion Suggester"></a>Completion Suggester</h2><ul>
-<li><p>mapping</p>
-<pre><code>PUT music
-{
-    &quot;mappings&quot;: {
-        &quot;_doc&quot; : {
-            &quot;properties&quot; : {
-                &quot;suggest&quot; : {
-                    &quot;type&quot; : &quot;completion&quot;,
-                    &quot;analyzer&quot; : &quot;simple&quot;,
-                    &quot;search_analyzer&quot; : &quot;simple&quot;
-                },
-                &quot;title&quot; : {
-                    &quot;type&quot;: &quot;keyword&quot;
-                }
-            }
-        }
-    }   
-}
-</code></pre></li>
-<li><p>query ，_source 会影响查询效率</p>
-<pre><code>POST music/_search?pretty
-{
-    &quot;_source&quot;: &quot;suggest&quot;,
-    &quot;suggest&quot;: {
-        &quot;song-suggest&quot; : {
-            &quot;prefix&quot; : &quot;nir&quot;,
-            &quot;completion&quot; : {
-                &quot;field&quot; : &quot;suggest&quot;
-            },
-            &quot;size&quot;:10
-        }
-    }
-}
-</code></pre></li>
-<li><p>Whether duplicate suggestions should be filtered out (defaults to false).</p>
-<p>  The autocomplete suggester is document-oriented in Elasticsearch 5 and will thus return suggestions for all documents that match. In Elasticsearch 1 and 2, the autocomplete suggester automatically de-duplicated suggestions.</p>
-<pre><code>POST music/_search?pretty
-{
-    &quot;_source&quot;: &quot;suggest&quot;,
-    &quot;suggest&quot;: {
-        &quot;song-suggest&quot; : {
-            &quot;prefix&quot; : &quot;nir&quot;,
-            &quot;completion&quot; : {
-                &quot;field&quot; : &quot;suggest&quot;
-            },
-            &quot;size&quot;:10,
-            &quot;skip_duplicates&quot;:true
-        }
-    }
-}
-</code></pre></li>
-</ul>
-<h2 id="DSL"><a href="#DSL" class="headerlink" title="DSL"></a>DSL</h2><ul>
-<li><p>completion suggest sample</p>
-<pre><code>s = s.suggest(&apos;my_sugestion&apos;, keyword, completion={ &apos;field&apos; : &apos;name&apos;, &apos;size&apos;:100})
-</code></pre></li>
-</ul>
+<p><img src="/images/期权流程图_lynn.png" alt="avatar"></p>
+<p><img src="/images/期权_lynn.png" alt="avatar"></p>
+<h2 id="程序模拟实现"><a href="#程序模拟实现" class="headerlink" title="程序模拟实现"></a>程序模拟实现</h2><p>系统实现的核心是撮合交易，买单和卖单按下单价格和时间排序，买家和卖家子线程更新订单列表要保证线程安全。</p>
+<h3 id="模拟交易样例"><a href="#模拟交易样例" class="headerlink" title="模拟交易样例"></a>模拟交易样例</h3><p>认购期权：ETH-28AUG19-180，ETH作为资产标的，行权价格是$180。<br>买卖双方初始余额都是1000个ETH，平台初始是0个ETH。<br>买卖双方各随机下单一千次，每次撮合成交，平台收取0.0004个ETH。<br>期权到期，ETH现价是$200，买方行权。<br>平台无实物交割，买方从卖方赚取现价和行权价之间的价差。</p>
+<p><img src="/images/期权交易模拟.png" alt="avatar"></p>
+<p>买方最终余额是1199.9804个ETH，卖方最终余额是796.4004个ETH，平台最终余额是3.6192个ETH。</p>
 
       
     </div>
@@ -578,8 +414,8 @@ POST _reindex
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/08/06/spider/spider_court/" rel="next" title="中国裁判文书网反爬机制更新">
-                <i class="fa fa-chevron-left"></i> 中国裁判文书网反爬机制更新
+              <a href="/2019/08/07/quant/atr_ma/" rel="next" title="日内趋势策略">
+                <i class="fa fa-chevron-left"></i> 日内趋势策略
               </a>
             
           </div>
@@ -587,10 +423,6 @@ POST _reindex
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/08/15/bigdata/reverse_proxy/" rel="prev" title="Nginx作反向代理保护Kibana">
-                Nginx作反向代理保护Kibana <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -731,7 +563,7 @@ POST _reindex
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Reindex"><span class="nav-number">1.</span> <span class="nav-text">Reindex</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reindex-task"><span class="nav-number">2.</span> <span class="nav-text">Reindex task</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#null-value"><span class="nav-number">3.</span> <span class="nav-text">null_value</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Completion-Suggester"><span class="nav-number">4.</span> <span class="nav-text">Completion Suggester</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DSL"><span class="nav-number">5.</span> <span class="nav-text">DSL</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#数字货币相关的期权交易系统"><span class="nav-number">1.</span> <span class="nav-text">数字货币相关的期权交易系统</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#期权交易系统的简单实现"><span class="nav-number">2.</span> <span class="nav-text">期权交易系统的简单实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#程序模拟实现"><span class="nav-number">3.</span> <span class="nav-text">程序模拟实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#模拟交易样例"><span class="nav-number">3.1.</span> <span class="nav-text">模拟交易样例</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -874,9 +706,9 @@ POST _reindex
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://thathub.com/2018/08/14/bigdata/elastcsearch-command/';
-          this.page.identifier = '2018/08/14/bigdata/elastcsearch-command/';
-          this.page.title = 'Elasticsearch常用操作';
+          this.page.url = 'http://thathub.com/2019/08/28/quant/options_platform/';
+          this.page.identifier = '2019/08/28/quant/options_platform/';
+          this.page.title = '期权交易系统';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://thathub-com.disqus.com.disqus.com/embed.js';
